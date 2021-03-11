@@ -7,20 +7,15 @@ interface Props {
 }
 
 function CardComponent({ title, pictureGuid }: Props) {
-
-  if(pictureGuid === null)
-    pictureGuid = "placeholder.png";
+  if (pictureGuid === null) pictureGuid = "placeholder.png";
 
   return (
-    <Card style={{ width: "18rem" }} className="bg-dark text-white">
+    <Card style={{ width: "13rem" }} className="bg-dark text-white">
       <Card.Img variant="top" src={pictureGuid} />
       <Card.Body>
         <Card.Title>{title}</Card.Title>
-        <Card.Text>
-          Some quick example text to build on the card title and make up the
-          bulk of the card's content.
-        </Card.Text>
-        <Button variant="primary">Go somewhere</Button>
+        <Card.Text></Card.Text>
+        <Button variant="primary">Details</Button>
       </Card.Body>
     </Card>
   );
