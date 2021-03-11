@@ -2,9 +2,12 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import ArtistDto from "../Models/ArtistDto";
 import CardComponent from "../Components/CardComponent";
+import { Container, Row, Col } from "react-bootstrap";
+import Spinner from "react-bootstrap/Spinner";
 
 function ArtistsPage() {
   const [artists, setArtists] = useState<ArtistDto[]>([]);
+  const [stillLoading, setStillLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,6 +25,7 @@ function ArtistsPage() {
           )
         );
       });
+      setStillLoading(false);
       setArtists(artistsArray);
     };
     fetchData();
@@ -30,9 +34,46 @@ function ArtistsPage() {
   return (
     <div>
       <h1>Artists:</h1>
-      {artists.map((a) => (
-        <CardComponent title={a.name} pictureGuid={a.pictureGuid}></CardComponent>
-      ))}
+      {stillLoading ? (
+        <Spinner animation="grow" variant="info" />
+      ) : (
+        <Container fluid>
+          <Row xs={2} md={3} lg={4}>
+            {artists.map((a) => (
+              <Col>
+                <CardComponent
+                  title={a.name}
+                  pictureGuid={a.pictureGuid}
+                ></CardComponent>
+              </Col>
+            ))}
+            {artists.map((a) => (
+              <Col>
+                <CardComponent
+                  title={a.name}
+                  pictureGuid={a.pictureGuid}
+                ></CardComponent>
+              </Col>
+            ))}
+            {artists.map((a) => (
+              <Col>
+                <CardComponent
+                  title={a.name}
+                  pictureGuid={a.pictureGuid}
+                ></CardComponent>
+              </Col>
+            ))}
+            {artists.map((a) => (
+              <Col>
+                <CardComponent
+                  title={a.name}
+                  pictureGuid={a.pictureGuid}
+                ></CardComponent>
+              </Col>
+            ))}
+          </Row>
+        </Container>
+      )}
     </div>
   );
 }

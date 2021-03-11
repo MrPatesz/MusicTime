@@ -9,7 +9,7 @@ import SongDto from "./Models/SongDto";
 import ArtistsPage from "./Pages/ArtistsPage";
 import AlbumsPage from "./Pages/AlbumsPage";
 
-function App() {
+const App = () => {
   const [songs, setSongs] = useState<SongDto[]>([]);
 
   useEffect(() => {
@@ -44,6 +44,11 @@ function App() {
               Songs
             </Link>
           </Nav>
+          <Nav className="ml-auto">
+            <Link className="nav-link text-info" to="/login">
+              Login
+            </Link>
+          </Nav>
         </Navbar>
         <Switch>
           <Route exact path="/"></Route>
@@ -61,6 +66,7 @@ function App() {
               ))}
             </ul>
           </Route>
+          <Route exact path="/login"></Route>
         </Switch>
       </div>
     </Router>

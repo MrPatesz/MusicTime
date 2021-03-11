@@ -15,7 +15,7 @@ function CardComponent({ title, pictureGuid }: Props) {
       <Card.Body>
         <Card.Title>{title}</Card.Title>
         <Card.Text></Card.Text>
-        <Button variant="primary">Details</Button>
+        <Button variant="outline-info">Details</Button>
       </Card.Body>
     </Card>
   );
