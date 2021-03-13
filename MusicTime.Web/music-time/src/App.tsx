@@ -8,9 +8,12 @@ import "./App.css";
 import SongDto from "./Models/SongDto";
 import ArtistsPage from "./Pages/ArtistsPage";
 import AlbumsPage from "./Pages/AlbumsPage";
+import ArtistDetailsPage from "./Pages/ArtistDetailsPage";
 
 const App = () => {
   const apiLink = "https://localhost:5001/api/songs";
+
+  const [currentId, setCurrentId] = useState<number>(0);
 
   const [songs, setSongs] = useState<SongDto[]>([]);
 
@@ -55,10 +58,13 @@ const App = () => {
         <Switch>
           <Route exact path="/"></Route>
           <Route exact path="/artists">
-            <ArtistsPage></ArtistsPage>
+            <ArtistsPage setCurrentId={setCurrentId}></ArtistsPage>
+          </Route>
+          <Route exact path={"/artists/" + currentId}>
+            <ArtistDetailsPage artistId={currentId}></ArtistDetailsPage>
           </Route>
           <Route exact path="/albums">
-            <AlbumsPage></AlbumsPage>
+            <AlbumsPage setCurrentId={setCurrentId}></AlbumsPage>
           </Route>
           <Route exact path="/songs">
             <h1>Songs</h1>

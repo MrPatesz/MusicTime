@@ -3,7 +3,11 @@ import axios from "axios";
 import AlbumDto from "../Models/AlbumDto";
 import CardComponent from "../Components/CardComponent";
 
-function AlbumsPage() {
+interface Props {
+  setCurrentId: (id: number) => void;
+}
+
+function AlbumsPage({ setCurrentId }: Props) {
   const apiLink = "https://localhost:5001/api/albums/";
 
   const [albums, setAlbums] = useState<AlbumDto[]>([]);
@@ -39,8 +43,9 @@ function AlbumsPage() {
           title={a.title}
           pictureGuid={a.coverGuid}
           deleteFunction={(id: number) => {}}
-          apiLink="albums"
+          linkTo="albums/"
           objectId={a.id}
+          setCurrentId={setCurrentId}
         ></CardComponent>
       ))}
     </div>

@@ -21,5 +21,11 @@ namespace MusicTime.Api.Controllers
         {
             return artistService.GetArtists();
         }
+
+        [HttpGet("{id}")]
+        public ArtistDto GetArtistById(int id)
+        {
+            return artistService.GetArtistById(id);
+        }
     }
 }

@@ -8,23 +8,25 @@ interface Props {
   title: string;
   pictureGuid: string | null;
   deleteFunction: (id: number) => void;
-  apiLink: string;
+  linkTo: string;
   objectId: number;
+  setCurrentId: (id: number) => void;
 }
 
 function CardComponent({
   title,
   pictureGuid,
   deleteFunction,
-  apiLink,
+  linkTo,
   objectId,
+  setCurrentId,
 }: Props) {
   if (pictureGuid === null) pictureGuid = "placeholder.png";
 
   return (
     <Card
       style={{ minWidth: "11rem", maxWidth: "15rem" }}
-      className="bg-dark text-white"
+      className="bg-dark text-white mb-3"
     >
       <Card.Img variant="top" src={pictureGuid} />
       <Card.Body>
@@ -32,8 +34,11 @@ function CardComponent({
         <ButtonToolbar>
           <ButtonGroup className="mr-auto" size="sm">
             <Link
-              to={apiLink + "/" + objectId}
+              to={linkTo + objectId}
               className="btn btn-outline-info"
+              onClick={() => {
+                setCurrentId(objectId);
+              }}
             >
               Details
             </Link>

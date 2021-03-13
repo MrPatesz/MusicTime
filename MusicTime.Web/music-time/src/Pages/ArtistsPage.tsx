@@ -4,8 +4,13 @@ import ArtistDto from "../Models/ArtistDto";
 import CardComponent from "../Components/CardComponent";
 import { Container, Row, Col } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
+//import ModalDialog from 'react-bootstrap/ModalDialog'
 
-function ArtistsPage() {
+interface Props {
+  setCurrentId: (id: number) => void;
+}
+
+function ArtistsPage({ setCurrentId }: Props) {
   const apiLink = "https://localhost:5001/api/artists/";
 
   const [artists, setArtists] = useState<ArtistDto[]>([]);
@@ -40,10 +45,13 @@ function ArtistsPage() {
   }, []);
 
   function deleteFunction(id: number) {
-    const deleteCall = async () => {
-      await axios.delete(apiLink + id);
-    };
-    deleteCall();
+    var result = window.confirm("Are you sure you want to delete this artist?");
+    if (result) {
+      const deleteCall = async () => {
+        await axios.delete(apiLink + id);
+      };
+      deleteCall();
+    }
   }
 
   return (
@@ -60,8 +68,9 @@ function ArtistsPage() {
                   title={a.name}
                   pictureGuid={a.pictureGuid}
                   deleteFunction={deleteFunction}
-                  apiLink="artists"
+                  linkTo="artists/"
                   objectId={a.id}
+                  setCurrentId={setCurrentId}
                 ></CardComponent>
               </Col>
             ))}

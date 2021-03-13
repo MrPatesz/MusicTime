@@ -21,6 +21,11 @@ namespace MusicTime.Dal.Repositories
             return dbContext.Artists.Select(ToDto).ToList();
         }
 
+        public ArtistDto GetArtistById(int id)
+        {
+            return ToDto(dbContext.Artists.FirstOrDefault(a => a.Id == id));
+        }
+
         private ArtistDto ToDto(Artist value)
         {
             return new ArtistDto
