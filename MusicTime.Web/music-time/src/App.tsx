@@ -10,11 +10,13 @@ import ArtistsPage from "./Pages/ArtistsPage";
 import AlbumsPage from "./Pages/AlbumsPage";
 
 const App = () => {
+  const apiLink = "https://localhost:5001/api/songs";
+
   const [songs, setSongs] = useState<SongDto[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios.get("https://localhost:5001/api/songs");
+      const result = await axios.get(apiLink);
 
       let songsArray: SongDto[] = [];
 
@@ -59,7 +61,7 @@ const App = () => {
             <AlbumsPage></AlbumsPage>
           </Route>
           <Route exact path="/songs">
-            <h1>Songs:</h1>
+            <h1>Songs</h1>
             <ul>
               {songs.map((s) => (
                 <li key={s.id}>{s.title}</li>
@@ -71,6 +73,6 @@ const App = () => {
       </div>
     </Router>
   );
-}
+};
 
 export default App;

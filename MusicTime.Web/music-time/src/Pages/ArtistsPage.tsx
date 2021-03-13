@@ -6,12 +6,14 @@ import { Container, Row, Col } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
 
 function ArtistsPage() {
+  const apiLink = "https://localhost:5001/api/artists/";
+
   const [artists, setArtists] = useState<ArtistDto[]>([]);
   const [stillLoading, setStillLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios.get("https://localhost:5001/api/artists");
+      const result = await axios.get(apiLink);
 
       let artistsArray: ArtistDto[] = [];
 
@@ -26,48 +28,40 @@ function ArtistsPage() {
         );
       });
       setStillLoading(false);
+
+      // FOR TESTING
+      artistsArray = artistsArray.concat(artistsArray);
+      artistsArray = artistsArray.concat(artistsArray);
+      // FOR TESTING
+
       setArtists(artistsArray);
     };
     fetchData();
   }, []);
 
+  function deleteFunction(id: number) {
+    const deleteCall = async () => {
+      await axios.delete(apiLink + id);
+    };
+    deleteCall();
+  }
+
   return (
     <div>
-      <h1>Artists:</h1>
+      <h1>Artists</h1>
       {stillLoading ? (
         <Spinner animation="grow" variant="info" />
       ) : (
         <Container fluid>
-          <Row xs={2} md={3} lg={4}>
+          <Row>
             {artists.map((a) => (
-              <Col>
+              <Col xs={6} sm={4} md={3} xl={2} key={a.id}>
                 <CardComponent
                   title={a.name}
                   pictureGuid={a.pictureGuid}
-                ></CardComponent>
-              </Col>
-            ))}
-            {artists.map((a) => (
-              <Col>
-                <CardComponent
-                  title={a.name}
-                  pictureGuid={a.pictureGuid}
-                ></CardComponent>
-              </Col>
-            ))}
-            {artists.map((a) => (
-              <Col>
-                <CardComponent
-                  title={a.name}
-                  pictureGuid={a.pictureGuid}
-                ></CardComponent>
-              </Col>
-            ))}
-            {artists.map((a) => (
-              <Col>
-                <CardComponent
-                  title={a.name}
-                  pictureGuid={a.pictureGuid}
+                  deleteFunction={deleteFunction}
+                  apiLink="artists"
+                  objectId={a.id}
                 ></CardComponent>
               </Col>
             ))}
