@@ -21,5 +21,11 @@ namespace MusicTime.Api.Controllers
         {
             return albumService.GetAlbums();
         }
+
+        [HttpGet("{id}")]
+        public AlbumDto GetAlbumById(int id)
+        {
+            return albumService.GetAlbumById(id);
+        }
     }
 }

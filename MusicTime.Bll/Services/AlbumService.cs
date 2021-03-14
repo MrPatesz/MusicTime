@@ -17,5 +17,10 @@ namespace MusicTime.Bll.Services
         {
             return repository.GetAlbums();
         }
+
+        public AlbumDto GetAlbumById(int id)
+        {
+            return repository.GetAlbumById(id);
+        }
     }
 }

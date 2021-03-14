@@ -6,21 +6,28 @@ namespace MusicTime.Bll.Services
 {
     public class ArtistService
     {
-        private readonly IArtistRepository repository;
+        private readonly IArtistRepository artistRepository;
+        private readonly IAlbumRepository albumRepository;
 
-        public ArtistService(IArtistRepository repository)
+        public ArtistService(IArtistRepository artistRepository, IAlbumRepository albumRepository)
         {
-            this.repository = repository;
+            this.artistRepository = artistRepository;
+            this.albumRepository = albumRepository;
         }
 
         public List<ArtistDto> GetArtists()
         {
-            return repository.GetArtists();
+            return artistRepository.GetArtists();
         }
 
         public ArtistDto GetArtistById(int id)
         {
-            return repository.GetArtistById(id);
+            return artistRepository.GetArtistById(id);
+        }
+
+        public List<AlbumDto> GetAlbumsOfArtist(int artistId)
+        {
+            return albumRepository.GetAlbumsOfArtist(artistId);
         }
     }
 }

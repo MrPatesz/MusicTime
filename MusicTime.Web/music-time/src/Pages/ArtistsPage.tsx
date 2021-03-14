@@ -4,7 +4,7 @@ import ArtistDto from "../Models/ArtistDto";
 import CardComponent from "../Components/CardComponent";
 import { Container, Row, Col } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
-//import ModalDialog from 'react-bootstrap/ModalDialog'
+//import ModalDialog from 'react-bootstrap/ModalDialog';
 
 interface Props {
   setCurrentId: (id: number) => void;

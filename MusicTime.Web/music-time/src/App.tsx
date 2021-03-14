@@ -9,6 +9,8 @@ import SongDto from "./Models/SongDto";
 import ArtistsPage from "./Pages/ArtistsPage";
 import AlbumsPage from "./Pages/AlbumsPage";
 import ArtistDetailsPage from "./Pages/ArtistDetailsPage";
+import AlbumDetailsPage from "./Pages/AlbumDetailsPage";
+import LoginPage from "./Pages/LoginPage";
 
 const App = () => {
   const apiLink = "https://localhost:5001/api/songs";
@@ -61,10 +63,16 @@ const App = () => {
             <ArtistsPage setCurrentId={setCurrentId}></ArtistsPage>
           </Route>
           <Route exact path={"/artists/" + currentId}>
-            <ArtistDetailsPage artistId={currentId}></ArtistDetailsPage>
+            <ArtistDetailsPage
+              artistId={currentId}
+              setCurrentId={setCurrentId}
+            ></ArtistDetailsPage>
           </Route>
           <Route exact path="/albums">
             <AlbumsPage setCurrentId={setCurrentId}></AlbumsPage>
+          </Route>
+          <Route exact path={"/albums/" + currentId}>
+            <AlbumDetailsPage albumId={currentId}></AlbumDetailsPage>
           </Route>
           <Route exact path="/songs">
             <h1>Songs</h1>
@@ -74,7 +82,9 @@ const App = () => {
               ))}
             </ul>
           </Route>
-          <Route exact path="/login"></Route>
+          <Route exact path="/login">
+            <LoginPage></LoginPage>
+          </Route>
         </Switch>
       </div>
     </Router>
