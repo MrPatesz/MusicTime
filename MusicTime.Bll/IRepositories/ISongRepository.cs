@@ -6,5 +6,6 @@ namespace MusicTime.Bll.IRepositories
     public interface ISongRepository
     {
         List<SongDto> GetSongs();
+        List<SongDto> GetSongsOfAlbum(int albumId);
     }
 }

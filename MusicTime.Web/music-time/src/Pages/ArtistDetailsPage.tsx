@@ -5,6 +5,7 @@ import AlbumDto from "../Models/AlbumDto";
 import Spinner from "react-bootstrap/Spinner";
 import { Container, Row, Col } from "react-bootstrap";
 import CardComponent from "../Components/CardComponent";
+import Image from "react-bootstrap/Image";
 
 interface Props {
   artistId: number;
@@ -24,8 +25,6 @@ function ArtistDetailsPage({ artistId, setCurrentId }: Props) {
     const fetchData = async () => {
       const result = await axios.get(apiLink);
 
-      setArtistStillLoading(false);
-
       setArtist(
         new ArtistDto(
           result.data.id,
@@ -34,6 +33,7 @@ function ArtistDetailsPage({ artistId, setCurrentId }: Props) {
           result.data.pictureGuid
         )
       );
+      setArtistStillLoading(false);
     };
     fetchData();
   }, [apiLink]);
@@ -56,14 +56,8 @@ function ArtistDetailsPage({ artistId, setCurrentId }: Props) {
           )
         );
       });
-      setAlbumsStillLoading(false);
-
-      // FOR TESTING
-      albumsArray = albumsArray.concat(albumsArray);
-      albumsArray = albumsArray.concat(albumsArray);
-      // FOR TESTING
-
       setAlbums(albumsArray);
+      setAlbumsStillLoading(false);
     };
     fetchData();
   }, [apiLink]);
@@ -85,6 +79,14 @@ function ArtistDetailsPage({ artistId, setCurrentId }: Props) {
           <Spinner animation="grow" variant="info" />
         ) : (
           <div>
+            <Image
+              src={
+                artist.pictureGuid === null
+                  ? "placeholder.png"
+                  : artist.pictureGuid
+              }
+              rounded
+            />
             <h1>{artist.name}</h1>
             id:{artist.id}
           </div>

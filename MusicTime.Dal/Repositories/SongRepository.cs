@@ -21,6 +21,11 @@ namespace MusicTime.Dal.Repositories
             return dbContext.Songs.Select(ToDto).ToList();
         }
 
+        public List<SongDto> GetSongsOfAlbum(int albumId)
+        {
+            return dbContext.Songs.Where(a => a.AlbumId == albumId).Select(ToDto).ToList();
+        }
+
         private SongDto ToDto(Song value)
         {
             return new SongDto
