@@ -76,18 +76,21 @@ function ArtistDetailsPage() {
         {artistStillLoading ? (
           <Spinner animation="grow" variant="info" />
         ) : (
-          <div>
-            <Image
-              src={
-                artist.pictureGuid === null
-                  ? "placeholder.png"
-                  : artist.pictureGuid
-              }
-              rounded
-            />
-            <h1>{artist.name}</h1>
-            id:{artist.id}
-          </div>
+          <Container fluid>
+            <Row>
+              <Image
+                src={
+                  artist.pictureGuid === null
+                    ? "/placeholder.png"
+                    : artist.pictureGuid
+                }
+                rounded
+                style={{ minWidth: "11rem", maxWidth: "15rem" }}
+              />
+              <h1>{artist.name}</h1>
+              id:{artist.id}
+            </Row>
+          </Container>
         )}
       </div>
       <div>

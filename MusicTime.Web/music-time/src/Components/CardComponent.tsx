@@ -19,7 +19,7 @@ function CardComponent({
   linkTo,
   objectId,
 }: Props) {
-  if (pictureGuid === null) pictureGuid = "placeholder.png";
+  if (pictureGuid === null) pictureGuid = "/placeholder.png";
 
   return (
     <Card
