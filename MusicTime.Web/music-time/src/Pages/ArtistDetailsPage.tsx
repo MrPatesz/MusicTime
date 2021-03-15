@@ -78,17 +78,28 @@ function ArtistDetailsPage() {
         ) : (
           <Container fluid>
             <Row>
-              <Image
-                src={
-                  artist.pictureGuid === null
-                    ? "/placeholder.png"
-                    : artist.pictureGuid
-                }
-                rounded
-                style={{ minWidth: "11rem", maxWidth: "15rem" }}
-              />
-              <h1>{artist.name}</h1>
-              id:{artist.id}
+              <Col xs={12} sm={5} md={4} xl={3}>
+                <Image
+                  src={
+                    artist.pictureGuid === null
+                      ? "/placeholder.png"
+                      : artist.pictureGuid
+                  }
+                  rounded
+                  style={{ minWidth: "11rem", maxWidth: "14rem" }}
+                  className="mt-3 mb-2"
+                />
+              </Col>
+              <Col xs={12} sm={7} md={8} xl={9}>
+                <h1>{artist.name}</h1>
+                <div>
+                  Description:{" "}
+                  {artist.description === null
+                    ? "Edit to add a description."
+                    : artist.description}
+                </div>
+                <div>Lived: 1998-2018</div>
+              </Col>
             </Row>
           </Container>
         )}
