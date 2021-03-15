@@ -5,11 +5,7 @@ import CardComponent from "../Components/CardComponent";
 import { Container, Row, Col } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
 
-interface Props {
-  setCurrentId: (id: number) => void;
-}
-
-function AlbumsPage({ setCurrentId }: Props) {
+function AlbumsPage() {
   const apiLink = "https://localhost:5001/api/albums/";
 
   const [albums, setAlbums] = useState<AlbumDto[]>([]);
@@ -36,8 +32,8 @@ function AlbumsPage({ setCurrentId }: Props) {
       setStillLoading(false);
 
       // FOR TESTING
-      albumsArray = albumsArray.concat(albumsArray);
-      albumsArray = albumsArray.concat(albumsArray);
+      //albumsArray = albumsArray.concat(albumsArray);
+      //albumsArray = albumsArray.concat(albumsArray);
       // FOR TESTING
 
       setAlbums(albumsArray);
@@ -71,7 +67,6 @@ function AlbumsPage({ setCurrentId }: Props) {
                   deleteFunction={deleteFunction}
                   linkTo="albums/"
                   objectId={a.id}
-                  setCurrentId={setCurrentId}
                 ></CardComponent>
               </Col>
             ))}

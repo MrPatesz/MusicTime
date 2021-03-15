@@ -6,14 +6,12 @@ import Spinner from "react-bootstrap/Spinner";
 import { Container, Row, Col } from "react-bootstrap";
 import CardComponent from "../Components/CardComponent";
 import Image from "react-bootstrap/Image";
+import { useRouteMatch } from "react-router-dom";
 
-interface Props {
-  artistId: number;
-  setCurrentId: (id: number) => void;
-}
+function ArtistDetailsPage() {
+  let match = useRouteMatch("/artists/:id");
 
-function ArtistDetailsPage({ artistId, setCurrentId }: Props) {
-  const apiLink = "https://localhost:5001/api/artists/" + artistId;
+  const apiLink = "https://localhost:5001/api/artists/" + match.params.id;
 
   const [artist, setArtist] = useState<ArtistDto>(new ArtistDto(0, "", "", ""));
   const [artistStillLoading, setArtistStillLoading] = useState<boolean>(true);
@@ -107,7 +105,6 @@ function ArtistDetailsPage({ artistId, setCurrentId }: Props) {
                     deleteFunction={deleteFunction}
                     linkTo="albums/"
                     objectId={a.id}
-                    setCurrentId={setCurrentId}
                   ></CardComponent>
                 </Col>
               ))}

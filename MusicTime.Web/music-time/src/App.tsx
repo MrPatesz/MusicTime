@@ -15,8 +15,6 @@ import LoginPage from "./Pages/LoginPage";
 const App = () => {
   const apiLink = "https://localhost:5001/api/songs";
 
-  const [currentId, setCurrentId] = useState<number>(0);
-
   const [songs, setSongs] = useState<SongDto[]>([]);
 
   useEffect(() => {
@@ -60,19 +58,16 @@ const App = () => {
         <Switch>
           <Route exact path="/"></Route>
           <Route exact path="/artists">
-            <ArtistsPage setCurrentId={setCurrentId}></ArtistsPage>
+            <ArtistsPage></ArtistsPage>
           </Route>
-          <Route exact path={"/artists/" + currentId}>
-            <ArtistDetailsPage
-              artistId={currentId}
-              setCurrentId={setCurrentId}
-            ></ArtistDetailsPage>
+          <Route exact path={"/artists/:id"}>
+            <ArtistDetailsPage></ArtistDetailsPage>
           </Route>
           <Route exact path="/albums">
-            <AlbumsPage setCurrentId={setCurrentId}></AlbumsPage>
+            <AlbumsPage></AlbumsPage>
           </Route>
-          <Route exact path={"/albums/" + currentId}>
-            <AlbumDetailsPage albumId={currentId}></AlbumDetailsPage>
+          <Route exact path={"/albums/:id"}>
+            <AlbumDetailsPage></AlbumDetailsPage>
           </Route>
           <Route exact path="/songs">
             <h1>Songs</h1>

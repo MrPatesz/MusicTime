@@ -10,7 +10,6 @@ interface Props {
   deleteFunction: (id: number) => void;
   linkTo: string;
   objectId: number;
-  setCurrentId: (id: number) => void;
 }
 
 function CardComponent({
@@ -19,7 +18,6 @@ function CardComponent({
   deleteFunction,
   linkTo,
   objectId,
-  setCurrentId,
 }: Props) {
   if (pictureGuid === null) pictureGuid = "placeholder.png";
 
@@ -33,13 +31,7 @@ function CardComponent({
         <Card.Title>{title}</Card.Title>
         <ButtonToolbar>
           <ButtonGroup className="mr-auto" size="sm">
-            <Link
-              to={linkTo + objectId}
-              className="btn btn-outline-info"
-              onClick={() => {
-                setCurrentId(objectId);
-              }}
-            >
+            <Link to={linkTo + objectId} className="btn btn-outline-info">
               Details
             </Link>
           </ButtonGroup>

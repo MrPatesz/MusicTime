@@ -3,13 +3,12 @@ import axios from "axios";
 import AlbumDto from "../Models/AlbumDto";
 import Spinner from "react-bootstrap/Spinner";
 import SongDto from "../Models/SongDto";
+import { useRouteMatch } from "react-router-dom";
 
-interface Props {
-  albumId: number;
-}
+function AlbumDetailsPage() {
+  let match = useRouteMatch("/albums/:id");
 
-function AlbumDetailsPage({ albumId }: Props) {
-  const apiLink = "https://localhost:5001/api/albums/" + albumId;
+  const apiLink = "https://localhost:5001/api/albums/" + match.params.id;
 
   const [album, setAlbum] = useState<AlbumDto>(
     new AlbumDto(0, "", "", "", 0, "")

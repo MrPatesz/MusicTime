@@ -6,11 +6,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
 //import ModalDialog from 'react-bootstrap/ModalDialog';
 
-interface Props {
-  setCurrentId: (id: number) => void;
-}
-
-function ArtistsPage({ setCurrentId }: Props) {
+function ArtistsPage() {
   const apiLink = "https://localhost:5001/api/artists/";
 
   const [artists, setArtists] = useState<ArtistDto[]>([]);
@@ -70,7 +66,6 @@ function ArtistsPage({ setCurrentId }: Props) {
                   deleteFunction={deleteFunction}
                   linkTo="artists/"
                   objectId={a.id}
-                  setCurrentId={setCurrentId}
                 ></CardComponent>
               </Col>
             ))}
