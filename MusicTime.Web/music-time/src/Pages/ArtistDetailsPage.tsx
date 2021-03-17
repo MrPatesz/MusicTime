@@ -117,7 +117,7 @@ function ArtistDetailsPage() {
                     title={a.title}
                     pictureGuid={a.coverGuid}
                     deleteFunction={deleteFunction}
-                    linkTo="albums/"
+                    linkTo="/albums/"
                     objectId={a.id}
                   ></CardComponent>
                 </Col>

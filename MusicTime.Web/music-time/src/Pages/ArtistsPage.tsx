@@ -31,8 +31,8 @@ function ArtistsPage() {
       setStillLoading(false);
 
       // FOR TESTING
-      artistsArray = artistsArray.concat(artistsArray);
-      artistsArray = artistsArray.concat(artistsArray);
+      //artistsArray = artistsArray.concat(artistsArray);
+      //artistsArray = artistsArray.concat(artistsArray);
       // FOR TESTING
 
       setArtists(artistsArray);
