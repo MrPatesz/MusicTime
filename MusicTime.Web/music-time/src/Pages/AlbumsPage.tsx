@@ -41,16 +41,6 @@ function AlbumsPage() {
     fetchData();
   }, []);
 
-  function deleteFunction(id: number) {
-    var result = window.confirm("Are you sure you want to delete this album?");
-    if (result) {
-      const deleteCall = async () => {
-        await axios.delete(apiLink + id);
-      };
-      deleteCall();
-    }
-  }
-
   return (
     <div>
       <h1>Albums</h1>
@@ -64,7 +54,7 @@ function AlbumsPage() {
                 <CardComponent
                   title={a.title}
                   pictureGuid={a.coverGuid}
-                  deleteFunction={deleteFunction}
+                  deleteLink={apiLink}
                   linkTo="albums/"
                   objectId={a.id}
                 ></CardComponent>

@@ -13,6 +13,7 @@ namespace MusicTime.Dal.EfDbContext
         public DbSet<Song> Songs { get; set; }
         public DbSet<Album> Albums { get; set; }
         public DbSet<Artist> Artists { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -22,10 +23,13 @@ namespace MusicTime.Dal.EfDbContext
                 .HasKey(s => s.Id);
             modelBuilder.Entity<User>()
                 .Property(s => s.UserName).HasMaxLength(50)
-                .IsRequired(required: true).IsUnicode(unicode: true);
+                .IsRequired(required: true);
             modelBuilder.Entity<User>()
                 .Property(s => s.PasswordHash).HasMaxLength(256)
-                .IsRequired(required: true).IsUnicode(unicode: true);
+                .IsRequired(required: true);
+            modelBuilder.Entity<User>()
+                .Property(s => s.PasswordSalt).HasMaxLength(256)
+                .IsRequired(required: true);
             modelBuilder.Entity<User>()
                 .HasMany(a => a.Artists)
                 .WithOne(a => a.User);
@@ -33,8 +37,8 @@ namespace MusicTime.Dal.EfDbContext
             modelBuilder.Entity<User>()
                 .HasData(new[]
                 {
-                    new User() { Id = 1, UserName = "admin", PasswordHash = "hashedPassword" },
-                    new User() { Id = 2, UserName = "user1", PasswordHash = "userPassword" },
+                    new User() { Id = 1, UserName = "admin", PasswordHash = new byte[10], PasswordSalt = new byte[10] },
+                    new User() { Id = 2, UserName = "user1", PasswordHash = new byte[10], PasswordSalt = new byte[10] },
                 });
 
             modelBuilder.Entity<Artist>()

@@ -40,16 +40,6 @@ function ArtistsPage() {
     fetchData();
   }, []);
 
-  function deleteFunction(id: number) {
-    var result = window.confirm("Are you sure you want to delete this artist?");
-    if (result) {
-      const deleteCall = async () => {
-        await axios.delete(apiLink + id);
-      };
-      deleteCall();
-    }
-  }
-
   return (
     <div>
       <h1>Artists</h1>
@@ -63,7 +53,7 @@ function ArtistsPage() {
                 <CardComponent
                   title={a.name}
                   pictureGuid={a.pictureGuid}
-                  deleteFunction={deleteFunction}
+                  deleteLink={apiLink}
                   linkTo="artists/"
                   objectId={a.id}
                 ></CardComponent>
