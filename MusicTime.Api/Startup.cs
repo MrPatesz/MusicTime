@@ -9,6 +9,9 @@ using MusicTime.Bll.IRepositories;
 using MusicTime.Dal.EfDbContext;
 using Microsoft.EntityFrameworkCore;
 using MusicTime.Bll.Services;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 namespace MusicTime.Api
 {
@@ -52,6 +55,22 @@ namespace MusicTime.Api
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MusicTime.Api", Version = "v1" });
             });
+
+            //Katona Tamás KocsmApp
+            var config = Configuration.GetSection("AppSettings:Token").Value;
+            var key = Encoding.ASCII.GetBytes(config);
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(
+                options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(key),
+                        ValidateIssuer = false,
+                        ValidateAudience = false
+                    };
+                });
+            //Katona Tamás KocsmApp
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

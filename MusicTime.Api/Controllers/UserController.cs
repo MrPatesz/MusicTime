@@ -37,7 +37,7 @@ namespace MusicTime.Api.Controllers
             var token = userService.Login(userDto);
 
             if (token == null)
-                return Unauthorized();
+                return Unauthorized("Wrong username or password.");
             else
                 return Ok(token);
         }

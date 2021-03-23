@@ -4,9 +4,9 @@ class AlbumDto {
     genre: string;
     description: string;
     releaseYear: number;
-    coverGuid: string;
+    coverGuid: string | null;
   
-    constructor(id: number, title: string, genre: string, description: string, releaseYear: number, coverGuid: string) {
+    constructor(id: number, title: string, genre: string, description: string, releaseYear: number, coverGuid: string | null) {
       this.id = id;
       this.title = title;
       this.genre = genre;

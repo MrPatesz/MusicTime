@@ -20,6 +20,14 @@
   color: #17a2b8;
 }
 
+.modal-header {
+  border-bottom: 1px solid;
+}
+
+.modal-footer {
+  border-top: 1px solid;
+}
+
 .page {
   padding: 10px 15px;
 }
