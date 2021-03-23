@@ -61,7 +61,7 @@ function ArtistDetailsPage() {
   }, [apiLink]);
 
   return (
-    <div>
+    <div className="page">
       <div>
         {artistStillLoading ? (
           <Spinner animation="grow" variant="info" />
@@ -88,7 +88,6 @@ function ArtistDetailsPage() {
                     ? "Edit to add a description."
                     : artist.description}
                 </div>
-                <div>Lived: 1998-2018</div>
               </Col>
             </Row>
           </Container>

@@ -70,12 +70,14 @@ const App = () => {
             <AlbumDetailsPage></AlbumDetailsPage>
           </Route>
           <Route exact path="/songs">
-            <h1>Songs</h1>
-            <ul>
-              {songs.map((s) => (
-                <li key={s.id}>{s.title}</li>
-              ))}
-            </ul>
+            <div className="page">
+              <h1>Songs</h1>
+              <ul>
+                {songs.map((s) => (
+                  <li key={s.id}>{s.title}</li>
+                ))}
+              </ul>
+            </div>
           </Route>
           <Route exact path="/login">
             <LoginPage></LoginPage>

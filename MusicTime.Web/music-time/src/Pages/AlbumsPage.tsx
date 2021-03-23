@@ -30,19 +30,13 @@ function AlbumsPage() {
         );
       });
       setStillLoading(false);
-
-      // FOR TESTING
-      //albumsArray = albumsArray.concat(albumsArray);
-      //albumsArray = albumsArray.concat(albumsArray);
-      // FOR TESTING
-
       setAlbums(albumsArray);
     };
     fetchData();
   }, []);
 
   return (
-    <div>
+    <div className="page">
       <h1>Albums</h1>
       {stillLoading ? (
         <Spinner animation="grow" variant="info" />

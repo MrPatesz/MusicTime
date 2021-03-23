@@ -53,7 +53,7 @@ function AlbumDetailsPage() {
   }, []);
 
   return (
-    <div>
+    <div className="page">
       <div>
         {albumStillLoading ? (
           <Spinner animation="grow" variant="info" />

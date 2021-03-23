@@ -4,13 +4,20 @@ import ArtistDto from "../Models/ArtistDto";
 import CardComponent from "../Components/CardComponent";
 import { Container, Row, Col } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
-//import ModalDialog from 'react-bootstrap/ModalDialog';
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import Form from "react-bootstrap/Form";
 
 function ArtistsPage() {
   const apiLink = "https://localhost:5001/api/artists/";
 
   const [artists, setArtists] = useState<ArtistDto[]>([]);
   const [stillLoading, setStillLoading] = useState<boolean>(true);
+
+  const [addArtist, setAddArtist] = useState<boolean>(false);
+
+  const [newArtistName, setNewArtistName] = useState<string>("");
+  const [newArtistDescription, setNewArtistDescription] = useState<string>("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,20 +36,26 @@ function ArtistsPage() {
         );
       });
       setStillLoading(false);
-
-      // FOR TESTING
-      //artistsArray = artistsArray.concat(artistsArray);
-      //artistsArray = artistsArray.concat(artistsArray);
-      // FOR TESTING
-
       setArtists(artistsArray);
     };
     fetchData();
   }, []);
 
   return (
-    <div>
-      <h1>Artists</h1>
+    <div className="page">
+      <Container fluid>
+        <Row>
+          <h1>Artists</h1>
+          <Button
+            variant="outline-info"
+            className="ml-auto"
+            onClick={() => setAddArtist(true)}
+          >
+            Add
+          </Button>
+        </Row>
+      </Container>
+
       {stillLoading ? (
         <Spinner animation="grow" variant="info" />
       ) : (
@@ -62,6 +75,70 @@ function ArtistsPage() {
           </Row>
         </Container>
       )}
+
+      <Modal
+        show={addArtist}
+        onHide={() => setAddArtist(false)}
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header>
+          <Modal.Title>New Artist</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group>
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                type="text"
+                onChange={(e) => setNewArtistName(e.target.value)}
+              />
+            </Form.Group>
+
+            <Form.Group>
+              <Form.Label>Description</Form.Label>
+              <Form.Control
+                type="text"
+                onChange={(e) => setNewArtistDescription(e.target.value)}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.File name="file" label="Picture" feedbackTooltip />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="outline-secondary"
+            onClick={() => setAddArtist(false)}
+          >
+            Cancel
+          </Button>
+          <Button
+            variant="outline-info"
+            onClick={() => {
+              if (newArtistName !== "") {
+                setAddArtist(false);
+                setArtists(
+                  artists.concat(
+                    new ArtistDto(
+                      100,
+                      newArtistName,
+                      newArtistDescription,
+                      null
+                    )
+                  )
+                );
+                setNewArtistName("");
+                setNewArtistDescription("");
+                /*send to backend, rerender list*/
+              }
+            }}
+          >
+            Confirm
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

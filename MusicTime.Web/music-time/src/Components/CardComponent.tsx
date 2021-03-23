@@ -49,12 +49,7 @@ function CardComponent({
               </Link>
             </ButtonGroup>
             <ButtonGroup size="sm">
-              <Button
-                onClick={() => {
-                  setConfirm(true);
-                }}
-                variant="outline-danger"
-              >
+              <Button onClick={() => setConfirm(true)} variant="outline-danger">
                 Delete
               </Button>
             </ButtonGroup>
