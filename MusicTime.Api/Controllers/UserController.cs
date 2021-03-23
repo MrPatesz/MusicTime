@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using MusicTime.Bll.Dtos;
 using MusicTime.Bll.Services;
 
@@ -16,7 +17,9 @@ namespace MusicTime.Api.Controllers
         }
 
         [HttpPost("register")]
-        public StatusCodeResult Register([FromBody] UserDto userDto)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult Register([FromBody] UserDto userDto)
         {
             if (userService.Register(userDto))
                 return Ok();
