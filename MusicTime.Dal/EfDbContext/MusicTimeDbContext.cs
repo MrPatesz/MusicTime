@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MusicTime.Bll.Entities;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace MusicTime.Dal.EfDbContext
 {
@@ -34,12 +36,18 @@ namespace MusicTime.Dal.EfDbContext
                 .HasMany(a => a.Artists)
                 .WithOne(a => a.User);
 
-            modelBuilder.Entity<User>()
+            using (var hmac = new HMACSHA512())
+            {
+                var hash = hmac.ComputeHash(Encoding.UTF8.GetBytes("password"));
+                
+                modelBuilder.Entity<User>()
                 .HasData(new[]
                 {
-                    new User() { Id = 1, UserName = "admin", PasswordHash = new byte[10], PasswordSalt = new byte[10] },
-                    new User() { Id = 2, UserName = "user1", PasswordHash = new byte[10], PasswordSalt = new byte[10] },
+                    new User() { Id = 1, UserName = "admin", PasswordHash = hash, PasswordSalt = hmac.Key },
+                    new User() { Id = 2, UserName = "user1", PasswordHash = hash, PasswordSalt = hmac.Key },
                 });
+            }
+                
 
             modelBuilder.Entity<Artist>()
                 .ToTable("Artists");

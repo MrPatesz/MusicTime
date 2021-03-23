@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MusicTime.Bll.Dtos;
 using MusicTime.Bll.Services;
+using System.Threading.Tasks;
 
 namespace MusicTime.Api.Controllers
 {
@@ -19,19 +20,26 @@ namespace MusicTime.Api.Controllers
         [HttpPost("register")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult Register([FromBody] UserDto userDto)
+        public async Task<ActionResult> Register([FromBody] UserDto userDto)
         {
-            if (userService.Register(userDto))
+            if (await userService.Register(userDto))
                 return Ok();
             else
-                return BadRequest();
+                return BadRequest("Username already taken.");
 
         }
 
         [HttpPost("login")]
-        public void Login([FromBody] UserDto userDto)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public ActionResult Login([FromBody] UserDto userDto)
         {
-            userService.Login(userDto);
+            var token = userService.Login(userDto);
+
+            if (token == null)
+                return Unauthorized();
+            else
+                return Ok(token);
         }
     }
 }

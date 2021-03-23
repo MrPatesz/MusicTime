@@ -25,7 +25,7 @@ namespace MusicTime.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<MusicTimeDbContext>(opt =>
-                opt.UseSqlServer(@"Data Source=(localdb)\mssqllocaldb;Initial Catalog=MusicTimeDataBase5;Integrated Security=True"));
+                opt.UseSqlServer(@"Data Source=(localdb)\mssqllocaldb;Initial Catalog=MusicTimeDataBase6;Integrated Security=True"));
 
             services.AddScoped<SongService, SongService>();
             services.AddScoped<AlbumService, AlbumService>();

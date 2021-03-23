@@ -1,5 +1,6 @@
 ﻿using MusicTime.Bll.Dtos;
 using MusicTime.Bll.IRepositories;
+using System.Threading.Tasks;
 
 namespace MusicTime.Bll.Services
 {
@@ -12,19 +13,22 @@ namespace MusicTime.Bll.Services
             this.userRepository = userRepository;
         }
 
-        public bool Register(UserDto userDto)
+        public async Task<bool> Register(UserDto userDto)
         {
             if (!userRepository.IsUsernameTaken(userDto.UserName))
             {
-                userRepository.CreateUser(userDto);
+                await userRepository.CreateUser(userDto);
                 return true;
             }
             return false;
         }
 
-        public void Login(UserDto userDto)
+        public string Login(UserDto userDto)
         {
-            userRepository.Login(userDto);
+            if (userRepository.Login(userDto))
+                return "logged in";
+            else
+                return null;
         }
     }
 }

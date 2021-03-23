@@ -1,13 +1,14 @@
 ﻿using MusicTime.Bll.Dtos;
+using System.Threading.Tasks;
 
 namespace MusicTime.Bll.IRepositories
 {
     public interface IUserRepository
     {
-        public void CreateUser(UserDto userDto);
+        public Task CreateUser(UserDto userDto);
 
         public bool IsUsernameTaken(string userName);
 
-        public void Login(UserDto userDto);
+        public bool Login(UserDto userDto);
     }
 }

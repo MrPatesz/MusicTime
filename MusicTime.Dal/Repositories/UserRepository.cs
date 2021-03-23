@@ -5,6 +5,7 @@ using MusicTime.Bll.Dtos;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace MusicTime.Dal.Repositories
 {
@@ -17,40 +18,39 @@ namespace MusicTime.Dal.Repositories
             this.dbContext = dbContext;
         }
 
-        public void CreateUser(UserDto userDto)
+        public async Task CreateUser(UserDto userDto)
         {
+            var user = new User { UserName = userDto.UserName };
+
             using (var hmac = new HMACSHA512())
             {
-                var hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(userDto.Password));
-                
-                foreach(byte b in hash) System.Console.WriteLine(b.ToString());
+                user.PasswordSalt = hmac.Key;
+                user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(userDto.Password));
 
-                dbContext.Users.Add(
-                    new User {
-                        UserName = userDto.UserName,
-                        PasswordSalt = hmac.Key,
-                        PasswordHash = hash,
-                    }
-                );
+                dbContext.Users.Add(user);
+                await dbContext.SaveChangesAsync();
             }
         }
 
         public bool IsUsernameTaken(string userName)
         {
-            if (dbContext.Users.FirstOrDefault(u => u.UserName == userName) != null)
-                return true;
-
-            return false;
+            return dbContext.Users.Any(u => u.UserName == userName);
         }
 
-        public void Login(UserDto userDto)
+        public bool Login(UserDto userDto)
         {
             var dbUser = dbContext.Users.FirstOrDefault(u => u.UserName == userDto.UserName);
+
+            if (dbUser == null)
+                return false;
+
             using (var hmac = new HMACSHA512(dbUser.PasswordSalt))
             {
                 var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(userDto.Password));
                 if (dbUser.PasswordHash.SequenceEqual(computedHash))
-                    return; //jwt token
+                    return true; //jwt token
+                else
+                    return false;
             }
         }
     }
