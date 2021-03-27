@@ -5,8 +5,8 @@ namespace MusicTime.Bll.IRepositories
 {
     public interface IAlbumRepository
     {
-        List<AlbumDto> GetAlbums();
-        AlbumDto GetAlbumById(int id);
-        List<AlbumDto> GetAlbumsOfArtist(int artistId);
+        List<AlbumDto> GetAlbums(int userId);
+        AlbumDto GetAlbumById(int userId, int id);
+        List<AlbumDto> GetAlbumsOfArtist(int userId, int artistId);
     }
 }

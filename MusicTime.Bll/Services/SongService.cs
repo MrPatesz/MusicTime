@@ -13,9 +13,9 @@ namespace MusicTime.Bll.Services
             this.repository = repository;
         }
 
-        public List<SongDto> GetSongs()
+        public List<SongDto> GetSongs(int userId)
         {
-            return repository.GetSongs();
+            return repository.GetSongs(userId);
         }
     }
 }

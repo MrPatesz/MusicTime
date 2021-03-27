@@ -28,7 +28,7 @@ namespace MusicTime.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<MusicTimeDbContext>(opt =>
-                opt.UseSqlServer(@"Data Source=(localdb)\mssqllocaldb;Initial Catalog=MusicTimeDataBase6;Integrated Security=True"));
+                opt.UseSqlServer(@"Data Source=(localdb)\mssqllocaldb;Initial Catalog=MusicTimeDataBase;Integrated Security=True"));
 
             services.AddScoped<SongService, SongService>();
             services.AddScoped<AlbumService, AlbumService>();
@@ -57,15 +57,15 @@ namespace MusicTime.Api
             });
 
             //Katona Tamás KocsmApp
-            var config = Configuration.GetSection("AppSettings:Token").Value;
-            var key = Encoding.ASCII.GetBytes(config);
+            var secretKey = Configuration.GetSection("AppSettings:Token").Value;
+            var keyBytes = Encoding.ASCII.GetBytes(secretKey);
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(
                 options =>
                 {
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(key),
+                        IssuerSigningKey = new SymmetricSecurityKey(keyBytes),
                         ValidateIssuer = false,
                         ValidateAudience = false
                     };
@@ -84,6 +84,8 @@ namespace MusicTime.Api
             }
 
             app.UseHttpsRedirection();
+
+            app.UseAuthentication();
 
             app.UseRouting();
 

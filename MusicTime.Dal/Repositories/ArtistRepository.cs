@@ -16,14 +16,14 @@ namespace MusicTime.Dal.Repositories
             this.dbContext = dbContext;
         }
 
-        public List<ArtistDto> GetArtists()
+        public List<ArtistDto> GetArtists(int userId)
         {
-            return dbContext.Artists.Select(ToDto).ToList();
+            return dbContext.Artists.Where(a => a.UserId == userId).Select(ToDto).ToList();
         }
 
-        public ArtistDto GetArtistById(int id)
+        public ArtistDto GetArtistById(int userId, int id)
         {
-            var artist = dbContext.Artists.FirstOrDefault(a => a.Id == id);
+            var artist = dbContext.Artists.FirstOrDefault(a => a.Id == id && a.UserId == userId);
             if (artist == null)
                 return null;
             else

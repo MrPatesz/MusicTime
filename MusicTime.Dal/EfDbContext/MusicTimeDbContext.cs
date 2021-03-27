@@ -72,7 +72,9 @@ namespace MusicTime.Dal.EfDbContext
                 .HasData(new[]
                 {
                     new Artist() { Id = 1, Name = "xxxtentacion", UserId = 1 },
-                    new Artist() { Id = 2, Name = "Billy Talent", UserId = 1 },
+                    new Artist() { Id = 2, Name = "JUMEX", UserId = 1 },
+                    new Artist() { Id = 3, Name = "Billy Talent", UserId = 2 },
+                    new Artist() { Id = 4, Name = "Linkin Park", UserId = 2 },
                 });
 
             modelBuilder.Entity<Album>()
@@ -104,7 +106,7 @@ namespace MusicTime.Dal.EfDbContext
                 .HasData(new[]
                 {
                     new Album() { Id = 1, Title = "17", Genre = "Hip-hop", ArtistId = 1, ReleaseYear = 2017},
-                    new Album() { Id = 2, Title = "Afraid of Heights", Genre = "Punk", ArtistId = 2, ReleaseYear = 2016 },
+                    new Album() { Id = 2, Title = "Afraid of Heights", Genre = "Punk", ArtistId = 3, ReleaseYear = 2016 },
                 });
 
             modelBuilder.Entity<Song>()

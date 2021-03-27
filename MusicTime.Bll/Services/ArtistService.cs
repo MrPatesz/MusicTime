@@ -15,19 +15,19 @@ namespace MusicTime.Bll.Services
             this.albumRepository = albumRepository;
         }
 
-        public List<ArtistDto> GetArtists()
+        public List<ArtistDto> GetArtists(int userId)
         {
-            return artistRepository.GetArtists();
+            return artistRepository.GetArtists(userId);
         }
 
-        public ArtistDto GetArtistById(int id)
+        public ArtistDto GetArtistById(int userId, int id)
         {
-            return artistRepository.GetArtistById(id);
+            return artistRepository.GetArtistById(userId, id);
         }
 
-        public List<AlbumDto> GetAlbumsOfArtist(int artistId)
+        public List<AlbumDto> GetAlbumsOfArtist(int userId, int artistId)
         {
-            return albumRepository.GetAlbumsOfArtist(artistId);
+            return albumRepository.GetAlbumsOfArtist(userId, artistId);
         }
     }
 }

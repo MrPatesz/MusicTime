@@ -5,8 +5,7 @@ import CardComponent from "../Components/CardComponent";
 import { Container, Row, Col } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
 import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
-import Form from "react-bootstrap/Form";
+import AddAlbumComponent from "../Components/AddAlbumComponent";
 
 function AlbumsPage() {
   const apiLink = "https://localhost:5001/api/albums/";
@@ -14,14 +13,16 @@ function AlbumsPage() {
   const [albums, setAlbums] = useState<AlbumDto[]>([]);
   const [stillLoading, setStillLoading] = useState<boolean>(true);
 
-  const [addAlbum, setAddAlbum] = useState<boolean>(false);
-
-  const [newAlbumTitle, setNewAlbumTitle] = useState<string>("");
-  const [newAlbumDescription, setNewAlbumDescription] = useState<string>("");
+  const [showAddAlbum, setShowAddAlbum] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios.get(apiLink);
+      const config = {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      };
+      const result = await axios.get(apiLink, config);
 
       let albumsArray: AlbumDto[] = [];
 
@@ -51,7 +52,7 @@ function AlbumsPage() {
           <Button
             variant="outline-info"
             className="ml-auto"
-            onClick={() => setAddAlbum(true)}
+            onClick={() => setShowAddAlbum(true)}
           >
             Add
           </Button>
@@ -78,87 +79,10 @@ function AlbumsPage() {
         </Container>
       )}
 
-      <Modal
-        show={addAlbum}
-        onHide={() => setAddAlbum(false)}
-        backdrop="static"
-        keyboard={false}
-      >
-        <Modal.Header>
-          <Modal.Title>New Album</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group>
-              <Form.Label>Title</Form.Label>
-              <Form.Control
-                type="text"
-                onChange={(e) => setNewAlbumTitle(e.target.value)}
-              />
-            </Form.Group>
-
-            <Form.Group>
-              <Form.Label>Genre</Form.Label>
-              <Form.Control
-                type="text"
-                onChange={(e) => {}}
-              />
-            </Form.Group>
-
-            <Form.Group>
-              <Form.Label>Year of Release</Form.Label>
-              <Form.Control
-                type="number"
-                onChange={(e) => {}}
-              />
-            </Form.Group>
-
-            <Form.Group>
-              <Form.Label>Description</Form.Label>
-              <Form.Control
-                type="text"
-                onChange={(e) => setNewAlbumDescription(e.target.value)}
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.File name="file" label="Picture" feedbackTooltip />
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button
-            variant="outline-secondary"
-            onClick={() => setAddAlbum(false)}
-          >
-            Cancel
-          </Button>
-          <Button
-            variant="outline-info"
-            onClick={() => {
-              if (newAlbumTitle !== "") {
-                setAddAlbum(false);
-                setAlbums(
-                  albums.concat(
-                    new AlbumDto(
-                      100,
-                      newAlbumTitle,
-                      "genre",
-                      newAlbumDescription,
-                      2005,
-                      null
-                    )
-                  )
-                );
-                setNewAlbumTitle("");
-                setNewAlbumDescription("");
-                /*send to backend, rerender list*/
-              }
-            }}
-          >
-            Confirm
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <AddAlbumComponent
+        show={showAddAlbum}
+        setShow={setShowAddAlbum}
+      ></AddAlbumComponent>
     </div>
   );
 }

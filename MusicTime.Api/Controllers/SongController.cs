@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MusicTime.Bll.Dtos;
 using MusicTime.Bll.Services;
+using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 
 namespace MusicTime.Api.Controllers
 {
@@ -19,7 +21,8 @@ namespace MusicTime.Api.Controllers
         [HttpGet]
         public List<SongDto> GetSongs()
         {
-            return songService.GetSongs();
+            var userId = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            return songService.GetSongs(userId);
         }
     }
 }

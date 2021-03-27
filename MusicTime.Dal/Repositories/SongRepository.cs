@@ -16,14 +16,14 @@ namespace MusicTime.Dal.Repositories
             this.dbContext = dbContext;
         }
 
-        public List<SongDto> GetSongs()
+        public List<SongDto> GetSongs(int userId)
         {
-            return dbContext.Songs.Select(ToDto).ToList();
+            return dbContext.Songs.Where(s => s.Album.Artist.UserId == userId).Select(ToDto).ToList();
         }
 
-        public List<SongDto> GetSongsOfAlbum(int albumId)
+        public List<SongDto> GetSongsOfAlbum(int userId, int albumId)
         {
-            return dbContext.Songs.Where(a => a.AlbumId == albumId).Select(ToDto).ToList();
+            return dbContext.Songs.Where(s => s.AlbumId == albumId && s.Album.Artist.UserId == userId).Select(ToDto).ToList();
         }
 
         private SongDto ToDto(Song value)
