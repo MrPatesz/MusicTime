@@ -7,6 +7,8 @@ import { Container, Row, Col } from "react-bootstrap";
 import CardComponent from "../Components/CardComponent";
 import Image from "react-bootstrap/Image";
 import { useRouteMatch } from "react-router-dom";
+import AddAlbumComponent from "../Components/AddAlbumComponent";
+import Button from "react-bootstrap/Button";
 
 function ArtistDetailsPage() {
   let id = useRouteMatch("/artists/:id").params.id;
@@ -18,6 +20,8 @@ function ArtistDetailsPage() {
 
   const [albums, setAlbums] = useState<AlbumDto[]>([]);
   const [albumsStillLoading, setAlbumsStillLoading] = useState<boolean>(true);
+
+  const [showAddAlbum, setShowAddAlbum] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -104,7 +108,19 @@ function ArtistDetailsPage() {
         )}
       </div>
       <div>
-        <h2>Albums</h2>
+        <Container fluid>
+          <Row>
+            <h2>Albums</h2>
+            <Button
+              variant="outline-info"
+              className="ml-auto"
+              onClick={() => setShowAddAlbum(true)}
+            >
+              Add
+            </Button>
+          </Row>
+        </Container>
+
         {albumsStillLoading ? (
           <Spinner animation="grow" variant="info" />
         ) : (
@@ -125,6 +141,10 @@ function ArtistDetailsPage() {
           </Container>
         )}
       </div>
+      <AddAlbumComponent
+        show={showAddAlbum}
+        setShow={setShowAddAlbum}
+      ></AddAlbumComponent>
     </div>
   );
 }

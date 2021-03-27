@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import ArtistDto from "../Models/ArtistDto";
 import CardComponent from "../Components/CardComponent";
@@ -15,32 +15,45 @@ function ArtistsPage() {
 
   const [showAddArtist, setShowAddArtist] = useState<boolean>(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        },
-      };
-      const result = await axios.get(apiLink, config);
-
-      let artistsArray: ArtistDto[] = [];
-
-      result.data.forEach((artist: ArtistDto) => {
-        artistsArray.push(
-          new ArtistDto(
-            artist.id,
-            artist.name,
-            artist.description,
-            artist.pictureGuid
-          )
-        );
-      });
-      setStillLoading(false);
-      setArtists(artistsArray);
+  const fetchData = async () => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+      },
     };
+    const result = await axios.get(apiLink, config);
+
+    let artistsArray: ArtistDto[] = [];
+
+    result.data.forEach((artist: ArtistDto) => {
+      artistsArray.push(
+        new ArtistDto(
+          artist.id,
+          artist.name,
+          artist.description,
+          artist.pictureGuid
+        )
+      );
+    });
+    setStillLoading(false);
+    setArtists(artistsArray);
+  };
+
+  //source: https://stackoverflow.com/questions/55647287/how-to-send-request-on-click-react-hooks-way
+  const sendRequest = useCallback(async () => {
+    // don't send again while we are sending
+    if (showAddArtist) return;
+    // update state
+    setShowAddArtist(true);
+    // send the actual request
     fetchData();
-  }, []);
+    // once the request is sent, update state again
+    setShowAddArtist(false);
+  }, [showAddArtist]);
+
+  useEffect(() => {
+    sendRequest();
+  }, [sendRequest]);
 
   return (
     <div className="page">
@@ -48,6 +61,7 @@ function ArtistsPage() {
         <Row>
           <h1>Artists</h1>
           <Button
+            style={{ maxHeight: "44px" }}
             variant="outline-info"
             className="ml-auto"
             onClick={() => setShowAddArtist(true)}

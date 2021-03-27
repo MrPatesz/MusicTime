@@ -13,6 +13,8 @@ interface Props {
 function AddAlbumComponent({ show, setShow }: Props) {
   const [newAlbumTitle, setNewAlbumTitle] = useState<string>("");
   const [newAlbumDescription, setNewAlbumDescription] = useState<string>("");
+  const [genre, setGenre] = useState<string | null>(null);
+  const [releaseYear, setReleaseYear] = useState<number | null>(null);
 
   function postFunction() {
     const postData = async () => {
@@ -25,6 +27,8 @@ function AddAlbumComponent({ show, setShow }: Props) {
         data: {
           Title: newAlbumTitle,
           Description: newAlbumDescription,
+          Genre: genre,
+          ReleaseYear: releaseYear,
         },
       });
       //const newAlbum = result.data;
@@ -51,6 +55,7 @@ function AddAlbumComponent({ show, setShow }: Props) {
         onHide={() => setShow(false)}
         backdrop="static"
         keyboard={false}
+        animation={false}
       >
         <Modal.Header>
           <Modal.Title>New Album</Modal.Title>
@@ -67,12 +72,18 @@ function AddAlbumComponent({ show, setShow }: Props) {
 
             <Form.Group>
               <Form.Label>Genre</Form.Label>
-              <Form.Control type="text" onChange={(e) => {}} />
+              <Form.Control
+                type="text"
+                onChange={(e) => setGenre(e.target.value)}
+              />
             </Form.Group>
 
             <Form.Group>
               <Form.Label>Year of Release</Form.Label>
-              <Form.Control type="number" onChange={(e) => {}} />
+              <Form.Control
+                type="number"
+                onChange={(e) => setReleaseYear(Number(e.target.value))}
+              />
             </Form.Group>
 
             <Form.Group>

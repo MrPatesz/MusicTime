@@ -11,8 +11,8 @@ interface Props {
 }
 
 function AddArtistComponent({ show, setShow }: Props) {
-  const [newArtistName, setNewArtistName] = useState<string | null>(null);
-  const [newArtistDescription, setNewArtistDescription] = useState<string |null>(null);
+  const [name, setName] = useState<string | null>(null);
+  const [description, setDescription] = useState<string | null>(null);
 
   function postFunction() {
     const postData = async () => {
@@ -23,8 +23,8 @@ function AddArtistComponent({ show, setShow }: Props) {
           Authorization: `Bearer ${localStorage.getItem("authToken")}`,
         },
         data: {
-          Name: newArtistName,
-          Description: newArtistDescription,
+          Name: name,
+          Description: description,
         },
       });
     };
@@ -38,6 +38,7 @@ function AddArtistComponent({ show, setShow }: Props) {
         onHide={() => setShow(false)}
         backdrop="static"
         keyboard={false}
+        animation={false}
       >
         <Modal.Header>
           <Modal.Title>New Artist</Modal.Title>
@@ -48,7 +49,7 @@ function AddArtistComponent({ show, setShow }: Props) {
               <Form.Label>Name</Form.Label>
               <Form.Control
                 type="text"
-                onChange={(e) => setNewArtistName(e.target.value)}
+                onChange={(e) => setName(e.target.value)}
               />
             </Form.Group>
 
@@ -56,7 +57,7 @@ function AddArtistComponent({ show, setShow }: Props) {
               <Form.Label>Description</Form.Label>
               <Form.Control
                 type="text"
-                onChange={(e) => setNewArtistDescription(e.target.value)}
+                onChange={(e) => setDescription(e.target.value)}
               />
             </Form.Group>
             <Form.Group>
@@ -71,10 +72,10 @@ function AddArtistComponent({ show, setShow }: Props) {
           <Button
             variant="outline-info"
             onClick={() => {
-              if (newArtistName !== "") {
+              if (name !== "") {
                 setShow(false);
-                setNewArtistName(null);
-                setNewArtistDescription(null);
+                setName(null);
+                setDescription(null);
 
                 postFunction();
               }
