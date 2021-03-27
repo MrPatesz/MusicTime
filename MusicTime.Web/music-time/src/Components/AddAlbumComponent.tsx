@@ -15,7 +15,32 @@ function AddAlbumComponent({ show, setShow }: Props) {
   const [newAlbumDescription, setNewAlbumDescription] = useState<string>("");
 
   function postFunction() {
-    const postData = async () => {};
+    const postData = async () => {
+      await axios({
+        method: "post",
+        url: "https://localhost:5001/api/albums/",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+        data: {
+          Title: newAlbumTitle,
+          Description: newAlbumDescription,
+        },
+      });
+      //const newAlbum = result.data;
+      /*setAlbums(
+        albums.concat(
+          new AlbumDto(
+            100,
+            newAlbumTitle,
+            "genre",
+            newAlbumDescription,
+            2005,
+            null
+          )
+        )
+      );*/
+    };
     postData();
   }
 
@@ -71,21 +96,10 @@ function AddAlbumComponent({ show, setShow }: Props) {
             onClick={() => {
               if (newAlbumTitle !== "") {
                 setShow(false);
-                /*setAlbums(
-                  albums.concat(
-                    new AlbumDto(
-                      100,
-                      newAlbumTitle,
-                      "genre",
-                      newAlbumDescription,
-                      2005,
-                      null
-                    )
-                  )
-                );*/
                 setNewAlbumTitle("");
                 setNewAlbumDescription("");
-                /*send to backend, rerender list*/
+
+                postFunction();
               }
             }}
           >

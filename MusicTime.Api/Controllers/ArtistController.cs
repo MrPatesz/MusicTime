@@ -6,6 +6,7 @@ using MusicTime.Bll.Services;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace MusicTime.Api.Controllers
 {
@@ -49,6 +50,21 @@ namespace MusicTime.Api.Controllers
         {
             var userId = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
             return artistService.GetAlbumsOfArtist(userId, artistId);
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<ArtistDto>> AddArtist([FromBody] ArtistDto artistDto)
+        {
+            var userId = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            var artist = await artistService.AddArtist(userId, artistDto);
+            if (artist == null)
+                return BadRequest();
+            else
+                return Ok();// artist);
         }
     }
 }

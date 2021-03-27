@@ -11,18 +11,11 @@ interface Props {
 }
 
 function AddArtistComponent({ show, setShow }: Props) {
-  const [newArtistName, setNewArtistName] = useState<string>("");
-  const [newArtistDescription, setNewArtistDescription] = useState<string>("");
+  const [newArtistName, setNewArtistName] = useState<string | null>(null);
+  const [newArtistDescription, setNewArtistDescription] = useState<string |null>(null);
 
   function postFunction() {
     const postData = async () => {
-      /*const config = {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-          },
-        };
-        await axios.post("https://localhost:5001/api/artists/", config);*/
-
       await axios({
         method: "post",
         url: "https://localhost:5001/api/artists/",
@@ -80,8 +73,8 @@ function AddArtistComponent({ show, setShow }: Props) {
             onClick={() => {
               if (newArtistName !== "") {
                 setShow(false);
-                setNewArtistName("");
-                setNewArtistDescription("");
+                setNewArtistName(null);
+                setNewArtistDescription(null);
 
                 postFunction();
               }

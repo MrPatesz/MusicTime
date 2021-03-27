@@ -4,6 +4,7 @@ using MusicTime.Bll.IRepositories;
 using MusicTime.Dal.EfDbContext;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace MusicTime.Dal.Repositories
 {
@@ -28,6 +29,19 @@ namespace MusicTime.Dal.Repositories
                 return null;
             else
                 return ToDto(artist);
+        }
+
+        public bool DoesArtistAlreadyExist(int userId, string artistName)
+        {
+            return dbContext.Artists.Any(a => a.Name == artistName && a.UserId == userId);
+        }
+
+        public async Task<ArtistDto> AddArtist(Artist artist)
+        {
+            dbContext.Artists.Add(artist);
+            await dbContext.SaveChangesAsync();
+
+            return ToDto(artist);
         }
 
         private ArtistDto ToDto(Artist value)
