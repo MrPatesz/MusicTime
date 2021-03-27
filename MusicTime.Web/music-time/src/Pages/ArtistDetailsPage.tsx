@@ -9,9 +9,9 @@ import Image from "react-bootstrap/Image";
 import { useRouteMatch } from "react-router-dom";
 
 function ArtistDetailsPage() {
-  let match = useRouteMatch("/artists/:id");
+  let id = useRouteMatch("/artists/:id").params.id;
 
-  const apiLink = "https://localhost:5001/api/artists/" + match.params.id;
+  const apiLink = "https://localhost:5001/api/artists/" + id;
 
   const [artist, setArtist] = useState<ArtistDto>(new ArtistDto(0, "", "", ""));
   const [artistStillLoading, setArtistStillLoading] = useState<boolean>(true);
@@ -21,7 +21,12 @@ function ArtistDetailsPage() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios.get(apiLink);
+      const config = {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      };
+      const result = await axios.get(apiLink, config);
 
       setArtist(
         new ArtistDto(
@@ -38,7 +43,12 @@ function ArtistDetailsPage() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios.get(apiLink + "/albums");
+      const config = {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      };
+      const result = await axios.get(apiLink + "/albums", config);
 
       let albumsArray: AlbumDto[] = [];
 

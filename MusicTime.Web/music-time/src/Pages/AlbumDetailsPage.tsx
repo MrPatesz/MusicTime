@@ -17,7 +17,12 @@ function AlbumDetailsPage() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios.get(apiLink);
+      const config = {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      };
+      const result = await axios.get(apiLink, config);
 
       setAlbum(
         new AlbumDto(
@@ -39,7 +44,15 @@ function AlbumDetailsPage() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios.get("https://localhost:5001/api/songs");
+      const config = {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      };
+      const result = await axios.get(
+        "https://localhost:5001/api/songs",
+        config
+      );
 
       let songsArray: SongDto[] = [];
 
