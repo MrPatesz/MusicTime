@@ -8,9 +8,10 @@ import axios from "axios";
 interface Props {
   show: boolean;
   setShow: React.Dispatch<React.SetStateAction<any>>;
+  artistId: number;
 }
 
-function AddAlbumComponent({ show, setShow }: Props) {
+function AddAlbumComponent({ show, setShow, artistId }: Props) {
   const [newAlbumTitle, setNewAlbumTitle] = useState<string>("");
   const [newAlbumDescription, setNewAlbumDescription] = useState<string>("");
   const [genre, setGenre] = useState<string | null>(null);
@@ -20,9 +21,10 @@ function AddAlbumComponent({ show, setShow }: Props) {
     const postData = async () => {
       await axios({
         method: "post",
-        url: "https://localhost:5001/api/albums/",
+        url: "https://localhost:5001/api/albums/", //?artistId=" + artistId,
         headers: {
           Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          artistId: artistId,
         },
         data: {
           Title: newAlbumTitle,

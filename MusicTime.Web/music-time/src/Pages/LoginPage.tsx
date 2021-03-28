@@ -9,16 +9,21 @@ function LoginPage() {
 
   function loginFunction() {
     const loginCall = async () => {
-      const result = await axios({
-        method: "post",
-        url: "https://localhost:5001/api/users/login",
-        headers: {},
-        data: {
-          UserName: username,
-          Password: password,
-        },
-      });
-      localStorage.setItem("authToken", String(result.data));
+      try {
+        const result = await axios({
+          method: "post",
+          url: "https://localhost:5001/api/users/login",
+          headers: {},
+          data: {
+            UserName: username,
+            Password: password,
+          },
+        });
+        localStorage.setItem("authToken", String(result.data));
+        alert("Successful login");
+      } catch (err) {
+        alert("Wrong username or password");
+      }
     };
     loginCall();
   }

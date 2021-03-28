@@ -4,6 +4,7 @@ using MusicTime.Bll.IRepositories;
 using MusicTime.Dal.EfDbContext;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace MusicTime.Dal.Repositories
 {
@@ -33,6 +34,19 @@ namespace MusicTime.Dal.Repositories
         public List<AlbumDto> GetAlbumsOfArtist(int userId, int artistId)
         {
             return dbContext.Albums.Where(a => a.ArtistId == artistId && a.Artist.UserId == userId).Select(ToDto).ToList();
+        }
+
+        public bool DoesAlbumAlreadyExist(int userId, AlbumDto albumDto, int artistId)
+        {
+            return dbContext.Albums.Any(a => a.Title == albumDto.Title && a.Artist.UserId == userId && a.ArtistId == artistId);
+        }
+
+        public async Task<AlbumDto> AddAlbum(Album album)
+        {
+            dbContext.Albums.Add(album);
+            await dbContext.SaveChangesAsync();
+
+            return ToDto(album);
         }
 
         private AlbumDto ToDto(Album value)

@@ -86,7 +86,7 @@ namespace MusicTime.Dal.EfDbContext
                .IsRequired(required: true).IsUnicode(unicode: true);
             modelBuilder.Entity<Album>()
               .Property(t => t.Genre).HasMaxLength(50)
-              .IsRequired(required: true).IsUnicode(unicode: true);
+              .IsRequired(required: false).IsUnicode(unicode: true);
             modelBuilder.Entity<Album>()
               .Property(t => t.Description).HasMaxLength(256)
               .IsRequired(required: false).IsUnicode(unicode: true);

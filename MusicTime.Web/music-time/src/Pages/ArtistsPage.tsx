@@ -41,14 +41,10 @@ function ArtistsPage() {
 
   //source: https://stackoverflow.com/questions/55647287/how-to-send-request-on-click-react-hooks-way
   const sendRequest = useCallback(async () => {
-    // don't send again while we are sending
-    if (showAddArtist) return;
-    // update state
-    setShowAddArtist(true);
-    // send the actual request
-    fetchData();
-    // once the request is sent, update state again
-    setShowAddArtist(false);
+    if (showAddArtist) return; // don't send again while we are sending
+    setShowAddArtist(true); // update state
+    fetchData(); // send the actual request
+    setShowAddArtist(false); // once the request is sent, update state again
   }, [showAddArtist]);
 
   useEffect(() => {

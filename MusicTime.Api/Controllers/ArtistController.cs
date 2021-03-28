@@ -64,7 +64,7 @@ namespace MusicTime.Api.Controllers
             if (artist == null)
                 return BadRequest();
             else
-                return Ok();// artist);
+                return Ok(artist);
         }
     }
 }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import ArtistDto from "../Models/ArtistDto";
 import AlbumDto from "../Models/AlbumDto";
@@ -45,7 +45,8 @@ function ArtistDetailsPage() {
     fetchData();
   }, [apiLink]);
 
-  useEffect(() => {
+  //source: https://stackoverflow.com/questions/55647287/how-to-send-request-on-click-react-hooks-way
+  const sendRequest = useCallback(async () => {
     const fetchData = async () => {
       const config = {
         headers: {
@@ -68,11 +69,19 @@ function ArtistDetailsPage() {
           )
         );
       });
-      setAlbums(albumsArray);
       setAlbumsStillLoading(false);
+      setAlbums(albumsArray);
     };
-    fetchData();
-  }, [apiLink]);
+
+    if (showAddAlbum) return; // don't send again while we are sending
+    setShowAddAlbum(true); // update state
+    fetchData(); // send the actual request
+    setShowAddAlbum(false); // once the request is sent, update state again
+  }, [showAddAlbum, apiLink]);
+
+  useEffect(() => {
+    sendRequest();
+  }, [sendRequest]);
 
   return (
     <div className="page">
@@ -144,6 +153,7 @@ function ArtistDetailsPage() {
       <AddAlbumComponent
         show={showAddAlbum}
         setShow={setShowAddAlbum}
+        artistId={id}
       ></AddAlbumComponent>
     </div>
   );

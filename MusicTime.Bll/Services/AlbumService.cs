@@ -1,6 +1,8 @@
 ﻿using MusicTime.Bll.Dtos;
+using MusicTime.Bll.Entities;
 using MusicTime.Bll.IRepositories;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MusicTime.Bll.Services
 {
@@ -28,6 +30,25 @@ namespace MusicTime.Bll.Services
         public List<SongDto> GetSongsOfAlbum(int userId, int albumId)
         {
             return songRepository.GetSongsOfAlbum(userId, albumId);
+        }
+
+        public async Task<AlbumDto> AddAlbum(int userId, AlbumDto albumDto, int artistId)
+        {
+            if (!albumRepository.DoesAlbumAlreadyExist(userId, albumDto, artistId))
+            {
+                var album = new Album
+                {
+                    Title = albumDto.Title,
+                    Description = albumDto.Description,
+                    CoverGuid = albumDto.CoverGuid,
+                    ArtistId = artistId,
+                    ReleaseYear = albumDto.ReleaseYear,
+                    Genre = albumDto.Genre
+                };
+
+                return await albumRepository.AddAlbum(album);
+            }
+            return null;
         }
     }
 }

@@ -61,6 +61,7 @@ function CardComponent({
         onHide={() => setConfirm(false)}
         backdrop="static"
         keyboard={false}
+        animation={false}
       >
         <Modal.Header>
           <Modal.Title>Deleting item</Modal.Title>
