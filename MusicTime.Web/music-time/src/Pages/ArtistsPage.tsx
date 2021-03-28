@@ -90,6 +90,8 @@ function ArtistsPage() {
       <AddArtistComponent
         show={showAddArtist}
         setShow={setShowAddArtist}
+        isEdited={false}
+        editedArtist={new ArtistDto(0, "", "", "")}
       ></AddArtistComponent>
     </div>
   );

@@ -8,6 +8,7 @@ import CardComponent from "../Components/CardComponent";
 import Image from "react-bootstrap/Image";
 import { useRouteMatch } from "react-router-dom";
 import AddAlbumComponent from "../Components/AddAlbumComponent";
+import AddArtistComponent from "../Components/AddArtistComponent";
 import Button from "react-bootstrap/Button";
 
 function ArtistDetailsPage() {
@@ -22,6 +23,7 @@ function ArtistDetailsPage() {
   const [albumsStillLoading, setAlbumsStillLoading] = useState<boolean>(true);
 
   const [showAddAlbum, setShowAddAlbum] = useState<boolean>(false);
+  const [showAddArtist, setShowAddArtist] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -112,6 +114,9 @@ function ArtistDetailsPage() {
                     : artist.description}
                 </div>
               </Col>
+              <Col>
+                <Button variant="outline-info" onClick={() => setShowAddArtist(true)}>Edit</Button>
+              </Col>
             </Row>
           </Container>
         )}
@@ -155,6 +160,13 @@ function ArtistDetailsPage() {
         setShow={setShowAddAlbum}
         artistId={id}
       ></AddAlbumComponent>
+
+      <AddArtistComponent
+        show={showAddArtist}
+        setShow={setShowAddArtist}
+        isEdited={true}
+        editedArtist={artist}
+      ></AddArtistComponent>
     </div>
   );
 }
