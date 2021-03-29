@@ -31,6 +31,10 @@ function LoginPage() {
   }
 
   function registerFunction() {
+    if(username === "" || password === "") {
+      alert("Please provide a username and a password");
+      return;
+    }
     const registerCall = async () => {
       try {
         await axios({
