@@ -44,6 +44,34 @@ namespace MusicTime.Dal.Repositories
             return ToDto(artist);
         }
 
+        public async Task<bool> DeleteArtistById(int userId, int artistId)
+        {
+            var toRemove = dbContext.Artists.FirstOrDefault(a => a.Id == artistId && a.UserId == userId);
+
+            if(toRemove != null)
+            {
+                dbContext.Artists.Remove(toRemove);
+                await dbContext.SaveChangesAsync();
+                return true;
+            }
+            else return false;
+        }
+
+        public async Task<ArtistDto> EditArtist(int userId, Artist artist)
+        {
+            var toEdit = dbContext.Artists.FirstOrDefault(a => a.Id == artist.Id && a.UserId == userId);
+
+            toEdit.Name = artist.Name;
+            toEdit.Description = artist.Description;
+            toEdit.PictureGuid = artist.PictureGuid;
+
+            dbContext.Artists.Update(toEdit);
+
+            await dbContext.SaveChangesAsync();
+
+            return ToDto(toEdit);
+        }
+
         private ArtistDto ToDto(Artist value)
         {
             return new ArtistDto

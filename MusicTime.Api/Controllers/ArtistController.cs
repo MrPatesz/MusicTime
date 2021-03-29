@@ -66,5 +66,34 @@ namespace MusicTime.Api.Controllers
             else
                 return Ok(artist);
         }
+
+        [HttpPut("{id}")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<ArtistDto>> EditArtist([FromBody] ArtistDto artistDto)
+        {
+            var userId = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            var artist = await artistService.EditArtist(userId, artistDto);
+            if (artist == null)
+                return BadRequest();
+            else
+                return Ok(artist);
+        }
+
+        [HttpDelete("{artistId}")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> DeleteArtistById(int artistId)
+        {
+            var userId = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            if (await artistService.DeleteArtist(userId, artistId))
+                return Ok();
+            else
+                return BadRequest();
+        }
     }
 }

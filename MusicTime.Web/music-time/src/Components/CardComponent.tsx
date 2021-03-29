@@ -28,7 +28,12 @@ function CardComponent({
   function deleteFunction() {
     const deleteCall = async () => {
       setConfirm(false);
-      await axios.delete(deleteLink + objectId);
+      const config = {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      };
+      await axios.delete(deleteLink + objectId, config);
     };
     deleteCall();
   }

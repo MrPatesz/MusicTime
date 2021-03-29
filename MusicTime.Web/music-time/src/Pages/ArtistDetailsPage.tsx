@@ -108,7 +108,7 @@ function ArtistDetailsPage() {
               <Col xs={12} sm={7} md={8} xl={9}>
                 <h1>{artist.name}</h1>
                 <div>
-                  Description:{" "}
+                  <h4>Description:{" "}</h4>
                   {artist.description === null
                     ? "Edit to add a description."
                     : artist.description}

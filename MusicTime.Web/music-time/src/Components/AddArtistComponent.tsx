@@ -22,24 +22,27 @@ function AddArtistComponent({ show, setShow, isEdited, editedArtist }: Props) {
       setName(editedArtist.name);
       setDescription(editedArtist.description);
     }
-  }, [isEdited, editedArtist, name, description]);
+  }, [isEdited, editedArtist]);
 
   function postFunction() {
     if (isEdited) {
-      /*const postData = async () => {
+      let data = {
+        Name: name,
+        Description: description,
+        Id: editedArtist.id,
+      };
+      console.log(data);
+      const postData = async () => {
         await axios({
           method: "put",
-          url: "https://localhost:5001/api/artists/",
+          url: "https://localhost:5001/api/artists/" + editedArtist.id,
           headers: {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },
-          data: {
-            Name: name,
-            Description: description,
-          },
+          data: data,
         });
       };
-      postData();*/
+      postData();
     } else {
       const postData = async () => {
         await axios({

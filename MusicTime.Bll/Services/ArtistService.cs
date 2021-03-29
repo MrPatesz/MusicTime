@@ -48,5 +48,28 @@ namespace MusicTime.Bll.Services
             }
             return null;
         }
+
+        public async Task<ArtistDto> EditArtist(int userId, ArtistDto artistDto)
+        {
+            if (artistRepository.DoesArtistAlreadyExist(userId, artistDto.Name))
+            {
+                var artist = new Artist
+                {
+                    Id = artistDto.Id,
+                    Name = artistDto.Name,
+                    Description = artistDto.Description,
+                    PictureGuid = artistDto.PictureGuid,
+                    UserId = userId
+                };
+                return await artistRepository.EditArtist(userId, artist);
+            }
+            return null;
+        }
+
+        public async Task<bool> DeleteArtist(int userId, int artistId)
+        {
+            // delete all albums and songs too !!!
+            return await artistRepository.DeleteArtistById(userId, artistId);
+        }
     }
 }
