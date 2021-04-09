@@ -6,9 +6,9 @@ import SongDto from "../Models/SongDto";
 import { useRouteMatch } from "react-router-dom";
 
 function AlbumDetailsPage() {
-  let match = useRouteMatch("/albums/:id");
+  let id = useRouteMatch("/albums/:id").params.id;
 
-  const apiLink = "https://localhost:5001/api/albums/" + match.params.id;
+  const apiLink = "https://localhost:5001/api/albums/" + id;
 
   const [album, setAlbum] = useState<AlbumDto>(
     new AlbumDto(0, "", "", "", 0, "")

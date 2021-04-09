@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import SongDto from "../Models/SongDto";
+import SongComponent from "../Components/SongComponent";
 
 function SongsPage() {
   const apiLink = "https://localhost:5001/api/songs";
@@ -25,12 +26,15 @@ function SongsPage() {
     };
     fetchData();
   }, []);
+
   return (
     <div className="page">
       <h1>Songs</h1>
-      <ul>
+      <ul className="no-bullets">
         {songs.map((s) => (
-          <li key={s.id}>{s.title}</li>
+          <li key={s.id}>
+            <SongComponent title={s.title}></SongComponent>
+          </li>
         ))}
       </ul>
     </div>

@@ -9,6 +9,8 @@ import ArtistDetailsPage from "./Pages/ArtistDetailsPage";
 import AlbumDetailsPage from "./Pages/AlbumDetailsPage";
 import LoginPage from "./Pages/LoginPage";
 import SongsPage from "./Pages/SongsPage";
+import PlaylistsPage from "./Pages/PlaylistsPage";
+import PlaylistDetailsPage from "./Pages/PlaylistDetailsPage";
 
 const App = () => {
   return (
@@ -27,6 +29,9 @@ const App = () => {
             </Link>
             <Link className="nav-link text-info" to="/songs">
               Songs
+            </Link>
+            <Link className="nav-link text-info" to="/playlists">
+              Playlists
             </Link>
           </Nav>
           <Nav className="ml-auto">
@@ -51,6 +56,12 @@ const App = () => {
           </Route>
           <Route exact path="/songs">
             <SongsPage></SongsPage>
+          </Route>
+          <Route exact path="/playlists">
+            <PlaylistsPage></PlaylistsPage>
+          </Route>
+          <Route exact path={"/playlists/:id"}>
+            <PlaylistDetailsPage></PlaylistDetailsPage>
           </Route>
           <Route exact path="/login">
             <LoginPage></LoginPage>

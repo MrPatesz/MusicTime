@@ -10,6 +10,7 @@ import { useRouteMatch } from "react-router-dom";
 import AddAlbumComponent from "../Components/AddAlbumComponent";
 import AddArtistComponent from "../Components/AddArtistComponent";
 import Button from "react-bootstrap/Button";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
 
 function ArtistDetailsPage() {
   let id = useRouteMatch("/artists/:id").params.id;
@@ -91,34 +92,39 @@ function ArtistDetailsPage() {
         {artistStillLoading ? (
           <Spinner animation="grow" variant="info" />
         ) : (
-          <Container fluid>
-            <Row>
-              <Col xs={12} sm={5} md={4} xl={3}>
-                <Image
-                  src={
-                    artist.pictureGuid === null
-                      ? "/placeholder.png"
-                      : artist.pictureGuid
-                  }
-                  rounded
-                  style={{ minWidth: "11rem", maxWidth: "14rem" }}
-                  className="mt-3 mb-2"
-                />
-              </Col>
-              <Col xs={12} sm={7} md={8} xl={9}>
-                <h1>{artist.name}</h1>
-                <div>
-                  <h4>Description:{" "}</h4>
+          <div className="d-flex flex-row">
+            <Image
+              src={
+                artist.pictureGuid === null
+                  ? "/placeholder.png"
+                  : artist.pictureGuid
+              }
+              rounded
+              style={{ minWidth: "11rem", maxWidth: "14rem" }}
+              className="mt-3 mb-2 mr-4"
+            />
+            <div className="d-flex flex-column">
+              <h1>{artist.name}</h1>
+              <div>
+                <h4>Description: </h4>
+                <div className="w-100">
                   {artist.description === null
                     ? "Edit to add a description."
                     : artist.description}
                 </div>
-              </Col>
-              <Col>
-                <Button variant="outline-info" onClick={() => setShowAddArtist(true)}>Edit</Button>
-              </Col>
-            </Row>
-          </Container>
+              </div>
+            </div>
+
+            <ButtonGroup className="ml-auto mt-3">
+              <Button
+                variant="outline-info"
+                onClick={() => setShowAddArtist(true)}
+                style={{ maxHeight: "3rem" }}
+              >
+                Edit
+              </Button>
+            </ButtonGroup>
+          </div>
         )}
       </div>
       <div>
