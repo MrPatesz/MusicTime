@@ -4,6 +4,11 @@ import AlbumDto from "../Models/AlbumDto";
 import Spinner from "react-bootstrap/Spinner";
 import SongDto from "../Models/SongDto";
 import { useRouteMatch } from "react-router-dom";
+import Button from "react-bootstrap/Button";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
+import Image from "react-bootstrap/Image";
+import SongComponent from "../Components/SongComponent";
+import AddAlbumComponent from "../Components/AddAlbumComponent";
 
 function AlbumDetailsPage() {
   let id = useRouteMatch("/albums/:id").params.id;
@@ -49,10 +54,7 @@ function AlbumDetailsPage() {
           Authorization: `Bearer ${localStorage.getItem("authToken")}`,
         },
       };
-      const result = await axios.get(
-        "https://localhost:5001/api/songs",
-        config
-      );
+      const result = await axios.get(apiLink + "/songs", config);
 
       let songsArray: SongDto[] = [];
 
@@ -63,7 +65,10 @@ function AlbumDetailsPage() {
       setSongsStillLoading(false);
     };
     fetchData();
-  }, []);
+  }, [apiLink]);
+
+  const [showEditAlbum, setShowEditAlbum] = useState<boolean>(false);
+  //const [showAddSong, setShowAddSong] = useState<boolean>(false);
 
   return (
     <div className="page">
@@ -71,9 +76,33 @@ function AlbumDetailsPage() {
         {albumStillLoading ? (
           <Spinner animation="grow" variant="info" />
         ) : (
-          <div>
-            <h1>{album.title}</h1>
-            id:{album.id}
+          <div className="d-flex flex-row">
+            <Image
+              src={
+                album.coverGuid === null ? "/placeholder.png" : album.coverGuid
+              }
+              rounded
+              style={{ minWidth: "11rem", maxWidth: "14rem" }}
+              className="mt-2 mb-2 mr-4"
+            />
+            <div className="d-flex flex-column">
+              <h1>{album.title}</h1>
+              <h4>{album.releaseYear}</h4>
+              <h4>{album.genre}</h4>
+              <div>
+                <p>{album.description}</p>
+              </div>
+            </div>
+
+            <ButtonGroup className="ml-auto mt-3">
+              <Button
+                variant="outline-info"
+                onClick={() => setShowEditAlbum(true)}
+                style={{ maxHeight: "3rem" }}
+              >
+                Edit
+              </Button>
+            </ButtonGroup>
           </div>
         )}
       </div>
@@ -82,13 +111,27 @@ function AlbumDetailsPage() {
         {songsStillLoading ? (
           <Spinner animation="grow" variant="info" />
         ) : (
-          <ul>
+          <ul className="no-bullets">
             {songs.map((s) => (
-              <li key={s.id}>{s.title}</li>
+              <li key={s.id}>
+                <SongComponent
+                  title={s.title}
+                  artist={null}
+                  album={null}
+                ></SongComponent>
+              </li>
             ))}
           </ul>
         )}
       </div>
+
+      <AddAlbumComponent
+        show={showEditAlbum}
+        setShow={setShowEditAlbum}
+        artistId={-1} //WTF XDDDDDDDDDDDDD
+        isEdited={true}
+        editedAlbum={album}
+      ></AddAlbumComponent>
     </div>
   );
 }

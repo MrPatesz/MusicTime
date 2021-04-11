@@ -31,9 +31,9 @@ namespace MusicTime.Dal.Repositories
                 return ToDto(artist);
         }
 
-        public bool DoesArtistAlreadyExist(int userId, string artistName)
+        public bool DoesArtistAlreadyExist(int userId, ArtistDto artistDto)
         {
-            return dbContext.Artists.Any(a => a.Name == artistName && a.UserId == userId);
+            return dbContext.Artists.Any(a => a.Name == artistDto.Name && a.UserId == userId && a.Id != artistDto.Id);
         }
 
         public async Task<ArtistDto> AddArtist(Artist artist)

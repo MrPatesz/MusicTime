@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import ArtistDto from "../Models/ArtistDto";
 import AlbumDto from "../Models/AlbumDto";
@@ -19,12 +19,6 @@ function ArtistDetailsPage() {
 
   const [artist, setArtist] = useState<ArtistDto>(new ArtistDto(0, "", "", ""));
   const [artistStillLoading, setArtistStillLoading] = useState<boolean>(true);
-
-  const [albums, setAlbums] = useState<AlbumDto[]>([]);
-  const [albumsStillLoading, setAlbumsStillLoading] = useState<boolean>(true);
-
-  const [showAddAlbum, setShowAddAlbum] = useState<boolean>(false);
-  const [showAddArtist, setShowAddArtist] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -48,8 +42,10 @@ function ArtistDetailsPage() {
     fetchData();
   }, [apiLink]);
 
-  //source: https://stackoverflow.com/questions/55647287/how-to-send-request-on-click-react-hooks-way
-  const sendRequest = useCallback(async () => {
+  const [albums, setAlbums] = useState<AlbumDto[]>([]);
+  const [albumsStillLoading, setAlbumsStillLoading] = useState<boolean>(true);
+
+  useEffect(() => {
     const fetchData = async () => {
       const config = {
         headers: {
@@ -72,19 +68,14 @@ function ArtistDetailsPage() {
           )
         );
       });
-      setAlbumsStillLoading(false);
       setAlbums(albumsArray);
+      setAlbumsStillLoading(false);
     };
+    fetchData();
+  }, [apiLink]);
 
-    if (showAddAlbum) return; // don't send again while we are sending
-    setShowAddAlbum(true); // update state
-    fetchData(); // send the actual request
-    setShowAddAlbum(false); // once the request is sent, update state again
-  }, [showAddAlbum, apiLink]);
-
-  useEffect(() => {
-    sendRequest();
-  }, [sendRequest]);
+  const [showAddAlbum, setShowAddAlbum] = useState<boolean>(false);
+  const [showEditArtist, setShowEditArtist] = useState<boolean>(false);
 
   return (
     <div className="page">
@@ -101,24 +92,17 @@ function ArtistDetailsPage() {
               }
               rounded
               style={{ minWidth: "11rem", maxWidth: "14rem" }}
-              className="mt-3 mb-2 mr-4"
+              className="mt-2 mb-2 mr-4"
             />
             <div className="d-flex flex-column">
               <h1>{artist.name}</h1>
-              <div>
-                <h4>Description: </h4>
-                <div className="w-100">
-                  {artist.description === null
-                    ? "Edit to add a description."
-                    : artist.description}
-                </div>
-              </div>
+              <p>{artist.description}</p>
             </div>
 
             <ButtonGroup className="ml-auto mt-3">
               <Button
                 variant="outline-info"
-                onClick={() => setShowAddArtist(true)}
+                onClick={() => setShowEditArtist(true)}
                 style={{ maxHeight: "3rem" }}
               >
                 Edit
@@ -165,11 +149,13 @@ function ArtistDetailsPage() {
         show={showAddAlbum}
         setShow={setShowAddAlbum}
         artistId={id}
+        isEdited={false}
+        editedAlbum={new AlbumDto(0, "", null, null, null, null)}
       ></AddAlbumComponent>
 
       <AddArtistComponent
-        show={showAddArtist}
-        setShow={setShowAddArtist}
+        show={showEditArtist}
+        setShow={setShowEditArtist}
         isEdited={true}
         editedArtist={artist}
       ></AddArtistComponent>

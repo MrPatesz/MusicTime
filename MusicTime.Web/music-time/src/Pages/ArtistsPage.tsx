@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import ArtistDto from "../Models/ArtistDto";
 import CardComponent from "../Components/CardComponent";
@@ -15,41 +15,32 @@ function ArtistsPage() {
 
   const [showAddArtist, setShowAddArtist] = useState<boolean>(false);
 
-  const fetchData = async () => {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-      },
-    };
-    const result = await axios.get(apiLink, config);
-
-    let artistsArray: ArtistDto[] = [];
-
-    result.data.forEach((artist: ArtistDto) => {
-      artistsArray.push(
-        new ArtistDto(
-          artist.id,
-          artist.name,
-          artist.description,
-          artist.pictureGuid
-        )
-      );
-    });
-    setStillLoading(false);
-    setArtists(artistsArray);
-  };
-
-  //source: https://stackoverflow.com/questions/55647287/how-to-send-request-on-click-react-hooks-way
-  const sendRequest = useCallback(async () => {
-    if (showAddArtist) return; // don't send again while we are sending
-    setShowAddArtist(true); // update state
-    fetchData(); // send the actual request
-    setShowAddArtist(false); // once the request is sent, update state again
-  }, [showAddArtist]);
-
   useEffect(() => {
-    sendRequest();
-  }, [sendRequest]);
+    const fetchData = async () => {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      };
+      const result = await axios.get(apiLink, config);
+
+      let artistsArray: ArtistDto[] = [];
+
+      result.data.forEach((artist: ArtistDto) => {
+        artistsArray.push(
+          new ArtistDto(
+            artist.id,
+            artist.name,
+            artist.description,
+            artist.pictureGuid
+          )
+        );
+      });
+      setStillLoading(false);
+      setArtists(artistsArray);
+    };
+    fetchData();
+  }, []);
 
   return (
     <div className="page">

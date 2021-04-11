@@ -41,14 +41,44 @@ namespace MusicTime.Bll.Services
                     Title = albumDto.Title,
                     Description = albumDto.Description,
                     CoverGuid = albumDto.CoverGuid,
-                    ArtistId = artistId,
                     ReleaseYear = albumDto.ReleaseYear,
-                    Genre = albumDto.Genre
+                    Genre = albumDto.Genre,
+                    ArtistId = artistId,
                 };
 
                 return await albumRepository.AddAlbum(album);
             }
             return null;
+        }
+
+        public async Task<AlbumDto> EditAlbum(int userId, AlbumDto albumDto)
+        {
+            var artistId = albumRepository.GetArtistIdForAlbumById(albumDto.Id);
+
+            if (!albumRepository.DoesAlbumAlreadyExist(userId, albumDto, artistId))
+            {
+                var album = new Album
+                {
+                    Id = albumDto.Id,
+                    Title = albumDto.Title,
+                    Description = albumDto.Description,
+                    CoverGuid = albumDto.CoverGuid,
+                    ReleaseYear = albumDto.ReleaseYear,
+                    Genre = albumDto.Genre,
+                    ArtistId = artistId,
+                };
+                return await albumRepository.EditAlbum(album);
+            }
+            return null;
+        }
+
+        public async Task<bool> DeleteAlbumById(int userId, int albumId)
+        {
+            var songsToDelete = songRepository.GetSongsOfAlbum(userId, albumId);
+
+            songsToDelete.ForEach(s => songRepository.DeleteSongById(userId, s.Id));
+
+            return await albumRepository.DeleteAlbumById(userId, albumId);
         }
     }
 }

@@ -38,7 +38,7 @@ namespace MusicTime.Dal.Repositories
 
         public bool DoesAlbumAlreadyExist(int userId, AlbumDto albumDto, int artistId)
         {
-            return dbContext.Albums.Any(a => a.Title == albumDto.Title && a.Artist.UserId == userId && a.ArtistId == artistId);
+            return dbContext.Albums.Any(a => a.Title == albumDto.Title && a.Artist.UserId == userId && a.ArtistId == artistId && a.Id != albumDto.Id);
         }
 
         public async Task<AlbumDto> AddAlbum(Album album)
@@ -47,6 +47,46 @@ namespace MusicTime.Dal.Repositories
             await dbContext.SaveChangesAsync();
 
             return ToDto(album);
+        }
+
+        public async Task<bool> DeleteAlbumById(int userId, int albumId)
+        {
+            var toRemove = dbContext.Albums.FirstOrDefault(a => a.Id == albumId && a.Artist.UserId == userId);
+
+            if (toRemove != null)
+            {
+                dbContext.Albums.Remove(toRemove);
+                await dbContext.SaveChangesAsync();
+                return true;
+            }
+            else return false;
+        }
+
+        public int GetArtistIdForAlbumById(int albumId)
+        {
+            var album = dbContext.Albums.FirstOrDefault(a => a.Id == albumId);
+
+            if (album == null)
+                return -1;
+            else
+                return album.ArtistId;
+        }
+
+        public async Task<AlbumDto> EditAlbum(Album album)
+        {
+            var toEdit = dbContext.Albums.FirstOrDefault(a => a.Id == album.Id);
+
+            toEdit.Title = album.Title;
+            toEdit.Description = album.Description;
+            toEdit.CoverGuid = album.CoverGuid;
+            toEdit.Genre = album.Genre;
+            toEdit.ReleaseYear = album.ReleaseYear;
+
+            dbContext.Albums.Update(toEdit);
+
+            await dbContext.SaveChangesAsync();
+
+            return ToDto(toEdit);
         }
 
         private AlbumDto ToDto(Album value)

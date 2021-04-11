@@ -10,11 +10,13 @@ namespace MusicTime.Bll.Services
     {
         private readonly IArtistRepository artistRepository;
         private readonly IAlbumRepository albumRepository;
+        private readonly ISongRepository songRepository;
 
-        public ArtistService(IArtistRepository artistRepository, IAlbumRepository albumRepository)
+        public ArtistService(IArtistRepository artistRepository, IAlbumRepository albumRepository, ISongRepository songRepository)
         {
             this.artistRepository = artistRepository;
             this.albumRepository = albumRepository;
+            this.songRepository = songRepository;
         }
 
         public List<ArtistDto> GetArtists(int userId)
@@ -34,7 +36,7 @@ namespace MusicTime.Bll.Services
 
         public async Task<ArtistDto> AddArtist(int userId, ArtistDto artistDto)
         {
-            if (!artistRepository.DoesArtistAlreadyExist(userId, artistDto.Name))
+            if (!artistRepository.DoesArtistAlreadyExist(userId, artistDto))
             {
                 var artist = new Artist
                 {
@@ -51,7 +53,7 @@ namespace MusicTime.Bll.Services
 
         public async Task<ArtistDto> EditArtist(int userId, ArtistDto artistDto)
         {
-            if (artistRepository.DoesArtistAlreadyExist(userId, artistDto.Name))
+            if (!artistRepository.DoesArtistAlreadyExist(userId, artistDto))
             {
                 var artist = new Artist
                 {
@@ -66,9 +68,19 @@ namespace MusicTime.Bll.Services
             return null;
         }
 
-        public async Task<bool> DeleteArtist(int userId, int artistId)
+        public async Task<bool> DeleteArtistById(int userId, int artistId)
         {
-            // delete all albums and songs too !!!
+            var albumsToDelete = albumRepository.GetAlbumsOfArtist(userId, artistId);
+
+            albumsToDelete.ForEach(a =>
+            {
+                var songsToDelete = songRepository.GetSongsOfAlbum(userId, a.Id);
+
+                songsToDelete.ForEach(s => songRepository.DeleteSongById(userId, s.Id));
+
+                albumRepository.DeleteAlbumById(userId, a.Id); 
+            });
+
             return await artistRepository.DeleteArtistById(userId, artistId);
         }
     }

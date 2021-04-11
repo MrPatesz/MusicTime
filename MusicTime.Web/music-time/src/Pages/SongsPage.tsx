@@ -33,7 +33,11 @@ function SongsPage() {
       <ul className="no-bullets">
         {songs.map((s) => (
           <li key={s.id}>
-            <SongComponent title={s.title}></SongComponent>
+            <SongComponent
+              title={s.title}
+              artist={null}
+              album={null}
+            ></SongComponent>
           </li>
         ))}
       </ul>

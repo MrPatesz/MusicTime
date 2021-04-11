@@ -4,7 +4,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import PlaylistDto from "../Models/PlaylistDto";
 
 function PlaylistsPage() {
-  const apiLink = "https://localhost:5001/api/albums/";
+  const apiLink = "https://localhost:5001/api/playlists/";
 
   const [playlists, setPlaylists] = useState<PlaylistDto[]>([]);
 

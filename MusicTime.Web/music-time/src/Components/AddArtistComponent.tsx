@@ -25,26 +25,24 @@ function AddArtistComponent({ show, setShow, isEdited, editedArtist }: Props) {
   }, [isEdited, editedArtist]);
 
   function postFunction() {
+    var postData;
     if (isEdited) {
-      let data = {
-        Name: name,
-        Description: description,
-        Id: editedArtist.id,
-      };
-      console.log(data);
-      const postData = async () => {
+      postData = async () => {
         await axios({
           method: "put",
           url: "https://localhost:5001/api/artists/" + editedArtist.id,
           headers: {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },
-          data: data,
+          data: {
+            Name: name,
+            Description: description,
+            Id: editedArtist.id,
+          },
         });
       };
-      postData();
     } else {
-      const postData = async () => {
+      postData = async () => {
         await axios({
           method: "post",
           url: "https://localhost:5001/api/artists/",
@@ -57,7 +55,62 @@ function AddArtistComponent({ show, setShow, isEdited, editedArtist }: Props) {
           },
         });
       };
-      postData();
+    }
+    postData();
+    savePicture();
+  }
+
+  function savePicture() {
+    if (selectedFile !== null) {
+      const getPictureGuid = async () => {
+        const result = await axios({
+          method: "put",
+          url:
+            "https://localhost:5001/api/artists/" +
+            editedArtist.id +
+            "/getPictureGuid",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+        });
+        setPictureGuid(result.data);
+      };
+      getPictureGuid();
+
+      /*var filename = pictureGuid + ".png";
+      var text = "Text of the file goes here.";
+      var blob = new Blob([text], { type: "text/plain" });
+      var link = document.createElement("a");
+      link.download = filename;
+      link.innerHTML = "Download File";
+      link.href = window.URL.createObjectURL(blob);
+      document.body.appendChild(link);
+
+      const formData = new FormData();
+      formData.append("image", selectedFile, pictureGuid + ".png");
+      var file = formData.get("file");*/
+    }
+
+    setPictureGuid(null);
+    setSelectedFile(null);
+  }
+
+  const [pictureGuid, setPictureGuid] = useState<string | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+  function fileSelected(event: React.ChangeEvent<HTMLInputElement>): void {
+    const target = event.target as HTMLInputElement;
+    const file: File = (target.files as FileList)[0];
+    setSelectedFile(file);
+  }
+
+  function confirmButton() {
+    if (name !== "") {
+      postFunction();
+
+      setShow(false);
+      setName(null);
+      setDescription(null);
     }
   }
 
@@ -93,7 +146,13 @@ function AddArtistComponent({ show, setShow, isEdited, editedArtist }: Props) {
               />
             </Form.Group>
             <Form.Group>
-              <Form.File name="file" label="Picture" feedbackTooltip />
+              <Form.File
+                accept="image/*"
+                name="file"
+                label="Picture"
+                feedbackTooltip
+                onChange={fileSelected}
+              />
             </Form.Group>
           </Form>
         </Modal.Body>
@@ -101,18 +160,7 @@ function AddArtistComponent({ show, setShow, isEdited, editedArtist }: Props) {
           <Button variant="outline-secondary" onClick={() => setShow(false)}>
             Cancel
           </Button>
-          <Button
-            variant="outline-info"
-            onClick={() => {
-              if (name !== "") {
-                setShow(false);
-                setName(null);
-                setDescription(null);
-
-                postFunction();
-              }
-            }}
-          >
+          <Button variant="outline-info" onClick={confirmButton}>
             Confirm
           </Button>
         </Modal.Footer>

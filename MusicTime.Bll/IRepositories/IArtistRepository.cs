@@ -13,7 +13,7 @@ namespace MusicTime.Bll.IRepositories
 
         Task<ArtistDto> AddArtist(Artist artist);
 
-        bool DoesArtistAlreadyExist(int userId, string artist);
+        bool DoesArtistAlreadyExist(int userId, ArtistDto artist);
 
         Task<bool> DeleteArtistById(int userId, int artistId);
 
