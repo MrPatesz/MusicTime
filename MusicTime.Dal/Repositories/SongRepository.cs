@@ -40,6 +40,19 @@ namespace MusicTime.Dal.Repositories
             else return false;
         }
 
+        public bool DoesSongAlreadyExist(int userId, SongDto songDto, int albumId)
+        {
+            return dbContext.Songs.Any(a => a.Title == songDto.Title && a.AlbumId == albumId && a.Id != songDto.Id);
+        }
+
+        public async Task<SongDto> AddSong(Song song)
+        {
+            dbContext.Songs.Add(song);
+            await dbContext.SaveChangesAsync();
+
+            return ToDto(song);
+        }
+
         private SongDto ToDto(Song value)
         {
             return new SongDto

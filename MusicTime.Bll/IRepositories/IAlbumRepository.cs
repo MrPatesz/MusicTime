@@ -15,7 +15,7 @@ namespace MusicTime.Bll.IRepositories
 
         Task<AlbumDto> AddAlbum(Album album);
 
-        bool DoesAlbumAlreadyExist(int userId, AlbumDto albumDto, int artistId);
+        bool DoesAlbumAlreadyExist(AlbumDto albumDto, int artistId);
 
         Task<bool> DeleteAlbumById(int userId, int albumId);
 

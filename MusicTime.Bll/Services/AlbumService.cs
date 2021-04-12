@@ -34,7 +34,8 @@ namespace MusicTime.Bll.Services
 
         public async Task<AlbumDto> AddAlbum(int userId, AlbumDto albumDto, int artistId)
         {
-            if (!albumRepository.DoesAlbumAlreadyExist(userId, albumDto, artistId))
+            // useré-e ez az artist??
+            if (!albumRepository.DoesAlbumAlreadyExist(albumDto, artistId))
             {
                 var album = new Album
                 {
@@ -55,7 +56,7 @@ namespace MusicTime.Bll.Services
         {
             var artistId = albumRepository.GetArtistIdForAlbumById(albumDto.Id);
 
-            if (!albumRepository.DoesAlbumAlreadyExist(userId, albumDto, artistId))
+            if (!albumRepository.DoesAlbumAlreadyExist(albumDto, artistId))
             {
                 var album = new Album
                 {

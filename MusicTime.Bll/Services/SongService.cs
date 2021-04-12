@@ -1,4 +1,5 @@
 ﻿using MusicTime.Bll.Dtos;
+using MusicTime.Bll.Entities;
 using MusicTime.Bll.IRepositories;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -22,6 +23,21 @@ namespace MusicTime.Bll.Services
         public async Task<bool> DeleteSongById(int userId, int songId)
         {
             return await songRepository.DeleteSongById(userId, songId);
+        }
+
+        public async Task<SongDto> AddSong(int userId, SongDto songDto, int albumId)
+        {
+            if (!songRepository.DoesSongAlreadyExist(userId, songDto, albumId))
+            {
+                var song = new Song
+                {
+                    Title = songDto.Title,
+                    AlbumId = albumId,
+                };
+
+                return await songRepository.AddSong(song);
+            }
+            return null;
         }
     }
 }

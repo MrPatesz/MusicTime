@@ -41,5 +41,20 @@ namespace MusicTime.Api.Controllers
             else
                 return BadRequest();
         }
+
+        [HttpPost]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<SongDto>> AddSong([FromBody] SongDto songDto, [FromHeader] int albumId)
+        {
+            var userId = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            var song = await songService.AddSong(userId, songDto, albumId);
+            if (song == null)
+                return BadRequest();
+            else
+                return Ok(song);
+        }
     }
 }

@@ -36,9 +36,9 @@ namespace MusicTime.Dal.Repositories
             return dbContext.Albums.Where(a => a.ArtistId == artistId && a.Artist.UserId == userId).Select(ToDto).ToList();
         }
 
-        public bool DoesAlbumAlreadyExist(int userId, AlbumDto albumDto, int artistId)
+        public bool DoesAlbumAlreadyExist(AlbumDto albumDto, int artistId)
         {
-            return dbContext.Albums.Any(a => a.Title == albumDto.Title && a.Artist.UserId == userId && a.ArtistId == artistId && a.Id != albumDto.Id);
+            return dbContext.Albums.Any(a => a.Title == albumDto.Title && a.ArtistId == artistId && a.Id != albumDto.Id);
         }
 
         public async Task<AlbumDto> AddAlbum(Album album)
