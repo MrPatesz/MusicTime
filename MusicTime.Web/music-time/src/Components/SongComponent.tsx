@@ -45,7 +45,9 @@ function SongComponent({ title, artist, album, id }: Props) {
         <Button variant="outline-info"> Add </Button>
       </ButtonGroup>
       <ButtonGroup className="ml-2">
-        <Button variant="outline-danger" onClick={() => setConfirm(true)}> Delete </Button>
+        <Button variant="outline-danger" onClick={() => setConfirm(true)}>
+          Delete
+        </Button>
       </ButtonGroup>
 
       <Modal

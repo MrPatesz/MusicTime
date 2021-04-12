@@ -9,6 +9,7 @@ import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Image from "react-bootstrap/Image";
 import SongComponent from "../Components/SongComponent";
 import AddAlbumComponent from "../Components/AddAlbumComponent";
+import AddSongComponent from "../Components/AddSongComponent";
 
 function AlbumDetailsPage() {
   let id = useRouteMatch("/albums/:id").params.id;
@@ -68,7 +69,7 @@ function AlbumDetailsPage() {
   }, [apiLink]);
 
   const [showEditAlbum, setShowEditAlbum] = useState<boolean>(false);
-  //const [showAddSong, setShowAddSong] = useState<boolean>(false);
+  const [showAddSong, setShowAddSong] = useState<boolean>(false);
 
   return (
     <div className="page">
@@ -107,7 +108,17 @@ function AlbumDetailsPage() {
         )}
       </div>
       <div>
-        <h2>Songs</h2>
+        <div className="d-flex flex-row mb-3 mt-2">
+          <h2>Songs</h2>
+          <Button
+            variant="outline-info"
+            className="ml-auto"
+            onClick={() => setShowAddSong(true)}
+          >
+            Add
+          </Button>
+        </div>
+
         {songsStillLoading ? (
           <Spinner animation="grow" variant="info" />
         ) : (
@@ -122,6 +133,11 @@ function AlbumDetailsPage() {
                 ></SongComponent>
               </li>
             ))}
+            <AddSongComponent
+              show={showAddSong}
+              setShow={setShowAddSong}
+              albumId={id}
+            ></AddSongComponent>
           </ul>
         )}
       </div>
@@ -129,7 +145,7 @@ function AlbumDetailsPage() {
       <AddAlbumComponent
         show={showEditAlbum}
         setShow={setShowEditAlbum}
-        artistId={-1} //WTF XDDDDDDDDDDDDD
+        artistId={-1}
         isEdited={true}
         editedAlbum={album}
       ></AddAlbumComponent>

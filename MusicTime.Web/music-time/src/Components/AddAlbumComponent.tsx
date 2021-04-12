@@ -27,9 +27,7 @@ function AddAlbumComponent({
   const [releaseYear, setReleaseYear] = useState<number | null>(null);
 
   useEffect(() => {
-    console.log("useEffect start");
     if (isEdited) {
-      console.log("isEdited true");
       setTitle(editedAlbum.title);
       setDescription(editedAlbum.description);
       setGenre(editedAlbum.genre);
@@ -40,14 +38,6 @@ function AddAlbumComponent({
   function postFunction() {
     var postData;
     if (isEdited) {
-      let data = {
-        Title: title,
-        Description: description,
-        Genre: genre,
-        ReleaseYear: releaseYear,
-        Id: editedAlbum.id,
-      };
-      console.log(data);
       postData = async () => {
         await axios({
           method: "put",
@@ -55,17 +45,16 @@ function AddAlbumComponent({
           headers: {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },
-          data: data,
+          data: {
+            Title: title,
+            Description: description,
+            Genre: genre,
+            ReleaseYear: releaseYear,
+            Id: editedAlbum.id,
+          },
         });
       };
     } else {
-      let data = {
-        Title: title,
-        Description: description,
-        Genre: genre,
-        ReleaseYear: releaseYear,
-      };
-      console.log(data);
       postData = async () => {
         await axios({
           method: "post",
@@ -74,7 +63,12 @@ function AddAlbumComponent({
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
             artistId: artistId,
           },
-          data: data,
+          data: {
+            Title: title,
+            Description: description,
+            Genre: genre,
+            ReleaseYear: releaseYear,
+          },
         });
       };
     }

@@ -112,18 +112,16 @@ function ArtistDetailsPage() {
         )}
       </div>
       <div>
-        <Container fluid>
-          <Row>
-            <h2>Albums</h2>
-            <Button
-              variant="outline-info"
-              className="ml-auto"
-              onClick={() => setShowAddAlbum(true)}
-            >
-              Add
-            </Button>
-          </Row>
-        </Container>
+        <div className="d-flex flex-row mb-3 mt-2">
+          <h2>Albums</h2>
+          <Button
+            variant="outline-info"
+            className="ml-auto"
+            onClick={() => setShowAddAlbum(true)}
+          >
+            Add
+          </Button>
+        </div>
 
         {albumsStillLoading ? (
           <Spinner animation="grow" variant="info" />
