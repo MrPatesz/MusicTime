@@ -37,6 +37,7 @@ function SongsPage() {
               title={s.title}
               artist={null}
               album={null}
+              id={s.id}
             ></SongComponent>
           </li>
         ))}

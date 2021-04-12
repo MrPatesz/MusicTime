@@ -1,13 +1,32 @@
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
+import Modal from "react-bootstrap/Modal";
+import axios from "axios";
+import { useState } from "react";
 
 interface Props {
   title: string;
   artist: string | null;
   album: string | null;
+  id: number;
 }
 
-function SongComponent({ title, artist, album }: Props) {
+function SongComponent({ title, artist, album, id }: Props) {
+  const [confirm, setConfirm] = useState<boolean>(false);
+
+  function deleteFunction() {
+    const deleteCall = async () => {
+      setConfirm(false);
+      const config = {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      };
+      await axios.delete("https://localhost:5001/api/songs/" + id, config);
+    };
+    deleteCall();
+  }
+
   return (
     <div className="d-flex flex-row mb-1">
       {artist === null ? (
@@ -26,8 +45,29 @@ function SongComponent({ title, artist, album }: Props) {
         <Button variant="outline-info"> Add </Button>
       </ButtonGroup>
       <ButtonGroup className="ml-2">
-        <Button variant="outline-danger"> Delete </Button>
+        <Button variant="outline-danger" onClick={() => setConfirm(true)}> Delete </Button>
       </ButtonGroup>
+
+      <Modal
+        show={confirm}
+        onHide={() => setConfirm(false)}
+        backdrop="static"
+        keyboard={false}
+        animation={false}
+      >
+        <Modal.Header>
+          <Modal.Title>Deleting item</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to delete this item?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="outline-secondary" onClick={() => setConfirm(false)}>
+            Cancel
+          </Button>
+          <Button variant="outline-danger" onClick={() => deleteFunction()}>
+            Confirm
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

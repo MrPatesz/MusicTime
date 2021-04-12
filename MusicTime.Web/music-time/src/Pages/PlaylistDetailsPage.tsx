@@ -92,6 +92,7 @@ function PlaylistDetailsPage() {
                   title={s.title}
                   artist={"artistName" + s.id}
                   album={"albumTitle" + s.id}
+                  id={s.id}
                 ></SongComponent>
               </li>
             ))}
