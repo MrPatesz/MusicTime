@@ -42,7 +42,6 @@ function PlaylistDetailsPage() {
   const [showEditPlaylist, setShowEditPlaylist] = useState<boolean>(false);
   const [showAddSong, setShowAddSong] = useState<boolean>(false);
 
-  // EA NEVE IS KÉNE
   return (
     <div className="page">
       <div>
@@ -78,7 +77,7 @@ function PlaylistDetailsPage() {
         )}
       </div>
       <div>
-        <div className="d-flex flex-row">
+        <div className="d-flex flex-row mb-3 mt-2">
           <h2>Songs</h2>
           <PlaylistAddSongComponent></PlaylistAddSongComponent>
         </div>
