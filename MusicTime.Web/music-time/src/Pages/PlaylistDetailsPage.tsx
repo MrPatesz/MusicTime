@@ -7,7 +7,7 @@ import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Image from "react-bootstrap/Image";
 import Spinner from "react-bootstrap/Spinner";
 import PlaylistDto from "../Models/PlaylistDto";
-import PlaylistAddSongComponent from "../Components/PlaylistAddSongComponent";
+import AddSongToPlaylistComponent from "../Components/AddSongToPlaylistComponent";
 
 function PlaylistDetailsPage() {
   let id = useRouteMatch("/playlists/:id").params.id;
@@ -40,7 +40,6 @@ function PlaylistDetailsPage() {
   }, []);
 
   const [showEditPlaylist, setShowEditPlaylist] = useState<boolean>(false);
-  const [showAddSong, setShowAddSong] = useState<boolean>(false);
 
   return (
     <div className="page">
@@ -79,7 +78,7 @@ function PlaylistDetailsPage() {
       <div>
         <div className="d-flex flex-row mb-3 mt-2">
           <h2>Songs</h2>
-          <PlaylistAddSongComponent></PlaylistAddSongComponent>
+          <AddSongToPlaylistComponent playlistId={id}></AddSongToPlaylistComponent>
         </div>
 
         {songsStillLoading ? (

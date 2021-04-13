@@ -5,7 +5,7 @@ import CardComponent from "../Components/CardComponent";
 import { Container, Row, Col } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
 import Button from "react-bootstrap/Button";
-import AddArtistComponent from "../Components/AddArtistComponent";
+import NewArtistComponent from "../Components/NewArtistComponent";
 
 function ArtistsPage() {
   const apiLink = "https://localhost:5001/api/artists/";
@@ -78,12 +78,12 @@ function ArtistsPage() {
         </Container>
       )}
 
-      <AddArtistComponent
+      <NewArtistComponent
         show={showAddArtist}
         setShow={setShowAddArtist}
         isEdited={false}
         editedArtist={new ArtistDto(0, "", null, null)}
-      ></AddArtistComponent>
+      ></NewArtistComponent>
     </div>
   );
 }

@@ -11,7 +11,7 @@ interface Props {
   albumId: number;
 }
 
-function AddSongComponent({ show, setShow, albumId }: Props) {
+function NewSongComponent({ show, setShow, albumId }: Props) {
   const [title, setTitle] = useState<string | null>(null);
 
   function postFunction() {
@@ -69,4 +69,4 @@ function AddSongComponent({ show, setShow, albumId }: Props) {
   );
 }
 
-export default AddSongComponent;
+export default NewSongComponent;

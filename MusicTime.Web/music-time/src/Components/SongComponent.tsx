@@ -13,6 +13,7 @@ interface Props {
 
 function SongComponent({ title, artist, album, id }: Props) {
   const [confirm, setConfirm] = useState<boolean>(false);
+  const [showAddSongToPlaylist, setShowAddSongToPlaylist] = useState<boolean>(false);
 
   function deleteFunction() {
     const deleteCall = async () => {

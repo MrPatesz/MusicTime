@@ -22,6 +22,8 @@
   },
   "include": [
     "src",
-    "src/Models"
+    "src/Models",
+    "src/Components",
+    "src/Pages",
   ]
 }

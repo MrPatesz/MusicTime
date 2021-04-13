@@ -8,8 +8,8 @@ import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Image from "react-bootstrap/Image";
 import SongComponent from "../Components/SongComponent";
-import AddAlbumComponent from "../Components/AddAlbumComponent";
-import AddSongComponent from "../Components/AddSongComponent";
+import NewAlbumComponent from "../Components/NewAlbumComponent";
+import NewSongComponent from "../Components/NewSongComponent";
 
 function AlbumDetailsPage() {
   let id = useRouteMatch("/albums/:id").params.id;
@@ -133,22 +133,22 @@ function AlbumDetailsPage() {
                 ></SongComponent>
               </li>
             ))}
-            <AddSongComponent
+            <NewSongComponent
               show={showAddSong}
               setShow={setShowAddSong}
               albumId={id}
-            ></AddSongComponent>
+            ></NewSongComponent>
           </ul>
         )}
       </div>
 
-      <AddAlbumComponent
+      <NewAlbumComponent
         show={showEditAlbum}
         setShow={setShowEditAlbum}
         artistId={-1}
         isEdited={true}
         editedAlbum={album}
-      ></AddAlbumComponent>
+      ></NewAlbumComponent>
     </div>
   );
 }

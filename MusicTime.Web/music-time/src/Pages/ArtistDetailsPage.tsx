@@ -7,8 +7,8 @@ import { Container, Row, Col } from "react-bootstrap";
 import CardComponent from "../Components/CardComponent";
 import Image from "react-bootstrap/Image";
 import { useRouteMatch } from "react-router-dom";
-import AddAlbumComponent from "../Components/AddAlbumComponent";
-import AddArtistComponent from "../Components/AddArtistComponent";
+import NewAlbumComponent from "../Components/NewAlbumComponent";
+import NewArtistComponent from "../Components/NewArtistComponent";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 
@@ -143,20 +143,20 @@ function ArtistDetailsPage() {
           </Container>
         )}
       </div>
-      <AddAlbumComponent
+      <NewAlbumComponent
         show={showAddAlbum}
         setShow={setShowAddAlbum}
         artistId={id}
         isEdited={false}
         editedAlbum={new AlbumDto(0, "", null, null, null, null)}
-      ></AddAlbumComponent>
+      ></NewAlbumComponent>
 
-      <AddArtistComponent
+      <NewArtistComponent
         show={showEditArtist}
         setShow={setShowEditArtist}
         isEdited={true}
         editedArtist={artist}
-      ></AddArtistComponent>
+      ></NewArtistComponent>
     </div>
   );
 }

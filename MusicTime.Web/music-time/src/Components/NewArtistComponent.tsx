@@ -13,7 +13,7 @@ interface Props {
   editedArtist: ArtistDto;
 }
 
-function AddArtistComponent({ show, setShow, isEdited, editedArtist }: Props) {
+function NewArtistComponent({ show, setShow, isEdited, editedArtist }: Props) {
   const [name, setName] = useState<string | null>(null);
   const [description, setDescription] = useState<string | null>(null);
 
@@ -169,4 +169,4 @@ function AddArtistComponent({ show, setShow, isEdited, editedArtist }: Props) {
   );
 }
 
-export default AddArtistComponent;
+export default NewArtistComponent;

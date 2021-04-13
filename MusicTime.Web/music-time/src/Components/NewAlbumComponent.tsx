@@ -14,7 +14,7 @@ interface Props {
   editedAlbum: AlbumDto;
 }
 
-function AddAlbumComponent({
+function NewAlbumComponent({
   show,
   setShow,
   artistId,
@@ -155,4 +155,4 @@ function AddAlbumComponent({
   );
 }
 
-export default AddAlbumComponent;
+export default NewAlbumComponent;
