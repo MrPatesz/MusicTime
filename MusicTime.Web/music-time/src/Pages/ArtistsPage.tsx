@@ -23,21 +23,9 @@ function ArtistsPage() {
         },
       };
       const result = await axios.get(apiLink, config);
-
-      let artistsArray: ArtistDto[] = [];
-
-      result.data.forEach((artist: ArtistDto) => {
-        artistsArray.push(
-          new ArtistDto(
-            artist.id,
-            artist.name,
-            artist.description,
-            artist.pictureGuid
-          )
-        );
-      });
+      
+      setArtists(result.data);
       setStillLoading(false);
-      setArtists(artistsArray);
     };
     fetchData();
   }, []);

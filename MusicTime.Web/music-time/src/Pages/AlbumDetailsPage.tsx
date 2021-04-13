@@ -30,16 +30,7 @@ function AlbumDetailsPage() {
       };
       const result = await axios.get(apiLink, config);
 
-      setAlbum(
-        new AlbumDto(
-          result.data.id,
-          result.data.title,
-          result.data.genre,
-          result.data.description,
-          result.data.releaseYear,
-          result.data.coverGuid
-        )
-      );
+      setAlbum(result.data);
       setAlbumStillLoading(false);
     };
     fetchData();
@@ -57,12 +48,7 @@ function AlbumDetailsPage() {
       };
       const result = await axios.get(apiLink + "/songs", config);
 
-      let songsArray: SongDto[] = [];
-
-      result.data.forEach((song: SongDto) => {
-        songsArray.push(new SongDto(song.id, song.title));
-      });
-      setSongs(songsArray);
+      setSongs(result.data);
       setSongsStillLoading(false);
     };
     fetchData();

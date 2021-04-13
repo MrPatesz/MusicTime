@@ -29,14 +29,7 @@ function ArtistDetailsPage() {
       };
       const result = await axios.get(apiLink, config);
 
-      setArtist(
-        new ArtistDto(
-          result.data.id,
-          result.data.name,
-          result.data.description,
-          result.data.pictureGuid
-        )
-      );
+      setArtist(result.data);
       setArtistStillLoading(false);
     };
     fetchData();
@@ -54,21 +47,7 @@ function ArtistDetailsPage() {
       };
       const result = await axios.get(apiLink + "/albums", config);
 
-      let albumsArray: AlbumDto[] = [];
-
-      result.data.forEach((album: AlbumDto) => {
-        albumsArray.push(
-          new AlbumDto(
-            album.id,
-            album.title,
-            album.genre,
-            album.description,
-            album.releaseYear,
-            album.coverGuid
-          )
-        );
-      });
-      setAlbums(albumsArray);
+      setAlbums(result.data);
       setAlbumsStillLoading(false);
     };
     fetchData();

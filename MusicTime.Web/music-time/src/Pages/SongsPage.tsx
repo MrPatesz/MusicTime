@@ -19,12 +19,7 @@ function SongsPage() {
       };
       const result = await axios.get(apiLink, config);
 
-      let songsArray: SongDto[] = [];
-
-      result.data.forEach((song: SongDto) => {
-        songsArray.push(new SongDto(song.id, song.title));
-      });
-      setSongs(songsArray);
+      setSongs(result.data);
       setStillLoading(false);
     };
     fetchData();

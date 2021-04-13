@@ -20,22 +20,8 @@ function AlbumsPage() {
       };
       const result = await axios.get(apiLink, config);
 
-      let albumsArray: AlbumDto[] = [];
-
-      result.data.forEach((album: AlbumDto) => {
-        albumsArray.push(
-          new AlbumDto(
-            album.id,
-            album.title,
-            album.genre,
-            album.description,
-            album.releaseYear,
-            album.coverGuid
-          )
-        );
-      });
+      setAlbums(result.data);
       setStillLoading(false);
-      setAlbums(albumsArray);
     };
     fetchData();
   }, []);
