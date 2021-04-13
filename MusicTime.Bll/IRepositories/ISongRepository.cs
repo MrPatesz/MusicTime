@@ -16,5 +16,7 @@ namespace MusicTime.Bll.IRepositories
         bool DoesSongAlreadyExist(int userId, SongDto song, int albumId);
 
         Task<SongDto> AddSong(Song song);
+
+        List<DetailedSongDto> GetDetailedSongs(int userId);
     }
 }

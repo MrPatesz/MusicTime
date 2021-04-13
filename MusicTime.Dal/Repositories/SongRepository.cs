@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MusicTime.Bll.IRepositories;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace MusicTime.Dal.Repositories
 {
@@ -53,12 +54,32 @@ namespace MusicTime.Dal.Repositories
             return ToDto(song);
         }
 
+        public List<DetailedSongDto> GetDetailedSongs(int userId)
+        {
+            return dbContext.Songs
+                .Include(s => s.Album)
+                .Include(s => s.Album.Artist)
+                .Where(s => s.Album.Artist.UserId == userId)
+                .Select(ToDetailedDto).ToList();
+        }
+
         private SongDto ToDto(Song value)
         {
             return new SongDto
             {
                 Id = value.Id,
                 Title = value.Title
+            };
+        }
+
+        private DetailedSongDto ToDetailedDto(Song value)
+        {
+            return new DetailedSongDto
+            {
+                SongId = value.Id,
+                SongTitle = value.Title,
+                AlbumTitle = value.Album.Title,
+                ArtistName = value.Album.Artist.Name,
             };
         }
     }

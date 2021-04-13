@@ -3,15 +3,13 @@ import * as Autosuggest from "react-autosuggest";
 import "./AutosuggestComponent.css";
 
 interface Props {
-  onSuggestionSelected(selected: string): void;
-  onSuggestionAreaCleared(): void;
+  onValueChanged(selected: string): void;
   placeholder: string;
   data: string[];
 }
 
 export default function AutosuggestComponent({
-  onSuggestionSelected,
-  onSuggestionAreaCleared,
+  onValueChanged,
   placeholder,
   data,
 }: Props) {
@@ -42,6 +40,7 @@ export default function AutosuggestComponent({
     { newValue }: { newValue: string }
   ) {
     setValue(newValue);
+    onValueChanged(newValue);
   }
 
   function onSuggestionsFetchRequested({ value }: { value: string }) {
@@ -67,10 +66,7 @@ export default function AutosuggestComponent({
     <Autosuggest
       suggestions={suggestions}
       onSuggestionsFetchRequested={onSuggestionsFetchRequested}
-      onSuggestionsClearRequested={() => {
-        setSuggestions([]);
-        onSuggestionAreaCleared();
-      }}
+      onSuggestionsClearRequested={() => setSuggestions([])}
       getSuggestionValue={(value: string) => value}
       renderSuggestion={(value: string) => <div>{value}</div>}
       inputProps={inputProps}
@@ -79,7 +75,7 @@ export default function AutosuggestComponent({
       onSuggestionSelected={(
         event: React.MouseEvent,
         { suggestionValue }: { suggestionValue: string }
-      ) => onSuggestionSelected(suggestionValue)}
+      ) => onValueChanged(suggestionValue)}
     />
   );
 }

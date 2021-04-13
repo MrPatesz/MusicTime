@@ -58,6 +58,10 @@ function NewArtistComponent({ show, setShow, isEdited, editedArtist }: Props) {
     }
     postData();
     savePicture();
+
+    // check whether the call was successful
+    editedArtist.name = name ? name : "";
+    editedArtist.description = description;
   }
 
   function savePicture() {

@@ -20,6 +20,11 @@ namespace MusicTime.Bll.Services
             return songRepository.GetSongs(userId);
         }
 
+        public List<DetailedSongDto> GetDetailedSongs(int userId)
+        {
+            return songRepository.GetDetailedSongs(userId);
+        }
+
         public async Task<bool> DeleteSongById(int userId, int songId)
         {
             return await songRepository.DeleteSongById(userId, songId);
