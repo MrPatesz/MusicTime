@@ -115,7 +115,7 @@ function AlbumDetailsPage() {
             className="ml-auto"
             onClick={() => setShowAddSong(true)}
           >
-            Add
+            New
           </Button>
         </div>
 

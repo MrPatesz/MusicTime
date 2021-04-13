@@ -20,7 +20,7 @@ function PlaylistDetailsPage() {
   );
 
   useEffect(() => {
-    setPlaylist(new PlaylistDto(0, "Indie Hip-hop", "Sadboy vibes", null));
+    setPlaylist(new PlaylistDto(0, "Favourite songs", "description comes here", null));
     setPlaylistStillLoading(false);
   }, []);
 

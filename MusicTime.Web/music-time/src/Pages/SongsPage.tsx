@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import SongDto from "../Models/SongDto";
 import SongComponent from "../Components/SongComponent";
+import Spinner from "react-bootstrap/Spinner";
 
 function SongsPage() {
   const apiLink = "https://localhost:5001/api/songs";
 
   const [songs, setSongs] = useState<SongDto[]>([]);
+  const [stillLoading, setStillLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,6 +25,7 @@ function SongsPage() {
         songsArray.push(new SongDto(song.id, song.title));
       });
       setSongs(songsArray);
+      setStillLoading(false);
     };
     fetchData();
   }, []);
@@ -30,7 +33,11 @@ function SongsPage() {
   return (
     <div className="page">
       <h1>Songs</h1>
-      <ul className="no-bullets">
+
+      {stillLoading ? (
+        <Spinner animation="grow" variant="info" />
+      ) : (
+        <ul className="no-bullets">
         {songs.map((s) => (
           <li key={s.id}>
             <SongComponent
@@ -42,6 +49,8 @@ function SongsPage() {
           </li>
         ))}
       </ul>
+      )}
+      
     </div>
   );
 }
