@@ -46,7 +46,6 @@
 .react-autosuggest__suggestion {
   cursor: pointer;
   padding: 10px 10px 10px 10px;
-  
 }
 
 .react-autosuggest__suggestion--highlighted {

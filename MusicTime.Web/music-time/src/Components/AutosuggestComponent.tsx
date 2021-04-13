@@ -14,7 +14,7 @@ export default function AutosuggestComponent({
   data,
 }: Props) {
   const [value, setValue] = React.useState<string>("");
-  const [suggestions, setSuggestions] = React.useState<string[]>([]);
+  const [suggestions, setSuggestions] = React.useState<string[]>(data);
 
   function* filter(
     array: string[],
@@ -76,6 +76,7 @@ export default function AutosuggestComponent({
         event: React.MouseEvent,
         { suggestionValue }: { suggestionValue: string }
       ) => onValueChanged(suggestionValue)}
+      alwaysRenderSuggestions={true}
     />
   );
 }
