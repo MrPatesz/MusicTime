@@ -20,7 +20,9 @@ function PlaylistDetailsPage() {
   );
 
   useEffect(() => {
-    setPlaylist(new PlaylistDto(0, "Favourite songs", "description comes here", null));
+    setPlaylist(
+      new PlaylistDto(0, "Favourite songs", "description comes here", null)
+    );
     setPlaylistStillLoading(false);
   }, []);
 
@@ -39,7 +41,7 @@ function PlaylistDetailsPage() {
     mockedData();
   }, []);
 
-  const [showEditPlaylist, setShowEditPlaylist] = useState<boolean>(false);
+  //const [showEditPlaylist, setShowEditPlaylist] = useState<boolean>(false);
 
   return (
     <div className="page">
@@ -66,7 +68,7 @@ function PlaylistDetailsPage() {
             <ButtonGroup className="ml-auto mt-3">
               <Button
                 variant="outline-info"
-                onClick={() => setShowEditPlaylist(true)}
+                onClick={() => {}/*setShowEditPlaylist(true)*/}
                 style={{ maxHeight: "3rem" }}
               >
                 Edit
@@ -78,7 +80,9 @@ function PlaylistDetailsPage() {
       <div>
         <div className="d-flex flex-row mb-3 mt-2">
           <h2>Songs</h2>
-          <AddSongToPlaylistComponent playlistId={id}></AddSongToPlaylistComponent>
+          <AddSongToPlaylistComponent
+            playlistId={id}
+          ></AddSongToPlaylistComponent>
         </div>
 
         {songsStillLoading ? (

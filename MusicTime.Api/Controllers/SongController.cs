@@ -56,5 +56,12 @@ namespace MusicTime.Api.Controllers
             else
                 return Ok(song);
         }
+
+        /*[HttpGet("detailed")]
+        public List<DetailedSongDto> GetDetailedSongs()
+        {
+            var userId = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            return songService.GetDetailedSongs(userId);
+        }*/
     }
 }
