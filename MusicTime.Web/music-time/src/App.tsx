@@ -11,7 +11,8 @@ import LoginPage from "./Pages/LoginPage";
 import SongsPage from "./Pages/SongsPage";
 import PlaylistsPage from "./Pages/PlaylistsPage";
 import PlaylistDetailsPage from "./Pages/PlaylistDetailsPage";
-import PlayerComponent from "./Components/PlayerComponent";
+import PlayerWrapperComponent from "./Components/PlayerWrapperComponent";
+import MusicPlayerComponent from "./Components/MusicPlayerComponent";
 
 const App = () => {
   return (
@@ -44,7 +45,10 @@ const App = () => {
         <Switch>
           <Route exact path="/">
             <div className="page">
-              <PlayerComponent></PlayerComponent>
+              <PlayerWrapperComponent
+                width={640}
+                height={360}
+              ></PlayerWrapperComponent>
             </div>
           </Route>
           <Route exact path="/artists">
@@ -72,6 +76,7 @@ const App = () => {
             <LoginPage></LoginPage>
           </Route>
         </Switch>
+        <MusicPlayerComponent></MusicPlayerComponent>
       </div>
     </Router>
   );
