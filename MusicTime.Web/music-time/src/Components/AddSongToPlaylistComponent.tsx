@@ -17,7 +17,7 @@ function AddSongToPlaylistComponent({ playlistId }: Props) {
   const [albumTitle, setAlbumTitle] = useState<string>("");
   const [songTitle, setSongTitle] = useState<string>("");
 
-  const [songArray, setSongArray] = useState<DetailedSongDto[]>([]);
+  const [songDtoArray, setSongDtoArray] = useState<DetailedSongDto[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,10 +28,10 @@ function AddSongToPlaylistComponent({ playlistId }: Props) {
       };
       const result = await axios.get(apiLink + "songs/detailed", config);
 
-      setSongArray(result.data);
+      setSongDtoArray(result.data);
     };
     fetchData();
-  }, [apiLink]);
+  }, [apiLink, artistName]);
 
   function AddFunction() {
     var song = {
@@ -42,39 +42,70 @@ function AddSongToPlaylistComponent({ playlistId }: Props) {
     console.log(song);
   }
 
+  const [songTitleArray, setSongTitleArray] = useState<string[]>([]);
+  const [albumTitleArray, setAlbumTitleArray] = useState<string[]>([]);
+  const [artistNameArray, setArtistNameArray] = useState<string[]>([]);
+
+  useEffect(() => {
+    const removeDuplicates = (array: string[]) =>
+      array.filter((v, i) => array.indexOf(v) === i);
+
+    function getArtistArray(): string[] {
+      let array = songDtoArray.map((s) => s.artistName);
+
+      return removeDuplicates(array);
+    }
+
+    function getAlbumArray(): string[] {
+      let array =
+        artistName === ""
+          ? songDtoArray.map((s) => s.albumTitle)
+          : songDtoArray
+              .filter((s) => s.artistName === artistName)
+              .map((s) => s.albumTitle);
+
+      return removeDuplicates(array);
+    }
+
+    function getSongArray(): string[] {
+      let array =
+        albumTitle === ""
+          ? songDtoArray.map((s) => s.songTitle)
+          : songDtoArray
+              .filter((s) => s.albumTitle === albumTitle)
+              .map((s) => s.songTitle);
+
+      return removeDuplicates(array);
+    }
+
+    setArtistNameArray(getArtistArray());
+
+    setAlbumTitleArray(getAlbumArray());
+
+    setSongTitleArray(getSongArray());
+  }, [albumTitle, artistName, songDtoArray]);
+
   return (
     <Form className="d-flex flex-row ml-auto">
       <div className="mr-3">
         <AutosuggestComponent
           onValueChanged={(value: string) => setArtistName(value)}
           placeholder={"artist"}
-          data={songArray.map((s) => s.artistName)}
+          data={artistNameArray}
         ></AutosuggestComponent>
       </div>
       <div className="mr-3">
         <AutosuggestComponent
           onValueChanged={(value: string) => setAlbumTitle(value)}
           placeholder={"album"}
-          data={
-            artistName === ""
-              ? songArray.map((s) => s.albumTitle)
-              : songArray
-                  .filter((s) => s.artistName === artistName)
-                  .map((s) => s.albumTitle)
-          }
+          data={albumTitleArray}
         ></AutosuggestComponent>
       </div>
       <div className="mr-3">
         <AutosuggestComponent
           onValueChanged={(value: string) => setSongTitle(value)}
           placeholder={"song"}
-          data={
-            albumTitle === ""
-              ? songArray.map((s) => s.songTitle)
-              : songArray
-                  .filter((s) => s.albumTitle === albumTitle)
-                  .map((s) => s.songTitle)
-          }
+          data={songTitleArray}
         ></AutosuggestComponent>
       </div>
       <ButtonGroup style={{ height: "38px" }}>

@@ -55,7 +55,9 @@ function SongComponent({ detailed, songDto, detailedSongDto }: Props) {
         </div>
       ) : (
         <div className="d-flex flex-row">
-          <h5>{songDto.title}</h5>
+          <h5>
+            <a href={songDto.url} className="text-info">{songDto.title}</a>
+          </h5>
 
           <ButtonGroup className="ml-auto">
             <Button variant="outline-info"> Add </Button>

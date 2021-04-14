@@ -9,53 +9,51 @@ import PlaylistDto from "../Models/PlaylistDto";
 import AddSongToPlaylistComponent from "../Components/AddSongToPlaylistComponent";
 import DetailedSongDto from "../Models/DetailedSongDto";
 import SongDto from "../Models/SongDto";
+import axios from "axios";
 
 function PlaylistDetailsPage() {
+  const apiLink = "https://localhost:5001/api/";
+
   let id = useRouteMatch("/playlists/:id").params.id;
 
   const [playlist, setPlaylist] = useState<PlaylistDto>(
     new PlaylistDto(0, "", null, null)
   );
-  const [playlistStillLoading, setPlaylistStillLoading] = useState<boolean>(
-    true
-  );
+  const [playlistIsLoading, setPlaylistIsLoading] = useState<boolean>(true);
 
+  //playlistet lekérni
   useEffect(() => {
     setPlaylist(
       new PlaylistDto(0, "Favourite songs", "description comes here", null)
     );
-    setPlaylistStillLoading(false);
+    setPlaylistIsLoading(false);
   }, []);
 
   const [songs, setSongs] = useState<DetailedSongDto[]>([]);
   const [songsStillLoading, setSongsStillLoading] = useState<boolean>(true);
 
+  // csak playlist songjai
   useEffect(() => {
-    const mockedData = () => {
-      let songArray: DetailedSongDto[] = [];
-      for (let i = 0; i < 10; i++) {
-        songArray.push(
-          new DetailedSongDto(
-            i,
-            "title" + i,
-            "url" + i,
-            "artistName" + i,
-            "albumTitle" + i
-          )
-        );
-      }
-      setSongs(songArray);
+    const fetchData = async () => {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      };
+      const result = await axios.get(apiLink + "songs/detailed", config);
+
+      setSongs(result.data);
       setSongsStillLoading(false);
     };
-    mockedData();
-  }, []);
+    fetchData();
+  }, [apiLink]);
 
   //const [showEditPlaylist, setShowEditPlaylist] = useState<boolean>(false);
 
   return (
     <div className="page">
       <div>
-        {playlistStillLoading ? (
+        {playlistIsLoading ? (
           <Spinner animation="grow" variant="info" />
         ) : (
           <div className="d-flex flex-row">
