@@ -1,18 +1,18 @@
 class DetailedSongDto {
-  id: number;
+  songId: number;
   songTitle: string;
   url: string;
   artistName: string;
   albumTitle: string;
 
   constructor(
-    id: number,
+    songId: number,
     songTitle: string,
     url: string,
     artistName: string,
     albumTitle: string
   ) {
-    this.id = id;
+    this.songId = songId;
     this.songTitle = songTitle;
     this.url = url;
     this.artistName = artistName;

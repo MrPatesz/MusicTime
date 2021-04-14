@@ -3,17 +3,18 @@ import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Modal from "react-bootstrap/Modal";
 import axios from "axios";
 import { useState } from "react";
+import SongDto from "../Models/SongDto";
+import DetailedSongDto from "../Models/DetailedSongDto";
 
 interface Props {
-  title: string;
-  artist: string | null;
-  album: string | null;
-  id: number;
+  detailed: boolean;
+  songDto: SongDto;
+  detailedSongDto: DetailedSongDto;
 }
 
-function SongComponent({ title, artist, album, id }: Props) {
+function SongComponent({ detailed, songDto, detailedSongDto }: Props) {
   const [confirm, setConfirm] = useState<boolean>(false);
-  const [showAddSongToPlaylist, setShowAddSongToPlaylist] = useState<boolean>(false);
+  //const [showAddSongToPlaylist, setShowAddSongToPlaylist] = useState<boolean>(false);
 
   function deleteFunction() {
     const deleteCall = async () => {
@@ -23,6 +24,7 @@ function SongComponent({ title, artist, album, id }: Props) {
           Authorization: `Bearer ${localStorage.getItem("authToken")}`,
         },
       };
+      const id = detailed ? detailedSongDto.songId : songDto.id;
       await axios.delete("https://localhost:5001/api/songs/" + id, config);
     };
     deleteCall();
@@ -34,9 +36,26 @@ function SongComponent({ title, artist, album, id }: Props) {
 
   return (
     <div className="mb-1">
-      {artist === null ? (
+      {detailed ? (
         <div className="d-flex flex-row">
-          <h5>{title}</h5>
+          <h4 className="mr-5">{detailedSongDto.songTitle}</h4>
+          <div className="mr-5">{" by "}</div>
+          <h5 className="mr-5">{detailedSongDto.artistName}</h5>
+          <div className="mr-5">{" from "}</div>
+          <h5 className="mr-5">{detailedSongDto.albumTitle}</h5>
+
+          <ButtonGroup className="ml-auto">
+            <Button variant="outline-info"> Add </Button>
+          </ButtonGroup>
+          <ButtonGroup className="ml-2">
+            <Button variant="outline-warning" onClick={() => removeFunction()}>
+              Remove
+            </Button>
+          </ButtonGroup>
+        </div>
+      ) : (
+        <div className="d-flex flex-row">
+          <h5>{songDto.title}</h5>
 
           <ButtonGroup className="ml-auto">
             <Button variant="outline-info"> Add </Button>
@@ -70,23 +89,6 @@ function SongComponent({ title, artist, album, id }: Props) {
               </Button>
             </Modal.Footer>
           </Modal>
-        </div>
-      ) : (
-        <div className="d-flex flex-row">
-          <h4 className="mr-5">{title}</h4>
-          <div className="mr-5">{" by "}</div>
-          <h5 className="mr-5">{artist}</h5>
-          <div className="mr-5">{" from "}</div>
-          <h5 className="mr-5">{album}</h5>
-
-          <ButtonGroup className="ml-auto">
-            <Button variant="outline-info"> Add </Button>
-          </ButtonGroup>
-          <ButtonGroup className="ml-2">
-            <Button variant="outline-warning" onClick={() => removeFunction()}>
-              Remove
-            </Button>
-          </ButtonGroup>
         </div>
       )}
     </div>

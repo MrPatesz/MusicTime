@@ -8,6 +8,7 @@ import Spinner from "react-bootstrap/Spinner";
 import PlaylistDto from "../Models/PlaylistDto";
 import AddSongToPlaylistComponent from "../Components/AddSongToPlaylistComponent";
 import DetailedSongDto from "../Models/DetailedSongDto";
+import SongDto from "../Models/SongDto";
 
 function PlaylistDetailsPage() {
   let id = useRouteMatch("/playlists/:id").params.id;
@@ -98,12 +99,11 @@ function PlaylistDetailsPage() {
         ) : (
           <ul className="no-bullets">
             {songs.map((s) => (
-              <li key={s.id}>
+              <li key={s.songId}>
                 <SongComponent
-                  title={s.songTitle}
-                  artist={s.artistName}
-                  album={s.albumTitle}
-                  id={s.id}
+                  detailed={true}
+                  songDto={new SongDto(0, "", "")}
+                  detailedSongDto={s}
                 ></SongComponent>
               </li>
             ))}

@@ -43,7 +43,7 @@ function NewSongComponent({ show, setShow, albumId }: Props) {
           ></Form.Control>
 
           <Form.Control
-            className="ml-3"
+            className="ml-2"
             onChange={(e) => setUrl(e.target.value)}
             placeholder={"url"}
           ></Form.Control>
@@ -65,6 +65,7 @@ function NewSongComponent({ show, setShow, albumId }: Props) {
               onClick={() => {
                 setShow(false);
                 setTitle("");
+                setUrl("");
               }}
             >
               Cancel

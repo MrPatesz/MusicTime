@@ -38,6 +38,7 @@ namespace MusicTime.Bll.Services
                 {
                     Title = songDto.Title,
                     AlbumId = albumId,
+                    Url = songDto.Url,
                 };
 
                 return await songRepository.AddSong(song);

@@ -10,6 +10,7 @@ import Image from "react-bootstrap/Image";
 import SongComponent from "../Components/SongComponent";
 import NewAlbumComponent from "../Components/NewAlbumComponent";
 import NewSongComponent from "../Components/NewSongComponent";
+import DetailedSongDto from "../Models/DetailedSongDto";
 
 function AlbumDetailsPage() {
   let id = useRouteMatch("/albums/:id").params.id;
@@ -113,10 +114,9 @@ function AlbumDetailsPage() {
             {songs.map((s) => (
               <li key={s.id}>
                 <SongComponent
-                  title={s.title}
-                  artist={null}
-                  album={null}
-                  id={s.id}
+                  detailed={false}
+                  songDto={s}
+                  detailedSongDto={new DetailedSongDto(0, "", "", "", "")}
                 ></SongComponent>
               </li>
             ))}

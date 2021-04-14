@@ -3,6 +3,7 @@ import axios from "axios";
 import SongDto from "../Models/SongDto";
 import SongComponent from "../Components/SongComponent";
 import Spinner from "react-bootstrap/Spinner";
+import DetailedSongDto from "../Models/DetailedSongDto";
 
 function SongsPage() {
   const apiLink = "https://localhost:5001/api/songs";
@@ -33,19 +34,17 @@ function SongsPage() {
         <Spinner animation="grow" variant="info" />
       ) : (
         <ul className="no-bullets">
-        {songs.map((s) => (
-          <li key={s.id}>
-            <SongComponent
-              title={s.title}
-              artist={null}
-              album={null}
-              id={s.id}
-            ></SongComponent>
-          </li>
-        ))}
-      </ul>
+          {songs.map((s) => (
+            <li key={s.id}>
+              <SongComponent
+                detailed={false}
+                songDto={s}
+                detailedSongDto={new DetailedSongDto(0, "", "", "", "")}
+              ></SongComponent>
+            </li>
+          ))}
+        </ul>
       )}
-      
     </div>
   );
 }
