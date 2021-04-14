@@ -58,10 +58,9 @@ function AddSongToPlaylistComponent({ playlistId }: Props) {
           data={
             artistName === ""
               ? songArray.map((s) => s.albumTitle)
-              : songArray.map((s) => {
-                  if (s.artistName === artistName) return s.albumTitle;
-                  else return "";
-                })
+              : songArray
+                  .filter((s) => s.artistName === artistName)
+                  .map((s) => s.albumTitle)
           }
         ></AutosuggestComponent>
       </div>
@@ -72,10 +71,9 @@ function AddSongToPlaylistComponent({ playlistId }: Props) {
           data={
             albumTitle === ""
               ? songArray.map((s) => s.songTitle)
-              : songArray.map((s) => {
-                  if (s.albumTitle === albumTitle) return s.songTitle;
-                  else return "";
-                })
+              : songArray
+                  .filter((s) => s.albumTitle === albumTitle)
+                  .map((s) => s.songTitle)
           }
         ></AutosuggestComponent>
       </div>

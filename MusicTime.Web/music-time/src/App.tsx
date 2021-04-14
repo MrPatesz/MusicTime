@@ -11,6 +11,7 @@ import LoginPage from "./Pages/LoginPage";
 import SongsPage from "./Pages/SongsPage";
 import PlaylistsPage from "./Pages/PlaylistsPage";
 import PlaylistDetailsPage from "./Pages/PlaylistDetailsPage";
+import PlayerComponent from "./Components/PlayerComponent";
 
 const App = () => {
   return (
@@ -41,7 +42,11 @@ const App = () => {
           </Nav>
         </Navbar>
         <Switch>
-          <Route exact path="/"></Route>
+          <Route exact path="/">
+            <div className="page">
+              <PlayerComponent></PlayerComponent>
+            </div>
+          </Route>
           <Route exact path="/artists">
             <ArtistsPage></ArtistsPage>
           </Route>
