@@ -100,6 +100,7 @@ function AlbumDetailsPage() {
             variant="outline-info"
             className="ml-auto"
             onClick={() => setShowAddSong(true)}
+            disabled={showAddSong}
           >
             New
           </Button>
