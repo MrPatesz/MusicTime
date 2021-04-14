@@ -5,6 +5,7 @@ import axios from "axios";
 import { useState } from "react";
 import SongDto from "../Models/SongDto";
 import DetailedSongDto from "../Models/DetailedSongDto";
+import { Container, Row, Col } from "react-bootstrap";
 
 interface Props {
   detailed: boolean;
@@ -38,11 +39,25 @@ function SongComponent({ detailed, songDto, detailedSongDto }: Props) {
     <div className="mb-1">
       {detailed ? (
         <div className="d-flex flex-row">
-          <h4 className="mr-5">{detailedSongDto.songTitle}</h4>
-          <div className="mr-5">{" by "}</div>
-          <h5 className="mr-5">{detailedSongDto.artistName}</h5>
-          <div className="mr-5">{" from "}</div>
-          <h5 className="mr-5">{detailedSongDto.albumTitle}</h5>
+          <Container fluid>
+            <Row>
+              <Col xs={12} sm={8} md={8} lg={6}>
+                <h5>{detailedSongDto.songTitle}</h5>
+              </Col>
+              <Col className="d-none d-md-block" md={1} lg={1}>
+                <div>{" by "}</div>
+              </Col>
+              <Col className="d-none d-sm-block" sm={4} md={3} lg={2}>
+                <h5>{detailedSongDto.artistName}</h5>
+              </Col>
+              <Col className="d-none d-lg-block" lg={1}>
+                <div>{" from "}</div>
+              </Col>
+              <Col className="d-none d-lg-block" lg={2}>
+                <h5>{detailedSongDto.albumTitle}</h5>
+              </Col>
+            </Row>
+          </Container>
 
           <ButtonGroup className="ml-auto">
             <Button variant="outline-info"> Add </Button>
@@ -56,7 +71,9 @@ function SongComponent({ detailed, songDto, detailedSongDto }: Props) {
       ) : (
         <div className="d-flex flex-row">
           <h5>
-            <a href={songDto.url} className="text-info">{songDto.title}</a>
+            <a href={songDto.url} className="text-info">
+              {songDto.title}
+            </a>
           </h5>
 
           <ButtonGroup className="ml-auto">
