@@ -68,7 +68,8 @@ namespace MusicTime.Dal.Repositories
             return new SongDto
             {
                 Id = value.Id,
-                Title = value.Title
+                Title = value.Title,
+                Url = value.Url
             };
         }
 
@@ -78,6 +79,7 @@ namespace MusicTime.Dal.Repositories
             {
                 SongId = value.Id,
                 SongTitle = value.Title,
+                Url = value.Url,
                 AlbumTitle = value.Album.Title,
                 ArtistName = value.Album.Artist.Name,
             };

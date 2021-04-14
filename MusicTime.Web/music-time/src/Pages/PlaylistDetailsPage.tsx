@@ -1,5 +1,4 @@
 import SongComponent from "../Components/SongComponent";
-import SongDto from "../Models/SongDto";
 import { useEffect, useState } from "react";
 import { useRouteMatch } from "react-router-dom";
 import Button from "react-bootstrap/Button";
@@ -8,6 +7,7 @@ import Image from "react-bootstrap/Image";
 import Spinner from "react-bootstrap/Spinner";
 import PlaylistDto from "../Models/PlaylistDto";
 import AddSongToPlaylistComponent from "../Components/AddSongToPlaylistComponent";
+import DetailedSongDto from "../Models/DetailedSongDto";
 
 function PlaylistDetailsPage() {
   let id = useRouteMatch("/playlists/:id").params.id;
@@ -26,14 +26,22 @@ function PlaylistDetailsPage() {
     setPlaylistStillLoading(false);
   }, []);
 
-  const [songs, setSongs] = useState<SongDto[]>([]);
+  const [songs, setSongs] = useState<DetailedSongDto[]>([]);
   const [songsStillLoading, setSongsStillLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const mockedData = () => {
-      let songArray: SongDto[] = [];
+      let songArray: DetailedSongDto[] = [];
       for (let i = 0; i < 10; i++) {
-        songArray.push(new SongDto(i, "title" + i));
+        songArray.push(
+          new DetailedSongDto(
+            i,
+            "title" + i,
+            "url" + i,
+            "artistName" + i,
+            "albumTitle" + i
+          )
+        );
       }
       setSongs(songArray);
       setSongsStillLoading(false);
@@ -68,7 +76,7 @@ function PlaylistDetailsPage() {
             <ButtonGroup className="ml-auto mt-3">
               <Button
                 variant="outline-info"
-                onClick={() => {}/*setShowEditPlaylist(true)*/}
+                onClick={() => {} /*setShowEditPlaylist(true)*/}
                 style={{ maxHeight: "3rem" }}
               >
                 Edit
@@ -92,9 +100,9 @@ function PlaylistDetailsPage() {
             {songs.map((s) => (
               <li key={s.id}>
                 <SongComponent
-                  title={s.title}
-                  artist={"artistName" + s.id}
-                  album={"albumTitle" + s.id}
+                  title={s.songTitle}
+                  artist={s.artistName}
+                  album={s.albumTitle}
                   id={s.id}
                 ></SongComponent>
               </li>

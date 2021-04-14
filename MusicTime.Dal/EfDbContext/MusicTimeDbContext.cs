@@ -117,6 +117,9 @@ namespace MusicTime.Dal.EfDbContext
                .Property(t => t.Title).HasMaxLength(50)
                .IsRequired(required: true).IsUnicode(unicode: true);
             modelBuilder.Entity<Song>()
+               .Property(t => t.Url).HasMaxLength(150)
+               .IsRequired(required: true).IsUnicode(unicode: true);
+            modelBuilder.Entity<Song>()
                .HasOne(t => t.Album)
                .WithMany(a => a.Songs)
                .HasForeignKey(t => t.AlbumId)
@@ -125,8 +128,8 @@ namespace MusicTime.Dal.EfDbContext
             modelBuilder.Entity<Song>()
                 .HasData(new[]
                 {
-                    new Song() { Id = 1, Title = "Orlando", AlbumId = 1},
-                    new Song() { Id = 2, Title = "Louder Than the DJ", AlbumId = 2 },
+                    new Song() { Id = 1, Title = "Orlando", Url = "https://www.youtube.com/watch?v=cnNfYsfyiMc", AlbumId = 1},
+                    new Song() { Id = 2, Title = "Louder Than the DJ", Url="https://www.youtube.com/watch?v=NM6PA9dwDRY", AlbumId = 2 },
                 });
         }
     }

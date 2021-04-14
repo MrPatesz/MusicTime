@@ -13,6 +13,7 @@ interface Props {
 
 function NewSongComponent({ show, setShow, albumId }: Props) {
   const [title, setTitle] = useState<string | null>(null);
+  const [url, setUrl] = useState<string | null>(null);
 
   function postFunction() {
     const postData = async () => {
@@ -25,6 +26,7 @@ function NewSongComponent({ show, setShow, albumId }: Props) {
         },
         data: {
           Title: title,
+          Url: url,
         },
       });
     };
@@ -37,6 +39,13 @@ function NewSongComponent({ show, setShow, albumId }: Props) {
         <div className="d-flex flex-row">
           <Form.Control
             onChange={(e) => setTitle(e.target.value)}
+            placeholder={"title"}
+          ></Form.Control>
+
+          <Form.Control
+            className="ml-3"
+            onChange={(e) => setUrl(e.target.value)}
+            placeholder={"url"}
           ></Form.Control>
 
           <ButtonGroup className="ml-5">
