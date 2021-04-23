@@ -11,7 +11,6 @@ import LoginPage from "./Pages/LoginPage";
 import SongsPage from "./Pages/SongsPage";
 import PlaylistsPage from "./Pages/PlaylistsPage";
 import PlaylistDetailsPage from "./Pages/PlaylistDetailsPage";
-import PlayerWrapperComponent from "./Components/PlayerWrapperComponent";
 import MusicPlayerComponent from "./Components/MusicPlayerComponent";
 
 const App = () => {
@@ -43,14 +42,7 @@ const App = () => {
           </Nav>
         </Navbar>
         <Switch>
-          <Route exact path="/">
-            <div className="page">
-              <PlayerWrapperComponent
-                width={640}
-                height={360}
-              ></PlayerWrapperComponent>
-            </div>
-          </Route>
+          <Route exact path="/"></Route>
           <Route exact path="/artists">
             <ArtistsPage></ArtistsPage>
           </Route>

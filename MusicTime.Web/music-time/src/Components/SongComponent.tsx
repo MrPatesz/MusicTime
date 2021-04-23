@@ -60,9 +60,6 @@ function SongComponent({ detailed, songDto, detailedSongDto }: Props) {
           </Container>
 
           <ButtonGroup className="ml-auto">
-            <Button variant="outline-info"> Add </Button>
-          </ButtonGroup>
-          <ButtonGroup className="ml-2">
             <Button variant="outline-warning" onClick={() => removeFunction()}>
               Remove
             </Button>
