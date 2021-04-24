@@ -1,5 +1,5 @@
 import ReactPlayer from "react-player";
-import { useState } from "react";
+import { LegacyRef, RefObject, useRef, useState } from "react";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 
@@ -12,27 +12,27 @@ function MusicPlayerComponent() {
     "https://soundcloud.com/miliy_10/toxic",
   ]);
 
-  const [playing, setPlaying] = useState<boolean>(false);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [expanded, setExpanded] = useState<boolean>(false);
   const [volume, setVolume] = useState<number>(0.15);
-  const [seek, setSeek] = useState<number>(0);
-  const [seeking, setSeeking] = useState<boolean>(false);
+  const [progress, setProgress] = useState<number>(0);
+  const [isSeeking, setIsSeeking] = useState<boolean>(false);
 
   function playPrevious() {
+    setProgress(0);
     setIndex(index > 0 ? index - 1 : urlArray.length - 1);
-    setPlaying(true);
+    setIsPlaying(true);
   }
 
   function playNext() {
+    setProgress(0);
     setIndex(index < urlArray.length - 1 ? index + 1 : 0);
-    setPlaying(true);
+    setIsPlaying(true);
   }
 
-  const [player, setPlayer] = useState<any>();
-
-  function ref(player: any) {
-    setPlayer(player);
-  }
+  const playerRef = useRef<LegacyRef<ReactPlayer>>(
+    null
+  ) as RefObject<ReactPlayer>;
 
   return (
     <div
@@ -41,14 +41,25 @@ function MusicPlayerComponent() {
     >
       <div className="d-flex flex-row m-2">
         <ReactPlayer
-          ref={ref}
+          ref={playerRef}
           url={urlArray[index]}
-          playing={playing}
+          playing={isPlaying}
           onEnded={playNext}
           width={expanded ? 640 : 320}
           height={expanded ? 360 : 180}
           volume={volume}
           loop={false}
+          onPause={() => setIsPlaying(false)}
+          onStart={() => setIsPlaying(true)}
+          onPlay={() => setIsPlaying(true)}
+          onProgress={(state: {
+            played: number;
+            playedSeconds: number;
+            loaded: number;
+            loadedSeconds: number;
+          }) => {
+            if (!isSeeking) setProgress(state.played);
+          }}
         />
 
         <input
@@ -70,26 +81,29 @@ function MusicPlayerComponent() {
         min={0}
         max={0.999999}
         step="any"
-        value={seek}
-        onMouseDown={() => setSeeking(true)}
+        value={progress}
+        onMouseDown={() => setIsSeeking(true)}
         onChange={(e: React.FormEvent<HTMLInputElement>) =>
-          setSeek(parseFloat(e.currentTarget.value))
+          setProgress(parseFloat(e.currentTarget.value))
         }
         onMouseUp={(e: React.FormEvent<HTMLInputElement>) => {
-          setSeeking(false);
-          player.seekTo(parseFloat(e.currentTarget.value));
+          setIsSeeking(false);
+          playerRef?.current?.seekTo(parseFloat(e.currentTarget.value));
         }}
       />
 
       <div className="ml-auto mb-2 mt-2">
         <ButtonGroup className="mr-2">
           <Button variant="outline-info" onClick={playPrevious}>
-            Previous
+            Prev
           </Button>
         </ButtonGroup>
         <ButtonGroup className="mr-2">
-          <Button variant="outline-info" onClick={() => setPlaying(!playing)}>
-            {playing ? "Pause" : "Play"}
+          <Button
+            variant="outline-info"
+            onClick={() => setIsPlaying(!isPlaying)}
+          >
+            {isPlaying ? "Pause" : "Play"}
           </Button>
         </ButtonGroup>
         <ButtonGroup className="mr-2">
