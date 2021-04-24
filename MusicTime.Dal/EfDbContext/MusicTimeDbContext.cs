@@ -16,12 +16,13 @@ namespace MusicTime.Dal.EfDbContext
         public DbSet<Album> Albums { get; set; }
         public DbSet<Artist> Artists { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Playlist> Playlists { get; set; }
+        public DbSet<SongToPlaylist> SongToPlaylistRecords { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()
-                .ToTable("Users");
-            modelBuilder.Entity<User>()
+                .ToTable("Users")
                 .HasKey(s => s.Id);
             modelBuilder.Entity<User>()
                 .Property(s => s.UserName).HasMaxLength(50)
@@ -35,6 +36,9 @@ namespace MusicTime.Dal.EfDbContext
             modelBuilder.Entity<User>()
                 .HasMany(a => a.Artists)
                 .WithOne(a => a.User);
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.Playlists)
+                .WithOne(p => p.User);
 
             using (var hmac = new HMACSHA512())
             {
@@ -47,11 +51,37 @@ namespace MusicTime.Dal.EfDbContext
                     new User() { Id = 2, UserName = "user1", PasswordHash = hash, PasswordSalt = hmac.Key },
                 });
             }
-                
+
+            modelBuilder.Entity<Playlist>()
+                .ToTable("Playlists")
+                .HasKey(p => p.Id);
+            modelBuilder.Entity<Playlist>()
+                .Property(p => p.Title).HasMaxLength(50)
+                .IsRequired(required: true).IsUnicode(unicode: true);
+            modelBuilder.Entity<Playlist>()
+                .Property(p => p.Description).HasMaxLength(256)
+                .IsRequired(required: false).IsUnicode(unicode: true);
+            modelBuilder.Entity<Playlist>()
+                .HasOne(p => p.User)
+                .WithMany(u => u.Playlists)
+                .HasForeignKey(p => p.UserId)
+                .IsRequired(required: true);
+            modelBuilder.Entity<Playlist>()
+                .HasMany(p => p.PlaylistToSongs)
+                .WithOne(pts => pts.Playlist)
+                .HasForeignKey(pts => pts.PlaylistId);
+
+            modelBuilder.Entity<Playlist>()
+                .HasData(new[]
+                {
+                    new Playlist() { Id = 1, Title = "Best of X", UserId = 1 },
+                    new Playlist() { Id = 2, Title = "Best of JUMEX", UserId = 1 },
+                    new Playlist() { Id = 3, Title = "Best of Billy Talent", UserId = 2 },
+                    new Playlist() { Id = 4, Title = "Best of Linkin Park", UserId = 2 },
+                });
 
             modelBuilder.Entity<Artist>()
-                .ToTable("Artists");
-            modelBuilder.Entity<Artist>()
+                .ToTable("Artists")
                 .HasKey(s => s.Id);
             modelBuilder.Entity<Artist>()
                 .Property(s => s.Name).HasMaxLength(50)
@@ -78,9 +108,8 @@ namespace MusicTime.Dal.EfDbContext
                 });
 
             modelBuilder.Entity<Album>()
-                .ToTable("Albums");
-            modelBuilder.Entity<Album>()
-               .HasKey(t => t.Id);
+                .ToTable("Albums")
+                .HasKey(t => t.Id);
             modelBuilder.Entity<Album>()
                .Property(t => t.Title).HasMaxLength(50)
                .IsRequired(required: true).IsUnicode(unicode: true);
@@ -110,9 +139,8 @@ namespace MusicTime.Dal.EfDbContext
                 });
 
             modelBuilder.Entity<Song>()
-                .ToTable("Songs");
-            modelBuilder.Entity<Song>()
-               .HasKey(t => t.Id);
+                .ToTable("Songs")
+                .HasKey(t => t.Id);
             modelBuilder.Entity<Song>()
                .Property(t => t.Title).HasMaxLength(50)
                .IsRequired(required: true).IsUnicode(unicode: true);
@@ -124,12 +152,39 @@ namespace MusicTime.Dal.EfDbContext
                .WithMany(a => a.Songs)
                .HasForeignKey(t => t.AlbumId)
                .IsRequired(required: true);
+            modelBuilder.Entity<Song>()
+                .HasMany(s => s.SongToPlaylists)
+                .WithOne(stp => stp.Song)
+                .HasForeignKey(stp => stp.SongId);
 
             modelBuilder.Entity<Song>()
                 .HasData(new[]
                 {
-                    new Song() { Id = 1, Title = "Orlando", Url = "https://www.youtube.com/watch?v=cnNfYsfyiMc", AlbumId = 1},
-                    new Song() { Id = 2, Title = "Louder Than the DJ", Url="https://www.youtube.com/watch?v=NM6PA9dwDRY", AlbumId = 2 },
+                    new Song() { Id = 1, Title = "Orlando", Url = "https://www.youtube.com/watch?v=cnNfYsfyiMc", AlbumId = 1 },
+                    new Song() { Id = 2, Title = "Louder Than the DJ", Url = "https://www.youtube.com/watch?v=NM6PA9dwDRY", AlbumId = 2 },
+                });
+
+            modelBuilder.Entity<SongToPlaylist>()
+                .ToTable("SongToPlaylist")
+                .HasKey(sp => sp.Id);
+
+            modelBuilder.Entity<SongToPlaylist>()
+                .HasOne(sp => sp.Playlist)
+                .WithMany(p => p.PlaylistToSongs)
+                .HasForeignKey(sp => sp.PlaylistId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<SongToPlaylist>()
+                .HasOne(sp => sp.Song)
+                .WithMany(s => s.SongToPlaylists)
+                .HasForeignKey(sp => sp.SongId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<SongToPlaylist>()
+                .HasData(new[]
+                {
+                    new SongToPlaylist() {Id = 1, SongId = 1, PlaylistId = 1},
+                    new SongToPlaylist() {Id = 2, SongId = 2, PlaylistId = 3},
                 });
         }
     }

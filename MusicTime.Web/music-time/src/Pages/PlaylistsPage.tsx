@@ -2,19 +2,26 @@ import { useEffect, useState } from "react";
 import CardComponent from "../Components/CardComponent";
 import { Container, Row, Col } from "react-bootstrap";
 import PlaylistDto from "../Models/PlaylistDto";
+import axios from "axios";
+import Spinner from "react-bootstrap/Spinner";
 
 function PlaylistsPage() {
   const apiLink = "https://localhost:5001/api/playlists/";
 
   const [playlists, setPlaylists] = useState<PlaylistDto[]>([]);
+  const [stillLoading, setStillLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const fetchData = () => {
-      let playlistArray: PlaylistDto[] = [];
-      for (let i = 0; i < 10; i++) {
-        playlistArray.push(new PlaylistDto(i, "title" + i, null, null));
-      }
-      setPlaylists(playlistArray);
+    const fetchData = async () => {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      };
+      const result = await axios.get(apiLink, config);
+
+      setPlaylists(result.data);
+      setStillLoading(false);
     };
     fetchData();
   }, []);
@@ -23,21 +30,25 @@ function PlaylistsPage() {
     <div className="page">
       <h1>Playlists</h1>
 
-      <Container fluid>
-        <Row>
-          {playlists.map((a) => (
-            <Col xs={6} sm={4} md={3} xl={2} key={a.id}>
-              <CardComponent
-                title={a.title}
-                pictureGuid={a.coverGuid}
-                deleteLink={apiLink}
-                linkTo="playlists/"
-                objectId={a.id}
-              ></CardComponent>
-            </Col>
-          ))}
-        </Row>
-      </Container>
+      {stillLoading ? (
+        <Spinner animation="grow" variant="info" />
+      ) : (
+        <Container fluid>
+          <Row>
+            {playlists.map((a) => (
+              <Col xs={6} sm={4} md={3} xl={2} key={a.id}>
+                <CardComponent
+                  title={a.title}
+                  pictureGuid={a.coverGuid}
+                  deleteLink={apiLink}
+                  linkTo="playlists/"
+                  objectId={a.id}
+                ></CardComponent>
+              </Col>
+            ))}
+          </Row>
+        </Container>
+      )}
     </div>
   );
 }

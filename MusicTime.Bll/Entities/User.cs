@@ -10,5 +10,6 @@ namespace MusicTime.Bll.Entities
         public byte[] PasswordSalt { get; set; }
 
         public virtual List<Artist> Artists { get; set; }
+        public virtual List<Playlist> Playlists { get; set; }
     }
 }

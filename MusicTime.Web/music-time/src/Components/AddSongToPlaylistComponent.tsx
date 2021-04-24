@@ -34,12 +34,26 @@ function AddSongToPlaylistComponent({ playlistId }: Props) {
   }, [apiLink, artistName]);
 
   function AddFunction() {
-    var song = {
-      artist: artistName,
-      album: albumTitle,
-      song: songTitle,
-    };
-    console.log(song);
+    var songDto = songDtoArray.find((s) => s.songTitle === songTitle);
+
+    if (songDto !== undefined && songDto !== null) {
+      const postData = async () => {
+        await axios({
+          method: "post",
+          url:
+            "https://localhost:5001/api/playlists/" + playlistId + "/addSong",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+          data: {
+            Id: songDto?.songId,
+            Title: songDto?.songTitle,
+            Url: songDto?.url,
+          },
+        });
+      };
+      postData();
+    }
   }
 
   const [songTitleArray, setSongTitleArray] = useState<string[]>([]);

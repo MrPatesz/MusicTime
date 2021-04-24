@@ -11,6 +11,8 @@ namespace MusicTime.Bll.IRepositories
 
         List<SongDto> GetSongsOfAlbum(int userId, int albumId);
 
+        List<SongDto> GetSongsOfPlaylist(int userId, int playlistId);
+
         Task<bool> DeleteSongById(int userId, int songId);
 
         bool DoesSongAlreadyExist(int userId, SongDto song, int albumId);
@@ -18,5 +20,7 @@ namespace MusicTime.Bll.IRepositories
         Task<SongDto> AddSong(Song song);
 
         List<DetailedSongDto> GetDetailedSongs(int userId);
+
+        List<DetailedSongDto> GetDetailedSongsOfPlaylist(int userId, int playlistId);
     }
 }

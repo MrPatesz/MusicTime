@@ -39,7 +39,6 @@ ul.no-bullets {
 }
 
 .vertical-slider {
-  writing-mode: bt-lr; /* IE */
-  -webkit-appearance: slider-vertical; /* WebKit */
+  -webkit-appearance: slider-vertical;
   width: 16px;
 }

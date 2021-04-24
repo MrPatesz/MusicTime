@@ -116,7 +116,7 @@ function AlbumDetailsPage() {
                 <SongComponent
                   detailed={false}
                   songDto={s}
-                  detailedSongDto={new DetailedSongDto(0, "", "", "", "")}
+                  detailedSongDto={new DetailedSongDto(0, "", "", 0, "", 0, "")}
                 ></SongComponent>
               </li>
             ))}

@@ -34,11 +34,13 @@ namespace MusicTime.Api
             services.AddScoped<AlbumService, AlbumService>();
             services.AddScoped<ArtistService, ArtistService>();
             services.AddScoped<UserService, UserService>();
+            services.AddScoped<PlaylistService, PlaylistService>();
 
             services.AddScoped<ISongRepository, SongRepository>();
             services.AddScoped<IAlbumRepository, AlbumRepository>();
             services.AddScoped<IArtistRepository, ArtistRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IPlaylistRepository, PlaylistRepository>();
 
             services.AddControllers();
 

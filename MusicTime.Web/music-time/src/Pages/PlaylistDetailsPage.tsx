@@ -21,18 +21,6 @@ function PlaylistDetailsPage() {
   );
   const [playlistIsLoading, setPlaylistIsLoading] = useState<boolean>(true);
 
-  //playlistet lekérni
-  useEffect(() => {
-    setPlaylist(
-      new PlaylistDto(0, "Favourite songs", "description comes here", null)
-    );
-    setPlaylistIsLoading(false);
-  }, []);
-
-  const [songs, setSongs] = useState<DetailedSongDto[]>([]);
-  const [songsStillLoading, setSongsStillLoading] = useState<boolean>(true);
-
-  // csak playlist songjai
   useEffect(() => {
     const fetchData = async () => {
       const config = {
@@ -40,13 +28,31 @@ function PlaylistDetailsPage() {
           Authorization: `Bearer ${localStorage.getItem("authToken")}`,
         },
       };
-      const result = await axios.get(apiLink + "songs/detailed", config);
+      const result = await axios.get(apiLink + "playlists/" + id, config);
+
+      setPlaylist(result.data);
+      setPlaylistIsLoading(false);
+    };
+    fetchData();
+  }, [id]);
+
+  const [songs, setSongs] = useState<DetailedSongDto[]>([]);
+  const [songsStillLoading, setSongsStillLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      };
+      const result = await axios.get(apiLink + "playlists/" + id + "/songs", config);
 
       setSongs(result.data);
       setSongsStillLoading(false);
     };
     fetchData();
-  }, [apiLink]);
+  }, [apiLink, id]);
 
   //const [showEditPlaylist, setShowEditPlaylist] = useState<boolean>(false);
 

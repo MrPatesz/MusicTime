@@ -28,6 +28,11 @@ namespace MusicTime.Dal.Repositories
             return dbContext.Songs.Where(s => s.AlbumId == albumId && s.Album.Artist.UserId == userId).Select(ToDto).ToList();
         }
 
+        public List<SongDto> GetSongsOfPlaylist(int userId, int playlistId)
+        {
+            return dbContext.SongToPlaylistRecords.Where(stp => stp.Playlist.UserId == userId && stp.PlaylistId  == playlistId).Select(stp => ToDto(stp.Song)).ToList();
+        }
+
         public async Task<bool> DeleteSongById(int userId, int songId)
         {
             var toRemove = dbContext.Songs.FirstOrDefault(a => a.Id == songId && a.Album.Artist.UserId == userId);
@@ -63,6 +68,17 @@ namespace MusicTime.Dal.Repositories
                 .Select(ToDetailedDto).ToList();
         }
 
+        public List<DetailedSongDto> GetDetailedSongsOfPlaylist(int userId, int playlistId)
+        {
+            return dbContext.SongToPlaylistRecords
+                .Include(s => s.Song.Album)
+                .Include(s => s.Song.Album.Artist)
+                .Where(stp => stp.Playlist.UserId == userId && stp.PlaylistId == playlistId)
+                .Select(stp => stp.Song)
+                .Select(ToDetailedDto)
+                .ToList();
+        }
+
         private SongDto ToDto(Song value)
         {
             return new SongDto
@@ -80,7 +96,9 @@ namespace MusicTime.Dal.Repositories
                 SongId = value.Id,
                 SongTitle = value.Title,
                 Url = value.Url,
+                AlbumId = value.AlbumId,
                 AlbumTitle = value.Album.Title,
+                ArtistId = value.Album.ArtistId,
                 ArtistName = value.Album.Artist.Name,
             };
         }

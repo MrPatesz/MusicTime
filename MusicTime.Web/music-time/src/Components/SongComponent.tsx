@@ -6,6 +6,7 @@ import { useState } from "react";
 import SongDto from "../Models/SongDto";
 import DetailedSongDto from "../Models/DetailedSongDto";
 import { Container, Row, Col } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 interface Props {
   detailed: boolean;
@@ -15,7 +16,6 @@ interface Props {
 
 function SongComponent({ detailed, songDto, detailedSongDto }: Props) {
   const [confirm, setConfirm] = useState<boolean>(false);
-  //const [showAddSongToPlaylist, setShowAddSongToPlaylist] = useState<boolean>(false);
 
   function deleteFunction() {
     const deleteCall = async () => {
@@ -48,13 +48,29 @@ function SongComponent({ detailed, songDto, detailedSongDto }: Props) {
                 <div>{" by "}</div>
               </Col>
               <Col className="d-none d-sm-block" sm={4} md={3} lg={2}>
-                <h5>{detailedSongDto.artistName}</h5>
+                <h5>
+                  <Link
+                    className="text-info"
+                    to={"/artists/" + detailedSongDto.artistId}
+                  >
+                    {detailedSongDto.artistName}
+                  </Link>
+                </h5>
               </Col>
               <Col className="d-none d-lg-block" lg={1}>
                 <div>{" from "}</div>
               </Col>
               <Col className="d-none d-lg-block" lg={2}>
-                <h5>{detailedSongDto.albumTitle}</h5>
+                <h5>
+                  <h5>
+                    <Link
+                      className="text-info"
+                      to={"/albums/" + detailedSongDto.albumId}
+                    >
+                      {detailedSongDto.albumTitle}
+                    </Link>
+                  </h5>
+                </h5>
               </Col>
             </Row>
           </Container>
