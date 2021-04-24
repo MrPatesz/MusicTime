@@ -11,9 +11,9 @@ interface Props {
 }
 
 function SongsPage({ setUrlArray }: Props) {
-  const apiLink = "https://localhost:5001/api/songs";
+  const apiLink = "https://localhost:5001/api/songs/detailed";
 
-  const [songs, setSongs] = useState<SongDto[]>([]);
+  const [songs, setSongs] = useState<DetailedSongDto[]>([]);
   const [stillLoading, setStillLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -57,11 +57,11 @@ function SongsPage({ setUrlArray }: Props) {
       ) : (
         <ul className="no-bullets">
           {songs.map((s) => (
-            <li key={s.id}>
+            <li key={s.songId}>
               <SongComponent
-                detailed={false}
-                songDto={s}
-                detailedSongDto={new DetailedSongDto(0, "", "", 0, "", 0, "")}
+                detailed={true}
+                songDto={new SongDto(0, "", "")}
+                detailedSongDto={s}
                 playlistId={0}
               ></SongComponent>
             </li>

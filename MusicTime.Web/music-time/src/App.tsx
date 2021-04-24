@@ -69,7 +69,7 @@ const App = () => {
             <PlaylistsPage></PlaylistsPage>
           </Route>
           <Route exact path={"/playlists/:id"}>
-            <PlaylistDetailsPage></PlaylistDetailsPage>
+            <PlaylistDetailsPage setUrlArray={setUrlArray}></PlaylistDetailsPage>
           </Route>
           <Route exact path="/login">
             <LoginPage></LoginPage>

@@ -97,6 +97,9 @@ function SongComponent({
           </Container>
 
           <ButtonGroup className="ml-auto">
+            <Button variant="outline-info" className="mr-2">
+              Add
+            </Button>
             <Button variant="outline-warning" onClick={() => removeFunction()}>
               Remove
             </Button>

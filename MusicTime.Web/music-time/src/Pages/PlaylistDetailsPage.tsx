@@ -11,7 +11,11 @@ import DetailedSongDto from "../Models/DetailedSongDto";
 import SongDto from "../Models/SongDto";
 import axios from "axios";
 
-function PlaylistDetailsPage() {
+interface Props {
+  setUrlArray: React.Dispatch<React.SetStateAction<string[]>>;
+}
+
+function PlaylistDetailsPage({ setUrlArray }: Props) {
   const apiLink = "https://localhost:5001/api/";
 
   let id = useRouteMatch("/playlists/:id").params.id;
@@ -59,6 +63,14 @@ function PlaylistDetailsPage() {
 
   //const [showEditPlaylist, setShowEditPlaylist] = useState<boolean>(false);
 
+  function playFunction() {
+    let urlArray: string[] = [];
+
+    songs.forEach((s) => urlArray.push(s.url));
+
+    setUrlArray(urlArray);
+  }
+
   return (
     <div className="page">
       <div>
@@ -81,13 +93,16 @@ function PlaylistDetailsPage() {
               <p>{playlist.description}</p>
             </div>
 
-            <ButtonGroup className="ml-auto mt-3">
+            <ButtonGroup vertical className="ml-auto mb-auto">
               <Button
                 variant="outline-info"
                 onClick={() => {} /*setShowEditPlaylist(true)*/}
-                style={{ maxHeight: "3rem" }}
+                className="mb-2"
               >
                 Edit
+              </Button>
+              <Button variant="outline-info" onClick={playFunction}>
+                Play
               </Button>
             </ButtonGroup>
           </div>
