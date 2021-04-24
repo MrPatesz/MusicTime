@@ -80,6 +80,23 @@ namespace MusicTime.Dal.Repositories
             return true;
         }
 
+        public async Task<bool> RemoveSongFromPlaylist(SongToPlaylist songToPlaylist)
+        {
+            var toRemove = dbContext.SongToPlaylistRecords.FirstOrDefault(a => a.SongId == songToPlaylist.SongId && a.PlaylistId == songToPlaylist.PlaylistId);
+
+            if(toRemove != null)
+            {
+                dbContext.SongToPlaylistRecords.Remove(toRemove);
+                await dbContext.SaveChangesAsync();
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }           
+        }
+
         public bool DoesPlaylistContainSong(int playlistId, SongDto songDto)
         {
             return dbContext.SongToPlaylistRecords.Any(stp => stp.SongId == songDto.Id && stp.PlaylistId == playlistId);

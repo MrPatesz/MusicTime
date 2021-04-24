@@ -79,8 +79,21 @@ namespace MusicTime.Bll.Services
                     SongId = songDto.Id,
                     PlaylistId = playlistId
                 };
-
                 return await playlistRepository.AddSongToPlaylist(songToPlaylist);
+            }
+            return false;
+        }
+
+        public async Task<bool> RemoveSongFromPlaylist(int userId, int playlistId, SongDto songDto)
+        {
+            if(playlistRepository.DoesPlaylistContainSong(playlistId, songDto))
+            {
+                var songToPlaylist = new SongToPlaylist
+                {
+                    SongId = songDto.Id,
+                    PlaylistId = playlistId
+                };
+                return await playlistRepository.RemoveSongFromPlaylist(songToPlaylist);
             }
             return false;
         }

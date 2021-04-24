@@ -3,14 +3,12 @@ import { LegacyRef, RefObject, useRef, useState } from "react";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 
-function MusicPlayerComponent() {
+interface Props {
+  urlArray: string[];
+}
+
+function MusicPlayerComponent({ urlArray }: Props) {
   const [index, setIndex] = useState<number>(0);
-  const [urlArray] = useState<string[]>([
-    "https://www.youtube.com/watch?v=1givs65YWBg",
-    "https://soundcloud.com/jahseh-onfroy/the-fall",
-    "https://www.youtube.com/watch?v=lZ6hku1lbaQ",
-    "https://soundcloud.com/miliy_10/toxic",
-  ]);
 
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [expanded, setExpanded] = useState<boolean>(false);

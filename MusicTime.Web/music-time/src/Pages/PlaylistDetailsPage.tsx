@@ -46,7 +46,10 @@ function PlaylistDetailsPage() {
           Authorization: `Bearer ${localStorage.getItem("authToken")}`,
         },
       };
-      const result = await axios.get(apiLink + "playlists/" + id + "/songs", config);
+      const result = await axios.get(
+        apiLink + "playlists/" + id + "/songs",
+        config
+      );
 
       setSongs(result.data);
       setSongsStillLoading(false);
@@ -108,6 +111,7 @@ function PlaylistDetailsPage() {
                   detailed={true}
                   songDto={new SongDto(0, "", "")}
                   detailedSongDto={s}
+                  playlistId={id}
                 ></SongComponent>
               </li>
             ))}

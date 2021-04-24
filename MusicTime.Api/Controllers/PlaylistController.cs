@@ -108,5 +108,19 @@ namespace MusicTime.Api.Controllers
             else
                 return BadRequest();
         }
+
+        [HttpPost("{playlistId}/removeSong")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> RemoveSongFromPlaylist(int playlistId, [FromBody] SongDto songDto)
+        {
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            if (await playlistService.RemoveSongFromPlaylist(userId, playlistId, songDto))
+                return Ok();
+            else
+                return BadRequest();
+        }
     }
 }

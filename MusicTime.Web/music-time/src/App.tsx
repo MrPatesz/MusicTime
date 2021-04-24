@@ -12,8 +12,15 @@ import SongsPage from "./Pages/SongsPage";
 import PlaylistsPage from "./Pages/PlaylistsPage";
 import PlaylistDetailsPage from "./Pages/PlaylistDetailsPage";
 import MusicPlayerComponent from "./Components/MusicPlayerComponent";
+import { useState } from "react";
 
 const App = () => {
+  const [urlArray, setUrlArray] = useState<string[]>([
+    "https://www.youtube.com/watch?v=1givs65YWBg",
+    "https://soundcloud.com/jahseh-onfroy/the-fall",
+    "https://www.youtube.com/watch?v=lZ6hku1lbaQ",
+    "https://soundcloud.com/miliy_10/toxic",
+  ]);
   return (
     <Router>
       <div className="App">
@@ -68,7 +75,7 @@ const App = () => {
             <LoginPage></LoginPage>
           </Route>
         </Switch>
-        <MusicPlayerComponent></MusicPlayerComponent>
+        <MusicPlayerComponent urlArray={urlArray}></MusicPlayerComponent>
       </div>
     </Router>
   );

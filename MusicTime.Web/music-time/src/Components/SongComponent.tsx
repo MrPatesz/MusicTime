@@ -12,9 +12,15 @@ interface Props {
   detailed: boolean;
   songDto: SongDto;
   detailedSongDto: DetailedSongDto;
+  playlistId: number;
 }
 
-function SongComponent({ detailed, songDto, detailedSongDto }: Props) {
+function SongComponent({
+  detailed,
+  songDto,
+  detailedSongDto,
+  playlistId,
+}: Props) {
   const [confirm, setConfirm] = useState<boolean>(false);
 
   function deleteFunction() {
@@ -32,7 +38,22 @@ function SongComponent({ detailed, songDto, detailedSongDto }: Props) {
   }
 
   function removeFunction() {
-    //remove song from playlist
+    const postData = async () => {
+      await axios({
+        method: "post",
+        url:
+          "https://localhost:5001/api/playlists/" + playlistId + "/removeSong",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+        data: {
+          Id: detailedSongDto.songId,
+          Title: detailedSongDto.songTitle,
+          Url: detailedSongDto.url,
+        },
+      });
+    };
+    postData();
   }
 
   return (

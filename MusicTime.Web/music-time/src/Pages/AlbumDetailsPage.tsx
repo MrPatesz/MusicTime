@@ -117,6 +117,7 @@ function AlbumDetailsPage() {
                   detailed={false}
                   songDto={s}
                   detailedSongDto={new DetailedSongDto(0, "", "", 0, "", 0, "")}
+                  playlistId={0}
                 ></SongComponent>
               </li>
             ))}
