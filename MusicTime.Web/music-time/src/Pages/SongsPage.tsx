@@ -4,8 +4,13 @@ import SongDto from "../Models/SongDto";
 import SongComponent from "../Components/SongComponent";
 import Spinner from "react-bootstrap/Spinner";
 import DetailedSongDto from "../Models/DetailedSongDto";
+import Button from "react-bootstrap/Button";
 
-function SongsPage() {
+interface Props {
+  setUrlArray: React.Dispatch<React.SetStateAction<string[]>>;
+}
+
+function SongsPage({ setUrlArray }: Props) {
   const apiLink = "https://localhost:5001/api/songs";
 
   const [songs, setSongs] = useState<SongDto[]>([]);
@@ -26,9 +31,26 @@ function SongsPage() {
     fetchData();
   }, []);
 
+  function playFunction() {
+    let urlArray: string[] = [];
+
+    songs.forEach((s) => urlArray.push(s.url));
+
+    setUrlArray(urlArray);
+  }
+
   return (
     <div className="page">
-      <h1>Songs</h1>
+      <div className="d-flex flex-row mb-3 mt-2">
+        <h1>Songs</h1>
+        <Button
+          variant="outline-info"
+          className="ml-auto mt-auto mb-auto"
+          onClick={playFunction}
+        >
+          Play
+        </Button>
+      </div>
 
       {stillLoading ? (
         <Spinner animation="grow" variant="info" />

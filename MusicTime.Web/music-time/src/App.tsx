@@ -54,16 +54,16 @@ const App = () => {
             <ArtistsPage></ArtistsPage>
           </Route>
           <Route exact path={"/artists/:id"}>
-            <ArtistDetailsPage></ArtistDetailsPage>
+            <ArtistDetailsPage setUrlArray={setUrlArray}></ArtistDetailsPage>
           </Route>
           <Route exact path="/albums">
             <AlbumsPage></AlbumsPage>
           </Route>
           <Route exact path={"/albums/:id"}>
-            <AlbumDetailsPage></AlbumDetailsPage>
+            <AlbumDetailsPage setUrlArray={setUrlArray}></AlbumDetailsPage>
           </Route>
           <Route exact path="/songs">
-            <SongsPage></SongsPage>
+            <SongsPage setUrlArray={setUrlArray}></SongsPage>
           </Route>
           <Route exact path="/playlists">
             <PlaylistsPage></PlaylistsPage>

@@ -12,7 +12,11 @@ import NewArtistComponent from "../Components/NewArtistComponent";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 
-function ArtistDetailsPage() {
+interface Props {
+  setUrlArray: React.Dispatch<React.SetStateAction<string[]>>;
+}
+
+function ArtistDetailsPage({ setUrlArray }: Props) {
   let id = useRouteMatch("/artists/:id").params.id;
 
   const apiLink = "https://localhost:5001/api/artists/" + id;
@@ -55,6 +59,8 @@ function ArtistDetailsPage() {
 
   const [showAddAlbum, setShowAddAlbum] = useState<boolean>(false);
   const [showEditArtist, setShowEditArtist] = useState<boolean>(false);
+
+  
 
   return (
     <div className="page">

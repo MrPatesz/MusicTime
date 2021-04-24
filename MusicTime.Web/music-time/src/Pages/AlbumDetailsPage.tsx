@@ -12,7 +12,11 @@ import NewAlbumComponent from "../Components/NewAlbumComponent";
 import NewSongComponent from "../Components/NewSongComponent";
 import DetailedSongDto from "../Models/DetailedSongDto";
 
-function AlbumDetailsPage() {
+interface Props {
+  setUrlArray: React.Dispatch<React.SetStateAction<string[]>>;
+}
+
+function AlbumDetailsPage({ setUrlArray }: Props) {
   let id = useRouteMatch("/albums/:id").params.id;
 
   const apiLink = "https://localhost:5001/api/albums/" + id;
@@ -58,6 +62,14 @@ function AlbumDetailsPage() {
   const [showEditAlbum, setShowEditAlbum] = useState<boolean>(false);
   const [showAddSong, setShowAddSong] = useState<boolean>(false);
 
+  function playFunction() {
+    let urlArray: string[] = [];
+
+    songs.forEach((s) => urlArray.push(s.url));
+
+    setUrlArray(urlArray);
+  }
+
   return (
     <div className="page">
       <div>
@@ -71,7 +83,7 @@ function AlbumDetailsPage() {
               }
               rounded
               style={{ minWidth: "11rem", maxWidth: "14rem" }}
-              className="mt-2 mb-2 mr-4"
+              className="mb-2 mr-4"
             />
             <div className="d-flex flex-column">
               <h1>{album.title}</h1>
@@ -82,13 +94,16 @@ function AlbumDetailsPage() {
               </div>
             </div>
 
-            <ButtonGroup className="ml-auto mt-3">
+            <ButtonGroup vertical className="ml-auto mb-auto">
               <Button
                 variant="outline-info"
                 onClick={() => setShowEditAlbum(true)}
-                style={{ maxHeight: "3rem" }}
+                className="mb-2"
               >
                 Edit
+              </Button>
+              <Button variant="outline-info" onClick={playFunction}>
+                Play
               </Button>
             </ButtonGroup>
           </div>
