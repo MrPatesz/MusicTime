@@ -41,7 +41,7 @@ function SongsPage({ setUrlArray }: Props) {
 
   return (
     <div className="page">
-      <div className="d-flex flex-row mb-3 mt-2">
+      <div className="d-flex flex-row mb-3">
         <h1>Songs</h1>
         <Button
           variant="outline-info"

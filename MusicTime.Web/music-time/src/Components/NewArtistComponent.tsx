@@ -128,7 +128,7 @@ function NewArtistComponent({ show, setShow, isEdited, editedArtist }: Props) {
         animation={false}
       >
         <Modal.Header>
-          <Modal.Title>New Artist</Modal.Title>
+          <Modal.Title>{isEdited ? "Edit Artist" : "New Artist"}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>

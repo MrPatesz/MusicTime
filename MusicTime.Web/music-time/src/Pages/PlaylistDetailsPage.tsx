@@ -10,6 +10,7 @@ import AddSongToPlaylistComponent from "../Components/AddSongToPlaylistComponent
 import DetailedSongDto from "../Models/DetailedSongDto";
 import SongDto from "../Models/SongDto";
 import axios from "axios";
+import NewPlaylistComponent from "../Components/NewPlaylistComponent";
 
 interface Props {
   setUrlArray: React.Dispatch<React.SetStateAction<string[]>>;
@@ -61,7 +62,7 @@ function PlaylistDetailsPage({ setUrlArray }: Props) {
     fetchData();
   }, [apiLink, id]);
 
-  //const [showEditPlaylist, setShowEditPlaylist] = useState<boolean>(false);
+  const [showEditPlaylist, setShowEditPlaylist] = useState<boolean>(false);
 
   function playFunction() {
     let urlArray: string[] = [];
@@ -86,7 +87,7 @@ function PlaylistDetailsPage({ setUrlArray }: Props) {
               }
               rounded
               style={{ minWidth: "11rem", maxWidth: "14rem" }}
-              className="mt-2 mb-2 mr-4"
+              className="mb-2 mr-4"
             />
             <div className="d-flex flex-column">
               <h1>{playlist.title}</h1>
@@ -96,7 +97,7 @@ function PlaylistDetailsPage({ setUrlArray }: Props) {
             <ButtonGroup vertical className="ml-auto mb-auto">
               <Button
                 variant="outline-info"
-                onClick={() => {} /*setShowEditPlaylist(true)*/}
+                onClick={() => setShowEditPlaylist(true)}
                 className="mb-2"
               >
                 Edit
@@ -133,6 +134,13 @@ function PlaylistDetailsPage({ setUrlArray }: Props) {
           </ul>
         )}
       </div>
+
+      <NewPlaylistComponent
+        show={showEditPlaylist}
+        setShow={setShowEditPlaylist}
+        isEdited={true}
+        editedPlaylist={playlist}
+      ></NewPlaylistComponent>
     </div>
   );
 }

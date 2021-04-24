@@ -114,7 +114,7 @@ function AlbumDetailsPage({ setUrlArray }: Props) {
           <h2>Songs</h2>
           <Button
             variant="outline-info"
-            className="ml-auto"
+            className="ml-auto mb-auto mt-auto"
             onClick={() => setShowAddSong(true)}
             disabled={showAddSong}
           >

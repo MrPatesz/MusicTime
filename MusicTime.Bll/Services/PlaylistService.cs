@@ -42,6 +42,7 @@ namespace MusicTime.Bll.Services
                     Title = playlistDto.Title,
                     Description = playlistDto.Description,
                     CoverGuid = playlistDto.CoverGuid,
+                    UserId = userId
                 };
 
                 return await playlistRepository.AddPlaylist(playlist);

@@ -4,6 +4,8 @@ import { Container, Row, Col } from "react-bootstrap";
 import PlaylistDto from "../Models/PlaylistDto";
 import axios from "axios";
 import Spinner from "react-bootstrap/Spinner";
+import Button from "react-bootstrap/Button";
+import NewPlaylistComponent from "../Components/NewPlaylistComponent";
 
 function PlaylistsPage() {
   const apiLink = "https://localhost:5001/api/playlists/";
@@ -26,9 +28,20 @@ function PlaylistsPage() {
     fetchData();
   }, []);
 
+  const [showAddPlaylist, setShowAddPlaylist] = useState<boolean>(false);
+
   return (
     <div className="page">
-      <h1>Playlists</h1>
+      <div className="d-flex flex-row">
+        <h1>Playlists</h1>
+        <Button
+          variant="outline-info"
+          className="ml-auto mb-auto mt-auto"
+          onClick={() => setShowAddPlaylist(true)}
+        >
+          New
+        </Button>
+      </div>
 
       {stillLoading ? (
         <Spinner animation="grow" variant="info" />
@@ -49,6 +62,13 @@ function PlaylistsPage() {
           </Row>
         </Container>
       )}
+
+      <NewPlaylistComponent
+        show={showAddPlaylist}
+        setShow={setShowAddPlaylist}
+        isEdited={false}
+        editedPlaylist={new PlaylistDto(0, "", null, null)}
+      ></NewPlaylistComponent>
     </div>
   );
 }

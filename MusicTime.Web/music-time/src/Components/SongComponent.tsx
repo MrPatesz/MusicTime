@@ -60,7 +60,7 @@ function SongComponent({
     <div className="mb-1">
       {detailed ? (
         <div className="d-flex flex-row">
-          <Container fluid>
+          <Container fluid className="mt-auto">
             <Row>
               <Col xs={12} sm={8} md={8} lg={6}>
                 <h5>{detailedSongDto.songTitle}</h5>
@@ -107,7 +107,7 @@ function SongComponent({
         </div>
       ) : (
         <div className="d-flex flex-row">
-          <h5>
+          <h5 className="mb-auto mt-auto">
             <a href={songDto.url} className="text-info">
               {songDto.title}
             </a>

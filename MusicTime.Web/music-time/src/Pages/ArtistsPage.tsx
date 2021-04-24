@@ -23,7 +23,7 @@ function ArtistsPage() {
         },
       };
       const result = await axios.get(apiLink, config);
-      
+
       setArtists(result.data);
       setStillLoading(false);
     };
@@ -32,19 +32,16 @@ function ArtistsPage() {
 
   return (
     <div className="page">
-      <Container fluid>
-        <Row>
-          <h1>Artists</h1>
-          <Button
-            style={{ maxHeight: "44px" }}
-            variant="outline-info"
-            className="ml-auto"
-            onClick={() => setShowAddArtist(true)}
-          >
-            New
-          </Button>
-        </Row>
-      </Container>
+      <div className="d-flex flex-row">
+        <h1>Artists</h1>
+        <Button
+          variant="outline-info"
+          className="ml-auto mb-auto mt-auto"
+          onClick={() => setShowAddArtist(true)}
+        >
+          New
+        </Button>
+      </div>
 
       {stillLoading ? (
         <Spinner animation="grow" variant="info" />

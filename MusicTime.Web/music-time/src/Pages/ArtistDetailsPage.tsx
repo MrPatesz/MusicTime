@@ -77,18 +77,18 @@ function ArtistDetailsPage({ setUrlArray }: Props) {
               }
               rounded
               style={{ minWidth: "11rem", maxWidth: "14rem" }}
-              className="mt-2 mb-2 mr-4"
+              className="mb-2 mr-4"
             />
             <div className="d-flex flex-column">
               <h1>{artist.name}</h1>
               <p>{artist.description}</p>
             </div>
 
-            <ButtonGroup className="ml-auto mt-3">
+            <ButtonGroup className="ml-auto">
               <Button
                 variant="outline-info"
                 onClick={() => setShowEditArtist(true)}
-                style={{ maxHeight: "3rem" }}
+                className="mb-auto"
               >
                 Edit
               </Button>
@@ -101,7 +101,7 @@ function ArtistDetailsPage({ setUrlArray }: Props) {
           <h2>Albums</h2>
           <Button
             variant="outline-info"
-            className="ml-auto"
+            className="ml-auto mt-auto mb-auto"
             onClick={() => setShowAddAlbum(true)}
           >
             New

@@ -4,36 +4,30 @@ import Form from "react-bootstrap/Form";
 import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import AlbumDto from "../Models/AlbumDto";
+import PlaylistDto from "../Models/PlaylistDto";
 
 interface Props {
   show: boolean;
   setShow: React.Dispatch<React.SetStateAction<any>>;
-  artistId: number;
   isEdited: boolean;
-  editedAlbum: AlbumDto;
+  editedPlaylist: PlaylistDto;
 }
 
-function NewAlbumComponent({
+function NewPlaylistComponent({
   show,
   setShow,
-  artistId,
   isEdited,
-  editedAlbum,
+  editedPlaylist,
 }: Props) {
   const [title, setTitle] = useState<string | null>(null);
   const [description, setDescription] = useState<string | null>(null);
-  const [genre, setGenre] = useState<string | null>(null);
-  const [releaseYear, setReleaseYear] = useState<number | null>(null);
 
   useEffect(() => {
     if (isEdited) {
-      setTitle(editedAlbum.title);
-      setDescription(editedAlbum.description);
-      setGenre(editedAlbum.genre);
-      setReleaseYear(editedAlbum.releaseYear);
+      setTitle(editedPlaylist.title);
+      setDescription(editedPlaylist.description);
     }
-  }, [isEdited, editedAlbum]);
+  }, [isEdited, editedPlaylist]);
 
   function postFunction() {
     var postData;
@@ -41,16 +35,14 @@ function NewAlbumComponent({
       postData = async () => {
         await axios({
           method: "put",
-          url: "https://localhost:5001/api/albums/" + editedAlbum.id,
+          url: "https://localhost:5001/api/playlists/" + editedPlaylist.id,
           headers: {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },
           data: {
             Title: title,
             Description: description,
-            Genre: genre,
-            ReleaseYear: releaseYear,
-            Id: editedAlbum.id,
+            Id: editedPlaylist.id,
           },
         });
       };
@@ -58,16 +50,13 @@ function NewAlbumComponent({
       postData = async () => {
         await axios({
           method: "post",
-          url: "https://localhost:5001/api/albums/",
+          url: "https://localhost:5001/api/playlists/",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-            artistId: artistId,
           },
           data: {
             Title: title,
             Description: description,
-            Genre: genre,
-            ReleaseYear: releaseYear,
           },
         });
       };
@@ -85,7 +74,7 @@ function NewAlbumComponent({
         animation={false}
       >
         <Modal.Header>
-          <Modal.Title>{isEdited ? "Edit Album" : "New Album"}</Modal.Title>
+          <Modal.Title>{isEdited ? "Edit Playlist" : "New Playlist"}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -95,24 +84,6 @@ function NewAlbumComponent({
                 type="text"
                 onChange={(e) => setTitle(e.target.value)}
                 defaultValue={title ? title : ""}
-              />
-            </Form.Group>
-
-            <Form.Group>
-              <Form.Label>Genre</Form.Label>
-              <Form.Control
-                type="text"
-                onChange={(e) => setGenre(e.target.value)}
-                defaultValue={genre ? genre : ""}
-              />
-            </Form.Group>
-
-            <Form.Group>
-              <Form.Label>Year of Release</Form.Label>
-              <Form.Control
-                type="number"
-                onChange={(e) => setReleaseYear(Number(e.target.value))}
-                defaultValue={releaseYear ? releaseYear : ""}
               />
             </Form.Group>
 
@@ -142,8 +113,6 @@ function NewAlbumComponent({
                 setShow(false);
                 setTitle(null);
                 setDescription(null);
-                setGenre(null);
-                setReleaseYear(null);
               }
             }}
           >
@@ -155,4 +124,4 @@ function NewAlbumComponent({
   );
 }
 
-export default NewAlbumComponent;
+export default NewPlaylistComponent;
