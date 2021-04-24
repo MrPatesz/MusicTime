@@ -13,10 +13,10 @@ import NewSongComponent from "../Components/NewSongComponent";
 import DetailedSongDto from "../Models/DetailedSongDto";
 
 interface Props {
-  setUrlArray: React.Dispatch<React.SetStateAction<string[]>>;
+  setQueue: React.Dispatch<React.SetStateAction<DetailedSongDto[]>>;
 }
 
-function AlbumDetailsPage({ setUrlArray }: Props) {
+function AlbumDetailsPage({ setQueue }: Props) {
   let id = useRouteMatch("/albums/:id").params.id;
 
   const apiLink = "https://localhost:5001/api/albums/" + id;
@@ -63,11 +63,11 @@ function AlbumDetailsPage({ setUrlArray }: Props) {
   const [showAddSong, setShowAddSong] = useState<boolean>(false);
 
   function playFunction() {
-    let urlArray: string[] = [];
+    let queue: DetailedSongDto[] = [];
 
-    songs.forEach((s) => urlArray.push(s.url));
+    songs.forEach((s) => queue.push(new DetailedSongDto(s.id, s.title, s.url, 0, "", id, album.title)));
 
-    setUrlArray(urlArray);
+    setQueue(queue);
   }
 
   return (

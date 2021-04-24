@@ -7,10 +7,10 @@ import DetailedSongDto from "../Models/DetailedSongDto";
 import Button from "react-bootstrap/Button";
 
 interface Props {
-  setUrlArray: React.Dispatch<React.SetStateAction<string[]>>;
+  setQueue: React.Dispatch<React.SetStateAction<DetailedSongDto[]>>;
 }
 
-function SongsPage({ setUrlArray }: Props) {
+function SongsPage({ setQueue }: Props) {
   const apiLink = "https://localhost:5001/api/songs/detailed";
 
   const [songs, setSongs] = useState<DetailedSongDto[]>([]);
@@ -31,14 +31,6 @@ function SongsPage({ setUrlArray }: Props) {
     fetchData();
   }, []);
 
-  function playFunction() {
-    let urlArray: string[] = [];
-
-    songs.forEach((s) => urlArray.push(s.url));
-
-    setUrlArray(urlArray);
-  }
-
   return (
     <div className="page">
       <div className="d-flex flex-row mb-3">
@@ -46,7 +38,7 @@ function SongsPage({ setUrlArray }: Props) {
         <Button
           variant="outline-info"
           className="ml-auto mt-auto mb-auto"
-          onClick={playFunction}
+          onClick={() => setQueue(songs)}
         >
           Play
         </Button>

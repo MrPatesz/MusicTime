@@ -57,14 +57,14 @@ function NewArtistComponent({ show, setShow, isEdited, editedArtist }: Props) {
       };
     }
     postData();
-    savePicture();
+    //savePicture();
 
-    // check whether the call was successful
+    // check whether the call was successful before updating ui
     editedArtist.name = name ? name : "";
     editedArtist.description = description;
   }
 
-  function savePicture() {
+  /*function savePicture() {
     if (selectedFile !== null) {
       const getPictureGuid = async () => {
         const result = await axios({
@@ -92,7 +92,7 @@ function NewArtistComponent({ show, setShow, isEdited, editedArtist }: Props) {
 
       const formData = new FormData();
       formData.append("image", selectedFile, pictureGuid + ".png");
-      var file = formData.get("file");*/
+      var file = formData.get("file");
     }
 
     setPictureGuid(null);
@@ -106,7 +106,7 @@ function NewArtistComponent({ show, setShow, isEdited, editedArtist }: Props) {
     const target = event.target as HTMLInputElement;
     const file: File = (target.files as FileList)[0];
     setSelectedFile(file);
-  }
+  }*/
 
   function confirmButton() {
     if (name !== "") {
@@ -155,7 +155,7 @@ function NewArtistComponent({ show, setShow, isEdited, editedArtist }: Props) {
                 name="file"
                 label="Picture"
                 feedbackTooltip
-                onChange={fileSelected}
+                onChange={() => {} /*fileSelected*/}
               />
             </Form.Group>
           </Form>

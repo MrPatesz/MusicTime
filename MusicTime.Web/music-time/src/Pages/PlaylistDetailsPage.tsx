@@ -13,10 +13,10 @@ import axios from "axios";
 import NewPlaylistComponent from "../Components/NewPlaylistComponent";
 
 interface Props {
-  setUrlArray: React.Dispatch<React.SetStateAction<string[]>>;
+  setQueue: React.Dispatch<React.SetStateAction<DetailedSongDto[]>>;
 }
 
-function PlaylistDetailsPage({ setUrlArray }: Props) {
+function PlaylistDetailsPage({ setQueue }: Props) {
   const apiLink = "https://localhost:5001/api/";
 
   let id = useRouteMatch("/playlists/:id").params.id;
@@ -64,14 +64,6 @@ function PlaylistDetailsPage({ setUrlArray }: Props) {
 
   const [showEditPlaylist, setShowEditPlaylist] = useState<boolean>(false);
 
-  function playFunction() {
-    let urlArray: string[] = [];
-
-    songs.forEach((s) => urlArray.push(s.url));
-
-    setUrlArray(urlArray);
-  }
-
   return (
     <div className="page">
       <div>
@@ -102,7 +94,7 @@ function PlaylistDetailsPage({ setUrlArray }: Props) {
               >
                 Edit
               </Button>
-              <Button variant="outline-info" onClick={playFunction}>
+              <Button variant="outline-info" onClick={() => setQueue(songs)}>
                 Play
               </Button>
             </ButtonGroup>

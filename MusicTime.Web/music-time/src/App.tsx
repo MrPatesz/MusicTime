@@ -12,15 +12,30 @@ import SongsPage from "./Pages/SongsPage";
 import PlaylistsPage from "./Pages/PlaylistsPage";
 import PlaylistDetailsPage from "./Pages/PlaylistDetailsPage";
 import MusicPlayerComponent from "./Components/MusicPlayerComponent";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import DetailedSongDto from "./Models/DetailedSongDto";
 
 const App = () => {
-  const [urlArray, setUrlArray] = useState<string[]>([
-    "https://www.youtube.com/watch?v=1givs65YWBg",
-    "https://soundcloud.com/jahseh-onfroy/the-fall",
-    "https://www.youtube.com/watch?v=lZ6hku1lbaQ",
-    "https://soundcloud.com/miliy_10/toxic",
-  ]);
+  const [queue, setQueue] = useState<DetailedSongDto[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      };
+      const result = await axios.get(
+        "https://localhost:5001/api/songs/detailed",
+        config
+      );
+
+      setQueue(result.data);
+    };
+    fetchData();
+  }, []);
+
   return (
     <Router>
       <div className="App">
@@ -54,28 +69,28 @@ const App = () => {
             <ArtistsPage></ArtistsPage>
           </Route>
           <Route exact path={"/artists/:id"}>
-            <ArtistDetailsPage setUrlArray={setUrlArray}></ArtistDetailsPage>
+            <ArtistDetailsPage setQueue={setQueue}></ArtistDetailsPage>
           </Route>
           <Route exact path="/albums">
             <AlbumsPage></AlbumsPage>
           </Route>
           <Route exact path={"/albums/:id"}>
-            <AlbumDetailsPage setUrlArray={setUrlArray}></AlbumDetailsPage>
+            <AlbumDetailsPage setQueue={setQueue}></AlbumDetailsPage>
           </Route>
           <Route exact path="/songs">
-            <SongsPage setUrlArray={setUrlArray}></SongsPage>
+            <SongsPage setQueue={setQueue}></SongsPage>
           </Route>
           <Route exact path="/playlists">
             <PlaylistsPage></PlaylistsPage>
           </Route>
           <Route exact path={"/playlists/:id"}>
-            <PlaylistDetailsPage setUrlArray={setUrlArray}></PlaylistDetailsPage>
+            <PlaylistDetailsPage setQueue={setQueue}></PlaylistDetailsPage>
           </Route>
           <Route exact path="/login">
             <LoginPage></LoginPage>
           </Route>
         </Switch>
-        <MusicPlayerComponent urlArray={urlArray}></MusicPlayerComponent>
+        <MusicPlayerComponent queue={queue}></MusicPlayerComponent>
       </div>
     </Router>
   );
