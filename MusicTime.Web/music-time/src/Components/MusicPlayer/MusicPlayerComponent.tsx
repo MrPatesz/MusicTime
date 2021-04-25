@@ -165,10 +165,9 @@ function MusicPlayerComponent({ queue, setQueue }: Props) {
             max={4.7}
             step="any"
             value={scale}
-            onChange={(e: React.FormEvent<HTMLInputElement>) => {
-              setScale(parseFloat(e.currentTarget.value));
-              console.log(e.currentTarget.value);
-            }}
+            onChange={(e: React.FormEvent<HTMLInputElement>) =>
+              setScale(parseFloat(e.currentTarget.value))
+            }
           />
         </div>
       ) : (

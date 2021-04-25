@@ -24,5 +24,7 @@ namespace MusicTime.Bll.IRepositories
         Task<bool> RemoveSongFromPlaylist(SongToPlaylist songToPlaylist);
 
         bool DoesPlaylistContainSong(int playlistId, SongDto songDto);
+
+        Task<bool> DeleteSongFromPlaylists(int songId);
     }
 }

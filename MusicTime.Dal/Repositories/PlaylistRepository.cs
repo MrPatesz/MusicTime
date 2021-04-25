@@ -102,6 +102,19 @@ namespace MusicTime.Dal.Repositories
             return dbContext.SongToPlaylistRecords.Any(stp => stp.SongId == songDto.Id && stp.PlaylistId == playlistId);
         }
 
+        public async Task<bool> DeleteSongFromPlaylists(int songId)
+        {
+            var toRemoveList = dbContext.SongToPlaylistRecords.Where(p => p.SongId == songId).ToList();
+
+            foreach(var stp in toRemoveList)
+            {
+                dbContext.SongToPlaylistRecords.Remove(stp);
+            }
+            await dbContext.SaveChangesAsync();
+
+            return true;
+        }
+
         private PlaylistDto ToDto(Playlist value)
         {
             return new PlaylistDto

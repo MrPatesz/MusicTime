@@ -9,10 +9,12 @@ namespace MusicTime.Bll.Services
     public class SongService
     {
         private readonly ISongRepository songRepository;
+        private readonly IPlaylistRepository playlistRepository;
 
-        public SongService(ISongRepository repository)
+        public SongService(ISongRepository songRepository, IPlaylistRepository playlistRepository)
         {
-            this.songRepository = repository;
+            this.songRepository = songRepository;
+            this.playlistRepository = playlistRepository;
         }
 
         public List<SongDto> GetSongs(int userId)
@@ -27,6 +29,11 @@ namespace MusicTime.Bll.Services
 
         public async Task<bool> DeleteSongById(int userId, int songId)
         {
+            var songs = songRepository.GetSongs(userId);
+            var songToDelete = songs.Find(s => s.Id == songId);
+
+            await playlistRepository.DeleteSongFromPlaylists(songToDelete.Id);
+
             return await songRepository.DeleteSongById(userId, songId);
         }
 

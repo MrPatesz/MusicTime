@@ -30,7 +30,7 @@ function QueueComponent({ queue, setQueue, show, index, setIndex }: Props) {
                   key={s.songId}
                   className={
                     s.songId === queue[index].songId
-                      ? "d-flex flex-row mb-1 text-info"
+                      ? "d-flex flex-row mb-1 text-info "
                       : "d-flex flex-row mb-1"
                   }
                 >
