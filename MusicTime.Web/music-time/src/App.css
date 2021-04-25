@@ -46,4 +46,5 @@ ul.no-bullets {
 .queue-item:hover {
   background-color: #17a2b8;
   color: white !important;
+  cursor: pointer;
 }

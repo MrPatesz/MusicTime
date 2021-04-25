@@ -30,7 +30,7 @@ function QueueComponent({ queue, setQueue, show, index, setIndex }: Props) {
                   key={s.songId}
                   className={
                     s.songId === queue[index].songId
-                      ? "d-flex flex-row mb-1 text-info "
+                      ? "d-flex flex-row mb-1 text-info"
                       : "d-flex flex-row mb-1"
                   }
                 >
@@ -38,8 +38,8 @@ function QueueComponent({ queue, setQueue, show, index, setIndex }: Props) {
                     className="d-flex flex-row w-100 queue-item"
                     onClick={() => setIndex(queue.indexOf(s))}
                   >
-                    <div>{s.songTitle}</div>
-                    <div className="ml-auto">{s.artistName}</div>
+                    <div className="align-self-center">{s.songTitle}</div>
+                    <div className="ml-auto align-self-center">{s.artistName}</div>
                   </div>
 
                   <Button
