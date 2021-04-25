@@ -2,7 +2,8 @@ import ReactPlayer from "react-player";
 import { LegacyRef, RefObject, useRef, useState } from "react";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
-import DetailedSongDto from "../Models/DetailedSongDto";
+import DetailedSongDto from "../../Models/DetailedSongDto";
+import QueueComponent from "./QueueComponent";
 
 interface Props {
   queue: DetailedSongDto[];
@@ -52,67 +53,13 @@ function MusicPlayerComponent({ queue, setQueue }: Props) {
     <div style={{ position: "fixed", bottom: "0", right: "0" }}>
       {!hidden ? (
         <div className="d-flex flex-row bg-dark border border-info">
-          {showQueue ? (
-            <div className="">
-              <div
-                className="overflow-auto bg-dark px-2 py-1 border border-info"
-                style={{
-                  height: "calc(100% - 47px)",
-                  width: "300px",
-                  position: "absolute",
-                  left: "-299px",
-                  top: "0px",
-                }}
-              >
-                <ul className="no-bullets">
-                  {queue.map((s) => (
-                    <div
-                      key={s.songId}
-                      className={
-                        s.songId === queue[index].songId
-                          ? "text-info d-flex flex-row mb-1"
-                          : "d-flex flex-row mb-1"
-                      }
-                    >
-                      <div>{s.songTitle}</div>
-                      <div className="ml-auto">{s.artistName}</div>
-                      <Button
-                        className="ml-3 py-0 px-1"
-                        variant="outline-warning"
-                        size="sm"
-                        onClick={() => {
-                          setQueue(
-                            queue.filter((s1) => s1.songId !== s.songId)
-                          );
-                        }}
-                      >
-                        X
-                      </Button>
-                    </div>
-                  ))}
-                </ul>
-              </div>
-              <div
-                className="bg-dark border border-info"
-                style={{
-                  position: "absolute",
-                  left: "-299px",
-                  bottom: "0px",
-                  width: "300px",
-                }}
-              >
-                <Button
-                  className="my-1 mx-2"
-                  variant="outline-warning"
-                  onClick={() => setQueue([])}
-                >
-                  Clear
-                </Button>
-              </div>
-            </div>
-          ) : (
-            <div></div>
-          )}
+          <QueueComponent
+            queue={queue}
+            setQueue={setQueue}
+            index={index}
+            setIndex={setIndex}
+            show={showQueue}
+          ></QueueComponent>
 
           <div className="d-flex flex-column">
             <div className="d-flex flex-row m-2">

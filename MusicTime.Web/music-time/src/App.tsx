@@ -11,7 +11,7 @@ import LoginPage from "./Pages/LoginPage";
 import SongsPage from "./Pages/SongsPage";
 import PlaylistsPage from "./Pages/PlaylistsPage";
 import PlaylistDetailsPage from "./Pages/PlaylistDetailsPage";
-import MusicPlayerComponent from "./Components/MusicPlayerComponent";
+import MusicPlayerComponent from "./Components/MusicPlayer/MusicPlayerComponent";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import DetailedSongDto from "./Models/DetailedSongDto";
