@@ -11,11 +11,12 @@ import NewAlbumComponent from "../Components/NewAlbumComponent";
 import NewArtistComponent from "../Components/NewArtistComponent";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
+import { Config } from "../config";
 
 function ArtistDetailsPage() {
   let id = useRouteMatch("/artists/:id").params.id;
 
-  const apiLink = "https://localhost:5001/api/artists/" + id;
+  const apiLink = Config.apiUrl + "artists/" + id;
 
   const [artist, setArtist] = useState<ArtistDto>(new ArtistDto(0, "", "", ""));
   const [artistStillLoading, setArtistStillLoading] = useState<boolean>(true);

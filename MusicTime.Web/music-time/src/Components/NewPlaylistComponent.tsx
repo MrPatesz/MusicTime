@@ -5,6 +5,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import PlaylistDto from "../Models/PlaylistDto";
+import { Config } from "../config";
 
 interface Props {
   show: boolean;
@@ -30,12 +31,13 @@ function NewPlaylistComponent({
   }, [isEdited, editedPlaylist]);
 
   function postFunction() {
+    let apiLink = Config.apiUrl + "playlists/";
     var postData;
     if (isEdited) {
       postData = async () => {
         await axios({
           method: "put",
-          url: "https://localhost:5001/api/playlists/" + editedPlaylist.id,
+          url: apiLink + editedPlaylist.id,
           headers: {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },
@@ -50,7 +52,7 @@ function NewPlaylistComponent({
       postData = async () => {
         await axios({
           method: "post",
-          url: "https://localhost:5001/api/playlists/",
+          url: apiLink,
           headers: {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },
@@ -74,7 +76,9 @@ function NewPlaylistComponent({
         animation={false}
       >
         <Modal.Header>
-          <Modal.Title>{isEdited ? "Edit Playlist" : "New Playlist"}</Modal.Title>
+          <Modal.Title>
+            {isEdited ? "Edit Playlist" : "New Playlist"}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>

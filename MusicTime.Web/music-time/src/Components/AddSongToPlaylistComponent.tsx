@@ -5,13 +5,14 @@ import AutosuggestComponent from "./AutosuggestComponent";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import DetailedSongDto from "../Models/DetailedSongDto";
+import { Config } from "../config";
 
 interface Props {
   playlistId: number;
 }
 
 function AddSongToPlaylistComponent({ playlistId }: Props) {
-  const apiLink = "https://localhost:5001/api/";
+  const apiLink = Config.apiUrl;
 
   const [artistName, setArtistName] = useState<string>("");
   const [albumTitle, setAlbumTitle] = useState<string>("");

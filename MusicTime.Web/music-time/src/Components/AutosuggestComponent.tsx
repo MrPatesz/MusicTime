@@ -35,10 +35,7 @@ export default function AutosuggestComponent({
     }
   }
 
-  function onChange(
-    event: React.MouseEvent,
-    { newValue }: { newValue: string }
-  ) {
+  function onChange(_: React.MouseEvent, { newValue }: { newValue: string }) {
     setValue(newValue);
     onValueChanged(newValue);
   }

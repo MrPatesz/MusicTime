@@ -13,11 +13,12 @@ import axios from "axios";
 import NewPlaylistComponent from "../Components/NewPlaylistComponent";
 import { useDispatch } from "react-redux";
 import { setQueue } from "../redux/queue";
+import { Config } from "../config";
 
 function PlaylistDetailsPage() {
   const dispatch = useDispatch();
 
-  const apiLink = "https://localhost:5001/api/";
+  const apiBase = Config.apiUrl;
 
   let id = useRouteMatch("/playlists/:id").params.id;
 
@@ -33,7 +34,7 @@ function PlaylistDetailsPage() {
           Authorization: `Bearer ${localStorage.getItem("authToken")}`,
         },
       };
-      const result = await axios.get(apiLink + "playlists/" + id, config);
+      const result = await axios.get(apiBase + "playlists/" + id, config);
 
       setPlaylist(result.data);
       setPlaylistIsLoading(false);
@@ -52,7 +53,7 @@ function PlaylistDetailsPage() {
         },
       };
       const result = await axios.get(
-        apiLink + "playlists/" + id + "/songs",
+        apiBase + "playlists/" + id + "/songs",
         config
       );
 
@@ -60,7 +61,7 @@ function PlaylistDetailsPage() {
       setSongsStillLoading(false);
     };
     fetchData();
-  }, [apiLink, id]);
+  }, [apiBase, id]);
 
   const [showEditPlaylist, setShowEditPlaylist] = useState<boolean>(false);
 

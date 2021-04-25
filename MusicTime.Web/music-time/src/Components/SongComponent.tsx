@@ -7,6 +7,7 @@ import SongDto from "../Models/SongDto";
 import DetailedSongDto from "../Models/DetailedSongDto";
 import { Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { Config } from "../config";
 
 interface Props {
   detailed: boolean;
@@ -22,6 +23,7 @@ function SongComponent({
   playlistId,
 }: Props) {
   const [confirm, setConfirm] = useState<boolean>(false);
+  const apiBase = Config.apiUrl;
 
   function deleteFunction() {
     const deleteCall = async () => {
@@ -32,7 +34,7 @@ function SongComponent({
         },
       };
       const id = detailed ? detailedSongDto.songId : songDto.id;
-      await axios.delete("https://localhost:5001/api/songs/" + id, config);
+      await axios.delete(apiBase + "songs/" + id, config);
     };
     deleteCall();
   }
@@ -41,8 +43,7 @@ function SongComponent({
     const postData = async () => {
       await axios({
         method: "post",
-        url:
-          "https://localhost:5001/api/playlists/" + playlistId + "/removeSong",
+        url: apiBase + "playlists/" + playlistId + "/removeSong",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("authToken")}`,
         },

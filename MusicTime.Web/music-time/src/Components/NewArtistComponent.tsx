@@ -5,6 +5,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
 import ArtistDto from "../Models/ArtistDto";
+import { Config } from "../config";
 
 interface Props {
   show: boolean;
@@ -25,12 +26,13 @@ function NewArtistComponent({ show, setShow, isEdited, editedArtist }: Props) {
   }, [isEdited, editedArtist]);
 
   function postFunction() {
+    let apiLink = Config.apiUrl + "artists/";
     var postData;
     if (isEdited) {
       postData = async () => {
         await axios({
           method: "put",
-          url: "https://localhost:5001/api/artists/" + editedArtist.id,
+          url: apiLink + editedArtist.id,
           headers: {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },
@@ -45,7 +47,7 @@ function NewArtistComponent({ show, setShow, isEdited, editedArtist }: Props) {
       postData = async () => {
         await axios({
           method: "post",
-          url: "https://localhost:5001/api/artists/",
+          url: apiLink,
           headers: {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },

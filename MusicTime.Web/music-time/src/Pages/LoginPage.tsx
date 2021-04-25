@@ -4,8 +4,11 @@ import ButtonGroup from "react-bootstrap/ButtonGroup";
 import axios from "axios";
 import { useState } from "react";
 import { ButtonToolbar } from "react-bootstrap";
+import { Config } from "../config";
 
 function LoginPage() {
+  const apiLink = Config.apiUrl + "users/";
+
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
@@ -14,7 +17,7 @@ function LoginPage() {
       try {
         const result = await axios({
           method: "post",
-          url: "https://localhost:5001/api/users/login",
+          url: apiLink + "login",
           headers: {},
           data: {
             UserName: username,
@@ -31,7 +34,7 @@ function LoginPage() {
   }
 
   function registerFunction() {
-    if(username === "" || password === "") {
+    if (username === "" || password === "") {
       alert("Please provide a username and a password");
       return;
     }
@@ -39,7 +42,7 @@ function LoginPage() {
       try {
         await axios({
           method: "post",
-          url: "https://localhost:5001/api/users/register",
+          url: apiLink + "register",
           headers: {},
           data: {
             UserName: username,

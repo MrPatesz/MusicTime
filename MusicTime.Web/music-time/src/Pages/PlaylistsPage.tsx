@@ -6,9 +6,10 @@ import axios from "axios";
 import Spinner from "react-bootstrap/Spinner";
 import Button from "react-bootstrap/Button";
 import NewPlaylistComponent from "../Components/NewPlaylistComponent";
+import { Config } from "../config";
 
 function PlaylistsPage() {
-  const apiLink = "https://localhost:5001/api/playlists/";
+  const apiLink = Config.apiUrl + "playlists/";
 
   const [playlists, setPlaylists] = useState<PlaylistDto[]>([]);
   const [stillLoading, setStillLoading] = useState<boolean>(true);

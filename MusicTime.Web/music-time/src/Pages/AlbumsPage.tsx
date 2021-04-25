@@ -4,9 +4,10 @@ import AlbumDto from "../Models/AlbumDto";
 import CardComponent from "../Components/CardComponent";
 import { Container, Row, Col } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
+import { Config } from "../config";
 
 function AlbumsPage() {
-  const apiLink = "https://localhost:5001/api/albums/";
+  const apiLink = Config.apiUrl + "albums/";
 
   const [albums, setAlbums] = useState<AlbumDto[]>([]);
   const [stillLoading, setStillLoading] = useState<boolean>(true);

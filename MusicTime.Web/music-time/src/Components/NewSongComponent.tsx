@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 import React from "react";
 import { useState } from "react";
 import axios from "axios";
+import { Config } from "../config";
 
 interface Props {
   show: boolean;
@@ -19,7 +20,7 @@ function NewSongComponent({ show, setShow, albumId }: Props) {
     const postData = async () => {
       await axios({
         method: "post",
-        url: "https://localhost:5001/api/songs/",
+        url: Config.apiUrl + "songs/",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           albumId: albumId,

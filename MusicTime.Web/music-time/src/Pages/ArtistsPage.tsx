@@ -6,9 +6,10 @@ import { Container, Row, Col } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
 import Button from "react-bootstrap/Button";
 import NewArtistComponent from "../Components/NewArtistComponent";
+import { Config } from "../config";
 
 function ArtistsPage() {
-  const apiLink = "https://localhost:5001/api/artists/";
+  const apiLink = Config.apiUrl + "artists/";
 
   const [artists, setArtists] = useState<ArtistDto[]>([]);
   const [stillLoading, setStillLoading] = useState<boolean>(true);

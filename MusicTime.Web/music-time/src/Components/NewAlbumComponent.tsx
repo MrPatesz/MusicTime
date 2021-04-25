@@ -5,6 +5,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import AlbumDto from "../Models/AlbumDto";
+import { Config } from "../config";
 
 interface Props {
   show: boolean;
@@ -36,12 +37,13 @@ function NewAlbumComponent({
   }, [isEdited, editedAlbum]);
 
   function postFunction() {
+    let apiLink = Config.apiUrl + "albums/";
     var postData;
     if (isEdited) {
       postData = async () => {
         await axios({
           method: "put",
-          url: "https://localhost:5001/api/albums/" + editedAlbum.id,
+          url: apiLink + editedAlbum.id,
           headers: {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },
@@ -58,7 +60,7 @@ function NewAlbumComponent({
       postData = async () => {
         await axios({
           method: "post",
-          url: "https://localhost:5001/api/albums/",
+          url: apiLink,
           headers: {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
             artistId: artistId,

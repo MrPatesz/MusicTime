@@ -7,11 +7,12 @@ import DetailedSongDto from "../Models/DetailedSongDto";
 import Button from "react-bootstrap/Button";
 import { useDispatch } from "react-redux";
 import { setQueue } from "../redux/queue";
+import { Config } from "../config";
 
 function SongsPage() {
   const dispatch = useDispatch();
 
-  const apiLink = "https://localhost:5001/api/songs/detailed";
+  const apiLink = Config.apiUrl + "songs/detailed";
 
   const [songs, setSongs] = useState<DetailedSongDto[]>([]);
   const [stillLoading, setStillLoading] = useState<boolean>(true);
