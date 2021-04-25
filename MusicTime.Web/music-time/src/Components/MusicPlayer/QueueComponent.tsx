@@ -27,16 +27,21 @@ function QueueComponent({ queue, setQueue, show, index, setIndex }: Props) {
             <ul className="no-bullets">
               {queue.map((s) => (
                 <div
-                  onClick={() => setIndex(queue.indexOf(s))}
                   key={s.songId}
                   className={
                     s.songId === queue[index].songId
-                      ? "text-info d-flex flex-row mb-1 queue-item"
-                      : "d-flex flex-row mb-1 queue-item"
+                      ? "d-flex flex-row mb-1 text-info"
+                      : "d-flex flex-row mb-1"
                   }
                 >
-                  <div>{s.songTitle}</div>
-                  <div className="ml-auto">{s.artistName}</div>
+                  <div
+                    className="d-flex flex-row w-100 queue-item"
+                    onClick={() => setIndex(queue.indexOf(s))}
+                  >
+                    <div>{s.songTitle}</div>
+                    <div className="ml-auto">{s.artistName}</div>
+                  </div>
+
                   <Button
                     className="ml-3 py-0 px-1"
                     variant="outline-warning"
