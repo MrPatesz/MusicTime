@@ -90,7 +90,7 @@ const App = () => {
             <LoginPage></LoginPage>
           </Route>
         </Switch>
-        <MusicPlayerComponent queue={queue}></MusicPlayerComponent>
+        <MusicPlayerComponent queue={queue} setQueue={setQueue}></MusicPlayerComponent>
       </div>
     </Router>
   );
