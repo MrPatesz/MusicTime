@@ -27,11 +27,12 @@ function QueueComponent({ queue, setQueue, show, index, setIndex }: Props) {
             <ul className="no-bullets">
               {queue.map((s) => (
                 <div
+                  onClick={() => setIndex(queue.indexOf(s))}
                   key={s.songId}
                   className={
                     s.songId === queue[index].songId
-                      ? "text-info d-flex flex-row mb-1"
-                      : "d-flex flex-row mb-1"
+                      ? "text-info d-flex flex-row mb-1 queue-item"
+                      : "d-flex flex-row mb-1 queue-item"
                   }
                 >
                   <div>{s.songTitle}</div>

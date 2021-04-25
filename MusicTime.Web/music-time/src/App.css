@@ -42,3 +42,8 @@ ul.no-bullets {
   -webkit-appearance: slider-vertical;
   width: 16px;
 }
+
+.queue-item:hover {
+  background-color: #17a2b8;
+  color: white !important;
+}
