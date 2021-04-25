@@ -11,13 +11,8 @@ import NewAlbumComponent from "../Components/NewAlbumComponent";
 import NewArtistComponent from "../Components/NewArtistComponent";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
-import DetailedSongDto from "../Models/DetailedSongDto";
 
-interface Props {
-  setQueue: React.Dispatch<React.SetStateAction<DetailedSongDto[]>>;
-}
-
-function ArtistDetailsPage({ setQueue }: Props) {
+function ArtistDetailsPage() {
   let id = useRouteMatch("/artists/:id").params.id;
 
   const apiLink = "https://localhost:5001/api/artists/" + id;

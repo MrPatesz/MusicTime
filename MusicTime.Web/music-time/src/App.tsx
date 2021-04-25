@@ -12,30 +12,8 @@ import SongsPage from "./Pages/SongsPage";
 import PlaylistsPage from "./Pages/PlaylistsPage";
 import PlaylistDetailsPage from "./Pages/PlaylistDetailsPage";
 import MusicPlayerComponent from "./Components/MusicPlayer/MusicPlayerComponent";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import DetailedSongDto from "./Models/DetailedSongDto";
 
 const App = () => {
-  const [queue, setQueue] = useState<DetailedSongDto[]>([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        },
-      };
-      const result = await axios.get(
-        "https://localhost:5001/api/songs/detailed",
-        config
-      );
-
-      setQueue(result.data);
-    };
-    fetchData();
-  }, []);
-
   return (
     <Router>
       <div className="App">
@@ -69,28 +47,28 @@ const App = () => {
             <ArtistsPage></ArtistsPage>
           </Route>
           <Route exact path={"/artists/:id"}>
-            <ArtistDetailsPage setQueue={setQueue}></ArtistDetailsPage>
+            <ArtistDetailsPage></ArtistDetailsPage>
           </Route>
           <Route exact path="/albums">
             <AlbumsPage></AlbumsPage>
           </Route>
           <Route exact path={"/albums/:id"}>
-            <AlbumDetailsPage setQueue={setQueue}></AlbumDetailsPage>
+            <AlbumDetailsPage></AlbumDetailsPage>
           </Route>
           <Route exact path="/songs">
-            <SongsPage setQueue={setQueue}></SongsPage>
+            <SongsPage></SongsPage>
           </Route>
           <Route exact path="/playlists">
             <PlaylistsPage></PlaylistsPage>
           </Route>
           <Route exact path={"/playlists/:id"}>
-            <PlaylistDetailsPage setQueue={setQueue}></PlaylistDetailsPage>
+            <PlaylistDetailsPage></PlaylistDetailsPage>
           </Route>
           <Route exact path="/login">
             <LoginPage></LoginPage>
           </Route>
         </Switch>
-        <MusicPlayerComponent queue={queue} setQueue={setQueue}></MusicPlayerComponent>
+        <MusicPlayerComponent></MusicPlayerComponent>
       </div>
     </Router>
   );

@@ -2,16 +2,16 @@ import ReactPlayer from "react-player";
 import { LegacyRef, RefObject, useRef, useState } from "react";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
-import DetailedSongDto from "../../Models/DetailedSongDto";
 import QueueComponent from "./QueueComponent";
+import { useSelector } from "react-redux";
+import type { RootState } from "../../redux/store";
+import { useDispatch } from "react-redux";
+import { playPrevious, playNext } from "../../redux/queue";
 
-interface Props {
-  queue: DetailedSongDto[];
-  setQueue: React.Dispatch<React.SetStateAction<DetailedSongDto[]>>;
-}
-
-function MusicPlayerComponent({ queue, setQueue }: Props) {
-  const [index, setIndex] = useState<number>(0);
+function MusicPlayerComponent() {
+  const queue = useSelector((state: RootState) => state.queue.queue);
+  const index = useSelector((state: RootState) => state.queue.index);
+  const dispatch = useDispatch();
 
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [volume, setVolume] = useState<number>(0.15);
@@ -20,15 +20,15 @@ function MusicPlayerComponent({ queue, setQueue }: Props) {
 
   const [hidden, setHidden] = useState<boolean>(false);
 
-  function playPrevious() {
+  function playPrevFunc() {
     setProgress(0);
-    setIndex(index > 0 ? index - 1 : queue.length - 1);
+    dispatch(playPrevious());
     setIsPlaying(true);
   }
 
-  function playNext() {
+  function playNextFunc() {
     setProgress(0);
-    setIndex(index < queue.length - 1 ? index + 1 : 0);
+    dispatch(playNext());
     setIsPlaying(true);
   }
 
@@ -53,13 +53,7 @@ function MusicPlayerComponent({ queue, setQueue }: Props) {
     <div style={{ position: "fixed", bottom: "0", right: "0" }}>
       {!hidden ? (
         <div className="d-flex flex-row bg-dark border border-info">
-          <QueueComponent
-            queue={queue}
-            setQueue={setQueue}
-            index={index}
-            setIndex={setIndex}
-            show={showQueue}
-          ></QueueComponent>
+          <QueueComponent show={showQueue}></QueueComponent>
 
           <div className="d-flex flex-column">
             <div className="d-flex flex-row m-2">
@@ -73,8 +67,8 @@ function MusicPlayerComponent({ queue, setQueue }: Props) {
                 height={scale * 180}
                 volume={volume}
                 loop={false}
-                onEnded={playNext}
-                onError={playNext}
+                onEnded={playNextFunc}
+                onError={playNextFunc}
                 onPause={() => setIsPlaying(false)}
                 onPlay={() => setIsPlaying(true)}
                 onProgress={onProgress}
@@ -133,7 +127,7 @@ function MusicPlayerComponent({ queue, setQueue }: Props) {
               <ButtonGroup className="ml-4">
                 <Button
                   variant="outline-info"
-                  onClick={playPrevious}
+                  onClick={playPrevFunc}
                   className="mr-2"
                 >
                   Prev
@@ -149,7 +143,7 @@ function MusicPlayerComponent({ queue, setQueue }: Props) {
 
                 <Button
                   variant="outline-info"
-                  onClick={playNext}
+                  onClick={playNextFunc}
                   className="mr-4"
                 >
                   Next

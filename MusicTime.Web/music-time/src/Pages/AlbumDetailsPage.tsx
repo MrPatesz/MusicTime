@@ -11,12 +11,12 @@ import SongComponent from "../Components/SongComponent";
 import NewAlbumComponent from "../Components/NewAlbumComponent";
 import NewSongComponent from "../Components/NewSongComponent";
 import DetailedSongDto from "../Models/DetailedSongDto";
+import { useDispatch } from "react-redux";
+import { setQueue } from "../redux/queue";
 
-interface Props {
-  setQueue: React.Dispatch<React.SetStateAction<DetailedSongDto[]>>;
-}
+function AlbumDetailsPage() {
+  const dispatch = useDispatch();
 
-function AlbumDetailsPage({ setQueue }: Props) {
   let id = useRouteMatch("/albums/:id").params.id;
 
   const apiLink = "https://localhost:5001/api/albums/" + id;
@@ -67,7 +67,7 @@ function AlbumDetailsPage({ setQueue }: Props) {
 
     songs.forEach((s) => queue.push(new DetailedSongDto(s.id, s.title, s.url, 0, "", id, album.title)));
 
-    setQueue(queue);
+    dispatch(setQueue(queue));
   }
 
   return (

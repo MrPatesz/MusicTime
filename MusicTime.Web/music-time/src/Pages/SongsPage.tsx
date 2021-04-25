@@ -5,12 +5,12 @@ import SongComponent from "../Components/SongComponent";
 import Spinner from "react-bootstrap/Spinner";
 import DetailedSongDto from "../Models/DetailedSongDto";
 import Button from "react-bootstrap/Button";
+import { useDispatch } from "react-redux";
+import { setQueue } from "../redux/queue";
 
-interface Props {
-  setQueue: React.Dispatch<React.SetStateAction<DetailedSongDto[]>>;
-}
+function SongsPage() {
+  const dispatch = useDispatch();
 
-function SongsPage({ setQueue }: Props) {
   const apiLink = "https://localhost:5001/api/songs/detailed";
 
   const [songs, setSongs] = useState<DetailedSongDto[]>([]);
@@ -38,7 +38,7 @@ function SongsPage({ setQueue }: Props) {
         <Button
           variant="outline-info"
           className="ml-auto mt-auto mb-auto"
-          onClick={() => setQueue(songs)}
+          onClick={() => dispatch(setQueue(songs))}
         >
           Play
         </Button>

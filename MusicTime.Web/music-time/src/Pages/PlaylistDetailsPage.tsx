@@ -11,12 +11,12 @@ import DetailedSongDto from "../Models/DetailedSongDto";
 import SongDto from "../Models/SongDto";
 import axios from "axios";
 import NewPlaylistComponent from "../Components/NewPlaylistComponent";
+import { useDispatch } from "react-redux";
+import { setQueue } from "../redux/queue";
 
-interface Props {
-  setQueue: React.Dispatch<React.SetStateAction<DetailedSongDto[]>>;
-}
+function PlaylistDetailsPage() {
+  const dispatch = useDispatch();
 
-function PlaylistDetailsPage({ setQueue }: Props) {
   const apiLink = "https://localhost:5001/api/";
 
   let id = useRouteMatch("/playlists/:id").params.id;
@@ -94,7 +94,10 @@ function PlaylistDetailsPage({ setQueue }: Props) {
               >
                 Edit
               </Button>
-              <Button variant="outline-info" onClick={() => setQueue(songs)}>
+              <Button
+                variant="outline-info"
+                onClick={() => dispatch(setQueue(songs))}
+              >
                 Play
               </Button>
             </ButtonGroup>

@@ -1,15 +1,19 @@
 import Button from "react-bootstrap/Button";
-import DetailedSongDto from "../../Models/DetailedSongDto";
+import { useDispatch } from "react-redux";
+import { clearQueue, removeAt } from "../../redux/queue";
+import { setIndex } from "../../redux/queue";
+import { useSelector } from "react-redux";
+import type { RootState } from "../../redux/store";
 
 interface Props {
-  queue: DetailedSongDto[];
-  setQueue: React.Dispatch<React.SetStateAction<DetailedSongDto[]>>;
   show: boolean;
-  index: number;
-  setIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
-function QueueComponent({ queue, setQueue, show, index, setIndex }: Props) {
+function QueueComponent({ show }: Props) {
+  const dispatch = useDispatch();
+  const queue = useSelector((state: RootState) => state.queue.queue);
+  const index = useSelector((state: RootState) => state.queue.index);
+
   return (
     <div>
       {show ? (
@@ -25,7 +29,7 @@ function QueueComponent({ queue, setQueue, show, index, setIndex }: Props) {
             }}
           >
             <ul className="no-bullets">
-              {queue.map((s) => (
+              {queue.map((s, i) => (
                 <div
                   key={s.songId}
                   className={
@@ -36,10 +40,12 @@ function QueueComponent({ queue, setQueue, show, index, setIndex }: Props) {
                 >
                   <div
                     className="d-flex flex-row w-100 queue-item"
-                    onClick={() => setIndex(queue.indexOf(s))}
+                    onClick={() => dispatch(setIndex(queue.indexOf(s)))}
                   >
                     <div className="align-self-center">{s.songTitle}</div>
-                    <div className="ml-auto align-self-center">{s.artistName}</div>
+                    <div className="ml-auto align-self-center">
+                      {s.artistName}
+                    </div>
                   </div>
 
                   <Button
@@ -47,20 +53,7 @@ function QueueComponent({ queue, setQueue, show, index, setIndex }: Props) {
                     variant="outline-warning"
                     size="sm"
                     onClick={() => {
-                      let removeIndex = -1;
-                      setQueue(
-                        queue.filter((s1, i) => {
-                          if (s1.songId === s.songId) removeIndex = i;
-                          return s1.songId !== s.songId;
-                        })
-                      );
-                      setIndex(
-                        removeIndex < index
-                          ? index - 1
-                          : index === queue.length - 1
-                          ? 0
-                          : index
-                      );
+                      dispatch(removeAt(i));
                     }}
                   >
                     X
@@ -82,8 +75,7 @@ function QueueComponent({ queue, setQueue, show, index, setIndex }: Props) {
               className="my-1 mx-2"
               variant="outline-warning"
               onClick={() => {
-                setQueue([]);
-                setIndex(0);
+                dispatch(clearQueue());
               }}
             >
               Clear
