@@ -27,7 +27,7 @@ function PlaylistsPage() {
       setStillLoading(false);
     };
     fetchData();
-  }, []);
+  }, [apiLink]);
 
   const [showAddPlaylist, setShowAddPlaylist] = useState<boolean>(false);
 
