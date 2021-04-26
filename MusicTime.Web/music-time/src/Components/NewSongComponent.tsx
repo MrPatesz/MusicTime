@@ -59,9 +59,9 @@ function NewSongComponent({ show, setShow, albumId }: Props) {
             >
               Add
             </Button>
-          </ButtonGroup>
-          <ButtonGroup className="ml-2">
+
             <Button
+              className="ml-2"
               variant="outline-secondary"
               onClick={() => {
                 setShow(false);

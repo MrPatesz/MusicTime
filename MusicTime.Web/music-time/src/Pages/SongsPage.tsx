@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import SongDto from "../Models/SongDto";
-import SongComponent from "../Components/SongComponent";
+import DetailedSongComponent from "../Components/SongComponents/DetailedSongComponent";
 import Spinner from "react-bootstrap/Spinner";
 import DetailedSongDto from "../Models/DetailedSongDto";
 import Button from "react-bootstrap/Button";
@@ -30,7 +29,7 @@ function SongsPage() {
       setStillLoading(false);
     };
     fetchData();
-  }, []);
+  }, [apiLink]);
 
   return (
     <div className="page">
@@ -51,12 +50,10 @@ function SongsPage() {
         <ul className="no-bullets">
           {songs.map((s) => (
             <li key={s.songId}>
-              <SongComponent
-                detailed={true}
-                songDto={new SongDto(0, "", "")}
+              <DetailedSongComponent
                 detailedSongDto={s}
                 playlistId={0}
-              ></SongComponent>
+              ></DetailedSongComponent>
             </li>
           ))}
         </ul>

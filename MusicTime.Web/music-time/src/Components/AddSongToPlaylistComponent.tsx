@@ -1,7 +1,7 @@
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
-import AutosuggestComponent from "./AutosuggestComponent";
+import AutosuggestComponent from "./Autosuggest/AutosuggestComponent";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import DetailedSongDto from "../Models/DetailedSongDto";

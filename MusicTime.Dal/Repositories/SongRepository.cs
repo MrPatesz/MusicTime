@@ -79,6 +79,21 @@ namespace MusicTime.Dal.Repositories
                 .ToList();
         }
 
+        public async Task<SongDto> EditSong(Song song)
+        {
+            var toEdit = dbContext.Songs.FirstOrDefault(s => s.Id == song.Id);
+
+            toEdit.Title = song.Title;
+            toEdit.Url = song.Url;
+            toEdit.AlbumId = song.AlbumId;
+
+            dbContext.Songs.Update(toEdit);
+
+            await dbContext.SaveChangesAsync();
+
+            return ToDto(toEdit);
+        }
+
         private SongDto ToDto(Song value)
         {
             return new SongDto

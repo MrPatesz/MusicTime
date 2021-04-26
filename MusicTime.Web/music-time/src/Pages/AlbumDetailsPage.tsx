@@ -7,7 +7,7 @@ import { useRouteMatch } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Image from "react-bootstrap/Image";
-import SongComponent from "../Components/SongComponent";
+import AlbumSongComponent from "../Components/SongComponents/AlbumSongComponent";
 import NewAlbumComponent from "../Components/NewAlbumComponent";
 import NewSongComponent from "../Components/NewSongComponent";
 import DetailedSongDto from "../Models/DetailedSongDto";
@@ -133,12 +133,10 @@ function AlbumDetailsPage() {
           <ul className="no-bullets">
             {songs.map((s) => (
               <li key={s.id}>
-                <SongComponent
-                  detailed={false}
+                <AlbumSongComponent
                   songDto={s}
-                  detailedSongDto={new DetailedSongDto(0, "", "", 0, "", 0, "")}
-                  playlistId={0}
-                ></SongComponent>
+                  albumId={id}
+                ></AlbumSongComponent>
               </li>
             ))}
             <NewSongComponent

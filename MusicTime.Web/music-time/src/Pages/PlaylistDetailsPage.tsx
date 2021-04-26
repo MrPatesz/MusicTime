@@ -1,4 +1,4 @@
-import SongComponent from "../Components/SongComponent";
+import DetailedSongComponent from "../Components/SongComponents/DetailedSongComponent";
 import { useEffect, useState } from "react";
 import { useRouteMatch } from "react-router-dom";
 import Button from "react-bootstrap/Button";
@@ -8,7 +8,6 @@ import Spinner from "react-bootstrap/Spinner";
 import PlaylistDto from "../Models/PlaylistDto";
 import AddSongToPlaylistComponent from "../Components/AddSongToPlaylistComponent";
 import DetailedSongDto from "../Models/DetailedSongDto";
-import SongDto from "../Models/SongDto";
 import axios from "axios";
 import NewPlaylistComponent from "../Components/NewPlaylistComponent";
 import { useDispatch } from "react-redux";
@@ -40,7 +39,7 @@ function PlaylistDetailsPage() {
       setPlaylistIsLoading(false);
     };
     fetchData();
-  }, [id]);
+  }, [id, apiBase]);
 
   const [songs, setSongs] = useState<DetailedSongDto[]>([]);
   const [songsStillLoading, setSongsStillLoading] = useState<boolean>(true);
@@ -119,12 +118,10 @@ function PlaylistDetailsPage() {
           <ul className="no-bullets">
             {songs.map((s) => (
               <li key={s.songId}>
-                <SongComponent
-                  detailed={true}
-                  songDto={new SongDto(0, "", "")}
+                <DetailedSongComponent
                   detailedSongDto={s}
                   playlistId={id}
-                ></SongComponent>
+                ></DetailedSongComponent>
               </li>
             ))}
           </ul>

@@ -44,11 +44,27 @@ namespace MusicTime.Bll.Services
                 var song = new Song
                 {
                     Title = songDto.Title,
-                    AlbumId = albumId,
                     Url = songDto.Url,
+                    AlbumId = albumId,
                 };
 
                 return await songRepository.AddSong(song);
+            }
+            return null;
+        }
+
+        public async Task<SongDto> EditSong(int userId, SongDto songDto, int albumId)
+        {
+            if (!songRepository.DoesSongAlreadyExist(userId, songDto, albumId))
+            {
+                var song = new Song
+                {
+                    Id = songDto.Id,
+                    Title = songDto.Title,
+                    Url = songDto.Url,
+                    AlbumId = albumId,
+                };
+                return await songRepository.EditSong(song);
             }
             return null;
         }

@@ -20,13 +20,15 @@ function NewPlaylistComponent({
   isEdited,
   editedPlaylist,
 }: Props) {
-  const [title, setTitle] = useState<string | null>(null);
-  const [description, setDescription] = useState<string | null>(null);
+  const [title, setTitle] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
 
   useEffect(() => {
     if (isEdited) {
       setTitle(editedPlaylist.title);
-      setDescription(editedPlaylist.description);
+      setDescription(
+        editedPlaylist.description ? editedPlaylist.description : ""
+      );
     }
   }, [isEdited, editedPlaylist]);
 
@@ -87,7 +89,7 @@ function NewPlaylistComponent({
               <Form.Control
                 type="text"
                 onChange={(e) => setTitle(e.target.value)}
-                defaultValue={title ? title : ""}
+                defaultValue={editedPlaylist.title}
               />
             </Form.Group>
 
@@ -96,7 +98,9 @@ function NewPlaylistComponent({
               <Form.Control
                 type="text"
                 onChange={(e) => setDescription(e.target.value)}
-                defaultValue={description ? description : ""}
+                defaultValue={
+                  editedPlaylist.description ? editedPlaylist.description : ""
+                }
               />
             </Form.Group>
             <Form.Group>
@@ -111,12 +115,13 @@ function NewPlaylistComponent({
           <Button
             variant="outline-info"
             onClick={() => {
-              if (title !== "") {
+              console.log(title);
+              if (title !== "" && title !== null) {
                 postFunction();
 
                 setShow(false);
-                setTitle(null);
-                setDescription(null);
+                setTitle("");
+                setDescription("");
               }
             }}
           >
