@@ -26,9 +26,7 @@ const saveState = (state: QueueState) => {
   try {
     const serializedState = JSON.stringify(state);
     localStorage.setItem("state", serializedState);
-  } catch {
-    // ignore write errors
-  }
+  } catch {}
 };
 
 export const queueSlice = createSlice({

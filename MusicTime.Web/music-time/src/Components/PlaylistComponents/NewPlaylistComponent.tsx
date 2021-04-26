@@ -4,8 +4,8 @@ import Form from "react-bootstrap/Form";
 import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import PlaylistDto from "../Models/PlaylistDto";
-import { Config } from "../config";
+import PlaylistDto from "../../Models/PlaylistDto";
+import { Config } from "../../config";
 
 interface Props {
   show: boolean;

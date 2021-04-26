@@ -5,7 +5,7 @@ import PlaylistDto from "../Models/PlaylistDto";
 import axios from "axios";
 import Spinner from "react-bootstrap/Spinner";
 import Button from "react-bootstrap/Button";
-import NewPlaylistComponent from "../Components/NewPlaylistComponent";
+import NewPlaylistComponent from "../Components/PlaylistComponents/NewPlaylistComponent";
 import { Config } from "../config";
 
 function PlaylistsPage() {

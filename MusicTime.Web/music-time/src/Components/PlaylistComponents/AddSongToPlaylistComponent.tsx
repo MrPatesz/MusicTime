@@ -1,11 +1,11 @@
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
-import AutosuggestComponent from "./Autosuggest/AutosuggestComponent";
+import AutosuggestComponent from "../Autosuggest/AutosuggestComponent";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import DetailedSongDto from "../Models/DetailedSongDto";
-import { Config } from "../config";
+import DetailedSongDto from "../../Models/DetailedSongDto";
+import { Config } from "../../config";
 
 interface Props {
   playlistId: number;
@@ -41,8 +41,7 @@ function AddSongToPlaylistComponent({ playlistId }: Props) {
       const postData = async () => {
         await axios({
           method: "post",
-          url:
-            "https://localhost:5001/api/playlists/" + playlistId + "/addSong",
+          url: apiLink + "playlists/" + playlistId + "/addSong",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },

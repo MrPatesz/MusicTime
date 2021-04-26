@@ -4,7 +4,7 @@ import Form from "react-bootstrap/Form";
 import React from "react";
 import { useState } from "react";
 import axios from "axios";
-import { Config } from "../config";
+import { Config } from "../../config";
 
 interface Props {
   show: boolean;

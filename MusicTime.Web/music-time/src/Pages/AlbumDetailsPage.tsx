@@ -9,7 +9,7 @@ import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Image from "react-bootstrap/Image";
 import AlbumSongComponent from "../Components/SongComponents/AlbumSongComponent";
 import NewAlbumComponent from "../Components/NewAlbumComponent";
-import NewSongComponent from "../Components/NewSongComponent";
+import NewSongComponent from "../Components/SongComponents/NewSongComponent";
 import DetailedSongDto from "../Models/DetailedSongDto";
 import { useDispatch } from "react-redux";
 import { setQueue } from "../redux/queue";
