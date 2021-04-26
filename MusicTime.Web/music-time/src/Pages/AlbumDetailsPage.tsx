@@ -131,13 +131,20 @@ function AlbumDetailsPage() {
           <Spinner animation="grow" variant="info" />
         ) : (
           <ul className="no-bullets">
-            {songs.map((s) => (
-              <li key={s.id}>
-                <AlbumSongComponent
-                  songDto={s}
-                  albumId={id}
-                ></AlbumSongComponent>
-              </li>
+            {songs.map((s, i) => (
+              <div>
+                <li key={s.id}>
+                  <AlbumSongComponent
+                    songDto={s}
+                    albumId={id}
+                  ></AlbumSongComponent>
+                </li>
+                {i !== songs.length - 1 ? (
+                  <hr className="my-2 bg-white"></hr>
+                ) : (
+                  <div></div>
+                )}
+              </div>
             ))}
             <NewSongComponent
               show={showAddSong}

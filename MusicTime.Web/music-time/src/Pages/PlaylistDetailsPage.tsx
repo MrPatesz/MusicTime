@@ -140,13 +140,20 @@ function PlaylistDetailsPage() {
           <Spinner animation="grow" variant="info" />
         ) : (
           <ul className="no-bullets">
-            {songs.map((s) => (
-              <li key={s.songId}>
-                <DetailedSongComponent
-                  detailedSongDto={s}
-                  playlistId={id}
-                ></DetailedSongComponent>
-              </li>
+            {songs.map((s, i) => (
+              <div>
+                <li key={s.songId}>
+                  <DetailedSongComponent
+                    detailedSongDto={s}
+                    playlistId={id}
+                  ></DetailedSongComponent>
+                </li>
+                {i !== songs.length - 1 ? (
+                  <hr className="my-2 bg-white"></hr>
+                ) : (
+                  <div></div>
+                )}
+              </div>
             ))}
           </ul>
         )}

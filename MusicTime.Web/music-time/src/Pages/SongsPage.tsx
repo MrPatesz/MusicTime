@@ -46,39 +46,46 @@ function SongsPage() {
       </div>
 
       <Container
-          fluid
-          style={{
-            width: "calc(100% - 133.8px)",
-            left: "-66px",
-            position: "relative",
-          }}
-        >
-          <Row>
-            <Col xs={12} sm={8} md={8} lg={6}>
-              <h4>Title</h4>
-            </Col>
+        fluid
+        style={{
+          width: "calc(100% - 133.8px)",
+          left: "-66px",
+          position: "relative",
+        }}
+      >
+        <Row>
+          <Col xs={12} sm={8} md={8} lg={6}>
+            <h4>Title</h4>
+          </Col>
 
-            <Col className="d-none d-sm-block" sm={4} md={3} lg={2}>
-              <h4>Artist</h4>
-            </Col>
+          <Col className="d-none d-sm-block" sm={4} md={3} lg={2}>
+            <h4>Artist</h4>
+          </Col>
 
-            <Col className="d-none d-lg-block" lg={2}>
-              <h4>Album</h4>
-            </Col>
-          </Row>
-        </Container>
+          <Col className="d-none d-lg-block" lg={2}>
+            <h4>Album</h4>
+          </Col>
+        </Row>
+      </Container>
 
       {stillLoading ? (
         <Spinner animation="grow" variant="info" />
       ) : (
         <ul className="no-bullets">
-          {songs.map((s) => (
-            <li key={s.songId}>
-              <DetailedSongComponent
-                detailedSongDto={s}
-                playlistId={-1}
-              ></DetailedSongComponent>
-            </li>
+          {songs.map((s, i) => (
+            <div>
+              <li key={s.songId}>
+                <DetailedSongComponent
+                  detailedSongDto={s}
+                  playlistId={-1}
+                ></DetailedSongComponent>
+              </li>
+              {i !== songs.length - 1 ? (
+                <hr className="my-2 bg-white"></hr>
+              ) : (
+                <div></div>
+              )}
+            </div>
           ))}
         </ul>
       )}
