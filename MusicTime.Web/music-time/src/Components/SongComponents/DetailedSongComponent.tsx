@@ -60,9 +60,7 @@ function DetailedSongComponent({ detailedSongDto, playlistId }: Props) {
                 </a>
               </h5>
             </Col>
-            <Col className="d-none d-md-block" md={1} lg={1}>
-              <div>{" by "}</div>
-            </Col>
+
             <Col className="d-none d-sm-block" sm={4} md={3} lg={2}>
               <h5>
                 <Link
@@ -73,9 +71,7 @@ function DetailedSongComponent({ detailedSongDto, playlistId }: Props) {
                 </Link>
               </h5>
             </Col>
-            <Col className="d-none d-lg-block" lg={1}>
-              <div>{" from "}</div>
-            </Col>
+
             <Col className="d-none d-lg-block" lg={2}>
               <h5>
                 <h5>

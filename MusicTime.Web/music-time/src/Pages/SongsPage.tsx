@@ -7,6 +7,7 @@ import Button from "react-bootstrap/Button";
 import { useDispatch } from "react-redux";
 import { setQueue } from "../redux/queue";
 import { Config } from "../config";
+import { Container, Row, Col } from "react-bootstrap";
 
 function SongsPage() {
   const dispatch = useDispatch();
@@ -43,6 +44,29 @@ function SongsPage() {
           Play
         </Button>
       </div>
+
+      <Container
+          fluid
+          style={{
+            width: "calc(100% - 133.8px)",
+            left: "-66px",
+            position: "relative",
+          }}
+        >
+          <Row>
+            <Col xs={12} sm={8} md={8} lg={6}>
+              <h4>Title</h4>
+            </Col>
+
+            <Col className="d-none d-sm-block" sm={4} md={3} lg={2}>
+              <h4>Artist</h4>
+            </Col>
+
+            <Col className="d-none d-lg-block" lg={2}>
+              <h4>Album</h4>
+            </Col>
+          </Row>
+        </Container>
 
       {stillLoading ? (
         <Spinner animation="grow" variant="info" />

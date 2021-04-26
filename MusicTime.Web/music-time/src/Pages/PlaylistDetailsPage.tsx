@@ -13,6 +13,7 @@ import NewPlaylistComponent from "../Components/PlaylistComponents/NewPlaylistCo
 import { useDispatch } from "react-redux";
 import { setQueue } from "../redux/queue";
 import { Config } from "../config";
+import { Container, Row, Col } from "react-bootstrap";
 
 function PlaylistDetailsPage() {
   const dispatch = useDispatch();
@@ -111,6 +112,29 @@ function PlaylistDetailsPage() {
             playlistId={id}
           ></AddSongToPlaylistComponent>
         </div>
+
+        <Container
+          fluid
+          style={{
+            width: "calc(100% - 82.656px)",
+            left: "-40px",
+            position: "relative",
+          }}
+        >
+          <Row>
+            <Col xs={12} sm={8} md={8} lg={6}>
+              <h4>Title</h4>
+            </Col>
+
+            <Col className="d-none d-sm-block" sm={4} md={3} lg={2}>
+              <h4>Artist</h4>
+            </Col>
+
+            <Col className="d-none d-lg-block" lg={2}>
+              <h4>Album</h4>
+            </Col>
+          </Row>
+        </Container>
 
         {songsStillLoading ? (
           <Spinner animation="grow" variant="info" />
