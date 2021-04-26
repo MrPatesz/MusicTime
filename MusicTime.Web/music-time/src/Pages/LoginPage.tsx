@@ -70,7 +70,7 @@ function LoginPage() {
         <Form.Group>
           <Form.Label>Username</Form.Label>
           <Form.Control
-            placeholder="Enter username"
+            placeholder="Username"
             onChange={(e) => setUsername(e.target.value)}
           />
         </Form.Group>

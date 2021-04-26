@@ -108,7 +108,7 @@ function MusicPlayerComponent() {
             <div className="ml-auto mb-2 mt-2">
               <ButtonGroup>
                 <Button
-                  variant="outline-info"
+                  variant={showQueue ? "info" : "outline-info"}
                   onClick={() => setShowQueue(!showQueue)}
                 >
                   Queue
