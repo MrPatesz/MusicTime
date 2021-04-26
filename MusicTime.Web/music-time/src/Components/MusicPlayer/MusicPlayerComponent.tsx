@@ -47,7 +47,7 @@ function MusicPlayerComponent() {
     if (!isSeeking) setProgress(state.played);
   }
 
-  const [scale, setScale] = useState<number>(1.15);
+  const [scale, setScale] = useState<number>(1.1);
 
   return (
     <div style={{ position: "fixed", bottom: "0", right: "0" }}>
@@ -108,15 +108,6 @@ function MusicPlayerComponent() {
             <div className="ml-auto mb-2 mt-2">
               <ButtonGroup>
                 <Button
-                  className="mr-2"
-                  variant="outline-warning"
-                  onClick={() => setHidden(true)}
-                >
-                  Hide
-                </Button>
-
-                <Button
-                  className="mr-2"
                   variant="outline-info"
                   onClick={() => setShowQueue(!showQueue)}
                 >
@@ -124,7 +115,7 @@ function MusicPlayerComponent() {
                 </Button>
               </ButtonGroup>
 
-              <ButtonGroup className="ml-4">
+              <ButtonGroup className={isPlaying ? "ml-3 mr-4" : "ml-4 mr-4"}>
                 <Button
                   variant="outline-info"
                   onClick={playPrevFunc}
@@ -141,12 +132,17 @@ function MusicPlayerComponent() {
                   {isPlaying ? "Pause" : "Play"}
                 </Button>
 
-                <Button
-                  variant="outline-info"
-                  onClick={playNextFunc}
-                  className="mr-4"
-                >
+                <Button variant="outline-info" onClick={playNextFunc}>
                   Next
+                </Button>
+              </ButtonGroup>
+
+              <ButtonGroup className="mr-3">
+                <Button
+                  variant="outline-warning"
+                  onClick={() => setHidden(true)}
+                >
+                  Hide
                 </Button>
               </ButtonGroup>
             </div>
@@ -155,7 +151,7 @@ function MusicPlayerComponent() {
           <input
             className="vertical-slider mr-2 mb-2 mt-2"
             type="range"
-            min={1.15}
+            min={1.1}
             max={4.7}
             step="any"
             value={scale}
