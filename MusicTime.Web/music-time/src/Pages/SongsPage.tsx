@@ -52,7 +52,7 @@ function SongsPage() {
             <li key={s.songId}>
               <DetailedSongComponent
                 detailedSongDto={s}
-                playlistId={0}
+                playlistId={-1}
               ></DetailedSongComponent>
             </li>
           ))}
