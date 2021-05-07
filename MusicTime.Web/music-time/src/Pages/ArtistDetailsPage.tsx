@@ -68,7 +68,7 @@ function ArtistDetailsPage() {
               src={
                 artist.pictureGuid === null
                   ? "/placeholder.png"
-                  : artist.pictureGuid
+                  : Config.picturePath + artist.pictureGuid + ".png"
               }
               rounded
               style={{ minWidth: "11rem", maxWidth: "14rem" }}

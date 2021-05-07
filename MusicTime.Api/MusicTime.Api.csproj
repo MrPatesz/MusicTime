@@ -14,4 +14,8 @@
     <ProjectReference Include="..\MusicTime.Dal\MusicTime.Dal.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
 </Project>

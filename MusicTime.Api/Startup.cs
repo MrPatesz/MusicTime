@@ -84,10 +84,16 @@ namespace MusicTime.Api
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MusicTime.Api v1"));
             }
+            else
+            {
+                app.UseHsts();
+            }
 
             app.UseHttpsRedirection();
 
             app.UseAuthentication();
+
+            app.UseStaticFiles();
 
             app.UseRouting();
 

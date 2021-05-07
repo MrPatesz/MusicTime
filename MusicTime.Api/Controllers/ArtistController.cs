@@ -52,16 +52,6 @@ namespace MusicTime.Api.Controllers
             return artistService.GetAlbumsOfArtist(userId, artistId);
         }
 
-        // POST pic ???
-        /*[HttpPut("{artistId}/getPictureGuid")]
-        [Authorize]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<string> GetPictureGuidOfArtist(int artistId)
-        {
-            var userId = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            return Ok("generated_pictureGuid");//artistService.GetPictureGuidOfArtist(userId, artistId);
-        }*/
-
         [HttpPost]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]

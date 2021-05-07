@@ -76,7 +76,7 @@ function PlaylistDetailsPage() {
               src={
                 playlist.coverGuid === null
                   ? "/placeholder.png"
-                  : playlist.coverGuid
+                  : Config.picturePath + playlist.coverGuid + ".png"
               }
               rounded
               style={{ minWidth: "11rem", maxWidth: "14rem" }}

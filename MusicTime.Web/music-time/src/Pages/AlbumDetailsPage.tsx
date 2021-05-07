@@ -84,7 +84,9 @@ function AlbumDetailsPage() {
           <div className="d-flex flex-row">
             <Image
               src={
-                album.coverGuid === null ? "/placeholder.png" : album.coverGuid
+                album.coverGuid === null
+                  ? "/placeholder.png"
+                  : Config.picturePath + album.coverGuid + ".png"
               }
               rounded
               style={{ minWidth: "11rem", maxWidth: "14rem" }}

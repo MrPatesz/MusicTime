@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import axios from "axios";
+import { Config } from "../config";
 
 interface Props {
   title: string;
@@ -23,6 +24,9 @@ function CardComponent({
   objectId,
 }: Props) {
   if (pictureGuid === null) pictureGuid = "/placeholder.png";
+  else {
+    pictureGuid = Config.picturePath + pictureGuid + ".png";
+  }
 
   const [confirm, setConfirm] = useState<boolean>(false);
   function deleteFunction() {
@@ -44,7 +48,7 @@ function CardComponent({
         style={{ minWidth: "11rem", maxWidth: "15rem" }}
         className="bg-dark text-white mb-3"
       >
-        <Card.Img variant="top" src={pictureGuid} />
+        <Card.Img variant="top" src={pictureGuid}/>
         <Card.Body>
           <Card.Title>{title}</Card.Title>
           <ButtonToolbar>

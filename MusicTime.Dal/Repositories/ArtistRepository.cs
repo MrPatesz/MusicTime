@@ -63,7 +63,9 @@ namespace MusicTime.Dal.Repositories
 
             toEdit.Name = artist.Name;
             toEdit.Description = artist.Description;
-            toEdit.PictureGuid = artist.PictureGuid;
+
+            if(artist.PictureGuid != null)
+                toEdit.PictureGuid = artist.PictureGuid;
 
             dbContext.Artists.Update(toEdit);
 
