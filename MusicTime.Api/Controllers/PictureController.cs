@@ -67,7 +67,9 @@ namespace MusicTime.Api.Controllers
 
                     if(artist.PictureGuid != null)
                     {
-                        System.IO.File.Delete($"{dir}{artist.PictureGuid}.png");
+                        var toDelete = $"{dir}{artist.PictureGuid}.png";
+                        if (System.IO.File.Exists(toDelete))
+                            System.IO.File.Delete(toDelete);
                     }
 
                     artist.PictureGuid = pictureGuid;
