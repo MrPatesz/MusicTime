@@ -48,7 +48,11 @@ function CardComponent({
         style={{ minWidth: "11rem", maxWidth: "15rem" }}
         className="bg-dark text-white mb-3"
       >
-        <Card.Img variant="top" src={pictureGuid}/>
+        <Card.Img
+          variant="top"
+          src={pictureGuid}
+          style={{ minHeight: "11rem", maxHeight: "15rem" }}
+        />
         <Card.Body>
           <Card.Title>{title}</Card.Title>
           <ButtonToolbar>

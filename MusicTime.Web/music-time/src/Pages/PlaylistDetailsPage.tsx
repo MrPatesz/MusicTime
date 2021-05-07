@@ -79,7 +79,10 @@ function PlaylistDetailsPage() {
                   : Config.picturePath + playlist.coverGuid + ".png"
               }
               rounded
-              style={{ minWidth: "11rem", maxWidth: "14rem" }}
+              style={{
+                width: "15rem",
+                height: "15rem",
+              }}
               className="mb-2 mr-4"
             />
             <div className="d-flex flex-column">
