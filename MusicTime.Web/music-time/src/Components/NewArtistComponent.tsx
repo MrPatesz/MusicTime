@@ -135,9 +135,7 @@ function NewArtistComponent({ show, setShow, isEdited, editedArtist }: Props) {
             <Form.Group>
               <Form.File
                 accept="image/*"
-                name="file"
                 label="Picture"
-                feedbackTooltip
                 onChange={fileSelected}
               />
             </Form.Group>

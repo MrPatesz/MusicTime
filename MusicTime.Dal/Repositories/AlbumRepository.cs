@@ -78,9 +78,11 @@ namespace MusicTime.Dal.Repositories
 
             toEdit.Title = album.Title;
             toEdit.Description = album.Description;
-            toEdit.CoverGuid = album.CoverGuid;
             toEdit.Genre = album.Genre;
             toEdit.ReleaseYear = album.ReleaseYear;
+
+            if (album.CoverGuid != null)
+                toEdit.CoverGuid = album.CoverGuid;
 
             dbContext.Albums.Update(toEdit);
 

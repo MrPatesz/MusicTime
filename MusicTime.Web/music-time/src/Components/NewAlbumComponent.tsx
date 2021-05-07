@@ -36,12 +36,12 @@ function NewAlbumComponent({
     }
   }, [isEdited, editedAlbum]);
 
-  function postFunction() {
+  async function postFunction() {
     let apiLink = Config.apiUrl + "albums/";
     var postData;
     if (isEdited) {
       postData = async () => {
-        await axios({
+        return await axios({
           method: "put",
           url: apiLink + editedAlbum.id,
           headers: {
@@ -58,7 +58,7 @@ function NewAlbumComponent({
       };
     } else {
       postData = async () => {
-        await axios({
+        return await axios({
           method: "post",
           url: apiLink,
           headers: {
@@ -74,7 +74,37 @@ function NewAlbumComponent({
         });
       };
     }
-    postData();
+    var newAlbum = await postData();
+
+    postPicture(((newAlbum.data as unknown) as AlbumDto).id);
+  }
+
+  function postPicture(albumId: number) {
+    if (selectedFile !== null) {
+      const formData = new FormData();
+      formData.append("File", selectedFile, selectedFile.name);
+
+      const postPictureData = async () => {
+        await axios({
+          method: "put",
+          url: Config.apiUrl + "pictures/album/" + albumId,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+          data: formData,
+        });
+      };
+      postPictureData();
+    }
+    setSelectedFile(null);
+  }
+
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+  function fileSelected(event: React.ChangeEvent<HTMLInputElement>): void {
+    const target = event.target as HTMLInputElement;
+    const file: File = (target.files as FileList)[0];
+    setSelectedFile(file);
   }
 
   return (
@@ -127,7 +157,11 @@ function NewAlbumComponent({
               />
             </Form.Group>
             <Form.Group>
-              <Form.File name="file" label="Picture" feedbackTooltip />
+              <Form.File
+                label="Cover"
+                accept="image/*"
+                onChange={fileSelected}
+              />
             </Form.Group>
           </Form>
         </Modal.Body>
