@@ -64,6 +64,12 @@ namespace MusicTime.Api.Controllers
                     }
 
                     var artist = artistService.GetArtistById(userId, artistId);
+
+                    if(artist.PictureGuid != null)
+                    {
+                        System.IO.File.Delete($"{dir}{artist.PictureGuid}.png");
+                    }
+
                     artist.PictureGuid = pictureGuid;
                     await artistService.EditArtist(userId, artist);
 
