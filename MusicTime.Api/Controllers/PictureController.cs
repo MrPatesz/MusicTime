@@ -142,5 +142,60 @@ namespace MusicTime.Api.Controllers
                 return BadRequest(ex.Message.ToString());
             }
         }
+
+        [HttpPut("playlist/{playlistId}")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<string>> EditPlaylistCover([FromForm] FileUpload objFile, int playlistId)
+        {
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            try
+            {
+                if (objFile.File.Length > 0)
+                {
+                    var dir = environment.WebRootPath + "\\Pictures\\";
+
+                    if (!Directory.Exists(dir))
+                    {
+                        Directory.CreateDirectory(dir);
+                    }
+
+                    Guid pictureGuid = Guid.NewGuid();
+                    string fileName = $"{pictureGuid}.png";
+                    // .png helyett: Path.GetExtension(objFile.File.FileName)
+                    // de akkor Quid helyett stringet tárolni
+
+                    using (FileStream fileStream = System.IO.File.Create(dir + fileName))
+                    {
+                        await objFile.File.CopyToAsync(fileStream);
+                        await fileStream.FlushAsync();
+                    }
+
+                    var playlist = playlistService.GetPlaylistById(userId, playlistId);
+
+                    if (playlist.CoverGuid != null)
+                    {
+                        var toDelete = $"{dir}{playlist.CoverGuid}.png";
+                        if (System.IO.File.Exists(toDelete))
+                            System.IO.File.Delete(toDelete);
+                    }
+
+                    playlist.CoverGuid = pictureGuid;
+                    await playlistService.EditPlaylist(userId, playlist);
+
+                    return Ok(fileName);
+                }
+                else
+                {
+                    return BadRequest("File not provided");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message.ToString());
+            }
+        }
     }
 }

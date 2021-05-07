@@ -32,12 +32,12 @@ function NewPlaylistComponent({
     }
   }, [isEdited, editedPlaylist]);
 
-  function postFunction() {
+  async function postFunction() {
     let apiLink = Config.apiUrl + "playlists/";
     var postData;
     if (isEdited) {
       postData = async () => {
-        await axios({
+        return await axios({
           method: "put",
           url: apiLink + editedPlaylist.id,
           headers: {
@@ -52,7 +52,7 @@ function NewPlaylistComponent({
       };
     } else {
       postData = async () => {
-        await axios({
+        return await axios({
           method: "post",
           url: apiLink,
           headers: {
@@ -65,7 +65,37 @@ function NewPlaylistComponent({
         });
       };
     }
-    postData();
+    var newPlaylist = await postData();
+
+    postPicture(((newPlaylist.data as unknown) as PlaylistDto).id);
+  }
+
+  function postPicture(playlistId: number) {
+    if (selectedFile !== null) {
+      const formData = new FormData();
+      formData.append("File", selectedFile, selectedFile.name);
+
+      const postPictureData = async () => {
+        await axios({
+          method: "put",
+          url: Config.apiUrl + "pictures/playlist/" + playlistId,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+          data: formData,
+        });
+      };
+      postPictureData();
+    }
+    setSelectedFile(null);
+  }
+
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+  function fileSelected(event: React.ChangeEvent<HTMLInputElement>): void {
+    const target = event.target as HTMLInputElement;
+    const file: File = (target.files as FileList)[0];
+    setSelectedFile(file);
   }
 
   return (
@@ -104,7 +134,11 @@ function NewPlaylistComponent({
               />
             </Form.Group>
             <Form.Group>
-              <Form.File name="file" label="Picture" feedbackTooltip />
+              <Form.File
+                label="Cover"
+                accept="image/*"
+                onChange={fileSelected}
+              />
             </Form.Group>
           </Form>
         </Modal.Body>

@@ -63,7 +63,9 @@ namespace MusicTime.Dal.Repositories
 
             toEdit.Title = playlist.Title;
             toEdit.Description = playlist.Description;
-            toEdit.CoverGuid = playlist.CoverGuid;
+
+            if (playlist.CoverGuid != null)
+                toEdit.CoverGuid = playlist.CoverGuid;
 
             dbContext.Playlists.Update(toEdit);
 
