@@ -53,7 +53,7 @@ function DetailedSongComponent({ detailedSongDto, playlistId }: Props) {
       <div className="d-flex flex-row">
         <Container fluid className="mt-auto">
           <Row>
-            <Col xs={12} sm={8} md={8} lg={6}>
+            <Col xs={12} sm={8} lg={6}>
               <h5>
                 <a href={detailedSongDto.url} className="text-info">
                   {detailedSongDto.songTitle}
@@ -61,7 +61,7 @@ function DetailedSongComponent({ detailedSongDto, playlistId }: Props) {
               </h5>
             </Col>
 
-            <Col className="d-none d-sm-block" sm={4} md={3} lg={2}>
+            <Col className="d-none d-sm-block" sm={4} md={3}>
               <h5>
                 <Link
                   className="text-info"
@@ -72,16 +72,14 @@ function DetailedSongComponent({ detailedSongDto, playlistId }: Props) {
               </h5>
             </Col>
 
-            <Col className="d-none d-lg-block" lg={2}>
+            <Col className="d-none d-lg-block" lg={3}>
               <h5>
-                <h5>
-                  <Link
-                    className="text-info"
-                    to={"/albums/" + detailedSongDto.albumId}
-                  >
-                    {detailedSongDto.albumTitle}
-                  </Link>
-                </h5>
+                <Link
+                  className="text-info"
+                  to={"/albums/" + detailedSongDto.albumId}
+                >
+                  {detailedSongDto.albumTitle}
+                </Link>
               </h5>
             </Col>
           </Row>
