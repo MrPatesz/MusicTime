@@ -49,7 +49,7 @@ function DetailedSongComponent({ detailedSongDto, playlistId }: Props) {
   }
 
   return (
-    <div className="mb-1">
+    <div className="mb-2">
       <div className="d-flex flex-row">
         <Container fluid className="mt-auto">
           <Row>
@@ -87,7 +87,7 @@ function DetailedSongComponent({ detailedSongDto, playlistId }: Props) {
 
         {playlistId === -1 ? (
           <ButtonGroup className="ml-auto">
-            <Button variant="outline-info" className="mr-2">
+            <Button variant="outline-info" className="mr-1">
               Add
             </Button>
             <Button variant="outline-danger" onClick={() => setConfirm(true)}>

@@ -32,7 +32,7 @@ function AlbumSongComponent({ songDto, albumId }: Props) {
   }
 
   return (
-    <div className="mb-1">
+    <div className="mb-2">
       {editSong ? (
         <EditSongComponent
           songDto={songDto}
@@ -50,14 +50,14 @@ function AlbumSongComponent({ songDto, albumId }: Props) {
           <ButtonGroup className="ml-auto">
             <Button variant="outline-info">Add</Button>
             <Button
-              className="ml-2"
+              className="ml-1"
               variant="outline-info"
               onClick={() => setEditSong(true)}
             >
               Edit
             </Button>
             <Button
-              className="ml-2"
+              className="ml-1"
               variant="outline-danger"
               onClick={() => setConfirm(true)}
             >
