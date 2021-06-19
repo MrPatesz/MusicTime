@@ -34,6 +34,22 @@ namespace MusicTime.Bll.Services
             return albumRepository.GetAlbumsOfArtist(userId, artistId);
         }
 
+        public List<SongDto> GetSongsOfArtist(int userId, int artistId)
+        {
+            var albums = albumRepository.GetAlbumsOfArtist(userId, artistId);
+
+            var songs = new List<SongDto>();
+
+            albums.ForEach(a =>
+            {
+                var songsOfAlbum = songRepository.GetSongsOfAlbum(userId, a.Id);
+
+                songsOfAlbum.ForEach(s => songs.Add(s));
+            });
+
+            return songs;
+        }
+
         public async Task<ArtistDto> AddArtist(int userId, ArtistDto artistDto)
         {
             if (!artistRepository.DoesArtistAlreadyExist(userId, artistDto))

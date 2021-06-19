@@ -12,8 +12,14 @@ import NewArtistComponent from "../Components/NewArtistComponent";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import { Config } from "../config";
+import { useDispatch } from "react-redux";
+import { setQueue } from "../redux/queue";
+import DetailedSongDto from "../Models/DetailedSongDto";
+import SongDto from "../Models/SongDto";
 
 function ArtistDetailsPage() {
+  const dispatch = useDispatch();
+
   let id = useRouteMatch("/artists/:id").params.id;
 
   const apiLink = Config.apiUrl + "artists/" + id;
@@ -57,6 +63,29 @@ function ArtistDetailsPage() {
   const [showAddAlbum, setShowAddAlbum] = useState<boolean>(false);
   const [showEditArtist, setShowEditArtist] = useState<boolean>(false);
 
+  async function playFunction() {
+    const fetchData = async () => {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      };
+      const result = await axios.get(apiLink + "/songs", config);
+
+      return result.data;
+    };
+
+    let songs: SongDto[] = await fetchData();
+
+    let queue: DetailedSongDto[] = [];
+
+    songs.forEach((s) =>
+      queue.push(new DetailedSongDto(s.id, s.title, s.url, 0, "", id, ""))
+    );
+
+    dispatch(setQueue(queue));
+  }
+
   return (
     <div className="page">
       <div>
@@ -82,13 +111,16 @@ function ArtistDetailsPage() {
               <p>{artist.description}</p>
             </div>
 
-            <ButtonGroup className="ml-auto">
+            <ButtonGroup vertical className="ml-auto mb-auto">
               <Button
                 variant="outline-info"
                 onClick={() => setShowEditArtist(true)}
-                className="mb-auto"
+                className="mb-2"
               >
                 Edit
+              </Button>
+              <Button variant="outline-info" onClick={playFunction}>
+                Play
               </Button>
             </ButtonGroup>
           </div>

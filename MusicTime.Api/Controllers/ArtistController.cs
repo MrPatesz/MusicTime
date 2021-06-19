@@ -25,7 +25,7 @@ namespace MusicTime.Api.Controllers
         [Authorize]
         public List<ArtistDto> GetArtists()
         {
-            var userId = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
             return artistService.GetArtists(userId);
         }
 
@@ -35,7 +35,7 @@ namespace MusicTime.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<ArtistDto> GetArtistById(int id)
         {
-            var userId = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
             var artist = artistService.GetArtistById(userId, id);
             if (artist == null)
@@ -48,8 +48,16 @@ namespace MusicTime.Api.Controllers
         [Authorize]
         public List<AlbumDto> GetAlbumsOfArtist(int artistId)
         {
-            var userId = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
             return artistService.GetAlbumsOfArtist(userId, artistId);
+        }
+
+        [HttpGet("{artistId}/songs")]
+        [Authorize]
+        public List<SongDto> GetSongsOfArtist(int artistId)
+        {
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            return artistService.GetSongsOfArtist(userId, artistId);
         }
 
         [HttpPost]
@@ -58,7 +66,7 @@ namespace MusicTime.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<ArtistDto>> AddArtist([FromBody] ArtistDto artistDto)
         {
-            var userId = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
             var artist = await artistService.AddArtist(userId, artistDto);
             if (artist == null)
@@ -73,7 +81,7 @@ namespace MusicTime.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<ArtistDto>> EditArtist([FromBody] ArtistDto artistDto)
         {
-            var userId = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
             var artist = await artistService.EditArtist(userId, artistDto);
             if (artist == null)
@@ -88,7 +96,7 @@ namespace MusicTime.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> DeleteArtistById(int artistId)
         {
-            var userId = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
             if (await artistService.DeleteArtistById(userId, artistId))
                 return Ok();
