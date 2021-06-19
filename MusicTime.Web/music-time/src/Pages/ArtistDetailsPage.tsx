@@ -80,7 +80,7 @@ function ArtistDetailsPage() {
     let queue: DetailedSongDto[] = [];
 
     songs.forEach((s) =>
-      queue.push(new DetailedSongDto(s.id, s.title, s.url, 0, "", id, ""))
+      queue.push(new DetailedSongDto(s.id, s.title, s.url, 0, artist.name, id, ""))
     );
 
     dispatch(setQueue(queue));
