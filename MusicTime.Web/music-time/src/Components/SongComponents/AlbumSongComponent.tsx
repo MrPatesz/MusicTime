@@ -41,7 +41,7 @@ function AlbumSongComponent({ songDto, albumId }: Props) {
         ></EditSongComponent>
       ) : (
         <div className="d-flex flex-row">
-          <h5 className="mb-auto mt-auto">
+          <h5 className="pl-3 mb-auto mt-auto">
             <a href={songDto.url} className="text-info">
               {songDto.title}
             </a>

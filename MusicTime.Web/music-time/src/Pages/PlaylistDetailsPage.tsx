@@ -144,17 +144,21 @@ function PlaylistDetailsPage() {
         ) : (
           <ul className="no-bullets">
             {songs.map((s, i) => (
-              <div>
-                <li key={s.songId}>
-                  <DetailedSongComponent
-                    detailedSongDto={s}
-                    playlistId={id}
-                  ></DetailedSongComponent>
-                </li>
-                {i !== songs.length - 1 ? (
-                  <hr className="my-2 bg-white"></hr>
+              <div key={s.songId}>
+                {i % 2 !== 0 ? (
+                  <li className="bg-dark">
+                    <DetailedSongComponent
+                      detailedSongDto={s}
+                      playlistId={id}
+                    ></DetailedSongComponent>
+                  </li>
                 ) : (
-                  <div></div>
+                  <li>
+                    <DetailedSongComponent
+                      detailedSongDto={s}
+                      playlistId={id}
+                    ></DetailedSongComponent>
+                  </li>
                 )}
               </div>
             ))}
