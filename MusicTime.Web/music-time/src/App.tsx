@@ -1,5 +1,11 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect,
+} from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import "./App.css";
@@ -12,8 +18,18 @@ import SongsPage from "./Pages/SongsPage";
 import PlaylistsPage from "./Pages/PlaylistsPage";
 import PlaylistDetailsPage from "./Pages/PlaylistDetailsPage";
 import MusicPlayerComponent from "./Components/MusicPlayer/MusicPlayerComponent";
+import { useState } from "react";
 
 const App = () => {
+  const [loggedIn, setLoggedIn] = useState<boolean>(
+    localStorage.getItem("authToken") ? true : false
+  );
+
+  function logout() {
+    localStorage.removeItem("authToken");
+    setLoggedIn(false);
+  }
+
   return (
     <Router>
       <div className="App">
@@ -36,36 +52,64 @@ const App = () => {
             </Link>
           </Nav>
           <Nav className="ml-auto">
-            <Link className="nav-link text-info" to="/login">
-              Login
-            </Link>
+            {loggedIn ? (
+              <Link className="nav-link text-info" onClick={logout}>
+                Logout
+              </Link>
+            ) : (
+              <Link className="nav-link text-info" to="/login">
+                Login
+              </Link>
+            )}
           </Nav>
         </Navbar>
         <Switch>
-          <Route exact path="/"></Route>
+          <Route exact path="/">
+            {loggedIn ? <div></div> : <Redirect to="/login" />}
+          </Route>
           <Route exact path="/artists">
-            <ArtistsPage></ArtistsPage>
+            {loggedIn ? <ArtistsPage></ArtistsPage> : <Redirect to="/login" />}
           </Route>
           <Route exact path={"/artists/:id"}>
-            <ArtistDetailsPage></ArtistDetailsPage>
+            {loggedIn ? (
+              <ArtistDetailsPage></ArtistDetailsPage>
+            ) : (
+              <Redirect to="/login" />
+            )}
           </Route>
           <Route exact path="/albums">
-            <AlbumsPage></AlbumsPage>
+            {loggedIn ? <AlbumsPage></AlbumsPage> : <Redirect to="/login" />}
           </Route>
           <Route exact path={"/albums/:id"}>
-            <AlbumDetailsPage></AlbumDetailsPage>
+            {loggedIn ? (
+              <AlbumDetailsPage></AlbumDetailsPage>
+            ) : (
+              <Redirect to="/login" />
+            )}
           </Route>
           <Route exact path="/songs">
-            <SongsPage></SongsPage>
+            {loggedIn ? <SongsPage></SongsPage> : <Redirect to="/login" />}
           </Route>
           <Route exact path="/playlists">
-            <PlaylistsPage></PlaylistsPage>
+            {loggedIn ? (
+              <PlaylistsPage></PlaylistsPage>
+            ) : (
+              <Redirect to="/login" />
+            )}
           </Route>
           <Route exact path={"/playlists/:id"}>
-            <PlaylistDetailsPage></PlaylistDetailsPage>
+            {loggedIn ? (
+              <PlaylistDetailsPage></PlaylistDetailsPage>
+            ) : (
+              <Redirect to="/login" />
+            )}
           </Route>
           <Route exact path="/login">
-            <LoginPage></LoginPage>
+            {loggedIn ? (
+              <Redirect to="/" />
+            ) : (
+              <LoginPage setLoggedIn={setLoggedIn}></LoginPage>
+            )}
           </Route>
         </Switch>
         <MusicPlayerComponent></MusicPlayerComponent>

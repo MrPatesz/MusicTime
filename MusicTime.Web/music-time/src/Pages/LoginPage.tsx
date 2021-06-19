@@ -6,7 +6,11 @@ import { useState } from "react";
 import { ButtonToolbar } from "react-bootstrap";
 import { Config } from "../config";
 
-function LoginPage() {
+interface Props {
+  setLoggedIn: (value: boolean) => void;
+}
+
+function LoginPage({ setLoggedIn }: Props) {
   const apiLink = Config.apiUrl + "users/";
 
   const [username, setUsername] = useState<string>("");
@@ -25,7 +29,7 @@ function LoginPage() {
           },
         });
         localStorage.setItem("authToken", String(result.data));
-        alert("Successfully logged in");
+        setLoggedIn(true);
       } catch (err) {
         alert("Wrong username or password");
       }
