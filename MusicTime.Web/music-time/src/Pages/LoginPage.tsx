@@ -1,32 +1,32 @@
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import ButtonGroup from "react-bootstrap/ButtonGroup";
 import axios from "axios";
-import { useState } from "react";
 import { ButtonToolbar } from "react-bootstrap";
 import { Config } from "../config";
+import { useForm } from "react-hook-form";
 
 interface Props {
   setLoggedIn: (value: boolean) => void;
 }
 
+type FormValues = {
+  UserName: string;
+  Password: string;
+};
+
 function LoginPage({ setLoggedIn }: Props) {
   const apiLink = Config.apiUrl + "users/";
 
-  const [username, setUsername] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const { register, handleSubmit, watch } = useForm<FormValues>();
 
-  function loginFunction() {
+  function loginFunction(data: FormValues) {
     const loginCall = async () => {
       try {
         const result = await axios({
           method: "post",
           url: apiLink + "login",
           headers: {},
-          data: {
-            UserName: username,
-            Password: password,
-          },
+          data: data,
         });
         localStorage.setItem("authToken", String(result.data));
         setLoggedIn(true);
@@ -38,7 +38,7 @@ function LoginPage({ setLoggedIn }: Props) {
   }
 
   function registerFunction() {
-    if (username === "" || password === "") {
+    if (watch("UserName") === "" || watch("Password") === "") {
       alert("Please provide a username and a password");
       return;
     }
@@ -49,8 +49,8 @@ function LoginPage({ setLoggedIn }: Props) {
           url: apiLink + "register",
           headers: {},
           data: {
-            UserName: username,
-            Password: password,
+            UserName: watch("UserName"),
+            Password: watch("Password"),
           },
         });
         alert("Successfully registered");
@@ -70,12 +70,16 @@ function LoginPage({ setLoggedIn }: Props) {
         transform: "translate(-50%, -50%)",
       }}
     >
-      <Form style={{ width: "500px" }}>
+      <Form
+        style={{ width: "500px" }}
+        onSubmit={handleSubmit((data) => loginFunction(data))}
+      >
         <Form.Group>
           <Form.Label>Username</Form.Label>
           <Form.Control
+            type="text"
             placeholder="Username"
-            onChange={(e) => setUsername(e.target.value)}
+            {...(register("UserName"), { required: true, maxLength: 50 })}
           />
         </Form.Group>
 
@@ -84,7 +88,7 @@ function LoginPage({ setLoggedIn }: Props) {
           <Form.Control
             type="password"
             placeholder="Password"
-            onChange={(e) => setPassword(e.target.value)}
+            {...(register("Password"), { required: true })}
           />
         </Form.Group>
 
@@ -92,16 +96,12 @@ function LoginPage({ setLoggedIn }: Props) {
           className="justify-content-between"
           aria-label="Toolbar with Button groups"
         >
-          <ButtonGroup>
-            <Button onClick={loginFunction} variant="outline-info">
-              Log in
-            </Button>
-          </ButtonGroup>
-          <ButtonGroup>
-            <Button onClick={registerFunction} variant="outline-info">
-              Register
-            </Button>
-          </ButtonGroup>
+          <Button type="submit" variant="outline-info">
+            Log in
+          </Button>
+          <Button onClick={registerFunction} variant="outline-info">
+            Register
+          </Button>
         </ButtonToolbar>
       </Form>
     </div>
