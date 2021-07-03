@@ -25,7 +25,7 @@ function AlbumsPage() {
       setStillLoading(false);
     };
     fetchData();
-  }, []);
+  }, [apiLink]);
 
   return (
     <div className="page">

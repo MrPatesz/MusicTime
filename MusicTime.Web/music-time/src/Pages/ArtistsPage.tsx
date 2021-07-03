@@ -29,7 +29,7 @@ function ArtistsPage() {
       setStillLoading(false);
     };
     fetchData();
-  }, []);
+  }, [apiLink]);
 
   return (
     <div className="page">
