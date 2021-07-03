@@ -112,7 +112,7 @@ const App = () => {
             )}
           </Route>
         </Switch>
-        <MusicPlayerComponent></MusicPlayerComponent>
+        {loggedIn ? <MusicPlayerComponent></MusicPlayerComponent> : <div></div>}
       </div>
     </Router>
   );
