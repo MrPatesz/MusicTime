@@ -1,11 +1,13 @@
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
-import React, { useEffect } from "react";
+import React from "react";
 import { useState } from "react";
 import axios from "axios";
 import ArtistDto from "../Models/ArtistDto";
 import { Config } from "../config";
+import { useForm } from "react-hook-form";
+import { ButtonToolbar } from "react-bootstrap";
 
 interface Props {
   show: boolean;
@@ -14,18 +16,15 @@ interface Props {
   editedArtist: ArtistDto;
 }
 
+type FormValues = {
+  Name: string;
+  Description: string;
+};
+
 function NewArtistComponent({ show, setShow, isEdited, editedArtist }: Props) {
-  const [name, setName] = useState<string | null>(null);
-  const [description, setDescription] = useState<string | null>(null);
+  const { register, handleSubmit } = useForm<FormValues>();
 
-  useEffect(() => {
-    if (isEdited) {
-      setName(editedArtist.name);
-      setDescription(editedArtist.description);
-    }
-  }, [isEdited, editedArtist]);
-
-  async function postFunction() {
+  async function postFunction(data: FormValues) {
     let apiLink = Config.apiUrl + "artists/";
     var postData;
     if (isEdited) {
@@ -37,8 +36,8 @@ function NewArtistComponent({ show, setShow, isEdited, editedArtist }: Props) {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },
           data: {
-            Name: name,
-            Description: description,
+            Name: data.Name,
+            Description: data.Description,
             Id: editedArtist.id,
           },
         });
@@ -52,15 +51,15 @@ function NewArtistComponent({ show, setShow, isEdited, editedArtist }: Props) {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },
           data: {
-            Name: name,
-            Description: description,
+            Name: data.Name,
+            Description: data.Description,
           },
         });
       };
     }
     var newArtist = await postData();
 
-    postPicture(((newArtist.data as unknown) as ArtistDto).id);
+    postPicture((newArtist.data as unknown as ArtistDto).id);
   }
 
   function postPicture(artistId: number) {
@@ -68,7 +67,7 @@ function NewArtistComponent({ show, setShow, isEdited, editedArtist }: Props) {
       const formData = new FormData();
       formData.append("File", selectedFile, selectedFile.name);
 
-      const postPictureData = async () => {
+      (async () => {
         await axios({
           method: "put",
           url: Config.apiUrl + "pictures/artist/" + artistId,
@@ -77,8 +76,7 @@ function NewArtistComponent({ show, setShow, isEdited, editedArtist }: Props) {
           },
           data: formData,
         });
-      };
-      postPictureData();
+      })();
     }
     setSelectedFile(null);
   }
@@ -91,14 +89,10 @@ function NewArtistComponent({ show, setShow, isEdited, editedArtist }: Props) {
     setSelectedFile(file);
   }
 
-  function confirmButton() {
-    if (name !== "") {
-      postFunction();
+  function confirmButton(data: FormValues) {
+    postFunction(data);
 
-      setShow(false);
-      setName(null);
-      setDescription(null);
-    }
+    setShow(false);
   }
 
   return (
@@ -114,13 +108,13 @@ function NewArtistComponent({ show, setShow, isEdited, editedArtist }: Props) {
           <Modal.Title>{isEdited ? "Edit Artist" : "New Artist"}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form>
+          <Form onSubmit={handleSubmit((data) => confirmButton(data))}>
             <Form.Group>
               <Form.Label>Name</Form.Label>
               <Form.Control
                 type="text"
-                onChange={(e) => setName(e.target.value)}
-                defaultValue={name ? name : ""}
+                {...register("Name", { required: true })}
+                defaultValue={editedArtist.name ?? ""}
               />
             </Form.Group>
 
@@ -128,8 +122,8 @@ function NewArtistComponent({ show, setShow, isEdited, editedArtist }: Props) {
               <Form.Label>Description</Form.Label>
               <Form.Control
                 type="text"
-                onChange={(e) => setDescription(e.target.value)}
-                defaultValue={description ? description : ""}
+                {...register("Description", { maxLength: 256 })}
+                defaultValue={editedArtist.description ?? ""}
               />
             </Form.Group>
             <Form.Group>
@@ -139,16 +133,20 @@ function NewArtistComponent({ show, setShow, isEdited, editedArtist }: Props) {
                 onChange={fileSelected}
               />
             </Form.Group>
+
+            <ButtonToolbar className="justify-content-between">
+              <Button
+                variant="outline-secondary"
+                onClick={() => setShow(false)}
+              >
+                Cancel
+              </Button>
+              <Button variant="outline-info" type="submit">
+                Confirm
+              </Button>
+            </ButtonToolbar>
           </Form>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="outline-secondary" onClick={() => setShow(false)}>
-            Cancel
-          </Button>
-          <Button variant="outline-info" onClick={confirmButton}>
-            Confirm
-          </Button>
-        </Modal.Footer>
       </Modal>
     </div>
   );

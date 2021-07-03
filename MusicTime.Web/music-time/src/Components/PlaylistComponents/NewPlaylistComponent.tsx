@@ -2,10 +2,12 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
 import PlaylistDto from "../../Models/PlaylistDto";
 import { Config } from "../../config";
+import { useForm } from "react-hook-form";
+import { ButtonToolbar } from "react-bootstrap";
 
 interface Props {
   show: boolean;
@@ -14,25 +16,20 @@ interface Props {
   editedPlaylist: PlaylistDto;
 }
 
+type FormValues = {
+  Title: string;
+  Description: string;
+};
+
 function NewPlaylistComponent({
   show,
   setShow,
   isEdited,
   editedPlaylist,
 }: Props) {
-  const [title, setTitle] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
+  const { register, handleSubmit } = useForm<FormValues>();
 
-  useEffect(() => {
-    if (isEdited) {
-      setTitle(editedPlaylist.title);
-      setDescription(
-        editedPlaylist.description ? editedPlaylist.description : ""
-      );
-    }
-  }, [isEdited, editedPlaylist]);
-
-  async function postFunction() {
+  async function postFunction(data: FormValues) {
     let apiLink = Config.apiUrl + "playlists/";
     var postData;
     if (isEdited) {
@@ -44,8 +41,8 @@ function NewPlaylistComponent({
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },
           data: {
-            Title: title,
-            Description: description,
+            Title: data.Title,
+            Description: data.Description,
             Id: editedPlaylist.id,
           },
         });
@@ -59,15 +56,15 @@ function NewPlaylistComponent({
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },
           data: {
-            Title: title,
-            Description: description,
+            Title: data.Title,
+            Description: data.Description,
           },
         });
       };
     }
     var newPlaylist = await postData();
 
-    postPicture(((newPlaylist.data as unknown) as PlaylistDto).id);
+    postPicture((newPlaylist.data as unknown as PlaylistDto).id);
   }
 
   function postPicture(playlistId: number) {
@@ -113,12 +110,17 @@ function NewPlaylistComponent({
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form>
+          <Form
+            onSubmit={handleSubmit((data) => {
+              postFunction(data);
+              setShow(false);
+            })}
+          >
             <Form.Group>
               <Form.Label>Title</Form.Label>
               <Form.Control
                 type="text"
-                onChange={(e) => setTitle(e.target.value)}
+                {...register("Title", { required: true })}
                 defaultValue={editedPlaylist.title}
               />
             </Form.Group>
@@ -127,10 +129,8 @@ function NewPlaylistComponent({
               <Form.Label>Description</Form.Label>
               <Form.Control
                 type="text"
-                onChange={(e) => setDescription(e.target.value)}
-                defaultValue={
-                  editedPlaylist.description ? editedPlaylist.description : ""
-                }
+                {...register("Description")}
+                defaultValue={editedPlaylist.description ?? ""}
               />
             </Form.Group>
             <Form.Group>
@@ -140,28 +140,20 @@ function NewPlaylistComponent({
                 onChange={fileSelected}
               />
             </Form.Group>
+
+            <ButtonToolbar className="justify-content-between">
+              <Button
+                variant="outline-secondary"
+                onClick={() => setShow(false)}
+              >
+                Cancel
+              </Button>
+              <Button variant="outline-info" type="submit">
+                Confirm
+              </Button>
+            </ButtonToolbar>
           </Form>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="outline-secondary" onClick={() => setShow(false)}>
-            Cancel
-          </Button>
-          <Button
-            variant="outline-info"
-            onClick={() => {
-              console.log(title);
-              if (title !== "" && title !== null) {
-                postFunction();
-
-                setShow(false);
-                setTitle("");
-                setDescription("");
-              }
-            }}
-          >
-            Confirm
-          </Button>
-        </Modal.Footer>
       </Modal>
     </div>
   );
