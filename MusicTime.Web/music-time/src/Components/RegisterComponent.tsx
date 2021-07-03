@@ -21,7 +21,11 @@ type FormValues = {
 function RegisterComponent({ show, setShow }: Props) {
   const apiLink = Config.apiUrl + "users/";
 
-  const { register, handleSubmit } = useForm<FormValues>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>();
 
   function registerFunction(data: FormValues) {
     if (data.Password === data.ConfirmPassword) {
@@ -66,6 +70,7 @@ function RegisterComponent({ show, setShow }: Props) {
                 type="text"
                 {...register("UserName", { required: true, maxLength: 50 })}
               />
+              {errors.UserName?.type === "required" && "Username is required"}
             </Form.Group>
 
             <Form.Group>
@@ -74,6 +79,7 @@ function RegisterComponent({ show, setShow }: Props) {
                 type="password"
                 {...register("Password", { required: true })}
               />
+              {errors.Password?.type === "required" && "Password is required"}
             </Form.Group>
 
             <Form.Group>
@@ -82,6 +88,8 @@ function RegisterComponent({ show, setShow }: Props) {
                 type="password"
                 {...register("ConfirmPassword", { required: true })}
               />
+              {errors.ConfirmPassword?.type === "required" &&
+                "Password confirmation is required"}
             </Form.Group>
 
             <ButtonToolbar className="justify-content-between">

@@ -31,7 +31,11 @@ function NewAlbumComponent({
   isEdited,
   editedAlbum,
 }: Props) {
-  const { register, handleSubmit } = useForm<FormValues>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>();
 
   async function postFunction(data: FormValues) {
     let apiLink = Config.apiUrl + "albums/";
@@ -129,6 +133,7 @@ function NewAlbumComponent({
                 {...register("Title", { required: true })}
                 defaultValue={editedAlbum.title ?? ""}
               />
+              {errors.Title?.type === "required" && "Title is required"}
             </Form.Group>
 
             <Form.Group>

@@ -18,7 +18,11 @@ type FormValues = {
 };
 
 function NewSongComponent({ show, setShow, albumId }: Props) {
-  const { register, handleSubmit } = useForm<FormValues>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>();
 
   function postFunction(data: FormValues) {
     (async () => {
@@ -48,12 +52,14 @@ function NewSongComponent({ show, setShow, albumId }: Props) {
               {...register("Title", { required: true })}
               placeholder={"title"}
             ></Form.Control>
+            {errors.Title?.type === "required" && "Title is required"}
 
             <Form.Control
               className="ml-2"
               {...register("Url", { required: true })}
               placeholder={"url"}
             ></Form.Control>
+            {errors.Url?.type === "required" && "Url is required"}
 
             <ButtonGroup className="ml-5">
               <Button variant="outline-info" type="submit">

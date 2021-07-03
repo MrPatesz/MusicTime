@@ -19,7 +19,11 @@ type FormValues = {
 function LoginPage({ setLoggedIn }: Props) {
   const apiLink = Config.apiUrl + "users/";
 
-  const { register, handleSubmit } = useForm<FormValues>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>();
 
   const [showRegister, setShowRegister] = useState<boolean>(false);
 
@@ -61,6 +65,7 @@ function LoginPage({ setLoggedIn }: Props) {
             placeholder="Username"
             {...register("UserName", { required: true, maxLength: 50 })}
           />
+          {errors.UserName?.type === "required" && "Username is required"}
         </Form.Group>
 
         <Form.Group controlId="formBasicPassword">
@@ -70,6 +75,7 @@ function LoginPage({ setLoggedIn }: Props) {
             placeholder="Password"
             {...register("Password", { required: true })}
           />
+          {errors.Password?.type === "required" && "Password is required"}
         </Form.Group>
 
         <ButtonToolbar className="justify-content-between">

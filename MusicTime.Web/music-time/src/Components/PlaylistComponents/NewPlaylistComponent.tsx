@@ -27,7 +27,11 @@ function NewPlaylistComponent({
   isEdited,
   editedPlaylist,
 }: Props) {
-  const { register, handleSubmit } = useForm<FormValues>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>();
 
   async function postFunction(data: FormValues) {
     let apiLink = Config.apiUrl + "playlists/";
@@ -123,6 +127,7 @@ function NewPlaylistComponent({
                 {...register("Title", { required: true })}
                 defaultValue={editedPlaylist.title}
               />
+              {errors.Title?.type === "required" && "Title is required"}
             </Form.Group>
 
             <Form.Group>

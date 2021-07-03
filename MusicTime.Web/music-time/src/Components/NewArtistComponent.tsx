@@ -22,7 +22,11 @@ type FormValues = {
 };
 
 function NewArtistComponent({ show, setShow, isEdited, editedArtist }: Props) {
-  const { register, handleSubmit } = useForm<FormValues>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>();
 
   async function postFunction(data: FormValues) {
     let apiLink = Config.apiUrl + "artists/";
@@ -116,6 +120,7 @@ function NewArtistComponent({ show, setShow, isEdited, editedArtist }: Props) {
                 {...register("Name", { required: true })}
                 defaultValue={editedArtist.name ?? ""}
               />
+              {errors.Name?.type === "required" && "Name is required"}
             </Form.Group>
 
             <Form.Group>

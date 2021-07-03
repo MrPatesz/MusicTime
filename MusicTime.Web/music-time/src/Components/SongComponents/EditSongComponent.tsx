@@ -19,7 +19,11 @@ type FormValues = {
 };
 
 function EditSongComponent({ setShow, albumId, songDto }: Props) {
-  const { register, handleSubmit } = useForm<FormValues>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>();
 
   function editFunction(data: FormValues) {
     (async () => {
@@ -52,6 +56,7 @@ function EditSongComponent({ setShow, albumId, songDto }: Props) {
           {...register("Title", { required: true })}
           placeholder={"title"}
         ></Form.Control>
+        {errors.Title?.type === "required" && "Title is required"}
 
         <Form.Control
           defaultValue={songDto.url}
@@ -59,6 +64,7 @@ function EditSongComponent({ setShow, albumId, songDto }: Props) {
           {...register("Url", { required: true })}
           placeholder={"url"}
         ></Form.Control>
+        {errors.Url?.type === "required" && "Url is required"}
 
         <ButtonGroup className="ml-5">
           <Button variant="outline-info" type="submit">
