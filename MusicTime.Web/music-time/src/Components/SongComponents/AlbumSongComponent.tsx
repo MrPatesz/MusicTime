@@ -6,6 +6,7 @@ import { useState } from "react";
 import SongDto from "../../Models/SongDto";
 import { Config } from "../../config";
 import EditSongComponent from "./EditSongComponent";
+import AddToPlaylistComponent from "./AddToPlaylistComponent";
 
 interface Props {
   songDto: SongDto;
@@ -17,6 +18,7 @@ function AlbumSongComponent({ songDto, albumId }: Props) {
 
   const [confirm, setConfirm] = useState<boolean>(false);
   const [editSong, setEditSong] = useState<boolean>(false);
+  const [showAdd, setShowAdd] = useState<boolean>(false);
 
   function deleteFunction() {
     (async () => {
@@ -47,7 +49,9 @@ function AlbumSongComponent({ songDto, albumId }: Props) {
           </h5>
 
           <ButtonGroup className="ml-auto">
-            <Button variant="outline-info">Add</Button>
+            <Button variant="outline-info" onClick={() => setShowAdd(true)}>
+              Add
+            </Button>
             <Button
               className="ml-1"
               variant="outline-info"
@@ -89,6 +93,12 @@ function AlbumSongComponent({ songDto, albumId }: Props) {
           </Modal>
         </div>
       )}
+
+      <AddToPlaylistComponent
+        showAdd={showAdd}
+        setShowAdd={setShowAdd}
+        songDto={songDto}
+      ></AddToPlaylistComponent>
     </div>
   );
 }

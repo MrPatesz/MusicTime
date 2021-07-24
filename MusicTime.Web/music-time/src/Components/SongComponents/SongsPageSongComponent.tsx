@@ -2,10 +2,12 @@ import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import axios from "axios";
 import DetailedSongDto from "../../Models/DetailedSongDto";
+import SongDto from "../../Models/SongDto";
 import { Config } from "../../config";
 import Modal from "react-bootstrap/Modal";
 import { useState } from "react";
 import SongDetails from "./SongDetails";
+import AddToPlaylistComponent from "./AddToPlaylistComponent";
 
 interface Props {
   detailedSongDto: DetailedSongDto;
@@ -14,6 +16,7 @@ interface Props {
 function SongsPageSongComponent({ detailedSongDto }: Props) {
   const apiBase = Config.apiUrl;
   const [confirm, setConfirm] = useState<boolean>(false);
+  const [showAdd, setShowAdd] = useState<boolean>(false);
 
   function deleteFunction() {
     (async () => {
@@ -33,7 +36,11 @@ function SongsPageSongComponent({ detailedSongDto }: Props) {
         <SongDetails detailedSongDto={detailedSongDto}></SongDetails>
 
         <ButtonGroup className="ml-auto">
-          <Button variant="outline-info" className="mr-1">
+          <Button
+            variant="outline-info"
+            className="mr-1"
+            onClick={() => setShowAdd(true)}
+          >
             Add
           </Button>
           <Button variant="outline-danger" onClick={() => setConfirm(true)}>
@@ -64,6 +71,18 @@ function SongsPageSongComponent({ detailedSongDto }: Props) {
             </Button>
           </Modal.Footer>
         </Modal>
+
+        <AddToPlaylistComponent
+          showAdd={showAdd}
+          setShowAdd={setShowAdd}
+          songDto={
+            new SongDto(
+              detailedSongDto.songId,
+              detailedSongDto.songTitle,
+              detailedSongDto.url
+            )
+          }
+        ></AddToPlaylistComponent>
       </div>
     </div>
   );
