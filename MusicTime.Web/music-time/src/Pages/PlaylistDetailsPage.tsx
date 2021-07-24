@@ -1,4 +1,4 @@
-import DetailedSongComponent from "../Components/SongComponents/DetailedSongComponent";
+import PlaylistSongComponent from "../Components/SongComponents/PlaylistSongComponent";
 import { useEffect, useState } from "react";
 import { useRouteMatch } from "react-router-dom";
 import Button from "react-bootstrap/Button";
@@ -144,23 +144,12 @@ function PlaylistDetailsPage() {
         ) : (
           <ul className="no-bullets">
             {songs.map((s, i) => (
-              <div key={s.songId}>
-                {i % 2 !== 0 ? (
-                  <li className="bg-dark">
-                    <DetailedSongComponent
-                      detailedSongDto={s}
-                      playlistId={id}
-                    ></DetailedSongComponent>
-                  </li>
-                ) : (
-                  <li>
-                    <DetailedSongComponent
-                      detailedSongDto={s}
-                      playlistId={id}
-                    ></DetailedSongComponent>
-                  </li>
-                )}
-              </div>
+              <li key={s.songId} className={i % 2 !== 0 ? "bg-dark" : ""}>
+                <PlaylistSongComponent
+                  detailedSongDto={s}
+                  playlistId={id}
+                ></PlaylistSongComponent>
+              </li>
             ))}
           </ul>
         )}

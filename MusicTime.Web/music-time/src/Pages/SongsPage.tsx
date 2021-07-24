@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import DetailedSongComponent from "../Components/SongComponents/DetailedSongComponent";
+import SongsPageSongComponent from "../Components/SongComponents/SongsPageSongComponent";
 import Spinner from "react-bootstrap/Spinner";
 import DetailedSongDto from "../Models/DetailedSongDto";
 import Button from "react-bootstrap/Button";
@@ -73,23 +73,11 @@ function SongsPage() {
       ) : (
         <ul className="no-bullets">
           {songs.map((s, i) => (
-            <div key={s.songId}>
-              {i % 2 !== 0 ? (
-                <li className="bg-dark">
-                  <DetailedSongComponent
-                    detailedSongDto={s}
-                    playlistId={-1}
-                  ></DetailedSongComponent>
-                </li>
-              ) : (
-                <li>
-                  <DetailedSongComponent
-                    detailedSongDto={s}
-                    playlistId={-1}
-                  ></DetailedSongComponent>
-                </li>
-              )}
-            </div>
+            <li key={s.songId} className={i % 2 !== 0 ? "bg-dark" : ""}>
+              <SongsPageSongComponent
+                detailedSongDto={s}
+              ></SongsPageSongComponent>
+            </li>
           ))}
         </ul>
       )}
