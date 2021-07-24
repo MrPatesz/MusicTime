@@ -21,7 +21,7 @@ function AddSongToPlaylistComponent({ playlistId }: Props) {
   const [songDtoArray, setSongDtoArray] = useState<DetailedSongDto[]>([]);
 
   useEffect(() => {
-    const fetchData = async () => {
+    (async () => {
       const config = {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("authToken")}`,
@@ -30,15 +30,14 @@ function AddSongToPlaylistComponent({ playlistId }: Props) {
       const result = await axios.get(apiLink + "songs/detailed", config);
 
       setSongDtoArray(result.data);
-    };
-    fetchData();
+    })();
   }, [apiLink, artistName]);
 
   function AddFunction() {
     var songDto = songDtoArray.find((s) => s.songTitle === songTitle);
 
     if (songDto !== undefined && songDto !== null) {
-      const postData = async () => {
+      (async () => {
         await axios({
           method: "post",
           url: apiLink + "playlists/" + playlistId + "/addSong",
@@ -51,8 +50,7 @@ function AddSongToPlaylistComponent({ playlistId }: Props) {
             Url: songDto?.url,
           },
         });
-      };
-      postData();
+      })();
     }
   }
 

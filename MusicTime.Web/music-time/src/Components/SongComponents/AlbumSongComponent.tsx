@@ -19,7 +19,7 @@ function AlbumSongComponent({ songDto, albumId }: Props) {
   const [editSong, setEditSong] = useState<boolean>(false);
 
   function deleteFunction() {
-    const deleteCall = async () => {
+    (async () => {
       setConfirm(false);
       const config = {
         headers: {
@@ -27,8 +27,7 @@ function AlbumSongComponent({ songDto, albumId }: Props) {
         },
       };
       await axios.delete(apiLink, config);
-    };
-    deleteCall();
+    })();
   }
 
   return (

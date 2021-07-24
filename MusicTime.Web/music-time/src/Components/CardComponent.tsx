@@ -30,7 +30,7 @@ function CardComponent({
 
   const [confirm, setConfirm] = useState<boolean>(false);
   function deleteFunction() {
-    const deleteCall = async () => {
+    (async () => {
       setConfirm(false);
       const config = {
         headers: {
@@ -38,8 +38,7 @@ function CardComponent({
         },
       };
       await axios.delete(deleteLink + objectId, config);
-    };
-    deleteCall();
+    })();
   }
 
   return (
