@@ -36,7 +36,7 @@ function AddSongToPlaylistComponent({ playlistId }: Props) {
   function AddFunction() {
     var songDto = songDtoArray.find((s) => s.songTitle === songTitle);
 
-    if (songDto !== undefined && songDto !== null) {
+    if (songDto) {
       (async () => {
         await axios({
           method: "post",
@@ -45,9 +45,9 @@ function AddSongToPlaylistComponent({ playlistId }: Props) {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },
           data: {
-            Id: songDto?.songId,
-            Title: songDto?.songTitle,
-            Url: songDto?.url,
+            Id: songDto.songId,
+            Title: songDto.songTitle,
+            Url: songDto.url,
           },
         });
       })();
