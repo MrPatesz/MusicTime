@@ -12,7 +12,7 @@ interface Props {
 }
 
 function AddSongToPlaylistComponent({ playlistId }: Props) {
-  const apiLink = Config.apiUrl;
+  const apiBase = Config.apiUrl;
 
   const [artistName, setArtistName] = useState<string>("");
   const [albumTitle, setAlbumTitle] = useState<string>("");
@@ -27,11 +27,11 @@ function AddSongToPlaylistComponent({ playlistId }: Props) {
           Authorization: `Bearer ${localStorage.getItem("authToken")}`,
         },
       };
-      const result = await axios.get(apiLink + "songs/detailed", config);
+      const result = await axios.get(apiBase + "songs/detailed", config);
 
       setSongDtoArray(result.data);
     })();
-  }, [apiLink, artistName]);
+  }, [apiBase, artistName]);
 
   function AddFunction() {
     var songDto = songDtoArray.find((s) => s.songTitle === songTitle);
@@ -40,7 +40,7 @@ function AddSongToPlaylistComponent({ playlistId }: Props) {
       (async () => {
         await axios({
           method: "post",
-          url: apiLink + "playlists/" + playlistId + "/addSong",
+          url: apiBase + "playlists/" + playlistId + "/addSong",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },
