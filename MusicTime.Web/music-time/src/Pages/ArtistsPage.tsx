@@ -17,7 +17,7 @@ function ArtistsPage() {
   const [showAddArtist, setShowAddArtist] = useState<boolean>(false);
 
   useEffect(() => {
-    const fetchData = async () => {
+    (async () => {
       const config = {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("authToken")}`,
@@ -27,8 +27,7 @@ function ArtistsPage() {
 
       setArtists(result.data);
       setStillLoading(false);
-    };
-    fetchData();
+    })();
   }, [apiLink]);
 
   return (

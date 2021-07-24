@@ -15,7 +15,7 @@ function PlaylistsPage() {
   const [stillLoading, setStillLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const fetchData = async () => {
+    (async () => {
       const config = {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("authToken")}`,
@@ -25,8 +25,7 @@ function PlaylistsPage() {
 
       setPlaylists(result.data);
       setStillLoading(false);
-    };
-    fetchData();
+    })();
   }, [apiLink]);
 
   const [showAddPlaylist, setShowAddPlaylist] = useState<boolean>(false);

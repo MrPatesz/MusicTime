@@ -28,7 +28,7 @@ function AlbumDetailsPage() {
   const [albumStillLoading, setAlbumStillLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const fetchData = async () => {
+    (async () => {
       const config = {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("authToken")}`,
@@ -38,15 +38,14 @@ function AlbumDetailsPage() {
 
       setAlbum(result.data);
       setAlbumStillLoading(false);
-    };
-    fetchData();
+    })();
   }, [apiLink]);
 
   const [songs, setSongs] = useState<SongDto[]>([]);
   const [songsStillLoading, setSongsStillLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const fetchData = async () => {
+    (async () => {
       const config = {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("authToken")}`,
@@ -56,8 +55,7 @@ function AlbumDetailsPage() {
 
       setSongs(result.data);
       setSongsStillLoading(false);
-    };
-    fetchData();
+    })();
   }, [apiLink]);
 
   const [showEditAlbum, setShowEditAlbum] = useState<boolean>(false);

@@ -18,7 +18,7 @@ function SongsPage() {
   const [stillLoading, setStillLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const fetchData = async () => {
+    (async () => {
       const config = {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("authToken")}`,
@@ -28,8 +28,7 @@ function SongsPage() {
 
       setSongs(result.data);
       setStillLoading(false);
-    };
-    fetchData();
+    })();
   }, [apiLink]);
 
   return (

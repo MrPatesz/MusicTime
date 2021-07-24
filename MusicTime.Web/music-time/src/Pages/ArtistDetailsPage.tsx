@@ -28,7 +28,7 @@ function ArtistDetailsPage() {
   const [artistStillLoading, setArtistStillLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const fetchData = async () => {
+    (async () => {
       const config = {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("authToken")}`,
@@ -38,15 +38,14 @@ function ArtistDetailsPage() {
 
       setArtist(result.data);
       setArtistStillLoading(false);
-    };
-    fetchData();
+    })();
   }, [apiLink]);
 
   const [albums, setAlbums] = useState<AlbumDto[]>([]);
   const [albumsStillLoading, setAlbumsStillLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const fetchData = async () => {
+    (async () => {
       const config = {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("authToken")}`,
@@ -56,8 +55,7 @@ function ArtistDetailsPage() {
 
       setAlbums(result.data);
       setAlbumsStillLoading(false);
-    };
-    fetchData();
+    })();
   }, [apiLink]);
 
   const [showAddAlbum, setShowAddAlbum] = useState<boolean>(false);
@@ -80,7 +78,9 @@ function ArtistDetailsPage() {
     let queue: DetailedSongDto[] = [];
 
     songs.forEach((s) =>
-      queue.push(new DetailedSongDto(s.id, s.title, s.url, 0, artist.name, id, ""))
+      queue.push(
+        new DetailedSongDto(s.id, s.title, s.url, 0, artist.name, id, "")
+      )
     );
 
     dispatch(setQueue(queue));

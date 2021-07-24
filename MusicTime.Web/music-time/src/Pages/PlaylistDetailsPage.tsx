@@ -28,7 +28,7 @@ function PlaylistDetailsPage() {
   const [playlistIsLoading, setPlaylistIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const fetchData = async () => {
+    (async () => {
       const config = {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("authToken")}`,
@@ -38,15 +38,14 @@ function PlaylistDetailsPage() {
 
       setPlaylist(result.data);
       setPlaylistIsLoading(false);
-    };
-    fetchData();
+    })();
   }, [id, apiBase]);
 
   const [songs, setSongs] = useState<DetailedSongDto[]>([]);
   const [songsStillLoading, setSongsStillLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const fetchData = async () => {
+    (async () => {
       const config = {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("authToken")}`,
@@ -59,8 +58,7 @@ function PlaylistDetailsPage() {
 
       setSongs(result.data);
       setSongsStillLoading(false);
-    };
-    fetchData();
+    })();
   }, [apiBase, id]);
 
   const [showEditPlaylist, setShowEditPlaylist] = useState<boolean>(false);
