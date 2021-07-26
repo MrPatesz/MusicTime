@@ -12,7 +12,7 @@ function useAlbumsSongs(albumId: number) {
     },
   };
 
-  return useQuery<SongDto[]>("songs", () =>
+  return useQuery<SongDto[]>(["albumsSongs", albumId], () =>
     axios.get(apiLink, config).then((res) => res.data)
   );
 }
