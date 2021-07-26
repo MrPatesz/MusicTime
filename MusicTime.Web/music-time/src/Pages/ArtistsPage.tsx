@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useState } from "react";
 import ArtistDto from "../Models/ArtistDto";
 import CardComponent from "../Components/CardComponent";
 import { Container, Row, Col } from "react-bootstrap";
@@ -7,28 +6,15 @@ import Spinner from "react-bootstrap/Spinner";
 import Button from "react-bootstrap/Button";
 import NewArtistComponent from "../Components/NewArtistComponent";
 import { Config } from "../config";
+import useArtists from "../Hooks/useArtists";
+import Alert from "react-bootstrap/Alert";
 
 function ArtistsPage() {
+  const { data: artists, error, isFetching } = useArtists();
+
   const apiLink = Config.apiUrl + "artists/";
 
-  const [artists, setArtists] = useState<ArtistDto[]>([]);
-  const [stillLoading, setStillLoading] = useState<boolean>(true);
-
   const [showAddArtist, setShowAddArtist] = useState<boolean>(false);
-
-  useEffect(() => {
-    (async () => {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        },
-      };
-      const result = await axios.get(apiLink, config);
-
-      setArtists(result.data);
-      setStillLoading(false);
-    })();
-  }, [apiLink]);
 
   return (
     <div className="page">
@@ -43,12 +29,20 @@ function ArtistsPage() {
         </Button>
       </div>
 
-      {stillLoading ? (
-        <Spinner animation="grow" variant="info" />
+      {isFetching || error ? (
+        <div>
+          {isFetching ? (
+            <Spinner animation="grow" variant="info" />
+          ) : (
+            <Alert variant="danger">
+              There was an error while fetching the data!
+            </Alert>
+          )}
+        </div>
       ) : (
         <Container fluid>
           <Row>
-            {artists.map((a) => (
+            {artists!.map((a) => (
               <Col xs={6} sm={4} md={3} xl={2} key={a.id}>
                 <CardComponent
                   title={a.name}
