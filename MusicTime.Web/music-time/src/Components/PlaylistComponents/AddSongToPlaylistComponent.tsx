@@ -4,8 +4,9 @@ import ButtonGroup from "react-bootstrap/ButtonGroup";
 import AutosuggestComponent from "../Autosuggest/AutosuggestComponent";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import DetailedSongDto from "../../Models/DetailedSongDto";
 import { Config } from "../../config";
+import useDetailedSongs from "../../Hooks/useDetailedSongs";
+import Alert from "react-bootstrap/Alert";
 
 interface Props {
   playlistId: number;
@@ -18,23 +19,12 @@ function AddSongToPlaylistComponent({ playlistId }: Props) {
   const [albumTitle, setAlbumTitle] = useState<string>("");
   const [songTitle, setSongTitle] = useState<string>("");
 
-  const [songDtoArray, setSongDtoArray] = useState<DetailedSongDto[]>([]);
-
-  useEffect(() => {
-    (async () => {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        },
-      };
-      const result = await axios.get(apiBase + "songs/detailed", config);
-
-      setSongDtoArray(result.data);
-    })();
-  }, [apiBase, artistName]);
+  const { data: detailedSongs, error, isFetching } = useDetailedSongs();
 
   function AddFunction() {
-    var songDto = songDtoArray.find((s) => s.songTitle === songTitle);
+    if (!detailedSongs) return;
+
+    var songDto = detailedSongs.find((s) => s.songTitle === songTitle);
 
     if (songDto) {
       (async () => {
@@ -63,16 +53,20 @@ function AddSongToPlaylistComponent({ playlistId }: Props) {
       array.filter((v, i) => array.indexOf(v) === i);
 
     function getArtistArray(): string[] {
-      let array = songDtoArray.map((s) => s.artistName);
+      if (!detailedSongs) return [];
+
+      let array = detailedSongs.map((s) => s.artistName);
 
       return removeDuplicates(array);
     }
 
     function getAlbumArray(): string[] {
+      if (!detailedSongs) return [];
+
       let array =
         artistName === ""
-          ? songDtoArray.map((s) => s.albumTitle)
-          : songDtoArray
+          ? detailedSongs.map((s) => s.albumTitle)
+          : detailedSongs
               .filter((s) => s.artistName === artistName)
               .map((s) => s.albumTitle);
 
@@ -80,10 +74,12 @@ function AddSongToPlaylistComponent({ playlistId }: Props) {
     }
 
     function getSongArray(): string[] {
+      if (!detailedSongs) return [];
+
       let array =
         albumTitle === ""
-          ? songDtoArray.map((s) => s.songTitle)
-          : songDtoArray
+          ? detailedSongs.map((s) => s.songTitle)
+          : detailedSongs
               .filter((s) => s.albumTitle === albumTitle)
               .map((s) => s.songTitle);
 
@@ -95,37 +91,43 @@ function AddSongToPlaylistComponent({ playlistId }: Props) {
     setAlbumTitleArray(getAlbumArray());
 
     setSongTitleArray(getSongArray());
-  }, [albumTitle, artistName, songDtoArray]);
+  }, [albumTitle, artistName, detailedSongs]);
 
   return (
-    <Form className="d-flex flex-row ml-auto">
-      <div className="mr-3">
-        <AutosuggestComponent
-          onValueChanged={(value: string) => setArtistName(value)}
-          placeholder={"artist"}
-          data={artistNameArray}
-        ></AutosuggestComponent>
-      </div>
-      <div className="mr-3">
-        <AutosuggestComponent
-          onValueChanged={(value: string) => setAlbumTitle(value)}
-          placeholder={"album"}
-          data={albumTitleArray}
-        ></AutosuggestComponent>
-      </div>
-      <div className="mr-3">
-        <AutosuggestComponent
-          onValueChanged={(value: string) => setSongTitle(value)}
-          placeholder={"song"}
-          data={songTitleArray}
-        ></AutosuggestComponent>
-      </div>
-      <ButtonGroup style={{ height: "38px" }}>
-        <Button variant="outline-info" onClick={AddFunction}>
-          Add
-        </Button>
-      </ButtonGroup>
-    </Form>
+    <div className="ml-auto">
+      {error ? (
+        <Alert variant="danger">An error occurred while fetching data!</Alert>
+      ) : (
+        <Form className="d-flex flex-row">
+          <div className="mr-3">
+            <AutosuggestComponent
+              onValueChanged={(value: string) => setArtistName(value)}
+              placeholder={"artist"}
+              data={artistNameArray}
+            ></AutosuggestComponent>
+          </div>
+          <div className="mr-3">
+            <AutosuggestComponent
+              onValueChanged={(value: string) => setAlbumTitle(value)}
+              placeholder={"album"}
+              data={albumTitleArray}
+            ></AutosuggestComponent>
+          </div>
+          <div className="mr-3">
+            <AutosuggestComponent
+              onValueChanged={(value: string) => setSongTitle(value)}
+              placeholder={"song"}
+              data={songTitleArray}
+            ></AutosuggestComponent>
+          </div>
+          <ButtonGroup style={{ height: "38px" }}>
+            <Button variant="outline-info" onClick={AddFunction}>
+              Add
+            </Button>
+          </ButtonGroup>
+        </Form>
+      )}
+    </div>
   );
 }
 

@@ -10,11 +10,10 @@ import useArtists from "../Hooks/useArtists";
 import Alert from "react-bootstrap/Alert";
 
 function ArtistsPage() {
-  const { data: artists, error, isFetching } = useArtists();
-
   const apiLink = Config.apiUrl + "artists/";
-
   const [showAddArtist, setShowAddArtist] = useState<boolean>(false);
+
+  const { data: artists, error, isFetching } = useArtists();
 
   return (
     <div className="page">
@@ -35,7 +34,7 @@ function ArtistsPage() {
             <Spinner animation="grow" variant="info" />
           ) : (
             <Alert variant="danger">
-              There was an error while fetching the data!
+              An error occurred while fetching data!
             </Alert>
           )}
         </div>
