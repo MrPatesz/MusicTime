@@ -1,10 +1,12 @@
-import { Button, Modal } from "react-bootstrap";
+import { Button, Modal, Spinner } from "react-bootstrap";
 import AutosuggestComponent from "../Autosuggest/AutosuggestComponent";
 import PlaylistDto from "../../Models/PlaylistDto";
 import SongDto from "../../Models/SongDto";
 import axios from "axios";
 import { Config } from "../../config";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import usePlaylists from "../../Hooks/usePlaylists";
+import Alert from "react-bootstrap/Alert";
 
 interface Props {
   showAdd: boolean;
@@ -12,17 +14,15 @@ interface Props {
   songDto: SongDto;
 }
 
-function AddSongToPlaylistComponent({
-  showAdd,
-  setShowAdd,
-  songDto,
-}: Props) {
+function AddSongToPlaylistComponent({ showAdd, setShowAdd, songDto }: Props) {
   const apiBase = Config.apiUrl;
 
   const [selectedPlaylist, setSelectedPlaylist] = useState<PlaylistDto>();
-  const [playlists, setPlaylists] = useState<PlaylistDto[]>([]);
+  //const [playlists, setPlaylists] = useState<PlaylistDto[]>([]);
 
-  useEffect(() => {
+  const { data: playlists, error, isFetching } = usePlaylists();
+
+  /*useEffect(() => {
     (async () => {
       const config = {
         headers: {
@@ -33,10 +33,10 @@ function AddSongToPlaylistComponent({
 
       setPlaylists(result.data);
     })();
-  }, [apiBase]);
+  }, [apiBase]);*/
 
   function onPlaylistChange(selected: string) {
-    let playlist = playlists.find((p) => p.title === selected);
+    let playlist = playlists?.find((p) => p.title === selected);
     if (playlist) {
       setSelectedPlaylist(playlist);
     } else {
@@ -71,16 +71,24 @@ function AddSongToPlaylistComponent({
       animation={false}
     >
       <Modal.Header>
-        <Modal.Title>
-          {'Add "' + songDto.title + '" to'}
-        </Modal.Title>
+        <Modal.Title>{'Add "' + songDto.title + '" to'}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <AutosuggestComponent
-          placeholder="a playlist..."
-          data={playlists.map((p) => p.title)}
-          onValueChanged={onPlaylistChange}
-        ></AutosuggestComponent>
+        {isFetching || error ? (
+          isFetching ? (
+            <Spinner animation="grow" variant="info" />
+          ) : (
+            <Alert variant="danger">
+              An error occurred while fetching data!
+            </Alert>
+          )
+        ) : (
+          <AutosuggestComponent
+            placeholder="a playlist..."
+            data={playlists!.map((p) => p.title)}
+            onValueChanged={onPlaylistChange}
+          ></AutosuggestComponent>
+        )}
       </Modal.Body>
       <Modal.Footer>
         <Button variant="outline-secondary" onClick={() => setShowAdd(false)}>

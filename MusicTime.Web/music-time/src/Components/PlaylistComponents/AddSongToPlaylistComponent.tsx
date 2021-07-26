@@ -7,6 +7,7 @@ import axios from "axios";
 import { Config } from "../../config";
 import useDetailedSongs from "../../Hooks/useDetailedSongs";
 import Alert from "react-bootstrap/Alert";
+import { Spinner } from "react-bootstrap";
 
 interface Props {
   playlistId: number;
@@ -19,7 +20,7 @@ function AddSongToPlaylistComponent({ playlistId }: Props) {
   const [albumTitle, setAlbumTitle] = useState<string>("");
   const [songTitle, setSongTitle] = useState<string>("");
 
-  const { data: detailedSongs, error } = useDetailedSongs();
+  const { data: detailedSongs, error, isFetching } = useDetailedSongs();
 
   function AddFunction() {
     if (!detailedSongs) return;
@@ -87,16 +88,18 @@ function AddSongToPlaylistComponent({ playlistId }: Props) {
     }
 
     setArtistNameArray(getArtistArray());
-
     setAlbumTitleArray(getAlbumArray());
-
     setSongTitleArray(getSongArray());
   }, [albumTitle, artistName, detailedSongs]);
 
   return (
     <div className="ml-auto">
-      {error ? (
-        <Alert variant="danger">An error occurred while fetching data!</Alert>
+      {isFetching || error ? (
+        isFetching ? (
+          <Spinner animation="grow" variant="info" />
+        ) : (
+          <Alert variant="danger">An error occurred while fetching data!</Alert>
+        )
       ) : (
         <Form className="d-flex flex-row">
           <div className="mr-3">

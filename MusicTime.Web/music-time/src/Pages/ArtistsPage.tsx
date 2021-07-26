@@ -29,15 +29,11 @@ function ArtistsPage() {
       </div>
 
       {isFetching || error ? (
-        <div>
-          {isFetching ? (
-            <Spinner animation="grow" variant="info" />
-          ) : (
-            <Alert variant="danger">
-              An error occurred while fetching data!
-            </Alert>
-          )}
-        </div>
+        isFetching ? (
+          <Spinner animation="grow" variant="info" />
+        ) : (
+          <Alert variant="danger">An error occurred while fetching data!</Alert>
+        )
       ) : (
         <Container fluid>
           <Row>
