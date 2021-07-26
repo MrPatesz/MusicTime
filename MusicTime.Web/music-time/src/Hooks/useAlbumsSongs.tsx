@@ -4,7 +4,7 @@ import { Config } from "../config";
 import SongDto from "../Models/SongDto";
 
 function useAlbumsSongs(albumId: number) {
-  const apiLink = Config.apiUrl + "songs/" + albumId;
+  const apiLink = Config.apiUrl + "albums/" + albumId + "/songs";
 
   const config = {
     headers: {
