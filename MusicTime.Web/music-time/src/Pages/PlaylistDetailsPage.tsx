@@ -1,74 +1,43 @@
 import PlaylistSongComponent from "../Components/SongComponents/PlaylistSongComponent";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouteMatch } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Image from "react-bootstrap/Image";
 import Spinner from "react-bootstrap/Spinner";
-import PlaylistDto from "../Models/PlaylistDto";
 import AddSongToPlaylistComponent from "../Components/PlaylistComponents/AddSongToPlaylistComponent";
-import DetailedSongDto from "../Models/DetailedSongDto";
-import axios from "axios";
 import NewPlaylistComponent from "../Components/PlaylistComponents/NewPlaylistComponent";
 import { useDispatch } from "react-redux";
 import { setQueue } from "../redux/queue";
 import { Config } from "../config";
 import { Container, Row, Col } from "react-bootstrap";
+import usePlaylist from "../Hooks/usePlaylist";
+import usePlaylistsSongs from "../Hooks/usePlaylistsSongs";
+import Alert from "react-bootstrap/Alert";
 
 function PlaylistDetailsPage() {
   const dispatch = useDispatch();
-
-  const apiBase = Config.apiUrl;
-
   let id = useRouteMatch("/playlists/:id").params.id;
-
-  const [playlist, setPlaylist] = useState<PlaylistDto>(
-    new PlaylistDto(0, "", null, null)
-  );
-  const [playlistIsLoading, setPlaylistIsLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    (async () => {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        },
-      };
-      const result = await axios.get(apiBase + "playlists/" + id, config);
-
-      setPlaylist(result.data);
-      setPlaylistIsLoading(false);
-    })();
-  }, [id, apiBase]);
-
-  const [songs, setSongs] = useState<DetailedSongDto[]>([]);
-  const [songsStillLoading, setSongsStillLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    (async () => {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        },
-      };
-      const result = await axios.get(
-        apiBase + "playlists/" + id + "/songs",
-        config
-      );
-
-      setSongs(result.data);
-      setSongsStillLoading(false);
-    })();
-  }, [apiBase, id]);
-
   const [showEditPlaylist, setShowEditPlaylist] = useState<boolean>(false);
+
+  const {
+    data: playlist,
+    error: playlistError,
+    isFetching: isPlaylistFetching,
+  } = usePlaylist(id);
+
+  const {
+    data: songs,
+    error: songsError,
+    isFetching: areSongsFetching,
+  } = usePlaylistsSongs(id);
 
   return (
     <div className="page">
       <div>
-        {playlistIsLoading ? (
-          <Spinner animation="grow" variant="info" />
-        ) : (
+        {playlistError ? (
+          <Alert variant="danger">An error occurred while fetching data!</Alert>
+        ) : playlist ? (
           <div className="d-flex flex-row">
             <Image
               src={
@@ -98,12 +67,16 @@ function PlaylistDetailsPage() {
               </Button>
               <Button
                 variant="outline-info"
-                onClick={() => dispatch(setQueue(songs))}
+                onClick={() => dispatch(setQueue(songs ?? []))}
               >
                 Play
               </Button>
             </ButtonGroup>
           </div>
+        ) : isPlaylistFetching ? (
+          <Spinner animation="grow" variant="info" />
+        ) : (
+          <div></div>
         )}
       </div>
       <div>
@@ -137,9 +110,9 @@ function PlaylistDetailsPage() {
           </Row>
         </Container>
 
-        {songsStillLoading ? (
-          <Spinner animation="grow" variant="info" />
-        ) : (
+        {songsError ? (
+          <Alert variant="danger">An error occurred while fetching data!</Alert>
+        ) : songs ? (
           <ul className="no-bullets">
             {songs.map((s, i) => (
               <li key={s.songId} className={i % 2 !== 0 ? "bg-dark" : ""}>
@@ -150,15 +123,23 @@ function PlaylistDetailsPage() {
               </li>
             ))}
           </ul>
+        ) : areSongsFetching ? (
+          <Spinner animation="grow" variant="info" />
+        ) : (
+          <div></div>
         )}
       </div>
 
-      <NewPlaylistComponent
-        show={showEditPlaylist}
-        setShow={setShowEditPlaylist}
-        isEdited={true}
-        editedPlaylist={playlist}
-      ></NewPlaylistComponent>
+      {playlist ? (
+        <NewPlaylistComponent
+          show={showEditPlaylist}
+          setShow={setShowEditPlaylist}
+          isEdited={true}
+          editedPlaylist={playlist}
+        ></NewPlaylistComponent>
+      ) : (
+        <div></div>
+      )}
     </div>
   );
 }
