@@ -1,85 +1,52 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-import ArtistDto from "../Models/ArtistDto";
-import AlbumDto from "../Models/AlbumDto";
-import Spinner from "react-bootstrap/Spinner";
-import { Container, Row, Col } from "react-bootstrap";
-import CardComponent from "../Components/CardComponent";
-import Image from "react-bootstrap/Image";
+import { useState } from "react";
 import { useRouteMatch } from "react-router-dom";
-import NewAlbumComponent from "../Components/NewAlbumComponent";
-import NewArtistComponent from "../Components/NewArtistComponent";
+import AlbumDto from "../Models/AlbumDto";
+import DetailedSongDto from "../Models/DetailedSongDto";
+import { Container, Row, Col } from "react-bootstrap";
+import Spinner from "react-bootstrap/Spinner";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
+import Image from "react-bootstrap/Image";
+import CardComponent from "../Components/CardComponent";
+import NewAlbumComponent from "../Components/NewAlbumComponent";
+import NewArtistComponent from "../Components/NewArtistComponent";
 import { Config } from "../config";
 import { useDispatch } from "react-redux";
 import { setQueue } from "../redux/queue";
-import DetailedSongDto from "../Models/DetailedSongDto";
-import SongDto from "../Models/SongDto";
+import useArtist from "../Hooks/useArtist";
+import useArtistsAlbums from "../Hooks/useArtistsAlbums";
+import useArtistsSongs from "../Hooks/useArtistsSongs";
+import Alert from "react-bootstrap/Alert";
 
 function ArtistDetailsPage() {
   const dispatch = useDispatch();
-
   let id = useRouteMatch("/artists/:id").params.id;
 
-  const apiLink = Config.apiUrl + "artists/" + id;
+  const {
+    data: artist,
+    error: artistError,
+    isFetching: isArtistFetching,
+  } = useArtist(id);
 
-  const [artist, setArtist] = useState<ArtistDto>(new ArtistDto(0, "", "", ""));
-  const [artistStillLoading, setArtistStillLoading] = useState<boolean>(true);
+  const {
+    data: albums,
+    error: albumsError,
+    isFetching: areAlbumsFetching,
+  } = useArtistsAlbums(id);
 
-  useEffect(() => {
-    (async () => {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        },
-      };
-      const result = await axios.get(apiLink, config);
-
-      setArtist(result.data);
-      setArtistStillLoading(false);
-    })();
-  }, [apiLink]);
-
-  const [albums, setAlbums] = useState<AlbumDto[]>([]);
-  const [albumsStillLoading, setAlbumsStillLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    (async () => {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        },
-      };
-      const result = await axios.get(apiLink + "/albums", config);
-
-      setAlbums(result.data);
-      setAlbumsStillLoading(false);
-    })();
-  }, [apiLink]);
+  const { data: songs } = useArtistsSongs(id);
 
   const [showAddAlbum, setShowAddAlbum] = useState<boolean>(false);
   const [showEditArtist, setShowEditArtist] = useState<boolean>(false);
 
   async function playFunction() {
-    const fetchData = async () => {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        },
-      };
-      const result = await axios.get(apiLink + "/songs", config);
-
-      return result.data;
-    };
-
-    let songs: SongDto[] = await fetchData();
+    if (!(songs && artist)) return;
 
     let queue: DetailedSongDto[] = [];
 
     songs.forEach((s) =>
       queue.push(
-        new DetailedSongDto(s.id, s.title, s.url, 0, artist.name, id, "")
+        new DetailedSongDto(s.id, s.title, s.url, id, artist.name, 0, "")
       )
     );
 
@@ -89,9 +56,9 @@ function ArtistDetailsPage() {
   return (
     <div className="page">
       <div>
-        {artistStillLoading ? (
-          <Spinner animation="grow" variant="info" />
-        ) : (
+        {artistError ? (
+          <Alert variant="danger">An error occurred while fetching data!</Alert>
+        ) : artist ? (
           <div className="d-flex flex-row">
             <Image
               src={
@@ -124,6 +91,10 @@ function ArtistDetailsPage() {
               </Button>
             </ButtonGroup>
           </div>
+        ) : isArtistFetching ? (
+          <Spinner animation="grow" variant="info" />
+        ) : (
+          <div></div>
         )}
       </div>
       <div>
@@ -138,9 +109,9 @@ function ArtistDetailsPage() {
           </Button>
         </div>
 
-        {albumsStillLoading ? (
-          <Spinner animation="grow" variant="info" />
-        ) : (
+        {albumsError ? (
+          <Alert variant="danger">An error occurred while fetching data!</Alert>
+        ) : albums ? (
           <Container fluid>
             <Row>
               {albums.map((a) => (
@@ -156,6 +127,10 @@ function ArtistDetailsPage() {
               ))}
             </Row>
           </Container>
+        ) : areAlbumsFetching ? (
+          <Spinner animation="grow" variant="info" />
+        ) : (
+          <div></div>
         )}
       </div>
       <NewAlbumComponent
@@ -166,12 +141,16 @@ function ArtistDetailsPage() {
         editedAlbum={new AlbumDto(0, "", null, null, null, null)}
       ></NewAlbumComponent>
 
-      <NewArtistComponent
-        show={showEditArtist}
-        setShow={setShowEditArtist}
-        isEdited={true}
-        editedArtist={artist}
-      ></NewArtistComponent>
+      {artist ? (
+        <NewArtistComponent
+          show={showEditArtist}
+          setShow={setShowEditArtist}
+          isEdited={true}
+          editedArtist={artist}
+        ></NewArtistComponent>
+      ) : (
+        <div></div>
+      )}
     </div>
   );
 }
