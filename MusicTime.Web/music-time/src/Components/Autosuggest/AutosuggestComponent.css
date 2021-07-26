@@ -1,5 +1,6 @@
 .react-autosuggest__container {
   position: relative;
+  color: white;
 }
 
 .react-autosuggest__input {
