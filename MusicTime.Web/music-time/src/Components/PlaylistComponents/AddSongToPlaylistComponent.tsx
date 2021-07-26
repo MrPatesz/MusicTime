@@ -19,7 +19,7 @@ function AddSongToPlaylistComponent({ playlistId }: Props) {
   const [albumTitle, setAlbumTitle] = useState<string>("");
   const [songTitle, setSongTitle] = useState<string>("");
 
-  const { data: detailedSongs, error, isFetching } = useDetailedSongs();
+  const { data: detailedSongs, error } = useDetailedSongs();
 
   function AddFunction() {
     if (!detailedSongs) return;
