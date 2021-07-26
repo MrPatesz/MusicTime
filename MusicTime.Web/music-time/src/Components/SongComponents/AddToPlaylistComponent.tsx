@@ -74,20 +74,18 @@ function AddSongToPlaylistComponent({ showAdd, setShowAdd, songDto }: Props) {
         <Modal.Title>{'Add "' + songDto.title + '" to'}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {isFetching || error ? (
-          isFetching ? (
-            <Spinner animation="grow" variant="info" />
-          ) : (
-            <Alert variant="danger">
-              An error occurred while fetching data!
-            </Alert>
-          )
-        ) : (
+        {error ? (
+          <Alert variant="danger">An error occurred while fetching data!</Alert>
+        ) : playlists ? (
           <AutosuggestComponent
             placeholder="a playlist..."
-            data={playlists!.map((p) => p.title)}
+            data={playlists.map((p) => p.title)}
             onValueChanged={onPlaylistChange}
           ></AutosuggestComponent>
+        ) : isFetching ? (
+          <Spinner animation="grow" variant="info" />
+        ) : (
+          <div></div>
         )}
       </Modal.Body>
       <Modal.Footer>

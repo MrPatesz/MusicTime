@@ -94,13 +94,9 @@ function AddSongToPlaylistComponent({ playlistId }: Props) {
 
   return (
     <div className="ml-auto">
-      {isFetching || error ? (
-        isFetching ? (
-          <Spinner animation="grow" variant="info" />
-        ) : (
-          <Alert variant="danger">An error occurred while fetching data!</Alert>
-        )
-      ) : (
+      {error ? (
+        <Alert variant="danger">An error occurred while fetching data!</Alert>
+      ) : detailedSongs ? (
         <Form className="d-flex flex-row">
           <div className="mr-3">
             <AutosuggestComponent
@@ -129,6 +125,10 @@ function AddSongToPlaylistComponent({ playlistId }: Props) {
             </Button>
           </ButtonGroup>
         </Form>
+      ) : isFetching ? (
+        <Spinner animation="grow" variant="info" />
+      ) : (
+        <div></div>
       )}
     </div>
   );

@@ -48,15 +48,11 @@ function SongsPage() {
         </Row>
       </Container>
 
-      {isFetching || error ? (
-        isFetching ? (
-          <Spinner animation="grow" variant="info" />
-        ) : (
-          <Alert variant="danger">An error occurred while fetching data!</Alert>
-        )
-      ) : (
+      {error ? (
+        <Alert variant="danger">An error occurred while fetching data!</Alert>
+      ) : songs ? (
         <ul className="no-bullets">
-          {songs!.map((s, i) => (
+          {songs.map((s, i) => (
             <li key={s.songId} className={i % 2 !== 0 ? "bg-dark" : ""}>
               <SongsPageSongComponent
                 detailedSongDto={s}
@@ -64,6 +60,10 @@ function SongsPage() {
             </li>
           ))}
         </ul>
+      ) : isFetching ? (
+        <Spinner animation="grow" variant="info" />
+      ) : (
+        <div></div>
       )}
     </div>
   );

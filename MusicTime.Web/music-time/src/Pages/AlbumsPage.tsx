@@ -14,16 +14,12 @@ function AlbumsPage() {
     <div className="page">
       <h1>Albums</h1>
 
-      {isFetching || error ? (
-        isFetching ? (
-          <Spinner animation="grow" variant="info" />
-        ) : (
-          <Alert variant="danger">An error occurred while fetching data!</Alert>
-        )
-      ) : (
+      {error ? (
+        <Alert variant="danger">An error occurred while fetching data!</Alert>
+      ) : albums ? (
         <Container fluid>
           <Row>
-            {albums!.map((a) => (
+            {albums.map((a) => (
               <Col xs={6} sm={4} md={3} xl={2} key={a.id}>
                 <CardComponent
                   title={a.title}
@@ -36,6 +32,10 @@ function AlbumsPage() {
             ))}
           </Row>
         </Container>
+      ) : isFetching ? (
+        <Spinner animation="grow" variant="info" />
+      ) : (
+        <div></div>
       )}
     </div>
   );

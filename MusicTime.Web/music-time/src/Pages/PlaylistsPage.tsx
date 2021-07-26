@@ -28,16 +28,12 @@ function PlaylistsPage() {
         </Button>
       </div>
 
-      {isFetching || error ? (
-        isFetching ? (
-          <Spinner animation="grow" variant="info" />
-        ) : (
-          <Alert variant="danger">An error occurred while fetching data!</Alert>
-        )
-      ) : (
+      {error ? (
+        <Alert variant="danger">An error occurred while fetching data!</Alert>
+      ) : playlists ? (
         <Container fluid>
           <Row>
-            {playlists!.map((a) => (
+            {playlists.map((a) => (
               <Col xs={6} sm={4} md={3} xl={2} key={a.id}>
                 <CardComponent
                   title={a.title}
@@ -50,6 +46,10 @@ function PlaylistsPage() {
             ))}
           </Row>
         </Container>
+      ) : isFetching ? (
+        <Spinner animation="grow" variant="info" />
+      ) : (
+        <div></div>
       )}
 
       <NewPlaylistComponent
