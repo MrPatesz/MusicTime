@@ -1,41 +1,29 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-import AlbumDto from "../Models/AlbumDto";
 import CardComponent from "../Components/CardComponent";
 import { Container, Row, Col } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
 import { Config } from "../config";
+import useAlbums from "../Hooks/useAlbums";
+import Alert from "react-bootstrap/Alert";
 
 function AlbumsPage() {
   const apiLink = Config.apiUrl + "albums/";
 
-  const [albums, setAlbums] = useState<AlbumDto[]>([]);
-  const [stillLoading, setStillLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    (async () => {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        },
-      };
-      const result = await axios.get(apiLink, config);
-
-      setAlbums(result.data);
-      setStillLoading(false);
-    })();
-  }, [apiLink]);
+  const { data: albums, error, isFetching } = useAlbums();
 
   return (
     <div className="page">
       <h1>Albums</h1>
 
-      {stillLoading ? (
-        <Spinner animation="grow" variant="info" />
+      {isFetching || error ? (
+        isFetching ? (
+          <Spinner animation="grow" variant="info" />
+        ) : (
+          <Alert variant="danger">An error occurred while fetching data!</Alert>
+        )
       ) : (
         <Container fluid>
           <Row>
-            {albums.map((a) => (
+            {albums!.map((a) => (
               <Col xs={6} sm={4} md={3} xl={2} key={a.id}>
                 <CardComponent
                   title={a.title}

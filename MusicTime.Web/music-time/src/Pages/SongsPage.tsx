@@ -1,35 +1,16 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
 import SongsPageSongComponent from "../Components/SongComponents/SongsPageSongComponent";
 import Spinner from "react-bootstrap/Spinner";
-import DetailedSongDto from "../Models/DetailedSongDto";
 import Button from "react-bootstrap/Button";
 import { useDispatch } from "react-redux";
 import { setQueue } from "../redux/queue";
-import { Config } from "../config";
 import { Container, Row, Col } from "react-bootstrap";
+import useDetailedSongs from "../Hooks/useDetailedSongs";
+import Alert from "react-bootstrap/Alert";
 
 function SongsPage() {
   const dispatch = useDispatch();
 
-  const apiLink = Config.apiUrl + "songs/detailed";
-
-  const [songs, setSongs] = useState<DetailedSongDto[]>([]);
-  const [stillLoading, setStillLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    (async () => {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        },
-      };
-      const result = await axios.get(apiLink, config);
-
-      setSongs(result.data);
-      setStillLoading(false);
-    })();
-  }, [apiLink]);
+  const { data: songs, error, isFetching } = useDetailedSongs();
 
   return (
     <div className="page">
@@ -38,7 +19,7 @@ function SongsPage() {
         <Button
           variant="outline-info"
           className="ml-auto mt-auto mb-auto"
-          onClick={() => dispatch(setQueue(songs))}
+          onClick={() => dispatch(setQueue(songs ?? []))}
         >
           Play
         </Button>
@@ -67,11 +48,15 @@ function SongsPage() {
         </Row>
       </Container>
 
-      {stillLoading ? (
-        <Spinner animation="grow" variant="info" />
+      {isFetching || error ? (
+        isFetching ? (
+          <Spinner animation="grow" variant="info" />
+        ) : (
+          <Alert variant="danger">An error occurred while fetching data!</Alert>
+        )
       ) : (
         <ul className="no-bullets">
-          {songs.map((s, i) => (
+          {songs!.map((s, i) => (
             <li key={s.songId} className={i % 2 !== 0 ? "bg-dark" : ""}>
               <SongsPageSongComponent
                 detailedSongDto={s}
