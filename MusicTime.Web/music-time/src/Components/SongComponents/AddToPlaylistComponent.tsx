@@ -18,22 +18,8 @@ function AddSongToPlaylistComponent({ showAdd, setShowAdd, songDto }: Props) {
   const apiBase = Config.apiUrl;
 
   const [selectedPlaylist, setSelectedPlaylist] = useState<PlaylistDto>();
-  //const [playlists, setPlaylists] = useState<PlaylistDto[]>([]);
 
   const { data: playlists, error, isFetching } = usePlaylists();
-
-  /*useEffect(() => {
-    (async () => {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        },
-      };
-      const result = await axios.get(apiBase + "playlists/", config);
-
-      setPlaylists(result.data);
-    })();
-  }, [apiBase]);*/
 
   function onPlaylistChange(selected: string) {
     let playlist = playlists?.find((p) => p.title === selected);
