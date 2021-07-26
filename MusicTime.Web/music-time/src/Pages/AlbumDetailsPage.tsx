@@ -1,8 +1,5 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-import AlbumDto from "../Models/AlbumDto";
+import { useState } from "react";
 import Spinner from "react-bootstrap/Spinner";
-import SongDto from "../Models/SongDto";
 import { useRouteMatch } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
@@ -14,54 +11,33 @@ import DetailedSongDto from "../Models/DetailedSongDto";
 import { useDispatch } from "react-redux";
 import { setQueue } from "../redux/queue";
 import { Config } from "../config";
+import useAlbum from "../Hooks/useAlbum";
+import useAlbumsSongs from "../Hooks/useAlbumsSongs";
+import Alert from "react-bootstrap/Alert";
 
 function AlbumDetailsPage() {
   const dispatch = useDispatch();
 
   let id = useRouteMatch("/albums/:id").params.id;
 
-  const apiLink = Config.apiUrl + "albums/" + id;
+  const {
+    data: album,
+    error: albumError,
+    isFetching: isAlbumFetching,
+  } = useAlbum(id);
 
-  const [album, setAlbum] = useState<AlbumDto>(
-    new AlbumDto(0, "", "", "", 0, "")
-  );
-  const [albumStillLoading, setAlbumStillLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    (async () => {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        },
-      };
-      const result = await axios.get(apiLink, config);
-
-      setAlbum(result.data);
-      setAlbumStillLoading(false);
-    })();
-  }, [apiLink]);
-
-  const [songs, setSongs] = useState<SongDto[]>([]);
-  const [songsStillLoading, setSongsStillLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    (async () => {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        },
-      };
-      const result = await axios.get(apiLink + "/songs", config);
-
-      setSongs(result.data);
-      setSongsStillLoading(false);
-    })();
-  }, [apiLink]);
+  const {
+    data: songs,
+    error: songsError,
+    isFetching: areSongsFetching,
+  } = useAlbumsSongs(id);
 
   const [showEditAlbum, setShowEditAlbum] = useState<boolean>(false);
   const [showAddSong, setShowAddSong] = useState<boolean>(false);
 
   function playFunction() {
+    if (!(songs && album)) return;
+
     let queue: DetailedSongDto[] = [];
 
     songs.forEach((s) =>
@@ -76,9 +52,9 @@ function AlbumDetailsPage() {
   return (
     <div className="page">
       <div>
-        {albumStillLoading ? (
-          <Spinner animation="grow" variant="info" />
-        ) : (
+        {albumError ? (
+          <Alert variant="danger">An error occurred while fetching data!</Alert>
+        ) : album ? (
           <div className="d-flex flex-row">
             <Image
               src={
@@ -115,6 +91,10 @@ function AlbumDetailsPage() {
               </Button>
             </ButtonGroup>
           </div>
+        ) : isAlbumFetching ? (
+          <Spinner animation="grow" variant="info" />
+        ) : (
+          <div></div>
         )}
       </div>
       <div>
@@ -130,9 +110,9 @@ function AlbumDetailsPage() {
           </Button>
         </div>
 
-        {songsStillLoading ? (
-          <Spinner animation="grow" variant="info" />
-        ) : (
+        {songsError ? (
+          <Alert variant="danger">An error occurred while fetching data!</Alert>
+        ) : songs ? (
           <ul className="no-bullets">
             {songs.map((s, i) => (
               <li key={s.id} className={i % 2 !== 0 ? "bg-dark" : ""}>
@@ -148,16 +128,24 @@ function AlbumDetailsPage() {
               albumId={id}
             ></NewSongComponent>
           </ul>
+        ) : areSongsFetching ? (
+          <Spinner animation="grow" variant="info" />
+        ) : (
+          <div></div>
         )}
       </div>
 
-      <NewAlbumComponent
-        show={showEditAlbum}
-        setShow={setShowEditAlbum}
-        artistId={-1}
-        isEdited={true}
-        editedAlbum={album}
-      ></NewAlbumComponent>
+      {album ? (
+        <NewAlbumComponent
+          show={showEditAlbum}
+          setShow={setShowEditAlbum}
+          artistId={-1}
+          isEdited={true}
+          editedAlbum={album}
+        ></NewAlbumComponent>
+      ) : (
+        <div></div>
+      )}
     </div>
   );
 }
