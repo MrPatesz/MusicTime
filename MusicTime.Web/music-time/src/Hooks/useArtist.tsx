@@ -12,7 +12,7 @@ function useArtist(artistId: number) {
     },
   };
 
-  return useQuery<ArtistDto>(["artist", artistId], () =>
+  return useQuery<ArtistDto>(["artists", artistId], () =>
     axios.get(apiLink, config).then((res) => res.data)
   );
 }

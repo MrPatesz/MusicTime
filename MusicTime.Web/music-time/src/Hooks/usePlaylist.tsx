@@ -12,7 +12,7 @@ function usePlaylist(playlistId: number) {
     },
   };
 
-  return useQuery<PlaylistDto>(["playlist", playlistId], () =>
+  return useQuery<PlaylistDto>(["playlists", playlistId], () =>
     axios.get(apiLink, config).then((res) => res.data)
   );
 }
