@@ -2,7 +2,7 @@ import CardComponent from "../Components/CardComponent";
 import { Container, Row, Col } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
 import { Config } from "../config";
-import useAlbums from "../Hooks/useAlbums";
+import useAlbums from "../Hooks/Queries/AlbumQueries/useAlbums";
 import Alert from "react-bootstrap/Alert";
 
 function AlbumsPage() {

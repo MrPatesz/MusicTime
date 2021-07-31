@@ -6,7 +6,7 @@ import Spinner from "react-bootstrap/Spinner";
 import Button from "react-bootstrap/Button";
 import NewPlaylistComponent from "../Components/PlaylistComponents/NewPlaylistComponent";
 import { Config } from "../config";
-import usePlaylists from "../Hooks/usePlaylists";
+import usePlaylists from "../Hooks/Queries/PlaylistQueries/usePlaylists";
 import Alert from "react-bootstrap/Alert";
 
 function PlaylistsPage() {

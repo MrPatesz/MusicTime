@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 import axios from "axios";
-import { Config } from "../config";
-import AlbumDto from "../Models/AlbumDto";
+import { Config } from "../../../config";
+import AlbumDto from "../../../Models/AlbumDto";
 
 function useArtistsAlbums(artistId: number) {
   const apiLink = Config.apiUrl + "artists/" + artistId + "/albums";

@@ -6,7 +6,7 @@ import Modal from "react-bootstrap/Modal";
 import { useState } from "react";
 import SongDetails from "./SongDetails";
 import AddToPlaylistComponent from "./AddToPlaylistComponent";
-import useDeleteSong from "../../Hooks/useDeleteSong";
+import useDeleteSong from "../../Hooks/Mutations/useDeleteSong";
 
 interface Props {
   detailedSongDto: DetailedSongDto;

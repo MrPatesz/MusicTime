@@ -11,8 +11,8 @@ import DetailedSongDto from "../Models/DetailedSongDto";
 import { useDispatch } from "react-redux";
 import { setQueue } from "../redux/queue";
 import { Config } from "../config";
-import useAlbum from "../Hooks/useAlbum";
-import useAlbumsSongs from "../Hooks/useAlbumsSongs";
+import useAlbum from "../Hooks/Queries/AlbumQueries/useAlbum";
+import useAlbumsSongs from "../Hooks/Queries/AlbumQueries/useAlbumsSongs";
 import Alert from "react-bootstrap/Alert";
 
 function AlbumDetailsPage() {

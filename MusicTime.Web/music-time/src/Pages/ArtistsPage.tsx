@@ -6,7 +6,7 @@ import Spinner from "react-bootstrap/Spinner";
 import Button from "react-bootstrap/Button";
 import NewArtistComponent from "../Components/NewArtistComponent";
 import { Config } from "../config";
-import useArtists from "../Hooks/useArtists";
+import useArtists from "../Hooks/Queries/ArtistQueries/useArtists";
 import Alert from "react-bootstrap/Alert";
 
 function ArtistsPage() {

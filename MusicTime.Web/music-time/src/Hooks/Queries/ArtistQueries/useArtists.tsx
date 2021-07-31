@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 import axios from "axios";
-import { Config } from "../config";
-import ArtistDto from "../Models/ArtistDto";
+import { Config } from "../../../config";
+import ArtistDto from "../../../Models/ArtistDto";
 
 function useArtists() {
   const apiLink = Config.apiUrl + "artists/";

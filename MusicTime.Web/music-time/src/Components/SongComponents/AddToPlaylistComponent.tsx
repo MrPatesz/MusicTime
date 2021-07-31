@@ -5,7 +5,7 @@ import SongDto from "../../Models/SongDto";
 import axios from "axios";
 import { Config } from "../../config";
 import { useState } from "react";
-import usePlaylists from "../../Hooks/usePlaylists";
+import usePlaylists from "../../Hooks/Queries/PlaylistQueries/usePlaylists";
 import Alert from "react-bootstrap/Alert";
 
 interface Props {

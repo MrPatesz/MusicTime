@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
-import { Config } from "../config";
+import { Config } from "../../config";
 
 function useDeleteSong() {
   const apiLink = Config.apiUrl + "songs/";

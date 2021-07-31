@@ -13,9 +13,9 @@ import NewArtistComponent from "../Components/NewArtistComponent";
 import { Config } from "../config";
 import { useDispatch } from "react-redux";
 import { setQueue } from "../redux/queue";
-import useArtist from "../Hooks/useArtist";
-import useArtistsAlbums from "../Hooks/useArtistsAlbums";
-import useArtistsSongs from "../Hooks/useArtistsSongs";
+import useArtist from "../Hooks/Queries/ArtistQueries/useArtist";
+import useArtistsAlbums from "../Hooks/Queries/ArtistQueries/useArtistsAlbums";
+import useArtistsSongs from "../Hooks/Queries/ArtistQueries/useArtistsSongs";
 import Alert from "react-bootstrap/Alert";
 
 function ArtistDetailsPage() {

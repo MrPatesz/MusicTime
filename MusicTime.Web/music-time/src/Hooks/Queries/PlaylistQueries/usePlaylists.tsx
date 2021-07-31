@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 import axios from "axios";
-import { Config } from "../config";
-import PlaylistDto from "../Models/PlaylistDto";
+import { Config } from "../../../config";
+import PlaylistDto from "../../../Models/PlaylistDto";
 
 function usePlaylists() {
   const apiLink = Config.apiUrl + "playlists/";

@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import { useDispatch } from "react-redux";
 import { setQueue } from "../redux/queue";
 import { Container, Row, Col } from "react-bootstrap";
-import useDetailedSongs from "../Hooks/useDetailedSongs";
+import useDetailedSongs from "../Hooks/Queries/SongQueries/useDetailedSongs";
 import Alert from "react-bootstrap/Alert";
 
 function SongsPage() {

@@ -11,8 +11,8 @@ import { useDispatch } from "react-redux";
 import { setQueue } from "../redux/queue";
 import { Config } from "../config";
 import { Container, Row, Col } from "react-bootstrap";
-import usePlaylist from "../Hooks/usePlaylist";
-import usePlaylistsSongs from "../Hooks/usePlaylistsSongs";
+import usePlaylist from "../Hooks/Queries/PlaylistQueries/usePlaylist";
+import usePlaylistsSongs from "../Hooks/Queries/PlaylistQueries/usePlaylistsSongs";
 import Alert from "react-bootstrap/Alert";
 
 function PlaylistDetailsPage() {

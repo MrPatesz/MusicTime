@@ -5,7 +5,7 @@ import AutosuggestComponent from "../Autosuggest/AutosuggestComponent";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Config } from "../../config";
-import useDetailedSongs from "../../Hooks/useDetailedSongs";
+import useDetailedSongs from "../../Hooks/Queries/SongQueries/useDetailedSongs";
 import Alert from "react-bootstrap/Alert";
 import { Spinner } from "react-bootstrap";
 
