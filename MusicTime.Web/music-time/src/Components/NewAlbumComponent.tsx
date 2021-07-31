@@ -8,6 +8,8 @@ import AlbumDto from "../Models/AlbumDto";
 import { Config } from "../config";
 import { useForm } from "react-hook-form";
 import { ButtonToolbar } from "react-bootstrap";
+import useCreateAlbum from "../Hooks/Mutations/AlbumMutations/useCreateAlbum";
+import useUpdateAlbum from "../Hooks/Mutations/AlbumMutations/useUpdateAlbum";
 
 interface Props {
   show: boolean;
@@ -37,51 +39,33 @@ function NewAlbumComponent({
     formState: { errors },
   } = useForm<FormValues>();
 
-  async function postFunction(data: FormValues) {
-    let apiLink = Config.apiUrl + "albums/";
-    var postData;
-    if (isEdited) {
-      postData = async () => {
-        return await axios({
-          method: "put",
-          url: apiLink + editedAlbum.id,
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-          },
-          data: {
-            Title: data.Title,
-            Description: data.Description,
-            Genre: data.Genre,
-            ReleaseYear: data.ReleaseYear,
-            Id: editedAlbum.id,
-          },
-        });
-      };
-    } else {
-      postData = async () => {
-        return await axios({
-          method: "post",
-          url: apiLink,
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-            artistId: artistId,
-          },
-          data: {
-            Title: data.Title,
-            Description: data.Description,
-            Genre: data.Genre,
-            ReleaseYear: data.ReleaseYear,
-          },
-        });
-      };
-    }
-    var newAlbum = await postData();
+  const createAlbum = useCreateAlbum();
+  const updateAlbum = useUpdateAlbum();
 
-    postPicture((newAlbum.data as unknown as AlbumDto).id);
+  async function postFunction(data: FormValues) {
+    if (isEdited) {
+      let editedResult = await updateAlbum.mutateAsync({
+        id: editedAlbum.id,
+        title: data.Title,
+        description: data.Description,
+        genre: data.Genre,
+        releaseYear: data.ReleaseYear,
+      });
+      postPicture(editedResult.id);
+    } else {
+      let newAlbum = await createAlbum.mutateAsync({
+        artistId: artistId,
+        title: data.Title,
+        description: data.Description,
+        genre: data.Genre,
+        releaseYear: data.ReleaseYear,
+      });
+      postPicture(newAlbum.id);
+    }
   }
 
   function postPicture(albumId: number) {
-    if (selectedFile !== null) {
+    if (selectedFile) {
       const formData = new FormData();
       formData.append("File", selectedFile, selectedFile.name);
 
