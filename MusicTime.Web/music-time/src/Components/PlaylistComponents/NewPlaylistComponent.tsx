@@ -8,6 +8,8 @@ import PlaylistDto from "../../Models/PlaylistDto";
 import { Config } from "../../config";
 import { useForm } from "react-hook-form";
 import { ButtonToolbar } from "react-bootstrap";
+import useCreatePlaylist from "../../Hooks/Mutations/PlaylistMutations/useCreatePlaylist";
+import useUpdatePlaylist from "../../Hooks/Mutations/PlaylistMutations/useUpdatePlaylsit";
 
 interface Props {
   show: boolean;
@@ -33,42 +35,24 @@ function NewPlaylistComponent({
     formState: { errors },
   } = useForm<FormValues>();
 
-  async function postFunction(data: FormValues) {
-    let apiLink = Config.apiUrl + "playlists/";
-    var postData;
-    if (isEdited) {
-      postData = async () => {
-        return await axios({
-          method: "put",
-          url: apiLink + editedPlaylist.id,
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-          },
-          data: {
-            Title: data.Title,
-            Description: data.Description,
-            Id: editedPlaylist.id,
-          },
-        });
-      };
-    } else {
-      postData = async () => {
-        return await axios({
-          method: "post",
-          url: apiLink,
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-          },
-          data: {
-            Title: data.Title,
-            Description: data.Description,
-          },
-        });
-      };
-    }
-    var newPlaylist = await postData();
+  const createPlaylist = useCreatePlaylist();
+  const updatePlaylist = useUpdatePlaylist();
 
-    postPicture((newPlaylist.data as unknown as PlaylistDto).id);
+  async function postFunction(data: FormValues) {
+    if (isEdited) {
+      let updatedPlaylist = await updatePlaylist.mutateAsync({
+        id: editedPlaylist.id,
+        title: data.Title,
+        description: data.Description,
+      });
+      postPicture(updatedPlaylist.id);
+    } else {
+      let newPlaylist = await createPlaylist.mutateAsync({
+        title: data.Title,
+        description: data.Description,
+      });
+      postPicture(newPlaylist.id);
+    }
   }
 
   function postPicture(playlistId: number) {
