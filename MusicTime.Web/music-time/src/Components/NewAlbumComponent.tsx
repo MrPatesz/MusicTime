@@ -44,14 +44,14 @@ function NewAlbumComponent({
 
   async function postFunction(data: FormValues) {
     if (isEdited) {
-      let editedResult = await updateAlbum.mutateAsync({
+      let updatedAlbum = await updateAlbum.mutateAsync({
         id: editedAlbum.id,
         title: data.Title,
         description: data.Description,
         genre: data.Genre,
         releaseYear: data.ReleaseYear,
       });
-      postPicture(editedResult.id);
+      postPicture(updatedAlbum.id);
     } else {
       let newAlbum = await createAlbum.mutateAsync({
         artistId: artistId,
