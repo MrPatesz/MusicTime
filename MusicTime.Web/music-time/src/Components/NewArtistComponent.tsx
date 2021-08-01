@@ -8,6 +8,8 @@ import ArtistDto from "../Models/ArtistDto";
 import { Config } from "../config";
 import { useForm } from "react-hook-form";
 import { ButtonToolbar } from "react-bootstrap";
+import useCreateArtist from "../Hooks/Mutations/ArtistMutations/useCreateArtist";
+import useUpdateArtist from "../Hooks/Mutations/ArtistMutations/useUpdateArtist";
 
 interface Props {
   show: boolean;
@@ -28,42 +30,24 @@ function NewArtistComponent({ show, setShow, isEdited, editedArtist }: Props) {
     formState: { errors },
   } = useForm<FormValues>();
 
-  async function postFunction(data: FormValues) {
-    let apiLink = Config.apiUrl + "artists/";
-    var postData;
-    if (isEdited) {
-      postData = async () => {
-        return await axios({
-          method: "put",
-          url: apiLink + editedArtist.id,
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-          },
-          data: {
-            Name: data.Name,
-            Description: data.Description,
-            Id: editedArtist.id,
-          },
-        });
-      };
-    } else {
-      postData = async () => {
-        return await axios({
-          method: "post",
-          url: apiLink,
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-          },
-          data: {
-            Name: data.Name,
-            Description: data.Description,
-          },
-        });
-      };
-    }
-    var newArtist = await postData();
+  const createArtist = useCreateArtist();
+  const updateArtist = useUpdateArtist();
 
-    postPicture((newArtist.data as unknown as ArtistDto).id);
+  async function postFunction(data: FormValues) {
+    if (isEdited) {
+      let updatedArtist = await updateArtist.mutateAsync({
+        id: editedArtist.id,
+        name: data.Name,
+        description: data.Description,
+      });
+      postPicture(updatedArtist.id);
+    } else {
+      let newArtist = await createArtist.mutateAsync({
+        name: data.Name,
+        description: data.Description,
+      });
+      postPicture(newArtist.id);
+    }
   }
 
   function postPicture(artistId: number) {
