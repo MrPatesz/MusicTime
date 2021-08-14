@@ -8,8 +8,7 @@ interface Props {
 }
 
 function useDeleteSong({ relativeLink, toInvalidate }: Props) {
-  if (relativeLink[0] === "/")
-    relativeLink = relativeLink.slice(1);
+  if (relativeLink[0] === "/") relativeLink = relativeLink.slice(1);
 
   const apiLink = Config.apiUrl + relativeLink;
 
