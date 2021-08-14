@@ -3,13 +3,12 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import React from "react";
 import { useState } from "react";
-import axios from "axios";
 import AlbumDto from "../Models/AlbumDto";
-import { Config } from "../config";
 import { useForm } from "react-hook-form";
 import { ButtonToolbar } from "react-bootstrap";
 import useCreateAlbum from "../Hooks/Mutations/AlbumMutations/useCreateAlbum";
 import useUpdateAlbum from "../Hooks/Mutations/AlbumMutations/useUpdateAlbum";
+import useUploadPicture from "../Hooks/Mutations/PictureMutations/useUploadPicture";
 
 interface Props {
   show: boolean;
@@ -41,6 +40,10 @@ function NewAlbumComponent({
 
   const createAlbum = useCreateAlbum();
   const updateAlbum = useUpdateAlbum();
+  const uploadPicture = useUploadPicture({
+    relativeLink: "album",
+    toInvalidate: "artistsAlbums",
+  });
 
   async function postFunction(data: FormValues) {
     if (isEdited) {
@@ -69,16 +72,10 @@ function NewAlbumComponent({
       const formData = new FormData();
       formData.append("File", selectedFile, selectedFile.name);
 
-      (async () => {
-        await axios({
-          method: "put",
-          url: Config.apiUrl + "pictures/album/" + albumId,
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-          },
-          data: formData,
-        });
-      })();
+      uploadPicture.mutate({
+        id: albumId,
+        picture: formData,
+      });
     }
     setSelectedFile(null);
   }

@@ -3,13 +3,12 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import React from "react";
 import { useState } from "react";
-import axios from "axios";
 import ArtistDto from "../Models/ArtistDto";
-import { Config } from "../config";
 import { useForm } from "react-hook-form";
 import { ButtonToolbar } from "react-bootstrap";
 import useCreateArtist from "../Hooks/Mutations/ArtistMutations/useCreateArtist";
 import useUpdateArtist from "../Hooks/Mutations/ArtistMutations/useUpdateArtist";
+import useUploadPicture from "../Hooks/Mutations/PictureMutations/useUploadPicture";
 
 interface Props {
   show: boolean;
@@ -32,6 +31,10 @@ function NewArtistComponent({ show, setShow, isEdited, editedArtist }: Props) {
 
   const createArtist = useCreateArtist();
   const updateArtist = useUpdateArtist();
+  const uploadPicture = useUploadPicture({
+    relativeLink: "artist",
+    toInvalidate: "artists",
+  });
 
   async function postFunction(data: FormValues) {
     if (isEdited) {
@@ -55,16 +58,10 @@ function NewArtistComponent({ show, setShow, isEdited, editedArtist }: Props) {
       const formData = new FormData();
       formData.append("File", selectedFile, selectedFile.name);
 
-      (async () => {
-        await axios({
-          method: "put",
-          url: Config.apiUrl + "pictures/artist/" + artistId,
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-          },
-          data: formData,
-        });
-      })();
+      uploadPicture.mutate({
+        id: artistId,
+        picture: formData,
+      });
     }
     setSelectedFile(null);
   }

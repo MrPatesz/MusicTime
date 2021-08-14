@@ -3,13 +3,12 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import React from "react";
 import { useState } from "react";
-import axios from "axios";
 import PlaylistDto from "../../Models/PlaylistDto";
-import { Config } from "../../config";
 import { useForm } from "react-hook-form";
 import { ButtonToolbar } from "react-bootstrap";
 import useCreatePlaylist from "../../Hooks/Mutations/PlaylistMutations/useCreatePlaylist";
 import useUpdatePlaylist from "../../Hooks/Mutations/PlaylistMutations/useUpdatePlaylsit";
+import useUploadPicture from "../../Hooks/Mutations/PictureMutations/useUploadPicture";
 
 interface Props {
   show: boolean;
@@ -37,6 +36,10 @@ function NewPlaylistComponent({
 
   const createPlaylist = useCreatePlaylist();
   const updatePlaylist = useUpdatePlaylist();
+  const uploadPicture = useUploadPicture({
+    relativeLink: "playlist",
+    toInvalidate: "playlists",
+  });
 
   async function postFunction(data: FormValues) {
     if (isEdited) {
@@ -60,17 +63,10 @@ function NewPlaylistComponent({
       const formData = new FormData();
       formData.append("File", selectedFile, selectedFile.name);
 
-      const postPictureData = async () => {
-        await axios({
-          method: "put",
-          url: Config.apiUrl + "pictures/playlist/" + playlistId,
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-          },
-          data: formData,
-        });
-      };
-      postPictureData();
+      uploadPicture.mutate({
+        id: playlistId,
+        picture: formData,
+      });
     }
     setSelectedFile(null);
   }
