@@ -1,12 +1,11 @@
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Modal from "react-bootstrap/Modal";
-import axios from "axios";
 import { useState } from "react";
 import SongDto from "../../Models/SongDto";
-import { Config } from "../../config";
 import EditSongComponent from "./EditSongComponent";
 import AddToPlaylistComponent from "./AddToPlaylistComponent";
+import useDeleteSong from "../../Hooks/Mutations/useDeleteSong";
 
 interface Props {
   songDto: SongDto;
@@ -14,22 +13,15 @@ interface Props {
 }
 
 function AlbumSongComponent({ songDto, albumId }: Props) {
-  const apiLink = Config.apiUrl + "songs/" + songDto.id;
-
   const [confirm, setConfirm] = useState<boolean>(false);
   const [editSong, setEditSong] = useState<boolean>(false);
   const [showAdd, setShowAdd] = useState<boolean>(false);
 
+  const deleteSong = useDeleteSong("albumsSongs");
+
   function deleteFunction() {
-    (async () => {
-      setConfirm(false);
-      const config = {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        },
-      };
-      await axios.delete(apiLink, config);
-    })();
+    deleteSong.mutate(songDto.id);
+    setConfirm(false);
   }
 
   return (

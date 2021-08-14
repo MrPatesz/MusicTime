@@ -16,7 +16,7 @@ function SongsPageSongComponent({ detailedSongDto }: Props) {
   const [confirm, setConfirm] = useState<boolean>(false);
   const [showAdd, setShowAdd] = useState<boolean>(false);
 
-  const deleteSong = useDeleteSong();
+  const deleteSong = useDeleteSong("detailedSongs");
 
   function deleteFunction() {
     deleteSong.mutate(detailedSongDto.songId);

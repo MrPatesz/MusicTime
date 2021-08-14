@@ -2,7 +2,7 @@ import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
 import { Config } from "../../config";
 
-function useDeleteSong() {
+function useDeleteSong(toInvalidate: string) {
   const apiLink = Config.apiUrl + "songs/";
 
   const config = {
@@ -17,7 +17,7 @@ function useDeleteSong() {
     (songId: number) => axios.delete(apiLink + songId, config),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries("detailedSongs");
+        queryClient.invalidateQueries(toInvalidate);
       },
     }
   );
