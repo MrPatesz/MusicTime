@@ -1,13 +1,10 @@
 import CardComponent from "../Components/CardComponent";
 import { Container, Row, Col } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
-import { Config } from "../config";
 import useAlbums from "../Hooks/Queries/AlbumQueries/useAlbums";
 import Alert from "react-bootstrap/Alert";
 
 function AlbumsPage() {
-  const apiLink = Config.apiUrl + "albums/";
-
   const { data: albums, error, isFetching } = useAlbums();
 
   return (
@@ -24,9 +21,8 @@ function AlbumsPage() {
                 <CardComponent
                   title={a.title}
                   pictureGuid={a.coverGuid}
-                  deleteLink={apiLink}
-                  linkTo="albums/"
-                  objectId={a.id}
+                  relativeLink={"albums/" + a.id}
+                  toInvalidate="albums"
                 ></CardComponent>
               </Col>
             ))}

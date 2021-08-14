@@ -7,7 +7,7 @@ import PlaylistDto from "../../Models/PlaylistDto";
 import { useForm } from "react-hook-form";
 import { ButtonToolbar } from "react-bootstrap";
 import useCreatePlaylist from "../../Hooks/Mutations/PlaylistMutations/useCreatePlaylist";
-import useUpdatePlaylist from "../../Hooks/Mutations/PlaylistMutations/useUpdatePlaylsit";
+import useUpdatePlaylist from "../../Hooks/Mutations/PlaylistMutations/useUpdatePlaylist";
 import useUploadPicture from "../../Hooks/Mutations/PictureMutations/useUploadPicture";
 
 interface Props {

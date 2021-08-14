@@ -119,9 +119,8 @@ function ArtistDetailsPage() {
                   <CardComponent
                     title={a.title}
                     pictureGuid={a.coverGuid}
-                    deleteLink={"https://localhost:5001/api/albums/"}
-                    linkTo="/albums/"
-                    objectId={a.id}
+                    relativeLink={"/albums/" + a.id}
+                    toInvalidate="artistsAlbums"
                   ></CardComponent>
                 </Col>
               ))}
