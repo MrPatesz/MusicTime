@@ -2,10 +2,9 @@ import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Form from "react-bootstrap/Form";
 import React from "react";
-import axios from "axios";
-import { Config } from "../../config";
 import SongDto from "../../Models/SongDto";
 import { useForm } from "react-hook-form";
+import useUpdateSong from "../../Hooks/Mutations/SongMutations/useUpdateSong";
 
 interface Props {
   setShow: React.Dispatch<React.SetStateAction<any>>;
@@ -25,22 +24,15 @@ function EditSongComponent({ setShow, albumId, songDto }: Props) {
     formState: { errors },
   } = useForm<FormValues>();
 
+  const updateSong = useUpdateSong();
+
   function editFunction(data: FormValues) {
-    (async () => {
-      await axios({
-        method: "put",
-        url: Config.apiUrl + "songs/" + songDto.id,
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-          albumId: albumId,
-        },
-        data: {
-          Title: data.Title,
-          Url: data.Url,
-          Id: songDto.id,
-        },
-      });
-    })();
+    updateSong.mutate({
+      id: songDto.id,
+      url: data.Url,
+      title: data.Title,
+      albumId: albumId,
+    });
   }
 
   return (
