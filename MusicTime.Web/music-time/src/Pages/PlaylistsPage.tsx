@@ -5,12 +5,10 @@ import PlaylistDto from "../Models/PlaylistDto";
 import Spinner from "react-bootstrap/Spinner";
 import Button from "react-bootstrap/Button";
 import NewPlaylistComponent from "../Components/PlaylistComponents/NewPlaylistComponent";
-import { Config } from "../config";
 import usePlaylists from "../Hooks/Queries/PlaylistQueries/usePlaylists";
 import Alert from "react-bootstrap/Alert";
 
 function PlaylistsPage() {
-  const apiLink = Config.apiUrl + "playlists/";
   const [showAddPlaylist, setShowAddPlaylist] = useState<boolean>(false);
 
   const { data: playlists, error, isFetching } = usePlaylists();
@@ -38,9 +36,8 @@ function PlaylistsPage() {
                 <CardComponent
                   title={a.title}
                   pictureGuid={a.coverGuid}
-                  deleteLink={apiLink}
-                  linkTo="playlists/"
-                  objectId={a.id}
+                  relativeLink={"playlists/" + a.id}
+                  toInvalidate="playlists"
                 ></CardComponent>
               </Col>
             ))}

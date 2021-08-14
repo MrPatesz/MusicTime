@@ -5,12 +5,10 @@ import { Container, Row, Col } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
 import Button from "react-bootstrap/Button";
 import NewArtistComponent from "../Components/NewArtistComponent";
-import { Config } from "../config";
 import useArtists from "../Hooks/Queries/ArtistQueries/useArtists";
 import Alert from "react-bootstrap/Alert";
 
 function ArtistsPage() {
-  const apiLink = Config.apiUrl + "artists/";
   const [showAddArtist, setShowAddArtist] = useState<boolean>(false);
 
   const { data: artists, error, isFetching } = useArtists();
@@ -38,9 +36,8 @@ function ArtistsPage() {
                 <CardComponent
                   title={a.name}
                   pictureGuid={a.pictureGuid}
-                  deleteLink={apiLink}
-                  linkTo="artists/"
-                  objectId={a.id}
+                  relativeLink={"artists/" + a.id}
+                  toInvalidate="artists"
                 ></CardComponent>
               </Col>
             ))}

@@ -5,23 +5,21 @@ import ButtonGroup from "react-bootstrap/ButtonGroup";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
-import axios from "axios";
 import { Config } from "../config";
+import useDeleteResource from "../Hooks/Mutations/useDeleteResource";
 
 interface Props {
   title: string;
   pictureGuid: string | null;
-  deleteLink: string;
-  linkTo: string;
-  objectId: number;
+  relativeLink: string;
+  toInvalidate: string;
 }
 
 function CardComponent({
   title,
   pictureGuid,
-  deleteLink,
-  linkTo,
-  objectId,
+  relativeLink,
+  toInvalidate,
 }: Props) {
   if (pictureGuid === null) pictureGuid = "/placeholder.png";
   else {
@@ -29,16 +27,15 @@ function CardComponent({
   }
 
   const [confirm, setConfirm] = useState<boolean>(false);
+
+  const deleteResource = useDeleteResource({
+    relativeLink: relativeLink,
+    toInvalidate: toInvalidate,
+  });
+
   function deleteFunction() {
-    (async () => {
-      setConfirm(false);
-      const config = {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        },
-      };
-      await axios.delete(deleteLink + objectId, config);
-    })();
+    deleteResource.mutate();
+    setConfirm(false);
   }
 
   return (
@@ -56,7 +53,7 @@ function CardComponent({
           <Card.Title>{title}</Card.Title>
           <ButtonToolbar>
             <ButtonGroup className="mr-auto" size="sm">
-              <Link to={linkTo + objectId} className="btn btn-outline-info">
+              <Link to={relativeLink} className="btn btn-outline-info">
                 Details
               </Link>
             </ButtonGroup>
