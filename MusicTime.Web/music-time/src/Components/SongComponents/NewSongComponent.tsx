@@ -2,9 +2,8 @@ import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Form from "react-bootstrap/Form";
 import React from "react";
-import axios from "axios";
-import { Config } from "../../config";
 import { useForm } from "react-hook-form";
+import useCreateSong from "../../Hooks/Mutations/SongMutations/useCreateSong";
 
 interface Props {
   show: boolean;
@@ -24,18 +23,14 @@ function NewSongComponent({ show, setShow, albumId }: Props) {
     formState: { errors },
   } = useForm<FormValues>();
 
+  const createSong = useCreateSong();
+
   function postFunction(data: FormValues) {
-    (async () => {
-      await axios({
-        method: "post",
-        url: Config.apiUrl + "songs/",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-          albumId: albumId,
-        },
-        data: data,
-      });
-    })();
+    createSong.mutate({
+      albumId: albumId,
+      title: data.Title,
+      url: data.Url,
+    });
   }
 
   return (
