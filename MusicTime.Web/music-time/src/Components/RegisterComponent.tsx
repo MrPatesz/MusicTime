@@ -2,10 +2,9 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import React from "react";
-import axios from "axios";
-import { Config } from "../config";
 import { useForm } from "react-hook-form";
 import { ButtonToolbar } from "react-bootstrap";
+import useRegisterUser from "../Hooks/Mutations/UserMutations/useRegisterUser";
 
 interface Props {
   show: boolean;
@@ -19,32 +18,20 @@ type FormValues = {
 };
 
 function RegisterComponent({ show, setShow }: Props) {
-  const apiLink = Config.apiUrl + "users/";
-
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormValues>();
 
-  function registerFunction(data: FormValues) {
+  const registerUser = useRegisterUser(setShow);
+
+  async function registerFunction(data: FormValues) {
     if (data.Password === data.ConfirmPassword) {
-      (async () => {
-        try {
-          await axios({
-            method: "post",
-            url: apiLink + "register",
-            data: {
-              UserName: data.UserName,
-              Password: data.Password,
-            },
-          });
-          alert("Successfully registered");
-          setShow(false);
-        } catch (err) {
-          alert("This username is already taken");
-        }
-      })();
+      await registerUser.mutateAsync({
+        username: data.UserName,
+        password: data.Password,
+      });
     } else {
       alert("Password does not match!");
     }
