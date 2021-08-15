@@ -1,11 +1,10 @@
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import axios from "axios";
 import { ButtonToolbar } from "react-bootstrap";
-import { Config } from "../config";
 import { useForm } from "react-hook-form";
 import RegisterComponent from "../Components/RegisterComponent";
 import { useState } from "react";
+import useLoginUser from "../Hooks/Mutations/UserMutations/useLoginUser";
 
 interface Props {
   setLoggedIn: (value: boolean) => void;
@@ -17,30 +16,18 @@ type FormValues = {
 };
 
 function LoginPage({ setLoggedIn }: Props) {
-  const apiLink = Config.apiUrl + "users/";
-
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormValues>();
 
+  const loginUser = useLoginUser(setLoggedIn);
+
   const [showRegister, setShowRegister] = useState<boolean>(false);
 
   function loginFunction(data: FormValues) {
-    (async () => {
-      try {
-        const result = await axios({
-          method: "post",
-          url: apiLink + "login",
-          data: data,
-        });
-        localStorage.setItem("authToken", String(result.data));
-        setLoggedIn(true);
-      } catch (err) {
-        alert("Wrong username or password");
-      }
-    })();
+    loginUser.mutate({ username: data.UserName, password: data.Password });
   }
 
   return (
