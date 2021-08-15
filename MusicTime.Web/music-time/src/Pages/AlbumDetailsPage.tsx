@@ -14,6 +14,7 @@ import { Config } from "../config";
 import useAlbum from "../Hooks/Queries/AlbumQueries/useAlbum";
 import useAlbumsSongs from "../Hooks/Queries/AlbumQueries/useAlbumsSongs";
 import Alert from "react-bootstrap/Alert";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function AlbumDetailsPage() {
   const dispatch = useDispatch();
@@ -84,10 +85,10 @@ function AlbumDetailsPage() {
                 onClick={() => setShowEditAlbum(true)}
                 className="mb-2"
               >
-                Edit
+                <FontAwesomeIcon icon="edit" size="lg" />
               </Button>
               <Button variant="outline-info" onClick={playFunction}>
-                Play
+                <FontAwesomeIcon icon="play" size="lg" />
               </Button>
             </ButtonGroup>
           </div>
@@ -106,7 +107,7 @@ function AlbumDetailsPage() {
             onClick={() => setShowAddSong(true)}
             disabled={showAddSong}
           >
-            New
+            <FontAwesomeIcon icon="plus" size="lg" />
           </Button>
         </div>
 

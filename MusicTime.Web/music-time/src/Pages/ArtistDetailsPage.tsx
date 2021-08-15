@@ -17,6 +17,7 @@ import useArtist from "../Hooks/Queries/ArtistQueries/useArtist";
 import useArtistsAlbums from "../Hooks/Queries/ArtistQueries/useArtistsAlbums";
 import useArtistsSongs from "../Hooks/Queries/ArtistQueries/useArtistsSongs";
 import Alert from "react-bootstrap/Alert";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function ArtistDetailsPage() {
   const dispatch = useDispatch();
@@ -84,10 +85,10 @@ function ArtistDetailsPage() {
                 onClick={() => setShowEditArtist(true)}
                 className="mb-2"
               >
-                Edit
+                <FontAwesomeIcon icon="edit" size="lg" />
               </Button>
               <Button variant="outline-info" onClick={playFunction}>
-                Play
+                <FontAwesomeIcon icon="play" size="lg" />
               </Button>
             </ButtonGroup>
           </div>
@@ -105,7 +106,7 @@ function ArtistDetailsPage() {
             className="ml-auto mt-auto mb-auto"
             onClick={() => setShowAddAlbum(true)}
           >
-            New
+            <FontAwesomeIcon icon="plus" size="lg" />
           </Button>
         </div>
 

@@ -7,6 +7,7 @@ import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import { Config } from "../config";
 import useDeleteResource from "../Hooks/Mutations/useDeleteResource";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface Props {
   title: string;
@@ -54,12 +55,12 @@ function CardComponent({
           <ButtonToolbar>
             <ButtonGroup className="mr-auto" size="sm">
               <Link to={relativeLink} className="btn btn-outline-info">
-                Details
+                <FontAwesomeIcon icon="file-alt" size="lg" />
               </Link>
             </ButtonGroup>
             <ButtonGroup size="sm">
               <Button onClick={() => setConfirm(true)} variant="outline-danger">
-                Delete
+                <FontAwesomeIcon icon="trash-alt" size="lg" />
               </Button>
             </ButtonGroup>
           </ButtonToolbar>

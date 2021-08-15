@@ -8,6 +8,7 @@ import { Config } from "../../config";
 import useDetailedSongs from "../../Hooks/Queries/SongQueries/useDetailedSongs";
 import Alert from "react-bootstrap/Alert";
 import { Spinner } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface Props {
   playlistId: number;
@@ -121,7 +122,7 @@ function AddSongToPlaylistComponent({ playlistId }: Props) {
           </div>
           <ButtonGroup style={{ height: "38px" }}>
             <Button variant="outline-info" onClick={AddFunction}>
-              Add
+              <FontAwesomeIcon icon="plus" size="lg" />
             </Button>
           </ButtonGroup>
         </Form>

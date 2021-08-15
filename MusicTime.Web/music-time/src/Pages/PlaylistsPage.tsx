@@ -7,6 +7,7 @@ import Button from "react-bootstrap/Button";
 import NewPlaylistComponent from "../Components/PlaylistComponents/NewPlaylistComponent";
 import usePlaylists from "../Hooks/Queries/PlaylistQueries/usePlaylists";
 import Alert from "react-bootstrap/Alert";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function PlaylistsPage() {
   const [showAddPlaylist, setShowAddPlaylist] = useState<boolean>(false);
@@ -22,7 +23,7 @@ function PlaylistsPage() {
           className="ml-auto mb-auto mt-auto"
           onClick={() => setShowAddPlaylist(true)}
         >
-          New
+          <FontAwesomeIcon icon="plus" size="lg" />
         </Button>
       </div>
 

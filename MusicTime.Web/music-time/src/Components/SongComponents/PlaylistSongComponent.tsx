@@ -4,6 +4,7 @@ import axios from "axios";
 import DetailedSongDto from "../../Models/DetailedSongDto";
 import { Config } from "../../config";
 import SongDetails from "./SongDetails";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface Props {
   detailedSongDto: DetailedSongDto;
@@ -37,7 +38,7 @@ function PlaylistSongComponent({ detailedSongDto, playlistId }: Props) {
 
         <ButtonGroup className="ml-auto">
           <Button variant="outline-warning" onClick={() => removeFunction()}>
-            Remove
+            <FontAwesomeIcon icon="trash-alt" size="lg" />
           </Button>
         </ButtonGroup>
       </div>

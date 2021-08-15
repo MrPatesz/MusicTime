@@ -6,6 +6,7 @@ import { setQueue } from "../redux/queue";
 import { Container, Row, Col } from "react-bootstrap";
 import useDetailedSongs from "../Hooks/Queries/SongQueries/useDetailedSongs";
 import Alert from "react-bootstrap/Alert";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function SongsPage() {
   const dispatch = useDispatch();
@@ -21,7 +22,7 @@ function SongsPage() {
           className="ml-auto mt-auto mb-auto"
           onClick={() => dispatch(setQueue(songs ?? []))}
         >
-          Play
+          <FontAwesomeIcon icon="play" size="lg" />
         </Button>
       </div>
 

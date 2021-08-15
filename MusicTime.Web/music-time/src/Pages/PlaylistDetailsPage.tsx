@@ -14,6 +14,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import usePlaylist from "../Hooks/Queries/PlaylistQueries/usePlaylist";
 import usePlaylistsSongs from "../Hooks/Queries/PlaylistQueries/usePlaylistsSongs";
 import Alert from "react-bootstrap/Alert";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function PlaylistDetailsPage() {
   const dispatch = useDispatch();
@@ -63,13 +64,13 @@ function PlaylistDetailsPage() {
                 onClick={() => setShowEditPlaylist(true)}
                 className="mb-2"
               >
-                Edit
+                <FontAwesomeIcon icon="edit" size="lg" />
               </Button>
               <Button
                 variant="outline-info"
                 onClick={() => dispatch(setQueue(songs ?? []))}
               >
-                Play
+                <FontAwesomeIcon icon="play" size="lg" />
               </Button>
             </ButtonGroup>
           </div>

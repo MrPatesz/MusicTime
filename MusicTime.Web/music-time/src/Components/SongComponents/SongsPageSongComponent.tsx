@@ -7,6 +7,7 @@ import { useState } from "react";
 import SongDetails from "./SongDetails";
 import AddToPlaylistComponent from "./AddToPlaylistComponent";
 import useDeleteSong from "../../Hooks/Mutations/SongMutations/useDeleteSong";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface Props {
   detailedSongDto: DetailedSongDto;
@@ -34,10 +35,10 @@ function SongsPageSongComponent({ detailedSongDto }: Props) {
             className="mr-1"
             onClick={() => setShowAdd(true)}
           >
-            Add
+            <FontAwesomeIcon icon="plus" size="lg" />
           </Button>
           <Button variant="outline-danger" onClick={() => setConfirm(true)}>
-            Delete
+            <FontAwesomeIcon icon="trash-alt" size="lg" />
           </Button>
         </ButtonGroup>
 

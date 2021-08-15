@@ -7,6 +7,7 @@ import Button from "react-bootstrap/Button";
 import NewArtistComponent from "../Components/NewArtistComponent";
 import useArtists from "../Hooks/Queries/ArtistQueries/useArtists";
 import Alert from "react-bootstrap/Alert";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function ArtistsPage() {
   const [showAddArtist, setShowAddArtist] = useState<boolean>(false);
@@ -22,7 +23,7 @@ function ArtistsPage() {
           className="ml-auto mb-auto mt-auto"
           onClick={() => setShowAddArtist(true)}
         >
-          New
+          <FontAwesomeIcon icon="plus" size="lg" />
         </Button>
       </div>
 

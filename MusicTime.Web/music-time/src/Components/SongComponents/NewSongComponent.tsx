@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 import React from "react";
 import { useForm } from "react-hook-form";
 import useCreateSong from "../../Hooks/Mutations/SongMutations/useCreateSong";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface Props {
   show: boolean;
@@ -58,7 +59,7 @@ function NewSongComponent({ show, setShow, albumId }: Props) {
 
             <ButtonGroup className="ml-5">
               <Button variant="outline-info" type="submit">
-                Add
+                <FontAwesomeIcon icon="plus" size="lg" />
               </Button>
 
               <Button

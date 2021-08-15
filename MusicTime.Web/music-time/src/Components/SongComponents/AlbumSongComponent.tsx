@@ -6,6 +6,7 @@ import SongDto from "../../Models/SongDto";
 import EditSongComponent from "./EditSongComponent";
 import AddToPlaylistComponent from "./AddToPlaylistComponent";
 import useDeleteSong from "../../Hooks/Mutations/SongMutations/useDeleteSong";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface Props {
   songDto: SongDto;
@@ -42,14 +43,14 @@ function AlbumSongComponent({ songDto, albumId }: Props) {
 
           <ButtonGroup className="ml-auto">
             <Button variant="outline-info" onClick={() => setShowAdd(true)}>
-              Add
+              <FontAwesomeIcon icon="plus" size="lg" />
             </Button>
             <Button
               className="ml-1"
               variant="outline-info"
               onClick={() => setEditSong(true)}
             >
-              Edit
+              <FontAwesomeIcon icon="edit" size="lg" />
             </Button>
             <Button
               className="ml-1"
