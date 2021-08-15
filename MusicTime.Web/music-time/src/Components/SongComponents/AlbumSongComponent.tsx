@@ -57,7 +57,7 @@ function AlbumSongComponent({ songDto, albumId }: Props) {
               variant="outline-danger"
               onClick={() => setConfirm(true)}
             >
-              Delete
+              <FontAwesomeIcon icon="trash-alt" size="lg" />
             </Button>
           </ButtonGroup>
 
