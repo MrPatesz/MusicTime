@@ -1,10 +1,10 @@
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
-import axios from "axios";
 import DetailedSongDto from "../../Models/DetailedSongDto";
-import { Config } from "../../config";
 import SongDetails from "./SongDetails";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import useRemoveSong from "../../Hooks/Mutations/PlaylistMutations/useRemoveSong";
+import SongDto from "../../Models/SongDto";
 
 interface Props {
   detailedSongDto: DetailedSongDto;
@@ -12,23 +12,17 @@ interface Props {
 }
 
 function PlaylistSongComponent({ detailedSongDto, playlistId }: Props) {
-  const apiBase = Config.apiUrl;
+  const removeSong = useRemoveSong();
 
   function removeFunction() {
-    (async () => {
-      await axios({
-        method: "post",
-        url: apiBase + "playlists/" + playlistId + "/removeSong",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        },
-        data: {
-          Id: detailedSongDto.songId,
-          Title: detailedSongDto.songTitle,
-          Url: detailedSongDto.url,
-        },
-      });
-    })();
+    removeSong.mutate({
+      songDto: new SongDto(
+        detailedSongDto.songId,
+        detailedSongDto.songTitle,
+        detailedSongDto.url
+      ),
+      playlistId: playlistId,
+    });
   }
 
   return (
