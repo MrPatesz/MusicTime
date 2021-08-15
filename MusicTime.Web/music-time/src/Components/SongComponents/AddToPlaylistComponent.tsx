@@ -2,10 +2,9 @@ import { Button, Modal, Spinner } from "react-bootstrap";
 import AutosuggestComponent from "../Autosuggest/AutosuggestComponent";
 import PlaylistDto from "../../Models/PlaylistDto";
 import SongDto from "../../Models/SongDto";
-import axios from "axios";
-import { Config } from "../../config";
 import { useState } from "react";
 import usePlaylists from "../../Hooks/Queries/PlaylistQueries/usePlaylists";
+import useAddSong from "../../Hooks/Mutations/PlaylistMutations/useAddSong";
 import Alert from "react-bootstrap/Alert";
 
 interface Props {
@@ -15,11 +14,9 @@ interface Props {
 }
 
 function AddSongToPlaylistComponent({ showAdd, setShowAdd, songDto }: Props) {
-  const apiBase = Config.apiUrl;
-
   const [selectedPlaylist, setSelectedPlaylist] = useState<PlaylistDto>();
-
   const { data: playlists, error, isFetching } = usePlaylists();
+  const addSongToPlaylist = useAddSong(setShowAdd);
 
   function onPlaylistChange(selected: string) {
     let playlist = playlists?.find((p) => p.title === selected);
@@ -32,17 +29,10 @@ function AddSongToPlaylistComponent({ showAdd, setShowAdd, songDto }: Props) {
 
   function addFunction() {
     if (selectedPlaylist) {
-      (async () => {
-        await axios({
-          method: "post",
-          url: apiBase + "playlists/" + selectedPlaylist.id + "/addSong",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-          },
-          data: songDto,
-        });
-      })();
-      setShowAdd(false);
+      addSongToPlaylist.mutate({
+        songDto: songDto,
+        playlistId: selectedPlaylist.id,
+      });
     } else {
       alert("Playlist does not exist!");
     }
