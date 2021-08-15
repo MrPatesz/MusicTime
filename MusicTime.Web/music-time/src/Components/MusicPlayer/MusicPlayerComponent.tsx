@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import type { RootState } from "../../redux/store";
 import { useDispatch } from "react-redux";
 import { playPrevious, playNext } from "../../redux/queue";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function MusicPlayerComponent() {
   const queue = useSelector((state: RootState) => state.queue.queue);
@@ -20,13 +21,13 @@ function MusicPlayerComponent() {
 
   const [hidden, setHidden] = useState<boolean>(false);
 
-  function playPrevFunc() {
+  function playPrevFunction() {
     setProgress(0);
     dispatch(playPrevious());
     setIsPlaying(true);
   }
 
-  function playNextFunc() {
+  function playNextFunction() {
     setProgress(0);
     dispatch(playNext());
     setIsPlaying(true);
@@ -38,12 +39,7 @@ function MusicPlayerComponent() {
 
   const [showQueue, setShowQueue] = useState<boolean>(false);
 
-  function onProgress(state: {
-    played: number;
-    playedSeconds: number;
-    loaded: number;
-    loadedSeconds: number;
-  }) {
+  function onProgress(state: { played: number }) {
     if (!isSeeking) setProgress(state.played);
   }
 
@@ -67,29 +63,17 @@ function MusicPlayerComponent() {
                 height={scale * 180}
                 volume={volume}
                 loop={false}
-                onEnded={playNextFunc}
-                onError={playNextFunc}
+                onEnded={playNextFunction}
+                onError={playNextFunction}
                 onPause={() => setIsPlaying(false)}
                 onPlay={() => setIsPlaying(true)}
                 onProgress={onProgress}
                 onStart={() => setIsPlaying(true)}
               />
-
-              <input
-                className="vertical-slider ml-2"
-                type="range"
-                min={0}
-                max={1}
-                step="any"
-                value={volume}
-                onChange={(e: React.FormEvent<HTMLInputElement>) => {
-                  setVolume(parseFloat(e.currentTarget.value));
-                }}
-              />
             </div>
 
             <input
-              className="mr-4 ml-2"
+              className="mx-2 horizontal-slider"
               type="range"
               min={0}
               max={0.999999}
@@ -105,23 +89,23 @@ function MusicPlayerComponent() {
               }}
             />
 
-            <div className="ml-auto mb-2 mt-2">
+            <div className="m-2 d-flex flex-row">
               <ButtonGroup>
                 <Button
                   variant={showQueue ? "info" : "outline-info"}
                   onClick={() => setShowQueue(!showQueue)}
                 >
-                  Queue
+                  <FontAwesomeIcon icon="list" />
                 </Button>
               </ButtonGroup>
 
-              <ButtonGroup className={isPlaying ? "ml-3 mr-4" : "ml-4 mr-4"}>
+              <ButtonGroup className="mx-auto">
                 <Button
                   variant="outline-info"
-                  onClick={playPrevFunc}
+                  onClick={playPrevFunction}
                   className="mr-2"
                 >
-                  Prev
+                  <FontAwesomeIcon icon="step-backward" />
                 </Button>
 
                 <Button
@@ -129,36 +113,61 @@ function MusicPlayerComponent() {
                   variant="outline-info"
                   onClick={() => setIsPlaying(!isPlaying)}
                 >
-                  {isPlaying ? "Pause" : "Play"}
+                  {isPlaying ? (
+                    <FontAwesomeIcon icon="pause" />
+                  ) : (
+                    <FontAwesomeIcon icon="play" />
+                  )}
                 </Button>
 
-                <Button variant="outline-info" onClick={playNextFunc}>
-                  Next
+                <Button variant="outline-info" onClick={playNextFunction}>
+                  <FontAwesomeIcon icon="step-forward" />
                 </Button>
               </ButtonGroup>
 
-              <ButtonGroup className="mr-3">
+              <ButtonGroup>
                 <Button
                   variant="outline-warning"
                   onClick={() => setHidden(true)}
                 >
-                  Hide
+                  <FontAwesomeIcon icon="eye-slash" />
                 </Button>
               </ButtonGroup>
             </div>
           </div>
 
-          <input
-            className="vertical-slider mr-2 mb-2 mt-2"
-            type="range"
-            min={1.1}
-            max={4.7}
-            step="any"
-            value={scale}
-            onChange={(e: React.FormEvent<HTMLInputElement>) =>
-              setScale(parseFloat(e.currentTarget.value))
-            }
-          />
+          <div className="d-flex flex-row mt-auto mb-2 mr-2 text-info">
+            <div className="d-flex flex-column mr-2">
+              <FontAwesomeIcon icon="volume-up" />
+              <input
+                className="vertical-slider my-2"
+                type="range"
+                min={0}
+                max={1}
+                step="any"
+                value={volume}
+                onChange={(e: React.FormEvent<HTMLInputElement>) => {
+                  setVolume(parseFloat(e.currentTarget.value));
+                }}
+              />
+              <FontAwesomeIcon icon="volume-down" />
+            </div>
+            <div className="d-flex flex-column">
+              <FontAwesomeIcon icon="expand" />
+              <input
+                className="vertical-slider my-2"
+                type="range"
+                min={1.1}
+                max={4.7}
+                step="any"
+                value={scale}
+                onChange={(e: React.FormEvent<HTMLInputElement>) =>
+                  setScale(parseFloat(e.currentTarget.value))
+                }
+              />
+              <FontAwesomeIcon icon="compress" />
+            </div>
+          </div>
         </div>
       ) : (
         <Button
@@ -166,7 +175,7 @@ function MusicPlayerComponent() {
           onClick={() => setHidden(false)}
           className="m-2"
         >
-          Show Player
+          <FontAwesomeIcon icon="eye" />
         </Button>
       )}
     </div>

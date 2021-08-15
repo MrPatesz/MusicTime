@@ -4,6 +4,7 @@ import { clearQueue, removeAt } from "../../redux/queue";
 import { setIndex } from "../../redux/queue";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../redux/store";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface Props {
   show: boolean;
@@ -17,7 +18,7 @@ function QueueComponent({ show }: Props) {
   return (
     <div>
       {show ? (
-        <div className="">
+        <div>
           <div
             className="overflow-auto bg-dark px-2 py-1 border border-info"
             style={{
@@ -56,7 +57,7 @@ function QueueComponent({ show }: Props) {
                       dispatch(removeAt(i));
                     }}
                   >
-                    X
+                    <FontAwesomeIcon icon="minus" />
                   </Button>
                 </div>
               ))}
@@ -78,7 +79,7 @@ function QueueComponent({ show }: Props) {
                 dispatch(clearQueue());
               }}
             >
-              Clear
+              <FontAwesomeIcon icon="trash-alt" />
             </Button>
           </div>
         </div>

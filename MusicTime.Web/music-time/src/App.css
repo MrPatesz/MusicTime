@@ -38,13 +38,38 @@ ul.no-bullets {
   margin: 0;
 }
 
-.vertical-slider {
-  -webkit-appearance: slider-vertical;
-  width: 16px;
-}
-
 .queue-item:hover {
   background-color: #17a2b8;
   color: white !important;
   cursor: pointer;
+}
+
+.vertical-slider {
+  -webkit-appearance: none;
+  background-color: #282c34;
+  overflow: hidden;
+  width: 10px;
+  height: 210px;
+  transform: rotate(-90deg) scaleY(5%) scaleX(2100%) translateY(40px);
+}
+
+.vertical-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 0px;
+  height: 10px;
+  box-shadow: 0 0 0 5px #43e5f7;
+  transform: rotate(-90deg) scaleY(2%) scaleX(2100%);
+}
+
+.horizontal-slider {
+  -webkit-appearance: none;
+  background-color: #282c34;
+  overflow: hidden;
+}
+
+.horizontal-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 0px;
+  height: 10px;
+  box-shadow: 0 0 0 5px #43e5f7;
 }

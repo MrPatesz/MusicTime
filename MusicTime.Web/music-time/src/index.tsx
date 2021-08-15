@@ -7,6 +7,11 @@ import { store } from "./redux/store";
 import { Provider } from "react-redux";
 import { QueryClient, QueryClientProvider } from "react-query";
 
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fas } from "@fortawesome/free-solid-svg-icons";
+
+library.add(fas);
+
 const queryClient = new QueryClient();
 
 ReactDOM.render(

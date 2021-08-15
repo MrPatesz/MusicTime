@@ -5,7 +5,7 @@ import { useState } from "react";
 import SongDto from "../../Models/SongDto";
 import EditSongComponent from "./EditSongComponent";
 import AddToPlaylistComponent from "./AddToPlaylistComponent";
-import useDeleteSong from "../../Hooks/Mutations/useDeleteSong";
+import useDeleteSong from "../../Hooks/Mutations/SongMutations/useDeleteSong";
 
 interface Props {
   songDto: SongDto;
