@@ -19,13 +19,18 @@ import PlaylistsPage from "./Pages/PlaylistsPage";
 import PlaylistDetailsPage from "./Pages/PlaylistDetailsPage";
 import MusicPlayerComponent from "./Components/MusicPlayer/MusicPlayerComponent";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { clearQueue } from "./redux/queue";
 
 const App = () => {
   const [loggedIn, setLoggedIn] = useState<boolean>(
     localStorage.getItem("authToken") ? true : false
   );
 
+  const dispatch = useDispatch();
+
   function logout() {
+    dispatch(clearQueue());
     localStorage.removeItem("authToken");
     setLoggedIn(false);
   }
