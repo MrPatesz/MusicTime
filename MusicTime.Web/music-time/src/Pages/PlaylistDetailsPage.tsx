@@ -88,28 +88,29 @@ function PlaylistDetailsPage() {
           ></AddSongToPlaylistComponent>
         </div>
 
-        <Container
-          fluid
-          style={{
-            width: "calc(100% - 82.656px)",
-            left: "-40px",
-            position: "relative",
-          }}
-        >
-          <Row>
-            <Col xs={12} sm={8} lg={6}>
-              <h4>Title</h4>
-            </Col>
+        <div className="d-flex flex-row">
+          <Container fluid>
+            <Row>
+              <Col xs={12} sm={8} lg={6}>
+                <h4>Title</h4>
+              </Col>
 
-            <Col className="d-none d-sm-block" sm={4} md={3}>
-              <h4>Artist</h4>
-            </Col>
+              <Col className="d-none d-sm-block" sm={4} md={3}>
+                <h4>Artist</h4>
+              </Col>
 
-            <Col className="d-none d-lg-block" lg={3}>
-              <h4>Album</h4>
-            </Col>
-          </Row>
-        </Container>
+              <Col className="d-none d-lg-block" lg={3}>
+                <h4>Album</h4>
+              </Col>
+            </Row>
+          </Container>
+
+          <ButtonGroup className="ml-auto invisible">
+            <Button variant="outline-warning">
+              <FontAwesomeIcon icon="trash-alt" size="lg" />
+            </Button>
+          </ButtonGroup>
+        </div>
 
         {songsError ? (
           <Alert variant="danger">An error occurred while fetching data!</Alert>
