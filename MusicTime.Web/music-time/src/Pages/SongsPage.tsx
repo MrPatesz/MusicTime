@@ -3,7 +3,7 @@ import Spinner from "react-bootstrap/Spinner";
 import Button from "react-bootstrap/Button";
 import { useDispatch } from "react-redux";
 import { setQueue } from "../redux/queue";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, ButtonGroup } from "react-bootstrap";
 import useDetailedSongs from "../Hooks/Queries/SongQueries/useDetailedSongs";
 import Alert from "react-bootstrap/Alert";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -26,28 +26,32 @@ function SongsPage() {
         </Button>
       </div>
 
-      <Container
-        fluid
-        style={{
-          width: "calc(100% - 133.8px)",
-          left: "-66px",
-          position: "relative",
-        }}
-      >
-        <Row>
-          <Col xs={12} sm={8} lg={6}>
-            <h4>Title</h4>
-          </Col>
+      <div className="d-flex flex-row">
+        <Container fluid>
+          <Row>
+            <Col xs={12} sm={8} lg={6}>
+              <h4>Title</h4>
+            </Col>
 
-          <Col className="d-none d-sm-block" sm={4} md={3}>
-            <h4>Artist</h4>
-          </Col>
+            <Col className="d-none d-sm-block" sm={4} md={3}>
+              <h4>Artist</h4>
+            </Col>
 
-          <Col className="d-none d-lg-block" lg={3}>
-            <h4>Album</h4>
-          </Col>
-        </Row>
-      </Container>
+            <Col className="d-none d-lg-block" lg={3}>
+              <h4>Album</h4>
+            </Col>
+          </Row>
+        </Container>
+
+        <ButtonGroup className="ml-auto invisible">
+          <Button variant="outline-info" className="mr-1">
+            <FontAwesomeIcon icon="plus" size="lg" />
+          </Button>
+          <Button variant="outline-danger">
+            <FontAwesomeIcon icon="trash-alt" size="lg" />
+          </Button>
+        </ButtonGroup>
+      </div>
 
       {error ? (
         <Alert variant="danger">An error occurred while fetching data!</Alert>
