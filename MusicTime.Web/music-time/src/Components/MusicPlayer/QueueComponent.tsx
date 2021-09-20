@@ -5,12 +5,15 @@ import { setIndex } from "../../redux/queue";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../redux/store";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Dispatch, SetStateAction } from "react";
 
 interface Props {
   show: boolean;
+  shuffle: boolean;
+  setShuffle: Dispatch<SetStateAction<boolean>>;
 }
 
-function QueueComponent({ show }: Props) {
+function QueueComponent({ show, shuffle, setShuffle }: Props) {
   const dispatch = useDispatch();
   const queue = useSelector((state: RootState) => state.queue.queue);
   const index = useSelector((state: RootState) => state.queue.index);
@@ -57,7 +60,7 @@ function QueueComponent({ show }: Props) {
                       dispatch(removeAt(i));
                     }}
                   >
-                    <FontAwesomeIcon icon="minus" />
+                    <FontAwesomeIcon icon="trash-alt" />
                   </Button>
                 </div>
               ))}
@@ -80,6 +83,14 @@ function QueueComponent({ show }: Props) {
               }}
             >
               <FontAwesomeIcon icon="trash-alt" />
+            </Button>
+            <Button
+              variant={shuffle ? "info" : "outline-info"}
+              onClick={() => {
+                setShuffle(!shuffle);
+              }}
+            >
+              <FontAwesomeIcon icon="random" />
             </Button>
           </div>
         </div>
