@@ -35,7 +35,7 @@ export const queueSlice = createSlice({
   reducers: {
     setQueue: (state, action: PayloadAction<DetailedSongDto[]>) => {
       state.index = 0;
-      state.queue = action.payload;
+      state.queue = state.queue.concat(action.payload);
       saveState(state);
     },
     clearQueue: (state) => {
@@ -66,6 +66,13 @@ export const queueSlice = createSlice({
       state.index = state.index < state.queue.length - 1 ? state.index + 1 : 0;
       saveState(state);
     },
+    playRandom: (state) => {
+      let randomIndex = Math.floor(Math.random() * state.queue.length);
+      while(randomIndex === state.index) {
+        randomIndex = Math.floor(Math.random() * state.queue.length);
+      }
+      state.index = randomIndex;
+    },
   },
 });
 
@@ -76,6 +83,7 @@ export const {
   setQueue,
   playPrevious,
   playNext,
+  playRandom,
 } = queueSlice.actions;
 
 export default queueSlice.reducer;
