@@ -8,7 +8,7 @@ interface MutationVariables {
   playlistId: number;
 }
 
-function useCreatePlaylist() {
+function useRemoveSong() {
   const apiLink = Config.apiUrl + "playlists/";
   const authToken = localStorage.getItem("authToken");
 
@@ -33,4 +33,4 @@ function useCreatePlaylist() {
   );
 }
 
-export default useCreatePlaylist;
+export default useRemoveSong;
