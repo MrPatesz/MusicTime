@@ -5,7 +5,8 @@ import { setIndex } from "../../redux/queue";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../redux/store";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
+import AddQueueToPlaylistComponent from "../MusicPlayer/AddQueueToPlaylistComponent";
 
 interface Props {
   show: boolean;
@@ -17,6 +18,8 @@ function QueueComponent({ show, shuffle, setShuffle }: Props) {
   const dispatch = useDispatch();
   const queue = useSelector((state: RootState) => state.queue.queue);
   const index = useSelector((state: RootState) => state.queue.index);
+
+  const [showAdd, setShowAdd] = useState<boolean>(false);
 
   if (!show) return <div></div>;
 
@@ -90,7 +93,7 @@ function QueueComponent({ show, shuffle, setShuffle }: Props) {
           className="my-1"
           variant="outline-info"
           onClick={() => {
-            /*save Q to playlist*/
+            setShowAdd(true);
           }}
         >
           <FontAwesomeIcon icon="folder-plus" />
@@ -106,6 +109,10 @@ function QueueComponent({ show, shuffle, setShuffle }: Props) {
           <FontAwesomeIcon icon="trash-alt" />
         </Button>
       </div>
+      <AddQueueToPlaylistComponent
+        showAdd={showAdd}
+        setShowAdd={setShowAdd}
+      ></AddQueueToPlaylistComponent>
     </div>
   );
 }
