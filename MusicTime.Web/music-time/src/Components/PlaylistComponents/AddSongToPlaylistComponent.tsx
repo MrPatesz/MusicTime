@@ -71,11 +71,15 @@ function AddSongToPlaylistComponent({ playlistId }: Props) {
       if (!detailedSongs) return [];
 
       let array =
-        albumTitle === ""
-          ? detailedSongs.map((s) => s.songTitle)
-          : detailedSongs
+        albumTitle !== ""
+          ? detailedSongs
               .filter((s) => s.albumTitle === albumTitle)
-              .map((s) => s.songTitle);
+              .map((s) => s.songTitle)
+          : artistName !== ""
+          ? detailedSongs
+              .filter((s) => s.artistName === artistName)
+              .map((s) => s.songTitle)
+          : detailedSongs.map((s) => s.songTitle);
 
       return removeDuplicates(array);
     }
