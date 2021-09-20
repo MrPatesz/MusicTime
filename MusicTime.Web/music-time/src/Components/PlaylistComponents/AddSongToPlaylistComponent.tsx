@@ -3,46 +3,38 @@ import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import AutosuggestComponent from "../Autosuggest/AutosuggestComponent";
 import { useState, useEffect } from "react";
-import axios from "axios";
-import { Config } from "../../config";
 import useDetailedSongs from "../../Hooks/Queries/SongQueries/useDetailedSongs";
 import Alert from "react-bootstrap/Alert";
 import { Spinner } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import useAddSong from "../../Hooks/Mutations/PlaylistMutations/useAddSong";
 
 interface Props {
   playlistId: number;
 }
 
 function AddSongToPlaylistComponent({ playlistId }: Props) {
-  const apiBase = Config.apiUrl;
-
   const [artistName, setArtistName] = useState<string>("");
   const [albumTitle, setAlbumTitle] = useState<string>("");
   const [songTitle, setSongTitle] = useState<string>("");
 
   const { data: detailedSongs, error, isFetching } = useDetailedSongs();
+  const addSong = useAddSong(() => {});
 
   function AddFunction() {
     if (!detailedSongs) return;
 
-    var songDto = detailedSongs.find((s) => s.songTitle === songTitle);
+    var detailedSongDto = detailedSongs.find((s) => s.songTitle === songTitle);
 
-    if (songDto) {
-      (async () => {
-        await axios({
-          method: "post",
-          url: apiBase + "playlists/" + playlistId + "/addSong",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-          },
-          data: {
-            Id: songDto.songId,
-            Title: songDto.songTitle,
-            Url: songDto.url,
-          },
-        });
-      })();
+    if (detailedSongDto) {
+      addSong.mutate({
+        songDto: {
+          id: detailedSongDto.songId,
+          title: detailedSongDto.songTitle,
+          url: detailedSongDto.url,
+        },
+        playlistId: playlistId,
+      });
     }
   }
 
