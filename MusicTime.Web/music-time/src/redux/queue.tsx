@@ -4,11 +4,13 @@ import DetailedSongDto from "../Models/DetailedSongDto";
 interface QueueState {
   queue: DetailedSongDto[];
   index: number;
+  hidden: boolean;
 }
 
 const initialState: QueueState = {
   queue: [],
   index: 0,
+  hidden: true,
 };
 
 const loadState = (): QueueState => {
@@ -35,11 +37,13 @@ export const queueSlice = createSlice({
   reducers: {
     setQueue: (state, action: PayloadAction<DetailedSongDto[]>) => {
       state.queue = state.queue.concat(action.payload);
+      if (state.hidden) state.hidden = false;
       saveState(state);
     },
     clearQueue: (state) => {
       state.index = 0;
       state.queue = [];
+      state.hidden = true;
       saveState(state);
     },
     removeAt: (state, action: PayloadAction<number>) => {
@@ -67,10 +71,15 @@ export const queueSlice = createSlice({
     },
     playRandom: (state) => {
       let randomIndex = Math.floor(Math.random() * state.queue.length);
-      while(randomIndex === state.index) {
+      while (randomIndex === state.index) {
         randomIndex = Math.floor(Math.random() * state.queue.length);
       }
       state.index = randomIndex;
+    },
+
+    setHidden: (state, action: PayloadAction<boolean>) => {
+      state.hidden = action.payload;
+      saveState(state);
     },
   },
 });
@@ -83,6 +92,7 @@ export const {
   playPrevious,
   playNext,
   playRandom,
+  setHidden,
 } = queueSlice.actions;
 
 export default queueSlice.reducer;

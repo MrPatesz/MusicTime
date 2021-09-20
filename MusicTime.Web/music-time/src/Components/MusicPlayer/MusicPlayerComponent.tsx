@@ -6,12 +6,18 @@ import QueueComponent from "./QueueComponent";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../redux/store";
 import { useDispatch } from "react-redux";
-import { playPrevious, playNext, playRandom } from "../../redux/queue";
+import {
+  playPrevious,
+  playNext,
+  playRandom,
+  setHidden,
+} from "../../redux/queue";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function MusicPlayerComponent() {
   const queue = useSelector((state: RootState) => state.queue.queue);
   const index = useSelector((state: RootState) => state.queue.index);
+  const hidden = useSelector((state: RootState) => state.queue.hidden);
   const dispatch = useDispatch();
 
   const [volume, setVolume] = useState<number>(0.15);
@@ -20,7 +26,6 @@ function MusicPlayerComponent() {
 
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [isSeeking, setIsSeeking] = useState<boolean>(false);
-  const [hidden, setHidden] = useState<boolean>(true);
   const [showQueue, setShowQueue] = useState<boolean>(false);
   const [shuffle, setShuffle] = useState<boolean>(false);
 
@@ -56,7 +61,11 @@ function MusicPlayerComponent() {
           hidden ? "d-none" : "d-flex flex-row bg-dark border border-info"
         }
       >
-        <QueueComponent show={showQueue} shuffle={shuffle} setShuffle={setShuffle}></QueueComponent>
+        <QueueComponent
+          show={showQueue}
+          shuffle={shuffle}
+          setShuffle={setShuffle}
+        ></QueueComponent>
 
         <div className="d-flex flex-column">
           <div className="d-flex flex-row m-2">
@@ -133,7 +142,10 @@ function MusicPlayerComponent() {
             </ButtonGroup>
 
             <ButtonGroup>
-              <Button variant="outline-warning" onClick={() => setHidden(true)}>
+              <Button
+                variant="outline-warning"
+                onClick={() => dispatch(setHidden(true))}
+              >
                 <FontAwesomeIcon icon="eye-slash" />
               </Button>
             </ButtonGroup>
@@ -176,7 +188,7 @@ function MusicPlayerComponent() {
 
       <Button
         variant="outline-info"
-        onClick={() => setHidden(false)}
+        onClick={() => dispatch(setHidden(false))}
         className={hidden ? "m-2" : "d-none"}
       >
         <FontAwesomeIcon icon="eye" />
