@@ -5,6 +5,7 @@ import React from "react";
 import SongDto from "../../Models/SongDto";
 import { useForm } from "react-hook-form";
 import useUpdateSong from "../../Hooks/Mutations/SongMutations/useUpdateSong";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface Props {
   setShow: React.Dispatch<React.SetStateAction<any>>;
@@ -60,15 +61,15 @@ function EditSongComponent({ setShow, albumId, songDto }: Props) {
 
         <ButtonGroup className="ml-5">
           <Button variant="outline-info" type="submit">
-            Confirm
+          <FontAwesomeIcon size="lg" icon="check" />
           </Button>
 
           <Button
-            className="ml-2"
+            className="ml-1"
             variant="outline-secondary"
             onClick={() => setShow(false)}
           >
-            Cancel
+            <FontAwesomeIcon size="lg" icon="times" />
           </Button>
         </ButtonGroup>
       </div>
