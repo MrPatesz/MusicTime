@@ -7,7 +7,7 @@ import Spinner from "react-bootstrap/Spinner";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Image from "react-bootstrap/Image";
-import CardComponent from "../Components/CardComponent";
+import CardComponent from "../Components/CardComponents/CardComponent";
 import NewAlbumComponent from "../Components/NewAlbumComponent";
 import NewArtistComponent from "../Components/NewArtistComponent";
 import { Config } from "../config";
@@ -60,7 +60,7 @@ function ArtistDetailsPage() {
         {artistError ? (
           <Alert variant="danger">An error occurred while fetching data!</Alert>
         ) : artist ? (
-          <div className="d-flex flex-row">
+          <div className="d-flex flex-row m-4">
             <Image
               src={
                 artist.pictureGuid === null
@@ -104,7 +104,7 @@ function ArtistDetailsPage() {
         )}
       </div>
       <div>
-        <div className="d-flex flex-row mb-3 mt-2">
+        <div className="d-flex flex-row mx-4 mb-4">
           <h2>Albums</h2>
           <Button
             title="New album"

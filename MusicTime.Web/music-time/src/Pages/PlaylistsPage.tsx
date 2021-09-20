@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import CardComponent from "../Components/CardComponent";
+import CardComponent from "../Components/CardComponents/CardComponent";
 import { Container, Row, Col } from "react-bootstrap";
 import PlaylistDto from "../Models/PlaylistDto";
 import Spinner from "react-bootstrap/Spinner";
@@ -33,7 +33,7 @@ function PlaylistsPage() {
 
   return (
     <div>
-      <div className="d-flex flex-row m-3">
+      <div className="d-flex flex-row my-3 mx-4">
         <h1>Playlists</h1>
 
         <input
@@ -46,35 +46,37 @@ function PlaylistsPage() {
         <Button
           title="New Playlist"
           variant="outline-info"
-          className="ml-auto mb-auto mt-auto mr-2"
+          className="ml-auto mb-auto mt-auto"
           onClick={() => setShowAddPlaylist(true)}
         >
           <FontAwesomeIcon icon="plus" size="lg" />
         </Button>
       </div>
 
-      {error ? (
-        <Alert variant="danger">An error occurred while fetching data!</Alert>
-      ) : playlists ? (
-        <Container fluid>
-          <Row>
-            {filteredPlaylists.map((a) => (
-              <Col xs={6} sm={4} md={3} xl={2} key={a.id}>
-                <CardComponent
-                  title={a.title}
-                  pictureGuid={a.coverGuid}
-                  relativeLink={"playlists/" + a.id}
-                  toInvalidate="playlists"
-                ></CardComponent>
-              </Col>
-            ))}
-          </Row>
-        </Container>
-      ) : isFetching ? (
-        <Spinner animation="grow" variant="info" />
-      ) : (
-        <div></div>
-      )}
+      <div className="mx-2">
+        {error ? (
+          <Alert variant="danger">An error occurred while fetching data!</Alert>
+        ) : playlists ? (
+          <Container fluid>
+            <Row>
+              {filteredPlaylists.map((a) => (
+                <Col xs={6} sm={4} md={3} xl={2} key={a.id}>
+                  <CardComponent
+                    title={a.title}
+                    pictureGuid={a.coverGuid}
+                    relativeLink={"playlists/" + a.id}
+                    toInvalidate="playlists"
+                  ></CardComponent>
+                </Col>
+              ))}
+            </Row>
+          </Container>
+        ) : isFetching ? (
+          <Spinner animation="grow" variant="info" />
+        ) : (
+          <div></div>
+        )}
+      </div>
 
       <NewPlaylistComponent
         show={showAddPlaylist}

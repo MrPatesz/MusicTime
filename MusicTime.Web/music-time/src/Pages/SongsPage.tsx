@@ -37,7 +37,7 @@ function SongsPage() {
 
   return (
     <div>
-      <div className="d-flex flex-row m-3">
+      <div className="d-flex flex-row my-3 mx-4">
         <h1>Songs</h1>
 
         <input
@@ -50,14 +50,14 @@ function SongsPage() {
         <Button
           title="Add to Queue"
           variant="outline-info"
-          className="ml-auto mt-auto mb-auto mr-2"
+          className="ml-auto mt-auto mb-auto"
           onClick={() => dispatch(setQueue(filteredSongs ?? []))}
         >
           <FontAwesomeIcon icon="play" size="lg" />
         </Button>
       </div>
 
-      <div className="d-flex flex-row">
+      <div className="d-flex flex-row mx-2">
         <Container fluid>
           <Row>
             <Col xs={12} sm={8} lg={6}>

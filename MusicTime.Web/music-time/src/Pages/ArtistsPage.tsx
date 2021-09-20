@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import ArtistDto from "../Models/ArtistDto";
-import CardComponent from "../Components/CardComponent";
+import CardComponent from "../Components/CardComponents/CardComponent";
 import { Container, Row, Col } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
 import Button from "react-bootstrap/Button";
@@ -33,7 +33,7 @@ function ArtistsPage() {
 
   return (
     <div>
-      <div className="d-flex flex-row m-3">
+      <div className="d-flex flex-row my-3 mx-4">
         <h1>Artists</h1>
 
         <input
@@ -46,35 +46,37 @@ function ArtistsPage() {
         <Button
           title="New artist"
           variant="outline-info"
-          className="ml-auto mb-auto mt-auto mr-2"
+          className="ml-auto mb-auto mt-auto"
           onClick={() => setShowAddArtist(true)}
         >
           <FontAwesomeIcon icon="plus" size="lg" />
         </Button>
       </div>
 
-      {error ? (
-        <Alert variant="danger">An error occurred while fetching data!</Alert>
-      ) : artists ? (
-        <Container fluid>
-          <Row>
-            {filteredArtists.map((a) => (
-              <Col xs={6} sm={4} md={3} xl={2} key={a.id}>
-                <CardComponent
-                  title={a.name}
-                  pictureGuid={a.pictureGuid}
-                  relativeLink={"artists/" + a.id}
-                  toInvalidate="artists"
-                ></CardComponent>
-              </Col>
-            ))}
-          </Row>
-        </Container>
-      ) : isFetching ? (
-        <Spinner animation="grow" variant="info" />
-      ) : (
-        <div></div>
-      )}
+      <div className="mx-2">
+        {error ? (
+          <Alert variant="danger">An error occurred while fetching data!</Alert>
+        ) : artists ? (
+          <Container fluid>
+            <Row>
+              {filteredArtists.map((a) => (
+                <Col xs={6} sm={4} md={3} xl={2} key={a.id}>
+                  <CardComponent
+                    title={a.name}
+                    pictureGuid={a.pictureGuid}
+                    relativeLink={"artists/" + a.id}
+                    toInvalidate="artists"
+                  ></CardComponent>
+                </Col>
+              ))}
+            </Row>
+          </Container>
+        ) : isFetching ? (
+          <Spinner animation="grow" variant="info" />
+        ) : (
+          <div></div>
+        )}
+      </div>
 
       <NewArtistComponent
         show={showAddArtist}

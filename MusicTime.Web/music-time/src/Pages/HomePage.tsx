@@ -1,6 +1,6 @@
 import { useState } from "react";
 import ArtistDto from "../Models/ArtistDto";
-import CardComponent from "../Components/CardComponent";
+import HistoryCardComponent from "../Components/CardComponents/HistoryCardComponent";
 import { Container, Row, Col } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
 import NewArtistComponent from "../Components/NewArtistComponent";
@@ -16,30 +16,34 @@ function HomePage() {
 
   return (
     <div>
-      <h1 className="d-flex flex-row m-3 mb-4">History</h1>
+      <div className="d-flex flex-row my-3 mx-4">
+        <h1>History</h1>
+      </div>
 
-      {error ? (
-        <Alert variant="danger">An error occurred while fetching data!</Alert>
-      ) : artists ? (
-        <Container fluid>
-          <Row>
-            {artists.map((a) => (
-              <Col xs={6} sm={4} md={3} xl={2} key={a.id}>
-                <CardComponent
-                  title={a.name}
-                  pictureGuid={a.pictureGuid}
-                  relativeLink={"artists/" + a.id}
-                  toInvalidate="artists"
-                ></CardComponent>
-              </Col>
-            ))}
-          </Row>
-        </Container>
-      ) : isFetching ? (
-        <Spinner animation="grow" variant="info" />
-      ) : (
-        <div></div>
-      )}
+      <div className="mx-2">
+        {error ? (
+          <Alert variant="danger">An error occurred while fetching data!</Alert>
+        ) : artists ? (
+          <Container fluid>
+            <Row>
+              {artists.map((a) => (
+                <Col xs={6} sm={4} md={3} xl={2} key={a.id}>
+                  <HistoryCardComponent
+                    title={a.name}
+                    pictureGuid={a.pictureGuid}
+                    relativeLink={"artists/" + a.id}
+                    toInvalidate="artists"
+                  ></HistoryCardComponent>
+                </Col>
+              ))}
+            </Row>
+          </Container>
+        ) : isFetching ? (
+          <Spinner animation="grow" variant="info" />
+        ) : (
+          <div></div>
+        )}
+      </div>
 
       <NewArtistComponent
         show={showAddArtist}
