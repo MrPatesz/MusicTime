@@ -36,14 +36,18 @@ export const queueSlice = createSlice({
   initialState: loadState(),
   reducers: {
     setQueue: (state, action: PayloadAction<DetailedSongDto[]>) => {
-      state.queue = state.queue.concat(action.payload);
+      action.payload.forEach((s) => {
+        if (state.queue.find((qs) => qs.songId === s.songId) === undefined) {
+          state.queue.push(s);
+        }
+      });
       if (state.hidden) state.hidden = false;
       saveState(state);
     },
     clearQueue: (state) => {
       state.index = 0;
       state.queue = [];
-      state.hidden = true;
+      if (!state.hidden) state.hidden = true;
       saveState(state);
     },
     removeAt: (state, action: PayloadAction<number>) => {
