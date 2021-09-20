@@ -8,7 +8,7 @@ interface MutationVariables {
   playlistId: number;
 }
 
-function useCreatePlaylist(
+function useAddSong(
   setShowAdd: React.Dispatch<React.SetStateAction<any>>
 ) {
   const apiLink = Config.apiUrl + "playlists/";
@@ -37,4 +37,4 @@ function useCreatePlaylist(
   );
 }
 
-export default useCreatePlaylist;
+export default useAddSong;
