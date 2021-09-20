@@ -79,8 +79,18 @@ function QueueComponent({ show, shuffle, setShuffle }: Props) {
         }}
       >
         <Button
-          title={shuffle ? "Turn off shuffle" : "Turn on shuffle"}
+          title="Save Queue to playlist"
           className="my-1 mx-2"
+          variant="outline-info"
+          onClick={() => {
+            if (queue.length > 0) setShowAdd(true);
+          }}
+        >
+          <FontAwesomeIcon icon="folder-plus" />
+        </Button>
+        <Button
+          title={shuffle ? "Turn off shuffle" : "Turn on shuffle"}
+          className="my-1"
           variant={shuffle ? "info" : "outline-info"}
           onClick={() => {
             setShuffle(!shuffle);
@@ -89,15 +99,14 @@ function QueueComponent({ show, shuffle, setShuffle }: Props) {
           <FontAwesomeIcon icon="random" />
         </Button>
         <Button
-          title="Save Queue to playlist"
-          className="my-1"
+          title="Repeat song"
+          className="my-1 mx-2"
           variant="outline-info"
           onClick={() => {
-            if(queue.length > 0)
-              setShowAdd(true);
+            /*setRepeat()*/
           }}
         >
-          <FontAwesomeIcon icon="folder-plus" />
+          <FontAwesomeIcon icon="sync" />
         </Button>
         <Button
           title="Clear Queue"
