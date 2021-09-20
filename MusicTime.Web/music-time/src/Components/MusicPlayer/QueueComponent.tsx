@@ -43,6 +43,7 @@ function QueueComponent({ show, shuffle, setShuffle }: Props) {
               }
             >
               <div
+                title="Jump to song"
                 className="d-flex flex-row w-100 queue-item"
                 onClick={() => dispatch(setIndex(queue.indexOf(s)))}
               >
@@ -51,6 +52,7 @@ function QueueComponent({ show, shuffle, setShuffle }: Props) {
               </div>
 
               <Button
+                title="Remove song from Queue"
                 className="ml-3 py-0 px-1"
                 variant="outline-warning"
                 size="sm"
@@ -74,6 +76,7 @@ function QueueComponent({ show, shuffle, setShuffle }: Props) {
         }}
       >
         <Button
+          title={shuffle ? "Turn off shuffle" : "Turn on shuffle"}
           className="my-1 mx-2"
           variant={shuffle ? "info" : "outline-info"}
           onClick={() => {
@@ -83,15 +86,17 @@ function QueueComponent({ show, shuffle, setShuffle }: Props) {
           <FontAwesomeIcon icon="random" />
         </Button>
         <Button
+          title="Save Queue to playlist"
           className="my-1"
           variant="outline-info"
           onClick={() => {
-            /*save to playlist*/
+            /*save Q to playlist*/
           }}
         >
           <FontAwesomeIcon icon="folder-plus" />
         </Button>
         <Button
+          title="Clear Queue"
           className="ml-auto mr-2 my-1"
           variant="outline-warning"
           onClick={() => {
