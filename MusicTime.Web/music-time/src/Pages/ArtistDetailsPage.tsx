@@ -55,7 +55,7 @@ function ArtistDetailsPage() {
   }
 
   return (
-    <div className="page">
+    <div>
       <div>
         {artistError ? (
           <Alert variant="danger">An error occurred while fetching data!</Alert>
@@ -104,7 +104,7 @@ function ArtistDetailsPage() {
         )}
       </div>
       <div>
-        <div className="d-flex flex-row mx-4 mb-4">
+        <div className="d-flex flex-row mx-4 mb-3">
           <h2>Albums</h2>
           <Button
             title="New album"
@@ -116,29 +116,34 @@ function ArtistDetailsPage() {
           </Button>
         </div>
 
-        {albumsError ? (
-          <Alert variant="danger">An error occurred while fetching data!</Alert>
-        ) : albums ? (
-          <Container fluid>
-            <Row>
-              {albums.map((a) => (
-                <Col xs={6} sm={4} md={3} xl={2} key={a.id}>
-                  <CardComponent
-                    title={a.title}
-                    pictureGuid={a.coverGuid}
-                    relativeLink={"/albums/" + a.id}
-                    toInvalidate="artistsAlbums"
-                  ></CardComponent>
-                </Col>
-              ))}
-            </Row>
-          </Container>
-        ) : areAlbumsFetching ? (
-          <Spinner animation="grow" variant="info" />
-        ) : (
-          <div></div>
-        )}
+        <div className="mx-2">
+          {albumsError ? (
+            <Alert variant="danger">
+              An error occurred while fetching data!
+            </Alert>
+          ) : albums ? (
+            <Container fluid>
+              <Row>
+                {albums.map((a) => (
+                  <Col xs={6} sm={4} md={3} xl={2} key={a.id}>
+                    <CardComponent
+                      title={a.title}
+                      pictureGuid={a.coverGuid}
+                      relativeLink={"/albums/" + a.id}
+                      toInvalidate="artistsAlbums"
+                    ></CardComponent>
+                  </Col>
+                ))}
+              </Row>
+            </Container>
+          ) : areAlbumsFetching ? (
+            <Spinner animation="grow" variant="info" />
+          ) : (
+            <div></div>
+          )}
+        </div>
       </div>
+
       <NewAlbumComponent
         show={showAddAlbum}
         setShow={setShowAddAlbum}

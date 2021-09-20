@@ -51,12 +51,12 @@ function AlbumDetailsPage() {
   }
 
   return (
-    <div className="page">
+    <div>
       <div>
         {albumError ? (
           <Alert variant="danger">An error occurred while fetching data!</Alert>
         ) : album ? (
-          <div className="d-flex flex-row">
+          <div className="d-flex flex-row m-4">
             <Image
               src={
                 album.coverGuid === null
@@ -104,7 +104,7 @@ function AlbumDetailsPage() {
         )}
       </div>
       <div>
-        <div className="d-flex flex-row mb-3 mt-2">
+        <div className="d-flex flex-row mx-4 mb-3">
           <h2>Songs</h2>
           <Button
             title="New song"
@@ -117,29 +117,33 @@ function AlbumDetailsPage() {
           </Button>
         </div>
 
-        {songsError ? (
-          <Alert variant="danger">An error occurred while fetching data!</Alert>
-        ) : songs ? (
-          <ul className="no-bullets">
-            {songs.map((s, i) => (
-              <li key={s.id} className={i % 2 !== 0 ? "bg-dark" : ""}>
-                <AlbumSongComponent
-                  songDto={s}
-                  albumId={id}
-                ></AlbumSongComponent>
-              </li>
-            ))}
-            <NewSongComponent
-              show={showAddSong}
-              setShow={setShowAddSong}
-              albumId={id}
-            ></NewSongComponent>
-          </ul>
-        ) : areSongsFetching ? (
-          <Spinner animation="grow" variant="info" />
-        ) : (
-          <div></div>
-        )}
+        <div className="mx-2">
+          {songsError ? (
+            <Alert variant="danger">
+              An error occurred while fetching data!
+            </Alert>
+          ) : songs ? (
+            <ul className="no-bullets">
+              {songs.map((s, i) => (
+                <li key={s.id} className={i % 2 !== 0 ? "bg-dark" : ""}>
+                  <AlbumSongComponent
+                    songDto={s}
+                    albumId={id}
+                  ></AlbumSongComponent>
+                </li>
+              ))}
+              <NewSongComponent
+                show={showAddSong}
+                setShow={setShowAddSong}
+                albumId={id}
+              ></NewSongComponent>
+            </ul>
+          ) : areSongsFetching ? (
+            <Spinner animation="grow" variant="info" />
+          ) : (
+            <div></div>
+          )}
+        </div>
       </div>
 
       {album ? (
