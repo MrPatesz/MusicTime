@@ -40,6 +40,8 @@ const App = () => {
   const albums = "/albums";
   const songs = "/songs";
   const playlists = "/playlists";
+  const welcome = "/welcome";
+  const login = "/login";
 
   const [currentRoute, setCurrentRoute] = useState<string>(home);
 
@@ -70,7 +72,7 @@ const App = () => {
               {getLinkForRoute(playlists, "Playlists")}
             </Nav>
           ) : (
-            <div></div>
+            getLinkForRoute(welcome, "Welcome")
           )}
           <Nav className="ml-auto">
             {loggedIn ? (
@@ -78,9 +80,7 @@ const App = () => {
                 Logout
               </Link>
             ) : (
-              <Link className="nav-link text-info" to="/login">
-                Login
-              </Link>
+              getLinkForRoute(login, "Login")
             )}
           </Nav>
         </Navbar>
