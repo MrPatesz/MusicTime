@@ -6,7 +6,7 @@ import QueueComponent from "./QueueComponent";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../redux/store";
 import { useDispatch } from "react-redux";
-import { playPrevious, playNext } from "../../redux/queue";
+import { playPrevious, playNext, playRandom } from "../../redux/queue";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function MusicPlayerComponent() {
@@ -20,8 +20,9 @@ function MusicPlayerComponent() {
 
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [isSeeking, setIsSeeking] = useState<boolean>(false);
-  const [hidden, setHidden] = useState<boolean>(false);
+  const [hidden, setHidden] = useState<boolean>(true);
   const [showQueue, setShowQueue] = useState<boolean>(false);
+  const [shuffle, setShuffle] = useState<boolean>(false);
 
   const playerRef = useRef<LegacyRef<ReactPlayer>>(
     null
@@ -35,7 +36,12 @@ function MusicPlayerComponent() {
 
   function playNextFunction() {
     setProgress(0);
-    dispatch(playNext());
+    if (shuffle) {
+      dispatch(playRandom());
+    } else {
+      dispatch(playNext());
+    }
+
     setIsPlaying(true);
   }
 
@@ -50,7 +56,7 @@ function MusicPlayerComponent() {
           hidden ? "d-none" : "d-flex flex-row bg-dark border border-info"
         }
       >
-        <QueueComponent show={showQueue}></QueueComponent>
+        <QueueComponent show={showQueue} shuffle={shuffle} setShuffle={setShuffle}></QueueComponent>
 
         <div className="d-flex flex-column">
           <div className="d-flex flex-row m-2">
