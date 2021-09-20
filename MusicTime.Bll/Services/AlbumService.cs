@@ -19,7 +19,9 @@ namespace MusicTime.Bll.Services
 
         public List<AlbumDto> GetAlbums(int userId)
         {
-            return albumRepository.GetAlbums(userId);
+            var albums = albumRepository.GetAlbums(userId);
+            albums.Sort((a1, a2) => a1.Title.CompareTo(a2.Title));
+            return albums;
         }
 
         public AlbumDto GetAlbumById(int userId, int id)
@@ -29,7 +31,9 @@ namespace MusicTime.Bll.Services
 
         public List<SongDto> GetSongsOfAlbum(int userId, int albumId)
         {
-            return songRepository.GetSongsOfAlbum(userId, albumId);
+            var songs = songRepository.GetSongsOfAlbum(userId, albumId);
+            songs.Sort((s1, s2) => s1.Title.CompareTo(s2.Title));
+            return songs;
         }
 
         public async Task<AlbumDto> AddAlbum(int userId, AlbumDto albumDto, int artistId)

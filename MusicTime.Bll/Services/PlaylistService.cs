@@ -19,7 +19,9 @@ namespace MusicTime.Bll.Services
 
         public List<PlaylistDto> GetPlaylists(int userId)
         {
-            return playlistRepository.GetPlaylists(userId);
+            var playlists = playlistRepository.GetPlaylists(userId);
+            playlists.Sort((p1, p2) => p1.Title.CompareTo(p2.Title));
+            return playlists;
         }
 
         public PlaylistDto GetPlaylistById(int userId, int id)
@@ -29,7 +31,9 @@ namespace MusicTime.Bll.Services
 
         public List<DetailedSongDto> GetSongsOfPlaylist(int userId, int playlistId)
         {
-            return songRepository.GetDetailedSongsOfPlaylist(userId, playlistId);
+            var songs = songRepository.GetDetailedSongsOfPlaylist(userId, playlistId);
+            songs.Sort((s1, s2) => s1.SongTitle.CompareTo(s2.SongTitle));
+            return songs;
         }
 
         public async Task<PlaylistDto> AddPlaylist(int userId, PlaylistDto playlistDto)

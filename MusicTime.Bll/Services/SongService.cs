@@ -19,12 +19,16 @@ namespace MusicTime.Bll.Services
 
         public List<SongDto> GetSongs(int userId)
         {
-            return songRepository.GetSongs(userId);
+            var songs = songRepository.GetSongs(userId);
+            songs.Sort((s1, s2) => s1.Title.CompareTo(s2.Title));
+            return songs;
         }
 
         public List<DetailedSongDto> GetDetailedSongs(int userId)
         {
-            return songRepository.GetDetailedSongs(userId);
+            var songs = songRepository.GetDetailedSongs(userId);
+            songs.Sort((s1, s2) => s1.SongTitle.CompareTo(s2.SongTitle));
+            return songs;
         }
 
         public async Task<bool> DeleteSongById(int userId, int songId)

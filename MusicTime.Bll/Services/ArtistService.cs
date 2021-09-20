@@ -21,7 +21,9 @@ namespace MusicTime.Bll.Services
 
         public List<ArtistDto> GetArtists(int userId)
         {
-            return artistRepository.GetArtists(userId);
+            var artists = artistRepository.GetArtists(userId);
+            artists.Sort((a1, a2) => a1.Name.CompareTo(a2.Name));
+            return artists;
         }
 
         public ArtistDto GetArtistById(int userId, int id)
@@ -31,7 +33,9 @@ namespace MusicTime.Bll.Services
 
         public List<AlbumDto> GetAlbumsOfArtist(int userId, int artistId)
         {
-            return albumRepository.GetAlbumsOfArtist(userId, artistId);
+            var albums = albumRepository.GetAlbumsOfArtist(userId, artistId);
+            albums.Sort((a1, a2) => a1.Title.CompareTo(a2.Title));
+            return albums;
         }
 
         public List<SongDto> GetSongsOfArtist(int userId, int artistId)
@@ -46,6 +50,8 @@ namespace MusicTime.Bll.Services
 
                 songsOfAlbum.ForEach(s => songs.Add(s));
             });
+
+            songs.Sort((s1, s2) => s1.Title.CompareTo(s2.Title));
 
             return songs;
         }
