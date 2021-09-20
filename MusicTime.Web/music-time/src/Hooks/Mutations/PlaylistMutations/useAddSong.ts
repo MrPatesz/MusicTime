@@ -8,9 +8,7 @@ interface MutationVariables {
   playlistId: number;
 }
 
-function useAddSong(
-  setShowAdd: React.Dispatch<React.SetStateAction<any>>
-) {
+function useAddSong(setShowAdd: React.Dispatch<React.SetStateAction<any>>) {
   const apiLink = Config.apiUrl + "playlists/";
   const authToken = localStorage.getItem("authToken");
 
@@ -32,7 +30,7 @@ function useAddSong(
         queryClient.invalidateQueries("playlistsSongs");
         setShowAdd(false);
       },
-      onError: () => alert("This song is already added to this playlist"),
+      onError: () => setShowAdd(false),
     }
   );
 }
