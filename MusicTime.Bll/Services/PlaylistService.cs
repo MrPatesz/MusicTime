@@ -72,6 +72,7 @@ namespace MusicTime.Bll.Services
 
         public async Task<bool> DeletePlaylistById(int userId, int id)
         {
+            await playlistRepository.RemoveAllSongsFromPlaylist(id);
             return await playlistRepository.DeletePlaylistById(userId, id);
         }
 
