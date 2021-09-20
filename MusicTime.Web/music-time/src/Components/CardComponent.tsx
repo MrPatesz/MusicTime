@@ -54,12 +54,20 @@ function CardComponent({
           <Card.Title>{title}</Card.Title>
           <ButtonToolbar>
             <ButtonGroup className="mr-auto" size="sm">
-              <Link to={relativeLink} className="btn btn-outline-info">
+              <Link
+                to={relativeLink}
+                className="btn btn-outline-info"
+                title="Details"
+              >
                 <FontAwesomeIcon icon="file-alt" size="lg" />
               </Link>
             </ButtonGroup>
             <ButtonGroup size="sm">
-              <Button onClick={() => setConfirm(true)} variant="outline-danger">
+              <Button
+                onClick={() => setConfirm(true)}
+                variant="outline-danger"
+                title="Delete"
+              >
                 <FontAwesomeIcon icon="trash-alt" size="lg" />
               </Button>
             </ButtonGroup>

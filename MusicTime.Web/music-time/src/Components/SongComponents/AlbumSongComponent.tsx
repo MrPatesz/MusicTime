@@ -42,10 +42,15 @@ function AlbumSongComponent({ songDto, albumId }: Props) {
           </h5>
 
           <ButtonGroup className="ml-auto">
-            <Button variant="outline-info" onClick={() => setShowAdd(true)}>
+            <Button
+              title="Add to playlist"
+              variant="outline-info"
+              onClick={() => setShowAdd(true)}
+            >
               <FontAwesomeIcon icon="plus" size="lg" />
             </Button>
             <Button
+              title="Edit"
               className="ml-1"
               variant="outline-info"
               onClick={() => setEditSong(true)}
@@ -53,6 +58,7 @@ function AlbumSongComponent({ songDto, albumId }: Props) {
               <FontAwesomeIcon icon="edit" size="lg" />
             </Button>
             <Button
+              title="Delete"
               className="ml-1"
               variant="outline-danger"
               onClick={() => setConfirm(true)}

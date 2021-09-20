@@ -60,6 +60,7 @@ function PlaylistDetailsPage() {
 
             <ButtonGroup vertical className="ml-auto mb-auto">
               <Button
+                title="Edit"
                 variant="outline-info"
                 onClick={() => setShowEditPlaylist(true)}
                 className="mb-2"
@@ -67,6 +68,7 @@ function PlaylistDetailsPage() {
                 <FontAwesomeIcon icon="edit" size="lg" />
               </Button>
               <Button
+                title="Add to Queue"
                 variant="outline-info"
                 onClick={() => dispatch(setQueue(songs ?? []))}
               >

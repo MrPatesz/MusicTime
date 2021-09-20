@@ -93,7 +93,8 @@ function QueueComponent({ show, shuffle, setShuffle }: Props) {
           className="my-1"
           variant="outline-info"
           onClick={() => {
-            setShowAdd(true);
+            if(queue.length > 0)
+              setShowAdd(true);
           }}
         >
           <FontAwesomeIcon icon="folder-plus" />

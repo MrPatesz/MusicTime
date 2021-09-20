@@ -19,6 +19,7 @@ function PlaylistsPage() {
       <div className="d-flex flex-row">
         <h1>Playlists</h1>
         <Button
+          title="New Playlist"
           variant="outline-info"
           className="ml-auto mb-auto mt-auto"
           onClick={() => setShowAddPlaylist(true)}

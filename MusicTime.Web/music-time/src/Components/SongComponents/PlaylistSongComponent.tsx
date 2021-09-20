@@ -31,7 +31,11 @@ function PlaylistSongComponent({ detailedSongDto, playlistId }: Props) {
         <SongDetails detailedSongDto={detailedSongDto}></SongDetails>
 
         <ButtonGroup className="ml-auto">
-          <Button variant="outline-warning" onClick={() => removeFunction()}>
+          <Button
+            title="Remove from playlist"
+            variant="outline-warning"
+            onClick={() => removeFunction()}
+          >
             <FontAwesomeIcon icon="trash-alt" size="lg" />
           </Button>
         </ButtonGroup>

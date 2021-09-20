@@ -19,6 +19,7 @@ function ArtistsPage() {
       <div className="d-flex flex-row">
         <h1>Artists</h1>
         <Button
+          title="New artist"
           variant="outline-info"
           className="ml-auto mb-auto mt-auto"
           onClick={() => setShowAddArtist(true)}

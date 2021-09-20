@@ -108,6 +108,7 @@ function MusicPlayerComponent() {
           <div className="m-2 d-flex flex-row">
             <ButtonGroup>
               <Button
+                title={showQueue ? "Hide Queue" : "Show Queue"}
                 variant={showQueue ? "info" : "outline-info"}
                 onClick={() => setShowQueue(!showQueue)}
               >
@@ -117,6 +118,7 @@ function MusicPlayerComponent() {
 
             <ButtonGroup className="mx-auto">
               <Button
+                title="Play previous"
                 variant="outline-info"
                 onClick={playPrevFunction}
                 className="mr-2"
@@ -125,6 +127,7 @@ function MusicPlayerComponent() {
               </Button>
 
               <Button
+                title={isPlaying ? "Pause" : "Play"}
                 className="mr-2"
                 variant="outline-info"
                 onClick={() => setIsPlaying(!isPlaying)}
@@ -136,13 +139,18 @@ function MusicPlayerComponent() {
                 )}
               </Button>
 
-              <Button variant="outline-info" onClick={playNextFunction}>
+              <Button
+                title="Play next"
+                variant="outline-info"
+                onClick={playNextFunction}
+              >
                 <FontAwesomeIcon icon="step-forward" />
               </Button>
             </ButtonGroup>
 
             <ButtonGroup>
               <Button
+                title="Hide player"
                 variant="outline-warning"
                 onClick={() => dispatch(setHidden(true))}
               >
@@ -187,6 +195,7 @@ function MusicPlayerComponent() {
       </div>
 
       <Button
+        title="Show player"
         variant="outline-info"
         onClick={() => dispatch(setHidden(false))}
         className={hidden ? "m-2" : "d-none"}

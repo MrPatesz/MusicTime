@@ -18,6 +18,7 @@ function SongsPage() {
       <div className="d-flex flex-row mb-3">
         <h1>Songs</h1>
         <Button
+          title="Add to Queue"
           variant="outline-info"
           className="ml-auto mt-auto mb-auto"
           onClick={() => dispatch(setQueue(songs ?? []))}

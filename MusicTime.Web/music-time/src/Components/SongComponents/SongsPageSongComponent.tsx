@@ -31,13 +31,18 @@ function SongsPageSongComponent({ detailedSongDto }: Props) {
 
         <ButtonGroup className="ml-auto">
           <Button
+            title="Add to playlist"
             variant="outline-info"
             className="mr-1"
             onClick={() => setShowAdd(true)}
           >
             <FontAwesomeIcon icon="plus" size="lg" />
           </Button>
-          <Button variant="outline-danger" onClick={() => setConfirm(true)}>
+          <Button
+            title="Delete"
+            variant="outline-danger"
+            onClick={() => setConfirm(true)}
+          >
             <FontAwesomeIcon icon="trash-alt" size="lg" />
           </Button>
         </ButtonGroup>

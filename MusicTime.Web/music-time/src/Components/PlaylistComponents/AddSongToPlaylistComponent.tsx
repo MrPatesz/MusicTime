@@ -113,7 +113,11 @@ function AddSongToPlaylistComponent({ playlistId }: Props) {
             ></AutosuggestComponent>
           </div>
           <ButtonGroup style={{ height: "38px" }}>
-            <Button variant="outline-info" onClick={AddFunction}>
+            <Button
+              title="Add song to playlist"
+              variant="outline-info"
+              onClick={AddFunction}
+            >
               <FontAwesomeIcon icon="plus" size="lg" />
             </Button>
           </ButtonGroup>

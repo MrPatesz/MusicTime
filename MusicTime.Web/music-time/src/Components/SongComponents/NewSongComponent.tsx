@@ -58,16 +58,17 @@ function NewSongComponent({ show, setShow, albumId }: Props) {
             {errors.Url?.type === "required" && "Url is required"}
 
             <ButtonGroup className="ml-5">
-              <Button variant="outline-info" type="submit">
-                <FontAwesomeIcon icon="plus" size="lg" />
+              <Button title="Confirm" variant="outline-info" type="submit">
+                <FontAwesomeIcon icon="check" size="lg" />
               </Button>
 
               <Button
-                className="ml-2"
+                title="Cancel"
+                className="ml-1"
                 variant="outline-secondary"
                 onClick={() => setShow(false)}
               >
-                Cancel
+                <FontAwesomeIcon icon="times" size="lg" />
               </Button>
             </ButtonGroup>
           </div>

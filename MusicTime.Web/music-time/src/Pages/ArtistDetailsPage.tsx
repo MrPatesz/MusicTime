@@ -81,13 +81,18 @@ function ArtistDetailsPage() {
 
             <ButtonGroup vertical className="ml-auto mb-auto">
               <Button
+                title="Edit"
                 variant="outline-info"
                 onClick={() => setShowEditArtist(true)}
                 className="mb-2"
               >
                 <FontAwesomeIcon icon="edit" size="lg" />
               </Button>
-              <Button variant="outline-info" onClick={playFunction}>
+              <Button
+                title="Add to Queue"
+                variant="outline-info"
+                onClick={playFunction}
+              >
                 <FontAwesomeIcon icon="play" size="lg" />
               </Button>
             </ButtonGroup>
@@ -102,6 +107,7 @@ function ArtistDetailsPage() {
         <div className="d-flex flex-row mb-3 mt-2">
           <h2>Albums</h2>
           <Button
+            title="New album"
             variant="outline-info"
             className="ml-auto mt-auto mb-auto"
             onClick={() => setShowAddAlbum(true)}

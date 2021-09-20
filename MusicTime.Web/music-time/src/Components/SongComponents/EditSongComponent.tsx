@@ -60,11 +60,12 @@ function EditSongComponent({ setShow, albumId, songDto }: Props) {
         {errors.Url?.type === "required" && "Url is required"}
 
         <ButtonGroup className="ml-5">
-          <Button variant="outline-info" type="submit">
-          <FontAwesomeIcon size="lg" icon="check" />
+          <Button title="Confirm" variant="outline-info" type="submit">
+            <FontAwesomeIcon size="lg" icon="check" />
           </Button>
 
           <Button
+            title="Cancel"
             className="ml-1"
             variant="outline-secondary"
             onClick={() => setShow(false)}
