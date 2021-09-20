@@ -35,27 +35,43 @@ const App = () => {
     setLoggedIn(false);
   }
 
+  const home = "/";
+  const artists = "/artists";
+  const albums = "/albums";
+  const songs = "/songs";
+  const playlists = "/playlists";
+
+  const [currentRoute, setCurrentRoute] = useState<string>(home);
+
+  function getLinkForRoute(route: string, name: string) {
+    return (
+      <Link
+        className={
+          route === currentRoute ? "nav-link text-light" : "nav-link text-info"
+        }
+        to={route}
+        onClick={() => setCurrentRoute(route)}
+      >
+        {name}
+      </Link>
+    );
+  }
+
   return (
     <Router>
       <div className="App">
         <Navbar bg="dark" variant="dark">
-          <Nav>
-            <Link className="nav-link text-info" to="/">
-              Home
-            </Link>
-            <Link className="nav-link text-info" to="/artists">
-              Artists
-            </Link>
-            <Link className="nav-link text-info" to="/albums">
-              Albums
-            </Link>
-            <Link className="nav-link text-info" to="/songs">
-              Songs
-            </Link>
-            <Link className="nav-link text-info" to="/playlists">
-              Playlists
-            </Link>
-          </Nav>
+          {loggedIn ? (
+            <Nav>
+              {getLinkForRoute(home, "Home")}
+              {getLinkForRoute(artists, "Artists")}
+              {getLinkForRoute(albums, "Albums")}
+              {getLinkForRoute(songs, "Songs")}
+              {getLinkForRoute(playlists, "Playlists")}
+            </Nav>
+          ) : (
+            <div></div>
+          )}
           <Nav className="ml-auto">
             {loggedIn ? (
               <Link className="nav-link text-info" onClick={logout}>
