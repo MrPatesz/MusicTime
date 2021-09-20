@@ -28,10 +28,6 @@
   border-top: 1px solid;
 }
 
-.page {
-  padding: 15px 15px;
-}
-
 ul.no-bullets {
   list-style-type: none;
   padding: 0;

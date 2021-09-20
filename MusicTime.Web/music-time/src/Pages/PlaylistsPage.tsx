@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CardComponent from "../Components/CardComponent";
 import { Container, Row, Col } from "react-bootstrap";
 import PlaylistDto from "../Models/PlaylistDto";
@@ -14,14 +14,39 @@ function PlaylistsPage() {
 
   const { data: playlists, error, isFetching } = usePlaylists();
 
+  const [filteredPlaylists, setFilteredPlaylists] = useState<PlaylistDto[]>([]);
+
+  const [filter, setFilter] = useState<string>("");
+
+  useEffect(() => {
+    if (filter === "") {
+      setFilteredPlaylists(playlists ?? []);
+    } else {
+      let filterLowerCase = filter.toLowerCase();
+      setFilteredPlaylists(
+        (playlists ?? []).filter((a) =>
+          a.title.toLowerCase().includes(filterLowerCase)
+        )
+      );
+    }
+  }, [playlists, filter]);
+
   return (
-    <div className="page">
-      <div className="d-flex flex-row">
+    <div>
+      <div className="d-flex flex-row m-3">
         <h1>Playlists</h1>
+
+        <input
+          className="form-control my-auto mx-4"
+          placeholder="Search for a playlist..."
+          type="text"
+          onChange={(event) => setFilter(event.currentTarget.value)}
+        ></input>
+
         <Button
           title="New Playlist"
           variant="outline-info"
-          className="ml-auto mb-auto mt-auto"
+          className="ml-auto mb-auto mt-auto mr-2"
           onClick={() => setShowAddPlaylist(true)}
         >
           <FontAwesomeIcon icon="plus" size="lg" />
@@ -33,7 +58,7 @@ function PlaylistsPage() {
       ) : playlists ? (
         <Container fluid>
           <Row>
-            {playlists.map((a) => (
+            {filteredPlaylists.map((a) => (
               <Col xs={6} sm={4} md={3} xl={2} key={a.id}>
                 <CardComponent
                   title={a.title}

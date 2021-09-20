@@ -29,7 +29,7 @@ function SongsPageSongComponent({ detailedSongDto }: Props) {
       <div className="d-flex flex-row">
         <SongDetails detailedSongDto={detailedSongDto}></SongDetails>
 
-        <ButtonGroup className="ml-auto">
+        <ButtonGroup className="ml-auto mr-4">
           <Button
             title="Add to playlist"
             variant="outline-info"

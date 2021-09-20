@@ -15,6 +15,7 @@ import ArtistDetailsPage from "./Pages/ArtistDetailsPage";
 import AlbumDetailsPage from "./Pages/AlbumDetailsPage";
 import LoginPage from "./Pages/LoginPage";
 import SongsPage from "./Pages/SongsPage";
+import HomePage from "./Pages/HomePage";
 import PlaylistsPage from "./Pages/PlaylistsPage";
 import PlaylistDetailsPage from "./Pages/PlaylistDetailsPage";
 import MusicPlayerComponent from "./Components/MusicPlayer/MusicPlayerComponent";
@@ -86,7 +87,7 @@ const App = () => {
         </Navbar>
         <Switch>
           <Route exact path="/">
-            {loggedIn ? <div></div> : <Redirect to="/login" />}
+            {loggedIn ? <HomePage></HomePage> : <Redirect to="/login" />}
           </Route>
           <Route exact path="/artists">
             {loggedIn ? <ArtistsPage></ArtistsPage> : <Redirect to="/login" />}

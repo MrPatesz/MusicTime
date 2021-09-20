@@ -1,64 +1,29 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ArtistDto from "../Models/ArtistDto";
 import CardComponent from "../Components/CardComponent";
 import { Container, Row, Col } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
-import Button from "react-bootstrap/Button";
 import NewArtistComponent from "../Components/NewArtistComponent";
 import useArtists from "../Hooks/Queries/ArtistQueries/useArtists";
 import Alert from "react-bootstrap/Alert";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-function ArtistsPage() {
+function HomePage() {
   const [showAddArtist, setShowAddArtist] = useState<boolean>(false);
 
   const { data: artists, error, isFetching } = useArtists();
 
-  const [filteredArtists, setFilteredArtists] = useState<ArtistDto[]>([]);
-
-  const [filter, setFilter] = useState<string>("");
-
-  useEffect(() => {
-    if (filter === "") {
-      setFilteredArtists(artists ?? []);
-    } else {
-      let filterLowerCase = filter.toLowerCase();
-      setFilteredArtists(
-        (artists ?? []).filter((a) =>
-          a.name.toLowerCase().includes(filterLowerCase)
-        )
-      );
-    }
-  }, [artists, filter]);
+  // TODO("last played")
 
   return (
     <div>
-      <div className="d-flex flex-row m-3">
-        <h1>Artists</h1>
-
-        <input
-          className="form-control my-auto mx-4"
-          placeholder="Search for an artist..."
-          type="text"
-          onChange={(event) => setFilter(event.currentTarget.value)}
-        ></input>
-
-        <Button
-          title="New artist"
-          variant="outline-info"
-          className="ml-auto mb-auto mt-auto mr-2"
-          onClick={() => setShowAddArtist(true)}
-        >
-          <FontAwesomeIcon icon="plus" size="lg" />
-        </Button>
-      </div>
+      <h1 className="d-flex flex-row m-3 mb-4">History</h1>
 
       {error ? (
         <Alert variant="danger">An error occurred while fetching data!</Alert>
       ) : artists ? (
         <Container fluid>
           <Row>
-            {filteredArtists.map((a) => (
+            {artists.map((a) => (
               <Col xs={6} sm={4} md={3} xl={2} key={a.id}>
                 <CardComponent
                   title={a.name}
@@ -86,4 +51,4 @@ function ArtistsPage() {
   );
 }
 
-export default ArtistsPage;
+export default HomePage;

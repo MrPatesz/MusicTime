@@ -7,21 +7,51 @@ import { Container, Row, Col, ButtonGroup } from "react-bootstrap";
 import useDetailedSongs from "../Hooks/Queries/SongQueries/useDetailedSongs";
 import Alert from "react-bootstrap/Alert";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useEffect, useState } from "react";
+import DetailedSongDto from "../Models/DetailedSongDto";
 
 function SongsPage() {
   const dispatch = useDispatch();
 
   const { data: songs, error, isFetching } = useDetailedSongs();
 
+  const [filteredSongs, setFilteredSongs] = useState<DetailedSongDto[]>([]);
+
+  const [filter, setFilter] = useState<string>("");
+
+  useEffect(() => {
+    if (filter === "") {
+      setFilteredSongs(songs ?? []);
+    } else {
+      let filterLowerCase = filter.toLowerCase();
+      setFilteredSongs(
+        (songs ?? []).filter(
+          (s) =>
+            s.songTitle.toLowerCase().includes(filterLowerCase) ||
+            s.artistName.toLowerCase().includes(filterLowerCase) ||
+            s.albumTitle.toLowerCase().includes(filterLowerCase)
+        )
+      );
+    }
+  }, [songs, filter]);
+
   return (
-    <div className="page">
-      <div className="d-flex flex-row mb-3">
+    <div>
+      <div className="d-flex flex-row m-3">
         <h1>Songs</h1>
+
+        <input
+          className="form-control my-auto mx-4"
+          placeholder="Search for a song, album or artist..."
+          type="text"
+          onChange={(event) => setFilter(event.currentTarget.value)}
+        ></input>
+
         <Button
           title="Add to Queue"
           variant="outline-info"
-          className="ml-auto mt-auto mb-auto"
-          onClick={() => dispatch(setQueue(songs ?? []))}
+          className="ml-auto mt-auto mb-auto mr-2"
+          onClick={() => dispatch(setQueue(filteredSongs ?? []))}
         >
           <FontAwesomeIcon icon="play" size="lg" />
         </Button>
@@ -44,7 +74,7 @@ function SongsPage() {
           </Row>
         </Container>
 
-        <ButtonGroup className="ml-auto invisible">
+        <ButtonGroup className="ml-auto invisible mr-4">
           <Button variant="outline-info" className="mr-1">
             <FontAwesomeIcon icon="plus" size="lg" />
           </Button>
@@ -58,7 +88,7 @@ function SongsPage() {
         <Alert variant="danger">An error occurred while fetching data!</Alert>
       ) : songs ? (
         <ul className="no-bullets">
-          {songs.map((s, i) => (
+          {filteredSongs.map((s, i) => (
             <li key={s.songId} className={i % 2 !== 0 ? "bg-dark" : ""}>
               <SongsPageSongComponent
                 detailedSongDto={s}
