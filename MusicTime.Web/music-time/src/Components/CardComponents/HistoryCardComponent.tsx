@@ -3,10 +3,7 @@ import Button from "react-bootstrap/Button";
 import ButtonToolbar from "react-bootstrap/ButtonToolbar";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import { Link } from "react-router-dom";
-import { useState } from "react";
-import Modal from "react-bootstrap/Modal";
 import { Config } from "../../config";
-import useDeleteResource from "../../Hooks/Mutations/useDeleteResource";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface Props {
@@ -51,7 +48,13 @@ function CardComponent({
               </Link>
             </ButtonGroup>
             <ButtonGroup size="sm">
-              <Button onClick={() => {}} variant="outline-info" title="Delete">
+              <Button
+                onClick={() => {
+                  /*dispatch(setQueue(songs))*/
+                }}
+                variant="outline-info"
+                title="Play"
+              >
                 <FontAwesomeIcon icon="play" size="lg" />
               </Button>
             </ButtonGroup>
