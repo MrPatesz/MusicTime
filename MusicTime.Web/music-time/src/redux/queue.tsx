@@ -34,7 +34,6 @@ export const queueSlice = createSlice({
   initialState: loadState(),
   reducers: {
     setQueue: (state, action: PayloadAction<DetailedSongDto[]>) => {
-      state.index = 0;
       state.queue = state.queue.concat(action.payload);
       saveState(state);
     },
