@@ -47,7 +47,7 @@ function AlbumSongComponent({ songDto, albumId }: Props) {
               variant="outline-info"
               onClick={() => setShowAdd(true)}
             >
-              <FontAwesomeIcon icon="plus" size="lg" />
+              <FontAwesomeIcon icon="external-link-alt" size="lg" />
             </Button>
             <Button
               title="Edit"

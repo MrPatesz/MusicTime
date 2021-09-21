@@ -36,7 +36,7 @@ function SongsPageSongComponent({ detailedSongDto }: Props) {
             className="mr-1"
             onClick={() => setShowAdd(true)}
           >
-            <FontAwesomeIcon icon="plus" size="lg" />
+            <FontAwesomeIcon icon="external-link-alt" size="lg" />
           </Button>
           <Button
             title="Delete"
