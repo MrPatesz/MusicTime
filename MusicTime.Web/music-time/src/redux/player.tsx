@@ -44,8 +44,12 @@ export const playerSlice = createSlice({
   reducers: {
     setQueue: (state, action: PayloadAction<DetailedSongDto[]>) => {
       action.payload.forEach((s) => {
-        if (state.queue.find((qs) => qs.songId === s.songId) === undefined) {
+        let inQueueSong = state.queue.find((qs) => qs.songId === s.songId);
+        if (inQueueSong === undefined) {
           state.queue.push(s);
+        } else if (inQueueSong.artistName === "") {
+          let index = state.queue.indexOf(inQueueSong);
+          state.queue[index].artistName = s.artistName;
         }
       });
       if (state.hidden) state.hidden = false;
