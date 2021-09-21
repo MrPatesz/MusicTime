@@ -94,8 +94,13 @@ export const playerSlice = createSlice({
     },
 
     addToHistory: (state, action: PayloadAction<HistoryElement>) => {
+      let newHistoryElement = action.payload;
+      state.history = state.history.filter(
+        (he) =>
+          he.id !== newHistoryElement.id || he.type !== newHistoryElement.type
+      );
       state.history = state.history.reverse();
-      state.history.push(action.payload);
+      state.history.push(newHistoryElement);
       state.history = state.history.reverse();
       saveState(state);
     },
