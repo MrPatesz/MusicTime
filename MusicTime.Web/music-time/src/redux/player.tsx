@@ -94,6 +94,9 @@ export const playerSlice = createSlice({
     },
 
     addToHistory: (state, action: PayloadAction<HistoryElement>) => {
+      if (state.history.length > 11) {
+        state.history.pop();
+      }
       let newHistoryElement = action.payload;
       state.history = state.history.filter(
         (he) =>
