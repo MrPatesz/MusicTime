@@ -1,7 +1,7 @@
 import Button from "react-bootstrap/Button";
 import { useDispatch } from "react-redux";
-import { clearQueue, removeAt } from "../../redux/queue";
-import { setIndex } from "../../redux/queue";
+import { clearQueue, removeAt } from "../../redux/player";
+import { setIndex } from "../../redux/player";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../redux/store";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

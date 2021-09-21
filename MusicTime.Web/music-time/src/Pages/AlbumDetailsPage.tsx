@@ -9,7 +9,7 @@ import NewAlbumComponent from "../Components/NewAlbumComponent";
 import NewSongComponent from "../Components/SongComponents/NewSongComponent";
 import DetailedSongDto from "../Models/DetailedSongDto";
 import { useDispatch } from "react-redux";
-import { setQueue } from "../redux/queue";
+import { setQueue } from "../redux/player";
 import { Config } from "../config";
 import useAlbum from "../Hooks/Queries/AlbumQueries/useAlbum";
 import useAlbumsSongs from "../Hooks/Queries/AlbumQueries/useAlbumsSongs";

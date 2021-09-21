@@ -21,7 +21,7 @@ import PlaylistDetailsPage from "./Pages/PlaylistDetailsPage";
 import MusicPlayerComponent from "./Components/MusicPlayer/MusicPlayerComponent";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { clearQueue } from "./redux/queue";
+import { clearQueue } from "./redux/player";
 import axios from "axios";
 import { Config } from "./config";
 

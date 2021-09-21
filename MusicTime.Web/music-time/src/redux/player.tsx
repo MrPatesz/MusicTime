@@ -1,19 +1,19 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import DetailedSongDto from "../Models/DetailedSongDto";
 
-interface QueueState {
+interface PlayerState {
   queue: DetailedSongDto[];
   index: number;
   hidden: boolean;
 }
 
-const initialState: QueueState = {
+const initialState: PlayerState = {
   queue: [],
   index: 0,
   hidden: true,
 };
 
-const loadState = (): QueueState => {
+const loadState = (): PlayerState => {
   try {
     const serializedState = localStorage.getItem("state");
     if (serializedState === null) {
@@ -24,14 +24,14 @@ const loadState = (): QueueState => {
     return initialState;
   }
 };
-const saveState = (state: QueueState) => {
+const saveState = (state: PlayerState) => {
   try {
     const serializedState = JSON.stringify(state);
     localStorage.setItem("state", serializedState);
   } catch {}
 };
 
-export const queueSlice = createSlice({
+export const playerSlice = createSlice({
   name: "queue",
   initialState: loadState(),
   reducers: {
@@ -97,6 +97,6 @@ export const {
   playNext,
   playRandom,
   setHidden,
-} = queueSlice.actions;
+} = playerSlice.actions;
 
-export default queueSlice.reducer;
+export default playerSlice.reducer;

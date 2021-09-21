@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import queueReducer from "./queue";
+import queueReducer from "./player";
 
 export const store = configureStore({
   reducer: {

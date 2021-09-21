@@ -8,7 +8,7 @@ import Spinner from "react-bootstrap/Spinner";
 import AddSongToPlaylistComponent from "../Components/PlaylistComponents/AddSongToPlaylistComponent";
 import NewPlaylistComponent from "../Components/PlaylistComponents/NewPlaylistComponent";
 import { useDispatch } from "react-redux";
-import { setQueue } from "../redux/queue";
+import { setQueue } from "../redux/player";
 import { Config } from "../config";
 import { Container, Row, Col } from "react-bootstrap";
 import usePlaylist from "../Hooks/Queries/PlaylistQueries/usePlaylist";

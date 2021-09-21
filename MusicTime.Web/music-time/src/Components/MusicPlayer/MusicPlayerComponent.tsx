@@ -11,7 +11,7 @@ import {
   playNext,
   playRandom,
   setHidden,
-} from "../../redux/queue";
+} from "../../redux/player";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function MusicPlayerComponent() {

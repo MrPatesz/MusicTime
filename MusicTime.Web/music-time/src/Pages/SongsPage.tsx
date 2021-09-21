@@ -2,7 +2,7 @@ import SongsPageSongComponent from "../Components/SongComponents/SongsPageSongCo
 import Spinner from "react-bootstrap/Spinner";
 import Button from "react-bootstrap/Button";
 import { useDispatch } from "react-redux";
-import { setQueue } from "../redux/queue";
+import { setQueue } from "../redux/player";
 import { Container, Row, Col, ButtonGroup } from "react-bootstrap";
 import useDetailedSongs from "../Hooks/Queries/SongQueries/useDetailedSongs";
 import Alert from "react-bootstrap/Alert";
