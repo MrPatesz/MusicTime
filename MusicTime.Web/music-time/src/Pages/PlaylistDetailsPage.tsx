@@ -8,7 +8,7 @@ import Spinner from "react-bootstrap/Spinner";
 import AddSongToPlaylistComponent from "../Components/PlaylistComponents/AddSongToPlaylistComponent";
 import NewPlaylistComponent from "../Components/PlaylistComponents/NewPlaylistComponent";
 import { useDispatch } from "react-redux";
-import { setQueue } from "../redux/player";
+import { addToHistory, setQueue } from "../redux/player";
 import { Config } from "../config";
 import { Container, Row, Col } from "react-bootstrap";
 import usePlaylist from "../Hooks/Queries/PlaylistQueries/usePlaylist";
@@ -70,7 +70,10 @@ function PlaylistDetailsPage() {
               <Button
                 title="Add to Queue"
                 variant="outline-info"
-                onClick={() => dispatch(setQueue(songs ?? []))}
+                onClick={() => {
+                  dispatch(setQueue(songs ?? []));
+                  dispatch(addToHistory({ id: id, type: "playlist" }));
+                }}
               >
                 <FontAwesomeIcon icon="play" size="lg" />
               </Button>

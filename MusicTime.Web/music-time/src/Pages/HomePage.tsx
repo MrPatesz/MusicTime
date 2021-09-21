@@ -1,18 +1,17 @@
 import { useState } from "react";
 import ArtistDto from "../Models/ArtistDto";
-import HistoryCardComponent from "../Components/CardComponents/HistoryCardComponent";
+import ArtistHistoryCardComponent from "../Components/CardComponents/HistoryCardComponents/ArtistHistoryCardComponent";
+import AlbumHistoryCardComponent from "../Components/CardComponents/HistoryCardComponents/AlbumHistoryCardComponent";
+import PlaylistHistoryCardComponent from "../Components/CardComponents/HistoryCardComponents/PlaylistHistoryCardComponent";
 import { Container, Row, Col } from "react-bootstrap";
-import Spinner from "react-bootstrap/Spinner";
 import NewArtistComponent from "../Components/NewArtistComponent";
-import useArtists from "../Hooks/Queries/ArtistQueries/useArtists";
-import Alert from "react-bootstrap/Alert";
+import { useSelector } from "react-redux";
+import type { RootState } from "../redux/store";
 
 function HomePage() {
   const [showAddArtist, setShowAddArtist] = useState<boolean>(false);
 
-  const { data: artists, error, isFetching } = useArtists();
-
-  // TODO("last played")
+  const history = useSelector((state: RootState) => state.queue.history);
 
   return (
     <div>
@@ -21,28 +20,29 @@ function HomePage() {
       </div>
 
       <div className="mx-2">
-        {error ? (
-          <Alert variant="danger">An error occurred while fetching data!</Alert>
-        ) : artists ? (
-          <Container fluid>
-            <Row>
-              {artists.map((a) => (
-                <Col xs={6} sm={4} md={3} xl={2} key={a.id}>
-                  <HistoryCardComponent
-                    title={a.name}
-                    pictureGuid={a.pictureGuid}
-                    relativeLink={"artists/" + a.id}
-                    toInvalidate="artists"
-                  ></HistoryCardComponent>
-                </Col>
-              ))}
-            </Row>
-          </Container>
-        ) : isFetching ? (
-          <Spinner animation="grow" variant="info" />
-        ) : (
-          <div></div>
-        )}
+        <Container fluid>
+          <Row>
+            {history.map((h) => (
+              <Col xs={6} sm={4} md={3} xl={2} key={h.type + h.id}>
+                {h.type === "artist" ? (
+                  <ArtistHistoryCardComponent
+                    id={h.id}
+                  ></ArtistHistoryCardComponent>
+                ) : h.type === "album" ? (
+                  <AlbumHistoryCardComponent
+                    id={h.id}
+                  ></AlbumHistoryCardComponent>
+                ) : h.type === "playlist" ? (
+                  <PlaylistHistoryCardComponent
+                    id={h.id}
+                  ></PlaylistHistoryCardComponent>
+                ) : (
+                  <div></div>
+                )}
+              </Col>
+            ))}
+          </Row>
+        </Container>
       </div>
 
       <NewArtistComponent

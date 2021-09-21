@@ -1,21 +1,28 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import DetailedSongDto from "../Models/DetailedSongDto";
 
+interface HistoryElement {
+  id: number;
+  type: "artist" | "album" | "playlist";
+}
+
 interface PlayerState {
   queue: DetailedSongDto[];
   index: number;
   hidden: boolean;
+  history: HistoryElement[];
 }
 
 const initialState: PlayerState = {
   queue: [],
   index: 0,
   hidden: true,
+  history: [],
 };
 
 const loadState = (): PlayerState => {
   try {
-    const serializedState = localStorage.getItem("state");
+    const serializedState = localStorage.getItem("playerState");
     if (serializedState === null) {
       return initialState;
     }
@@ -27,7 +34,7 @@ const loadState = (): PlayerState => {
 const saveState = (state: PlayerState) => {
   try {
     const serializedState = JSON.stringify(state);
-    localStorage.setItem("state", serializedState);
+    localStorage.setItem("playerState", serializedState);
   } catch {}
 };
 
@@ -85,6 +92,13 @@ export const playerSlice = createSlice({
       state.hidden = action.payload;
       saveState(state);
     },
+
+    addToHistory: (state, action: PayloadAction<HistoryElement>) => {
+      state.history = state.history.reverse();
+      state.history.push(action.payload);
+      state.history = state.history.reverse();
+      saveState(state);
+    },
   },
 });
 
@@ -97,6 +111,7 @@ export const {
   playNext,
   playRandom,
   setHidden,
+  addToHistory,
 } = playerSlice.actions;
 
 export default playerSlice.reducer;

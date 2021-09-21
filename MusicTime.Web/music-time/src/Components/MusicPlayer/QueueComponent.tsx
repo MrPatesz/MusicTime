@@ -68,7 +68,7 @@ function QueueComponent({
 
               <Button
                 title="Remove song from Queue"
-                className="ml-3 py-0 px-1"
+                className="ml-2 py-0 px-1"
                 variant="outline-warning"
                 size="sm"
                 onClick={() => {

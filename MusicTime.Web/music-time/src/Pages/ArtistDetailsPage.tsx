@@ -12,7 +12,7 @@ import NewAlbumComponent from "../Components/NewAlbumComponent";
 import NewArtistComponent from "../Components/NewArtistComponent";
 import { Config } from "../config";
 import { useDispatch } from "react-redux";
-import { setQueue } from "../redux/player";
+import { addToHistory, setQueue } from "../redux/player";
 import useArtist from "../Hooks/Queries/ArtistQueries/useArtist";
 import useArtistsAlbums from "../Hooks/Queries/ArtistQueries/useArtistsAlbums";
 import useArtistsSongs from "../Hooks/Queries/ArtistQueries/useArtistsSongs";
@@ -52,6 +52,7 @@ function ArtistDetailsPage() {
     );
 
     dispatch(setQueue(queue));
+    dispatch(addToHistory({ id: id, type: "artist" }));
   }
 
   return (

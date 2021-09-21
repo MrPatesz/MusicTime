@@ -3,27 +3,21 @@ import Button from "react-bootstrap/Button";
 import ButtonToolbar from "react-bootstrap/ButtonToolbar";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import { Link } from "react-router-dom";
-import { Config } from "../../config";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface Props {
   title: string;
-  pictureGuid: string | null;
+  picturePath: string;
   relativeLink: string;
-  toInvalidate: string;
+  playFunction: () => void;
 }
 
-function CardComponent({
+function HistoryCardComponent({
   title,
-  pictureGuid,
+  picturePath,
   relativeLink,
-  toInvalidate,
+  playFunction,
 }: Props) {
-  if (pictureGuid === null) pictureGuid = "/placeholder.png";
-  else {
-    pictureGuid = Config.picturePath + pictureGuid + ".png";
-  }
-
   return (
     <div>
       <Card
@@ -32,7 +26,7 @@ function CardComponent({
       >
         <Card.Img
           variant="top"
-          src={pictureGuid}
+          src={picturePath}
           style={{ minHeight: "11rem", maxHeight: "15rem" }}
         />
         <Card.Body>
@@ -49,9 +43,7 @@ function CardComponent({
             </ButtonGroup>
             <ButtonGroup size="sm">
               <Button
-                onClick={() => {
-                  /*dispatch(setQueue(songs))*/
-                }}
+                onClick={playFunction}
                 variant="outline-info"
                 title="Play"
               >
@@ -65,4 +57,4 @@ function CardComponent({
   );
 }
 
-export default CardComponent;
+export default HistoryCardComponent;
