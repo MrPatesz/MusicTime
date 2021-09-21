@@ -99,6 +99,10 @@ export const playerSlice = createSlice({
       state.history = state.history.reverse();
       saveState(state);
     },
+    clearHistory: (state) => {
+      state.history = [];
+      saveState(state);
+    },
   },
 });
 
@@ -112,6 +116,7 @@ export const {
   playRandom,
   setHidden,
   addToHistory,
+  clearHistory,
 } = playerSlice.actions;
 
 export default playerSlice.reducer;

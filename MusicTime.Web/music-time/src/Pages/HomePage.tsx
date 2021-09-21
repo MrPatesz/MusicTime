@@ -3,20 +3,31 @@ import ArtistDto from "../Models/ArtistDto";
 import ArtistHistoryCardComponent from "../Components/CardComponents/HistoryCardComponents/ArtistHistoryCardComponent";
 import AlbumHistoryCardComponent from "../Components/CardComponents/HistoryCardComponents/AlbumHistoryCardComponent";
 import PlaylistHistoryCardComponent from "../Components/CardComponents/HistoryCardComponents/PlaylistHistoryCardComponent";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import NewArtistComponent from "../Components/NewArtistComponent";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../redux/store";
+import { clearHistory } from "../redux/player";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function HomePage() {
   const [showAddArtist, setShowAddArtist] = useState<boolean>(false);
 
+  const dispatch = useDispatch();
   const history = useSelector((state: RootState) => state.queue.history);
 
   return (
     <div>
       <div className="d-flex flex-row my-3 mx-4">
         <h1>History</h1>
+        <Button
+          className="my-auto ml-auto"
+          onClick={() => dispatch(clearHistory())}
+          variant="outline-warning"
+          title="Clear history"
+        >
+          <FontAwesomeIcon icon="trash-alt" size="lg" />
+        </Button>
       </div>
 
       <div className="mx-2">
