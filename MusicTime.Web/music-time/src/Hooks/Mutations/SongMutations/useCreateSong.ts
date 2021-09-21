@@ -34,7 +34,7 @@ function useCreateAlbum() {
         .then((res) => res.data),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries("albumsSongs");
+        queryClient.invalidateQueries();
       },
     }
   );

@@ -3,12 +3,13 @@ import Spinner from "react-bootstrap/Spinner";
 import Button from "react-bootstrap/Button";
 import { useDispatch } from "react-redux";
 import { setQueue } from "../redux/player";
-import { Container, Row, Col, ButtonGroup } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import useDetailedSongs from "../Hooks/Queries/SongQueries/useDetailedSongs";
 import Alert from "react-bootstrap/Alert";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import DetailedSongDto from "../Models/DetailedSongDto";
+import QuickNewSongComponent from "../Components/SongComponents/QuickNewSongComponent";
 
 function SongsPage() {
   const dispatch = useDispatch();
@@ -18,6 +19,8 @@ function SongsPage() {
   const [filteredSongs, setFilteredSongs] = useState<DetailedSongDto[]>([]);
 
   const [filter, setFilter] = useState<string>("");
+
+  const [showAdd, setShowAdd] = useState<boolean>(false);
 
   useEffect(() => {
     if (filter === "") {
@@ -57,7 +60,7 @@ function SongsPage() {
         </Button>
       </div>
 
-      <div className="d-flex flex-row mx-2">
+      <div className="d-flex flex-row ml-2 mr-4 mb-2">
         <Container fluid>
           <Row>
             <Col xs={12} sm={8} lg={6}>
@@ -74,14 +77,17 @@ function SongsPage() {
           </Row>
         </Container>
 
-        <ButtonGroup className="ml-auto invisible mr-4">
-          <Button variant="outline-info" className="mr-1">
-            <FontAwesomeIcon icon="plus" size="lg" />
-          </Button>
-          <Button variant="outline-danger">
-            <FontAwesomeIcon icon="trash-alt" size="lg" />
-          </Button>
-        </ButtonGroup>
+        <Button className="ml-auto invisible mr-1" variant="outline-danger">
+          <FontAwesomeIcon icon="trash-alt" size="lg" />
+        </Button>
+        <Button
+          onClick={() => setShowAdd(true)}
+          disabled={showAdd}
+          variant="outline-info"
+          title="New song"
+        >
+          <FontAwesomeIcon icon="plus" size="lg" />
+        </Button>
       </div>
 
       {error ? (
@@ -95,6 +101,11 @@ function SongsPage() {
               ></SongsPageSongComponent>
             </li>
           ))}
+          <QuickNewSongComponent
+            show={showAdd}
+            setShow={setShowAdd}
+            detailedSongs={songs}
+          ></QuickNewSongComponent>
         </ul>
       ) : isFetching ? (
         <Spinner animation="grow" variant="info" />
