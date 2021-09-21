@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using MusicTime.Bll.Dtos;
 using MusicTime.Bll.Services;
+using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace MusicTime.Api.Controllers
@@ -40,6 +42,21 @@ namespace MusicTime.Api.Controllers
                 return Unauthorized("Wrong username or password.");
             else
                 return Ok(token);
+        }
+
+        [HttpGet("login/valid")]
+        public ActionResult<bool> IsLoginValid()
+        {
+            try
+            {
+                int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            }
+            catch (Exception)
+            {
+                return Unauthorized(false);
+            }
+
+            return Ok(true);
         }
     }
 }

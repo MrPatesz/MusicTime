@@ -22,8 +22,19 @@ import MusicPlayerComponent from "./Components/MusicPlayer/MusicPlayerComponent"
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { clearQueue } from "./redux/queue";
+import axios from "axios";
+import { Config } from "./config";
 
 const App = () => {
+  const home = "/";
+  const artists = "/artists";
+  const albums = "/albums";
+  const songs = "/songs";
+  const playlists = "/playlists";
+  const welcome = "/welcome";
+  const login = "/login";
+
+  const [currentRoute, setCurrentRoute] = useState<string>(home);
   const [loggedIn, setLoggedIn] = useState<boolean>(
     localStorage.getItem("authToken") ? true : false
   );
@@ -35,16 +46,6 @@ const App = () => {
     localStorage.removeItem("authToken");
     setLoggedIn(false);
   }
-
-  const home = "/";
-  const artists = "/artists";
-  const albums = "/albums";
-  const songs = "/songs";
-  const playlists = "/playlists";
-  const welcome = "/welcome";
-  const login = "/login";
-
-  const [currentRoute, setCurrentRoute] = useState<string>(home);
 
   function getLinkForRoute(route: string, name: string) {
     return (
@@ -58,6 +59,19 @@ const App = () => {
         {name}
       </Link>
     );
+  }
+
+  if (loggedIn) {
+    let apiLink = Config.apiUrl + "users/login/valid";
+    let config = {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+      },
+    };
+    axios
+      .get(apiLink, config)
+      .then((res) => res.data)
+      .catch(() => logout());
   }
 
   return (
