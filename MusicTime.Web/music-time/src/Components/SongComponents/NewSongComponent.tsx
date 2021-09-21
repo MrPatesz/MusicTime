@@ -57,7 +57,7 @@ function NewSongComponent({ show, setShow, albumId }: Props) {
             ></Form.Control>
             {errors.Url?.type === "required" && "Url is required"}
 
-            <ButtonGroup className="ml-5">
+            <ButtonGroup className="ml-4">
               <Button title="Confirm" variant="outline-info" type="submit">
                 <FontAwesomeIcon icon="check" size="lg" />
               </Button>

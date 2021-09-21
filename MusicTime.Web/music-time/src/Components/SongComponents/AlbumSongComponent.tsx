@@ -26,7 +26,7 @@ function AlbumSongComponent({ songDto, albumId }: Props) {
   }
 
   return (
-    <div className="mx-4">
+    <div className="mb-2 mx-4">
       {editSong ? (
         <EditSongComponent
           songDto={songDto}

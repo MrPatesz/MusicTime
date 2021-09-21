@@ -34,12 +34,12 @@ function PlaylistDetailsPage() {
   } = usePlaylistsSongs(id);
 
   return (
-    <div className="page">
+    <div>
       <div>
         {playlistError ? (
           <Alert variant="danger">An error occurred while fetching data!</Alert>
         ) : playlist ? (
-          <div className="d-flex flex-row">
+          <div className="d-flex flex-row m-4">
             <Image
               src={
                 playlist.coverGuid === null
@@ -83,14 +83,14 @@ function PlaylistDetailsPage() {
         )}
       </div>
       <div>
-        <div className="d-flex flex-row mb-3 mt-2">
+        <div className="d-flex flex-row mx-4 mb-3">
           <h2>Songs</h2>
           <AddSongToPlaylistComponent
             playlistId={id}
           ></AddSongToPlaylistComponent>
         </div>
 
-        <div className="d-flex flex-row">
+        <div className="d-flex flex-row ml-2 mr-4">
           <Container fluid>
             <Row>
               <Col xs={12} sm={8} lg={6}>

@@ -26,20 +26,18 @@ function PlaylistSongComponent({ detailedSongDto, playlistId }: Props) {
   }
 
   return (
-    <div className="mb-2">
-      <div className="d-flex flex-row">
-        <SongDetails detailedSongDto={detailedSongDto}></SongDetails>
+    <div className="d-flex flex-row mb-2 ml-2 mr-4">
+      <SongDetails detailedSongDto={detailedSongDto}></SongDetails>
 
-        <ButtonGroup className="ml-auto">
-          <Button
-            title="Remove from playlist"
-            variant="outline-warning"
-            onClick={() => removeFunction()}
-          >
-            <FontAwesomeIcon icon="trash-alt" size="lg" />
-          </Button>
-        </ButtonGroup>
-      </div>
+      <ButtonGroup className="ml-auto">
+        <Button
+          title="Remove from playlist"
+          variant="outline-warning"
+          onClick={() => removeFunction()}
+        >
+          <FontAwesomeIcon icon="trash-alt" size="lg" />
+        </Button>
+      </ButtonGroup>
     </div>
   );
 }

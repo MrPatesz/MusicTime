@@ -117,7 +117,7 @@ function AlbumDetailsPage() {
           </Button>
         </div>
 
-        <div className="mx-2">
+        <div>
           {songsError ? (
             <Alert variant="danger">
               An error occurred while fetching data!
@@ -132,11 +132,13 @@ function AlbumDetailsPage() {
                   ></AlbumSongComponent>
                 </li>
               ))}
-              <NewSongComponent
-                show={showAddSong}
-                setShow={setShowAddSong}
-                albumId={id}
-              ></NewSongComponent>
+              <div className="mx-4">
+                <NewSongComponent
+                  show={showAddSong}
+                  setShow={setShowAddSong}
+                  albumId={id}
+                ></NewSongComponent>
+              </div>
             </ul>
           ) : areSongsFetching ? (
             <Spinner animation="grow" variant="info" />
