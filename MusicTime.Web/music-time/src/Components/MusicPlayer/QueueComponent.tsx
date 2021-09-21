@@ -7,14 +7,23 @@ import type { RootState } from "../../redux/store";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Dispatch, SetStateAction, useState } from "react";
 import AddQueueToPlaylistComponent from "../MusicPlayer/AddQueueToPlaylistComponent";
+import { ButtonGroup } from "react-bootstrap";
 
 interface Props {
   show: boolean;
   shuffle: boolean;
   setShuffle: Dispatch<SetStateAction<boolean>>;
+  repeat: boolean;
+  setRepeat: Dispatch<SetStateAction<boolean>>;
 }
 
-function QueueComponent({ show, shuffle, setShuffle }: Props) {
+function QueueComponent({
+  show,
+  shuffle,
+  setShuffle,
+  repeat,
+  setRepeat,
+}: Props) {
   const dispatch = useDispatch();
   const queue = useSelector((state: RootState) => state.queue.queue);
   const index = useSelector((state: RootState) => state.queue.index);
@@ -48,7 +57,10 @@ function QueueComponent({ show, shuffle, setShuffle }: Props) {
               <div
                 title="Jump to song"
                 className="d-flex flex-row w-100 queue-item"
-                onClick={() => dispatch(setIndex(queue.indexOf(s)))}
+                onClick={() => {
+                  if (repeat) setRepeat(false);
+                  dispatch(setIndex(queue.indexOf(s)));
+                }}
               >
                 <div className="align-self-center">{s.songTitle}</div>
                 <div className="ml-auto align-self-center">{s.artistName}</div>
@@ -88,26 +100,27 @@ function QueueComponent({ show, shuffle, setShuffle }: Props) {
         >
           <FontAwesomeIcon icon="folder-plus" />
         </Button>
-        <Button
-          title={shuffle ? "Turn off shuffle" : "Turn on shuffle"}
-          className="my-1"
-          variant={shuffle ? "info" : "outline-info"}
-          onClick={() => {
-            setShuffle(!shuffle);
-          }}
-        >
-          <FontAwesomeIcon icon="random" />
-        </Button>
-        <Button
-          title="Repeat song"
-          className="my-1 mx-2"
-          variant="outline-info"
-          onClick={() => {
-            /*setRepeat()*/
-          }}
-        >
-          <FontAwesomeIcon icon="sync" />
-        </Button>
+
+        <ButtonGroup className="my-1 mr-2">
+          <Button
+            title={shuffle ? "Turn off shuffle" : "Turn on shuffle"}
+            className="mr-1"
+            variant={shuffle ? "info" : "outline-info"}
+            onClick={() => {
+              setShuffle(!shuffle);
+            }}
+          >
+            <FontAwesomeIcon icon="random" />
+          </Button>
+          <Button
+            title={repeat ? "Turn off repeat" : "Turn on repeat"}
+            variant={repeat ? "info" : "outline-info"}
+            onClick={() => setRepeat(!repeat)}
+          >
+            <FontAwesomeIcon icon="sync" />
+          </Button>
+        </ButtonGroup>
+
         <Button
           title="Clear Queue"
           className="ml-auto mr-2 my-1"

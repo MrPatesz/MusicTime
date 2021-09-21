@@ -26,8 +26,9 @@ function MusicPlayerComponent() {
 
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [isSeeking, setIsSeeking] = useState<boolean>(false);
-  const [showQueue, setShowQueue] = useState<boolean>(false);
+  const [showQueue, setShowQueue] = useState<boolean>(true);
   const [shuffle, setShuffle] = useState<boolean>(false);
+  const [repeat, setRepeat] = useState<boolean>(false);
 
   const playerRef = useRef<LegacyRef<ReactPlayer>>(
     null
@@ -35,19 +36,26 @@ function MusicPlayerComponent() {
 
   function playPrevFunction() {
     setProgress(0);
-    dispatch(playPrevious());
-    setIsPlaying(true);
+    if (!repeat) {
+      dispatch(playPrevious());
+      // TODO("shuffle esetén a ténylegesen játszottra lépjen vissza")
+    } else {
+      playerRef?.current?.seekTo(0);
+    }
   }
 
   function playNextFunction() {
     setProgress(0);
-    if (shuffle) {
-      dispatch(playRandom());
-    } else {
+    if (repeat) {
       dispatch(playNext());
+      dispatch(playPrevious());
+    } else {
+      if (shuffle) {
+        dispatch(playRandom());
+      } else {
+        dispatch(playNext());
+      }
     }
-
-    setIsPlaying(true);
   }
 
   function onProgress(state: { played: number }) {
@@ -65,6 +73,8 @@ function MusicPlayerComponent() {
           show={showQueue}
           shuffle={shuffle}
           setShuffle={setShuffle}
+          repeat={repeat}
+          setRepeat={setRepeat}
         ></QueueComponent>
 
         <div className="d-flex flex-column">
@@ -142,7 +152,10 @@ function MusicPlayerComponent() {
               <Button
                 title="Play next"
                 variant="outline-info"
-                onClick={playNextFunction}
+                onClick={() => {
+                  if (repeat) setRepeat(false);
+                  playerRef?.current?.seekTo(0.999999);
+                }}
               >
                 <FontAwesomeIcon icon="step-forward" />
               </Button>
