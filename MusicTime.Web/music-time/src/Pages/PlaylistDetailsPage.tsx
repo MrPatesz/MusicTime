@@ -4,7 +4,6 @@ import { useRouteMatch } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Image from "react-bootstrap/Image";
-import Spinner from "react-bootstrap/Spinner";
 import AddSongToPlaylistComponent from "../Components/PlaylistComponents/AddSongToPlaylistComponent";
 import NewPlaylistComponent from "../Components/PlaylistComponents/NewPlaylistComponent";
 import { useDispatch } from "react-redux";
@@ -13,8 +12,8 @@ import { Config } from "../config";
 import { Container, Row, Col } from "react-bootstrap";
 import usePlaylist from "../Hooks/Queries/PlaylistQueries/usePlaylist";
 import usePlaylistsSongs from "../Hooks/Queries/PlaylistQueries/usePlaylistsSongs";
-import Alert from "react-bootstrap/Alert";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import QueryComponent from "../Components/QueryComponent";
 
 function PlaylistDetailsPage() {
   const dispatch = useDispatch();
@@ -36,54 +35,52 @@ function PlaylistDetailsPage() {
   return (
     <div>
       <div>
-        {playlistError ? (
-          <Alert variant="danger">An error occurred while fetching data!</Alert>
-        ) : playlist ? (
-          <div className="d-flex flex-row m-4">
-            <Image
-              src={
-                playlist.coverGuid === null
-                  ? "/placeholder.png"
-                  : Config.picturePath + playlist.coverGuid + ".png"
-              }
-              rounded
-              style={{
-                width: "15rem",
-                height: "15rem",
-              }}
-              className="mb-2 mr-4"
-            />
-            <div className="d-flex flex-column">
-              <h1>{playlist.title}</h1>
-              <p>{playlist.description}</p>
-            </div>
-
-            <ButtonGroup vertical className="ml-auto mb-auto">
-              <Button
-                title="Edit"
-                variant="outline-info"
-                onClick={() => setShowEditPlaylist(true)}
-                className="mb-2"
-              >
-                <FontAwesomeIcon icon="edit" size="lg" />
-              </Button>
-              <Button
-                title="Add to Queue"
-                variant="outline-info"
-                onClick={() => {
-                  dispatch(setQueue(songs ?? []));
-                  dispatch(addToHistory({ id: id, type: "playlist" }));
+        <QueryComponent
+          isFetching={isPlaylistFetching}
+          error={playlistError}
+          data={playlist}
+          ChildJSX={() => (
+            <div className="d-flex flex-row m-4">
+              <Image
+                src={
+                  playlist!.coverGuid === null
+                    ? "/placeholder.png"
+                    : Config.picturePath + playlist!.coverGuid + ".png"
+                }
+                rounded
+                style={{
+                  width: "15rem",
+                  height: "15rem",
                 }}
-              >
-                <FontAwesomeIcon icon="play" size="lg" />
-              </Button>
-            </ButtonGroup>
-          </div>
-        ) : isPlaylistFetching ? (
-          <Spinner animation="grow" variant="info" />
-        ) : (
-          <div></div>
-        )}
+                className="mb-2 mr-4"
+              />
+              <div className="d-flex flex-column">
+                <h1>{playlist!.title}</h1>
+                <p>{playlist!.description}</p>
+              </div>
+
+              <ButtonGroup vertical className="ml-auto mb-auto">
+                <Button
+                  title="Edit"
+                  variant="outline-info"
+                  onClick={() => setShowEditPlaylist(true)}
+                  className="mb-2"
+                >
+                  <FontAwesomeIcon icon="edit" size="lg" />
+                </Button>
+                <Button
+                  title="Add to Queue"
+                  variant="outline-info"
+                  onClick={() => {
+                    dispatch(setQueue(songs ?? []));
+                    dispatch(addToHistory({ id: id, type: "playlist" }));
+                  }}
+                >
+                  <FontAwesomeIcon icon="play" size="lg" />
+                </Button>
+              </ButtonGroup>
+            </div>
+          )}></QueryComponent>
       </div>
       <div>
         <div className="d-flex flex-row mx-4 mb-3">
@@ -117,24 +114,22 @@ function PlaylistDetailsPage() {
           </ButtonGroup>
         </div>
 
-        {songsError ? (
-          <Alert variant="danger">An error occurred while fetching data!</Alert>
-        ) : songs ? (
-          <ul className="no-bullets">
-            {songs.map((s, i) => (
-              <li key={s.songId} className={i % 2 !== 0 ? "bg-dark" : ""}>
-                <PlaylistSongComponent
-                  detailedSongDto={s}
-                  playlistId={id}
-                ></PlaylistSongComponent>
-              </li>
-            ))}
-          </ul>
-        ) : areSongsFetching ? (
-          <Spinner animation="grow" variant="info" />
-        ) : (
-          <div></div>
-        )}
+        <QueryComponent
+          isFetching={areSongsFetching}
+          error={songsError}
+          data={songs}
+          ChildJSX={() => (
+            <ul className="no-bullets">
+              {(songs ?? []).map((s, i) => (
+                <li key={s.songId} className={i % 2 !== 0 ? "bg-dark" : ""}>
+                  <PlaylistSongComponent
+                    detailedSongDto={s}
+                    playlistId={id}
+                  ></PlaylistSongComponent>
+                </li>
+              ))}
+            </ul>
+          )}></QueryComponent>
       </div>
 
       {playlist ? (

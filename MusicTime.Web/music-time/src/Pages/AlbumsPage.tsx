@@ -1,10 +1,9 @@
 import CardComponent from "../Components/CardComponents/CardComponent";
 import { Container, Row, Col } from "react-bootstrap";
-import Spinner from "react-bootstrap/Spinner";
 import useAlbums from "../Hooks/Queries/AlbumQueries/useAlbums";
-import Alert from "react-bootstrap/Alert";
 import { useState, useEffect } from "react";
 import AlbumDto from "../Models/AlbumDto";
+import QueryComponent from "../Components/QueryComponent";
 
 function AlbumsPage() {
   const { data: albums, error, isFetching } = useAlbums();
@@ -40,28 +39,26 @@ function AlbumsPage() {
       </div>
 
       <div className="mx-2">
-        {error ? (
-          <Alert variant="danger">An error occurred while fetching data!</Alert>
-        ) : albums ? (
-          <Container fluid>
-            <Row>
-              {filteredAlbums.map((a) => (
-                <Col xs={6} sm={4} md={3} xl={2} key={a.id}>
-                  <CardComponent
-                    title={a.title}
-                    pictureGuid={a.coverGuid}
-                    relativeLink={"albums/" + a.id}
-                    toInvalidate="albums"
-                  ></CardComponent>
-                </Col>
-              ))}
-            </Row>
-          </Container>
-        ) : isFetching ? (
-          <Spinner animation="grow" variant="info" />
-        ) : (
-          <div></div>
-        )}
+        <QueryComponent
+          isFetching={isFetching}
+          error={error}
+          data={albums}
+          ChildJSX={() => (
+            <Container fluid>
+              <Row>
+                {filteredAlbums.map((a) => (
+                  <Col xs={6} sm={4} md={3} xl={2} key={a.id}>
+                    <CardComponent
+                      title={a.title}
+                      pictureGuid={a.coverGuid}
+                      relativeLink={"albums/" + a.id}
+                      toInvalidate="albums"
+                    ></CardComponent>
+                  </Col>
+                ))}
+              </Row>
+            </Container>
+          )}></QueryComponent>
       </div>
     </div>
   );

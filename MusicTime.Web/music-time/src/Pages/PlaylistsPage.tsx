@@ -2,12 +2,11 @@ import { useEffect, useState } from "react";
 import CardComponent from "../Components/CardComponents/CardComponent";
 import { Container, Row, Col } from "react-bootstrap";
 import PlaylistDto from "../Models/PlaylistDto";
-import Spinner from "react-bootstrap/Spinner";
 import Button from "react-bootstrap/Button";
 import NewPlaylistComponent from "../Components/PlaylistComponents/NewPlaylistComponent";
 import usePlaylists from "../Hooks/Queries/PlaylistQueries/usePlaylists";
-import Alert from "react-bootstrap/Alert";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import QueryComponent from "../Components/QueryComponent";
 
 function PlaylistsPage() {
   const [showAddPlaylist, setShowAddPlaylist] = useState<boolean>(false);
@@ -54,28 +53,26 @@ function PlaylistsPage() {
       </div>
 
       <div className="mx-2">
-        {error ? (
-          <Alert variant="danger">An error occurred while fetching data!</Alert>
-        ) : playlists ? (
-          <Container fluid>
-            <Row>
-              {filteredPlaylists.map((a) => (
-                <Col xs={6} sm={4} md={3} xl={2} key={a.id}>
-                  <CardComponent
-                    title={a.title}
-                    pictureGuid={a.coverGuid}
-                    relativeLink={"playlists/" + a.id}
-                    toInvalidate="playlists"
-                  ></CardComponent>
-                </Col>
-              ))}
-            </Row>
-          </Container>
-        ) : isFetching ? (
-          <Spinner animation="grow" variant="info" />
-        ) : (
-          <div></div>
-        )}
+        <QueryComponent
+          isFetching={isFetching}
+          error={error}
+          data={playlists}
+          ChildJSX={() => (
+            <Container fluid>
+              <Row>
+                {filteredPlaylists.map((a) => (
+                  <Col xs={6} sm={4} md={3} xl={2} key={a.id}>
+                    <CardComponent
+                      title={a.title}
+                      pictureGuid={a.coverGuid}
+                      relativeLink={"playlists/" + a.id}
+                      toInvalidate="playlists"
+                    ></CardComponent>
+                  </Col>
+                ))}
+              </Row>
+            </Container>
+          )}></QueryComponent>
       </div>
 
       <NewPlaylistComponent

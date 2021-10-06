@@ -1,15 +1,14 @@
 import SongsPageSongComponent from "../Components/SongComponents/SongsPageSongComponent";
-import Spinner from "react-bootstrap/Spinner";
 import Button from "react-bootstrap/Button";
 import { useDispatch } from "react-redux";
 import { setQueue } from "../redux/player";
 import { Container, Row, Col } from "react-bootstrap";
 import useDetailedSongs from "../Hooks/Queries/SongQueries/useDetailedSongs";
-import Alert from "react-bootstrap/Alert";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import DetailedSongDto from "../Models/DetailedSongDto";
 import QuickNewSongComponent from "../Components/SongComponents/QuickNewSongComponent";
+import QueryComponent from "../Components/QueryComponent";
 
 function SongsPage() {
   const dispatch = useDispatch();
@@ -90,28 +89,26 @@ function SongsPage() {
         </Button>
       </div>
 
-      {error ? (
-        <Alert variant="danger">An error occurred while fetching data!</Alert>
-      ) : songs ? (
-        <ul className="no-bullets">
-          {filteredSongs.map((s, i) => (
-            <li key={s.songId} className={i % 2 !== 0 ? "bg-dark" : ""}>
-              <SongsPageSongComponent
-                detailedSongDto={s}
-              ></SongsPageSongComponent>
-            </li>
-          ))}
-          <QuickNewSongComponent
-            show={showAdd}
-            setShow={setShowAdd}
-            detailedSongs={songs}
-          ></QuickNewSongComponent>
-        </ul>
-      ) : isFetching ? (
-        <Spinner animation="grow" variant="info" />
-      ) : (
-        <div></div>
-      )}
+      <QueryComponent
+        isFetching={isFetching}
+        error={error}
+        data={songs}
+        ChildJSX={() => (
+          <ul className="no-bullets">
+            {filteredSongs.map((s, i) => (
+              <li key={s.songId} className={i % 2 !== 0 ? "bg-dark" : ""}>
+                <SongsPageSongComponent
+                  detailedSongDto={s}
+                ></SongsPageSongComponent>
+              </li>
+            ))}
+            <QuickNewSongComponent
+              show={showAdd}
+              setShow={setShowAdd}
+              detailedSongs={songs ?? []}
+            ></QuickNewSongComponent>
+          </ul>
+        )}></QueryComponent>
     </div>
   );
 }

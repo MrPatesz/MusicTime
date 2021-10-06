@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Spinner from "react-bootstrap/Spinner";
 import { useRouteMatch } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
@@ -13,8 +12,8 @@ import { setQueue, addToHistory } from "../redux/player";
 import { Config } from "../config";
 import useAlbum from "../Hooks/Queries/AlbumQueries/useAlbum";
 import useAlbumsSongs from "../Hooks/Queries/AlbumQueries/useAlbumsSongs";
-import Alert from "react-bootstrap/Alert";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import QueryComponent from "../Components/QueryComponent";
 
 function AlbumDetailsPage() {
   const dispatch = useDispatch();
@@ -54,55 +53,53 @@ function AlbumDetailsPage() {
   return (
     <div>
       <div>
-        {albumError ? (
-          <Alert variant="danger">An error occurred while fetching data!</Alert>
-        ) : album ? (
-          <div className="d-flex flex-row m-4">
-            <Image
-              src={
-                album.coverGuid === null
-                  ? "/placeholder.png"
-                  : Config.picturePath + album.coverGuid + ".png"
-              }
-              rounded
-              style={{
-                width: "15rem",
-                height: "15rem",
-              }}
-              className="mb-2 mr-4"
-            />
-            <div className="d-flex flex-column">
-              <h1>{album.title}</h1>
-              <h4>{album.releaseYear}</h4>
-              <h4>{album.genre}</h4>
-              <div>
-                <p>{album.description}</p>
+        <QueryComponent
+          isFetching={isAlbumFetching}
+          error={albumError}
+          data={album}
+          ChildJSX={() => (
+            <div className="d-flex flex-row m-4">
+              <Image
+                src={
+                  album!.coverGuid === null
+                    ? "/placeholder.png"
+                    : Config.picturePath + album!.coverGuid + ".png"
+                }
+                rounded
+                style={{
+                  width: "15rem",
+                  height: "15rem",
+                }}
+                className="mb-2 mr-4"
+              />
+              <div className="d-flex flex-column">
+                <h1>{album!.title}</h1>
+                <h4>{album!.releaseYear}</h4>
+                <h4>{album!.genre}</h4>
+                <div>
+                  <p>{album!.description}</p>
+                </div>
               </div>
-            </div>
 
-            <ButtonGroup vertical className="ml-auto mb-auto">
-              <Button
-                title="Edit"
-                variant="outline-info"
-                onClick={() => setShowEditAlbum(true)}
-                className="mb-2"
-              >
-                <FontAwesomeIcon icon="edit" size="lg" />
-              </Button>
-              <Button
-                title="Add to Queue"
-                variant="outline-info"
-                onClick={playFunction}
-              >
-                <FontAwesomeIcon icon="play" size="lg" />
-              </Button>
-            </ButtonGroup>
-          </div>
-        ) : isAlbumFetching ? (
-          <Spinner animation="grow" variant="info" />
-        ) : (
-          <div></div>
-        )}
+              <ButtonGroup vertical className="ml-auto mb-auto">
+                <Button
+                  title="Edit"
+                  variant="outline-info"
+                  onClick={() => setShowEditAlbum(true)}
+                  className="mb-2"
+                >
+                  <FontAwesomeIcon icon="edit" size="lg" />
+                </Button>
+                <Button
+                  title="Add to Queue"
+                  variant="outline-info"
+                  onClick={playFunction}
+                >
+                  <FontAwesomeIcon icon="play" size="lg" />
+                </Button>
+              </ButtonGroup>
+            </div>
+          )}></QueryComponent>
       </div>
       <div>
         <div className="d-flex flex-row mx-4 mb-3">
@@ -119,33 +116,29 @@ function AlbumDetailsPage() {
         </div>
 
         <div>
-          {songsError ? (
-            <Alert variant="danger">
-              An error occurred while fetching data!
-            </Alert>
-          ) : songs ? (
-            <ul className="no-bullets">
-              {songs.map((s, i) => (
-                <li key={s.id} className={i % 2 !== 0 ? "bg-dark" : ""}>
-                  <AlbumSongComponent
-                    songDto={s}
+          <QueryComponent
+            isFetching={areSongsFetching}
+            error={songsError}
+            data={songs}
+            ChildJSX={() => (
+              <ul className="no-bullets">
+                {(songs ?? []).map((s, i) => (
+                  <li key={s.id} className={i % 2 !== 0 ? "bg-dark" : ""}>
+                    <AlbumSongComponent
+                      songDto={s}
+                      albumId={id}
+                    ></AlbumSongComponent>
+                  </li>
+                ))}
+                <div className="mx-4">
+                  <NewSongComponent
+                    show={showAddSong}
+                    setShow={setShowAddSong}
                     albumId={id}
-                  ></AlbumSongComponent>
-                </li>
-              ))}
-              <div className="mx-4">
-                <NewSongComponent
-                  show={showAddSong}
-                  setShow={setShowAddSong}
-                  albumId={id}
-                ></NewSongComponent>
-              </div>
-            </ul>
-          ) : areSongsFetching ? (
-            <Spinner animation="grow" variant="info" />
-          ) : (
-            <div></div>
-          )}
+                  ></NewSongComponent>
+                </div>
+              </ul>
+            )}></QueryComponent>
         </div>
       </div>
 

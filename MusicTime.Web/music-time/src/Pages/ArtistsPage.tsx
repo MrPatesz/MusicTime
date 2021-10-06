@@ -2,12 +2,11 @@ import { useEffect, useState } from "react";
 import ArtistDto from "../Models/ArtistDto";
 import CardComponent from "../Components/CardComponents/CardComponent";
 import { Container, Row, Col } from "react-bootstrap";
-import Spinner from "react-bootstrap/Spinner";
 import Button from "react-bootstrap/Button";
 import NewArtistComponent from "../Components/NewArtistComponent";
 import useArtists from "../Hooks/Queries/ArtistQueries/useArtists";
-import Alert from "react-bootstrap/Alert";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import QueryComponent from "../Components/QueryComponent";
 
 function ArtistsPage() {
   const [showAddArtist, setShowAddArtist] = useState<boolean>(false);
@@ -54,28 +53,26 @@ function ArtistsPage() {
       </div>
 
       <div className="mx-2">
-        {error ? (
-          <Alert variant="danger">An error occurred while fetching data!</Alert>
-        ) : artists ? (
-          <Container fluid>
-            <Row>
-              {filteredArtists.map((a) => (
-                <Col xs={6} sm={4} md={3} xl={2} key={a.id}>
-                  <CardComponent
-                    title={a.name}
-                    pictureGuid={a.pictureGuid}
-                    relativeLink={"artists/" + a.id}
-                    toInvalidate="artists"
-                  ></CardComponent>
-                </Col>
-              ))}
-            </Row>
-          </Container>
-        ) : isFetching ? (
-          <Spinner animation="grow" variant="info" />
-        ) : (
-          <div></div>
-        )}
+        <QueryComponent
+          isFetching={isFetching}
+          error={error}
+          data={artists}
+          ChildJSX={() => (
+            <Container fluid>
+              <Row>
+                {filteredArtists.map((a) => (
+                  <Col xs={6} sm={4} md={3} xl={2} key={a.id}>
+                    <CardComponent
+                      title={a.name}
+                      pictureGuid={a.pictureGuid}
+                      relativeLink={"artists/" + a.id}
+                      toInvalidate="artists"
+                    ></CardComponent>
+                  </Col>
+                ))}
+              </Row>
+            </Container>
+          )}></QueryComponent>
       </div>
 
       <NewArtistComponent
