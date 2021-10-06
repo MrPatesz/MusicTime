@@ -70,10 +70,11 @@ export default function AutosuggestComponent({
       highlightFirstSuggestion={true}
       selectFirstSuggestion={true}
       onSuggestionSelected={(
-        event: React.MouseEvent,
+        _: React.MouseEvent,
         { suggestionValue }: { suggestionValue: string }
       ) => onValueChanged(suggestionValue)}
-      alwaysRenderSuggestions={true}
+      alwaysRenderSuggestions={false}
+      shouldRenderSuggestions={() => true}
     />
   );
 }
