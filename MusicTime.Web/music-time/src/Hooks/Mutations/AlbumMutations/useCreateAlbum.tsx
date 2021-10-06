@@ -8,7 +8,7 @@ interface MutationVariables {
   title: string;
   description: string;
   genre: string;
-  releaseYear: number;
+  releaseYear: number | null;
 }
 
 function useCreateAlbum() {

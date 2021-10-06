@@ -44,7 +44,7 @@ function QuickNewSongComponent({ show, setShow, detailedSongs }: Props) {
         artistId: artistExists.artistId,
         description: "",
         genre: "",
-        releaseYear: -1,
+        releaseYear: null,
       });
       createSong.mutate({
         title: songTitle,
@@ -61,7 +61,7 @@ function QuickNewSongComponent({ show, setShow, detailedSongs }: Props) {
         artistId: newArtist.id,
         description: "",
         genre: "",
-        releaseYear: -1,
+        releaseYear: null,
       });
       createSong.mutate({
         title: songTitle,
