@@ -19,8 +19,10 @@ function useRegisterUser(
           UserName: variables.username,
           Password: variables.password,
         })
-        .then((result) =>
-          localStorage.setItem("authToken", String(result.data))
+        .then((result) => {
+            localStorage.setItem("authToken", String(result.data));
+            localStorage.setItem("userName", variables.username);
+          }
         ),
     {
       onError: () => alert("Wrong username or password"),
