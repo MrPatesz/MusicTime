@@ -45,7 +45,7 @@ namespace MusicTime.Api.Controllers
             {
                 if (objFile.File.Length > 0)
                 {
-                    var dir = environment.WebRootPath + "\\Pictures\\";
+                    var dir = environment.WebRootPath + "\\Pictures\\"; // ezt a mappát létre kellene hozni
 
                     if (!Directory.Exists(dir))
                     {
