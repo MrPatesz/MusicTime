@@ -5,6 +5,7 @@ import {
   Route,
   Link,
   Redirect,
+  useLocation,
 } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
@@ -34,11 +35,11 @@ const App = () => {
   const welcome = "/welcome";
   const login = "/login";
 
-  const [currentRoute, setCurrentRoute] = useState<string>(home);
+  const currentRoute: string = useLocation().pathname;
   const [loggedIn, setLoggedIn] = useState<boolean>(
     localStorage.getItem("authToken") ? true : false
   );
-
+  
   const dispatch = useDispatch();
 
   function logout() {
@@ -54,7 +55,7 @@ const App = () => {
           route === currentRoute ? "nav-link text-light" : "nav-link text-info"
         }
         to={route}
-        onClick={() => setCurrentRoute(route)}
+      //onClick={() => setCurrentRoute(route)}
       >
         {name}
       </Link>
@@ -75,82 +76,80 @@ const App = () => {
   }
 
   return (
-    <Router>
-      <div className="App">
-        <Navbar bg="dark" variant="dark">
-          {loggedIn ? (
-            <Nav>
-              {getLinkForRoute(home, "Home")}
-              {getLinkForRoute(artists, "Artists")}
-              {getLinkForRoute(albums, "Albums")}
-              {getLinkForRoute(songs, "Songs")}
-              {getLinkForRoute(playlists, "Playlists")}
-            </Nav>
-          ) : (
-            getLinkForRoute(welcome, "Welcome")
-          )}
-          <Nav className="ml-auto">
-            {loggedIn ? (
-              <Link className="nav-link text-info" onClick={logout}>
-                Logout
-              </Link>
-            ) : (
-              getLinkForRoute(login, "Login")
-            )}
+    <div className="App">
+      <Navbar bg="dark" variant="dark">
+        {loggedIn ? (
+          <Nav>
+            {getLinkForRoute(home, "Home")}
+            {getLinkForRoute(artists, "Artists")}
+            {getLinkForRoute(albums, "Albums")}
+            {getLinkForRoute(songs, "Songs")}
+            {getLinkForRoute(playlists, "Playlists")}
           </Nav>
-        </Navbar>
-        <Switch>
-          <Route exact path="/">
-            {loggedIn ? <HomePage></HomePage> : <Redirect to="/login" />}
-          </Route>
-          <Route exact path="/artists">
-            {loggedIn ? <ArtistsPage></ArtistsPage> : <Redirect to="/login" />}
-          </Route>
-          <Route exact path={"/artists/:id"}>
-            {loggedIn ? (
-              <ArtistDetailsPage></ArtistDetailsPage>
-            ) : (
-              <Redirect to="/login" />
-            )}
-          </Route>
-          <Route exact path="/albums">
-            {loggedIn ? <AlbumsPage></AlbumsPage> : <Redirect to="/login" />}
-          </Route>
-          <Route exact path={"/albums/:id"}>
-            {loggedIn ? (
-              <AlbumDetailsPage></AlbumDetailsPage>
-            ) : (
-              <Redirect to="/login" />
-            )}
-          </Route>
-          <Route exact path="/songs">
-            {loggedIn ? <SongsPage></SongsPage> : <Redirect to="/login" />}
-          </Route>
-          <Route exact path="/playlists">
-            {loggedIn ? (
-              <PlaylistsPage></PlaylistsPage>
-            ) : (
-              <Redirect to="/login" />
-            )}
-          </Route>
-          <Route exact path={"/playlists/:id"}>
-            {loggedIn ? (
-              <PlaylistDetailsPage></PlaylistDetailsPage>
-            ) : (
-              <Redirect to="/login" />
-            )}
-          </Route>
-          <Route exact path="/login">
-            {loggedIn ? (
-              <Redirect to="/" />
-            ) : (
-              <LoginPage setLoggedIn={setLoggedIn}></LoginPage>
-            )}
-          </Route>
-        </Switch>
-        {loggedIn ? <MusicPlayerComponent></MusicPlayerComponent> : <div></div>}
-      </div>
-    </Router>
+        ) : (
+          getLinkForRoute(welcome, "Welcome")
+        )}
+        <Nav className="ml-auto">
+          {loggedIn ? (
+            <Link className="nav-link text-info" onClick={logout}>
+              Logout
+            </Link>
+          ) : (
+            getLinkForRoute(login, "Login")
+          )}
+        </Nav>
+      </Navbar>
+      <Switch>
+        <Route exact path="/">
+          {loggedIn ? <HomePage></HomePage> : <Redirect to="/login" />}
+        </Route>
+        <Route exact path="/artists">
+          {loggedIn ? <ArtistsPage></ArtistsPage> : <Redirect to="/login" />}
+        </Route>
+        <Route exact path={"/artists/:id"}>
+          {loggedIn ? (
+            <ArtistDetailsPage></ArtistDetailsPage>
+          ) : (
+            <Redirect to="/login" />
+          )}
+        </Route>
+        <Route exact path="/albums">
+          {loggedIn ? <AlbumsPage></AlbumsPage> : <Redirect to="/login" />}
+        </Route>
+        <Route exact path={"/albums/:id"}>
+          {loggedIn ? (
+            <AlbumDetailsPage></AlbumDetailsPage>
+          ) : (
+            <Redirect to="/login" />
+          )}
+        </Route>
+        <Route exact path="/songs">
+          {loggedIn ? <SongsPage></SongsPage> : <Redirect to="/login" />}
+        </Route>
+        <Route exact path="/playlists">
+          {loggedIn ? (
+            <PlaylistsPage></PlaylistsPage>
+          ) : (
+            <Redirect to="/login" />
+          )}
+        </Route>
+        <Route exact path={"/playlists/:id"}>
+          {loggedIn ? (
+            <PlaylistDetailsPage></PlaylistDetailsPage>
+          ) : (
+            <Redirect to="/login" />
+          )}
+        </Route>
+        <Route exact path="/login">
+          {loggedIn ? (
+            <Redirect to="/" />
+          ) : (
+            <LoginPage setLoggedIn={setLoggedIn}></LoginPage>
+          )}
+        </Route>
+      </Switch>
+      {loggedIn ? <MusicPlayerComponent></MusicPlayerComponent> : <div></div>}
+    </div>
   );
 };
 
