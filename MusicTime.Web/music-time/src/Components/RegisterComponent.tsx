@@ -54,6 +54,7 @@ function RegisterComponent({ show, setShow }: Props) {
             <Form.Group>
               <Form.Label>Username</Form.Label>
               <Form.Control
+                maxLength={50}
                 type="text"
                 {...register("UserName", { required: true, maxLength: 50 })}
               />
@@ -63,6 +64,7 @@ function RegisterComponent({ show, setShow }: Props) {
             <Form.Group>
               <Form.Label>Password</Form.Label>
               <Form.Control
+                maxLength={256}
                 type="password"
                 {...register("Password", { required: true })}
               />
@@ -72,6 +74,7 @@ function RegisterComponent({ show, setShow }: Props) {
             <Form.Group>
               <Form.Label>Confirm Password</Form.Label>
               <Form.Control
+                maxLength={256}
                 type="password"
                 {...register("ConfirmPassword", { required: true })}
               />

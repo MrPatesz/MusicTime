@@ -113,6 +113,7 @@ function QuickNewSongComponent({ show, setShow, detailedSongs }: Props) {
             <Col xs={12} sm={8} lg={6}>
               <div className="d-flex flex-row">
                 <input
+                  maxLength={50}
                   className="form-control"
                   placeholder="title"
                   type="text"

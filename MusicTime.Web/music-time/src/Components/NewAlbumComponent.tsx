@@ -110,6 +110,7 @@ function NewAlbumComponent({
             <Form.Group>
               <Form.Label>Title</Form.Label>
               <Form.Control
+                maxLength={50}
                 type="text"
                 {...register("Title", { required: true })}
                 defaultValue={editedAlbum.title ?? ""}
@@ -120,6 +121,7 @@ function NewAlbumComponent({
             <Form.Group>
               <Form.Label>Genre</Form.Label>
               <Form.Control
+                maxLength={50}
                 type="text"
                 {...register("Genre")}
                 defaultValue={editedAlbum.genre ?? ""}

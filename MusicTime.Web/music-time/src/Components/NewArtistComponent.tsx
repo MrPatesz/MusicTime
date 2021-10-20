@@ -97,6 +97,7 @@ function NewArtistComponent({ show, setShow, isEdited, editedArtist }: Props) {
             <Form.Group>
               <Form.Label>Name</Form.Label>
               <Form.Control
+                maxLength={50}
                 type="text"
                 {...register("Name", { required: true })}
                 defaultValue={editedArtist.name ?? ""}

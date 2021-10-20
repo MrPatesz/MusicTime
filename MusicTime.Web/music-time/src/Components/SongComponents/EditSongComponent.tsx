@@ -45,6 +45,7 @@ function EditSongComponent({ setShow, albumId, songDto }: Props) {
     >
       <div className="d-flex flex-row">
         <Form.Control
+          maxLength={50}
           defaultValue={songDto.title}
           {...register("Title", { required: true })}
           placeholder={"title"}
@@ -52,6 +53,7 @@ function EditSongComponent({ setShow, albumId, songDto }: Props) {
         {errors.Title?.type === "required" && "Title is required"}
 
         <Form.Control
+          maxLength={150}
           defaultValue={songDto.url}
           className="ml-2"
           {...register("Url", { required: true })}

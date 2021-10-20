@@ -103,6 +103,7 @@ function NewPlaylistComponent({
             <Form.Group>
               <Form.Label>Title</Form.Label>
               <Form.Control
+                maxLength={50}
                 type="text"
                 {...register("Title", { required: true })}
                 defaultValue={editedPlaylist.title}

@@ -45,12 +45,14 @@ function NewSongComponent({ show, setShow, albumId }: Props) {
         >
           <div className="d-flex flex-row">
             <Form.Control
+              maxLength={50}
               {...register("Title", { required: true })}
               placeholder={"title"}
             ></Form.Control>
             {errors.Title?.type === "required" && "Title is required"}
 
             <Form.Control
+              maxLength={150}
               className="ml-2"
               {...register("Url", { required: true })}
               placeholder={"url"}
