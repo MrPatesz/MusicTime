@@ -1,6 +1,6 @@
 import Button from "react-bootstrap/Button";
 import { useDispatch } from "react-redux";
-import { clearQueue, removeAt } from "../../redux/player";
+import { clearQueue, removeAt, moveDown, moveUp } from "../../redux/player";
 import { setIndex } from "../../redux/player";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../redux/store";
@@ -66,9 +66,42 @@ function QueueComponent({
                 <div className="ml-auto align-self-center">{s.artistName}</div>
               </div>
 
+              <ButtonGroup
+                vertical={true}
+                className="ml-2"
+                style={{ width:"15px"}}
+              >
+                <Button
+                  style={{ height: "14px" }}
+                  size="sm"
+                  className="px-1 py-0"
+                  variant="outline-info"
+                  onClick={() => {
+                    dispatch(moveUp(i));
+                  }}
+                >
+                  <FontAwesomeIcon
+                    style={{ position: "relative", bottom: "2px", right: "2px" }}
+                    icon="sort-up" />
+                </Button>
+                <Button
+                  style={{ height: "14px" }}
+                  size="sm"
+                  className="px-1 py-0"
+                  variant="outline-info"
+                  onClick={() => {
+                    dispatch(moveDown(i));
+                  }}
+                >
+                  <FontAwesomeIcon
+                    style={{ position: "relative", bottom: "7px", right: "2px" }}
+                    icon="sort-down" />
+                </Button>
+              </ButtonGroup>
+
               <Button
                 title="Remove song from Queue"
-                className="ml-2 py-0 px-1"
+                className="ml-1 py-0 px-1"
                 variant="outline-warning"
                 size="sm"
                 onClick={() => {
