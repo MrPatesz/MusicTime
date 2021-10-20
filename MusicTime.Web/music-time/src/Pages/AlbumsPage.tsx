@@ -20,6 +20,7 @@ function AlbumsPage() {
       setFilteredAlbums(
         (albums ?? []).filter((a) =>
           a.title.toLowerCase().includes(filterLowerCase)
+          || a.genre?.toLowerCase().includes(filterLowerCase)
         )
       );
     }
@@ -32,7 +33,7 @@ function AlbumsPage() {
 
         <input
           className="form-control my-auto ml-4"
-          placeholder="Search for an album..."
+          placeholder="Search for an album or genre..."
           type="text"
           onChange={(event) => setFilter(event.currentTarget.value)}
         ></input>
