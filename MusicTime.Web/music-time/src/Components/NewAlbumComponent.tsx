@@ -42,7 +42,7 @@ function NewAlbumComponent({
   const updateAlbum = useUpdateAlbum();
   const uploadPicture = useUploadPicture({
     relativeLink: "album",
-    toInvalidate: "artistsAlbums",
+    toInvalidate: undefined,
   });
 
   async function postFunction(data: FormValues) {

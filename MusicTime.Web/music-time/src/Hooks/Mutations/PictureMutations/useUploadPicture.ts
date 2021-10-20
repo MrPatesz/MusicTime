@@ -9,7 +9,7 @@ interface MutationVariables {
 
 interface Props {
   relativeLink: string;
-  toInvalidate: string;
+  toInvalidate: string | undefined;
 }
 
 function useUploadPicture({ relativeLink, toInvalidate }: Props) {
