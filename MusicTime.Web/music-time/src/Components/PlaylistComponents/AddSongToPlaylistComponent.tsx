@@ -99,14 +99,14 @@ function AddSongToPlaylistComponent({ playlistId }: Props) {
         <Alert variant="danger">An error occurred while fetching data!</Alert>
       ) : detailedSongs ? (
         <Form className="d-flex flex-row">
-          <div className="mr-3">
+          <div className="d-none d-md-block mr-3">
             <AutosuggestComponent
               onValueChanged={(value: string) => setArtistName(value)}
               placeholder={"artist"}
               data={artistNameArray}
             ></AutosuggestComponent>
           </div>
-          <div className="mr-3">
+          <div className="d-none d-lg-block mr-3">
             <AutosuggestComponent
               onValueChanged={(value: string) => setAlbumTitle(value)}
               placeholder={"album"}
