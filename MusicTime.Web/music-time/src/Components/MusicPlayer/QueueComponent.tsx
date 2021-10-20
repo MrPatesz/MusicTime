@@ -59,7 +59,7 @@ function QueueComponent({
                 className="d-flex flex-row w-100 queue-item"
                 onClick={() => {
                   if (repeat) setRepeat(false);
-                  dispatch(setIndex(queue.indexOf(s)));
+                  dispatch(setIndex(i));
                 }}
               >
                 <div className="align-self-center">{s.songTitle}</div>
