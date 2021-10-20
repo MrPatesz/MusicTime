@@ -138,6 +138,9 @@ function NewAlbumComponent({
             <Form.Group>
               <Form.Label>Description</Form.Label>
               <Form.Control
+                style={{ resize: "vertical" }}
+                as="textarea"
+                maxLength={256}
                 type="text"
                 {...register("Description")}
                 defaultValue={editedAlbum.description ?? ""}

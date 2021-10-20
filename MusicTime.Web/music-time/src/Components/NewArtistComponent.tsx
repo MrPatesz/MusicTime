@@ -107,6 +107,9 @@ function NewArtistComponent({ show, setShow, isEdited, editedArtist }: Props) {
             <Form.Group>
               <Form.Label>Description</Form.Label>
               <Form.Control
+                style={{ resize: "vertical" }}
+                as="textarea"
+                maxLength={256}
                 type="text"
                 {...register("Description", { maxLength: 256 })}
                 defaultValue={editedArtist.description ?? ""}
