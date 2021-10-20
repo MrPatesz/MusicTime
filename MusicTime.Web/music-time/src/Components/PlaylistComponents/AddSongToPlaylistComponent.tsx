@@ -19,12 +19,16 @@ function AddSongToPlaylistComponent({ playlistId }: Props) {
   const [songTitle, setSongTitle] = useState<string>("");
 
   const { data: detailedSongs, error, isFetching } = useDetailedSongs();
-  const addSong = useAddSong(() => {});
+  const addSong = useAddSong(() => { });
 
   function AddFunction() {
     if (!detailedSongs) return;
 
-    var detailedSongDto = detailedSongs.find((s) => s.songTitle === songTitle);
+    var detailedSongDto = detailedSongs.find(
+      (s) => s.songTitle === songTitle
+        && (s.albumTitle === albumTitle || albumTitle === "")
+        && (s.artistName === artistName || artistName === "")
+    );
 
     if (detailedSongDto) {
       addSong.mutate({
@@ -61,8 +65,8 @@ function AddSongToPlaylistComponent({ playlistId }: Props) {
         artistName === ""
           ? detailedSongs.map((s) => s.albumTitle)
           : detailedSongs
-              .filter((s) => s.artistName === artistName)
-              .map((s) => s.albumTitle);
+            .filter((s) => s.artistName === artistName)
+            .map((s) => s.albumTitle);
 
       return removeDuplicates(array);
     }
@@ -73,13 +77,13 @@ function AddSongToPlaylistComponent({ playlistId }: Props) {
       let array =
         albumTitle !== ""
           ? detailedSongs
-              .filter((s) => s.albumTitle === albumTitle)
-              .map((s) => s.songTitle)
+            .filter((s) => s.albumTitle === albumTitle)
+            .map((s) => s.songTitle)
           : artistName !== ""
-          ? detailedSongs
+            ? detailedSongs
               .filter((s) => s.artistName === artistName)
               .map((s) => s.songTitle)
-          : detailedSongs.map((s) => s.songTitle);
+            : detailedSongs.map((s) => s.songTitle);
 
       return removeDuplicates(array);
     }
