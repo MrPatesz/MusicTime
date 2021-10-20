@@ -133,6 +133,7 @@ function QuickNewSongComponent({ show, setShow, detailedSongs }: Props) {
                 onValueChanged={(value: string) => setArtistName(value)}
                 placeholder={"artist"}
                 data={artistNameArray}
+                maxLength={50}
               ></AutosuggestComponent>
             </Col>
 
@@ -141,6 +142,7 @@ function QuickNewSongComponent({ show, setShow, detailedSongs }: Props) {
                 onValueChanged={(value: string) => setAlbumTitle(value)}
                 placeholder={"album"}
                 data={albumTitleArray}
+                maxLength={50}
               ></AutosuggestComponent>
             </Col>
           </Row>

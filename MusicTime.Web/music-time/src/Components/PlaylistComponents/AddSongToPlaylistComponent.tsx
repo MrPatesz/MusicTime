@@ -104,6 +104,7 @@ function AddSongToPlaylistComponent({ playlistId }: Props) {
               onValueChanged={(value: string) => setArtistName(value)}
               placeholder={"artist"}
               data={artistNameArray}
+              maxLength={50}
             ></AutosuggestComponent>
           </div>
           <div className="d-none d-lg-block mr-3">
@@ -111,6 +112,7 @@ function AddSongToPlaylistComponent({ playlistId }: Props) {
               onValueChanged={(value: string) => setAlbumTitle(value)}
               placeholder={"album"}
               data={albumTitleArray}
+              maxLength={50}
             ></AutosuggestComponent>
           </div>
           <div className="mr-3">
@@ -118,6 +120,7 @@ function AddSongToPlaylistComponent({ playlistId }: Props) {
               onValueChanged={(value: string) => setSongTitle(value)}
               placeholder={"song"}
               data={songTitleArray}
+              maxLength={50}
             ></AutosuggestComponent>
           </div>
           <ButtonGroup style={{ height: "38px" }}>

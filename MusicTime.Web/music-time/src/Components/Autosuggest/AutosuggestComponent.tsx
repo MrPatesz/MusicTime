@@ -6,12 +6,14 @@ interface Props {
   onValueChanged(selected: string): void;
   placeholder: string;
   data: string[];
+  maxLength: number;
 }
 
 export default function AutosuggestComponent({
   onValueChanged,
   placeholder,
   data,
+  maxLength,
 }: Props) {
   const [value, setValue] = React.useState<string>("");
   const [suggestions, setSuggestions] = React.useState<string[]>(data);
@@ -36,8 +38,13 @@ export default function AutosuggestComponent({
   }
 
   function onChange(_: React.MouseEvent, { newValue }: { newValue: string }) {
+    console.log(newValue);
+    if(newValue.length > maxLength) {
+      newValue = newValue.slice(0, maxLength);
+    }
     setValue(newValue);
     onValueChanged(newValue);
+    console.log(newValue);
   }
 
   function onSuggestionsFetchRequested({ value }: { value: string }) {

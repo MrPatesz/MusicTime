@@ -57,6 +57,7 @@ function AddSongToPlaylistComponent({ showAdd, setShowAdd, songDto }: Props) {
             placeholder="a playlist..."
             data={playlists.map((p) => p.title)}
             onValueChanged={onPlaylistChange}
+            maxLength={50}
           ></AutosuggestComponent>
         ) : isFetching ? (
           <Spinner animation="grow" variant="info" />

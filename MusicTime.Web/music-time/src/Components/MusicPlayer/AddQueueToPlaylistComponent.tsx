@@ -85,6 +85,7 @@ function AddQueueToPlaylistComponent({ showAdd, setShowAdd }: Props) {
             placeholder="new or existing playlist"
             data={playlists.map((p) => p.title)}
             onValueChanged={onPlaylistChange}
+            maxLength={50}
           ></AutosuggestComponent>
         ) : isFetching ? (
           <Spinner animation="grow" variant="info" />
