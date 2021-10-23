@@ -81,7 +81,7 @@ namespace MusicTime.Bll.Services
         {
             var songsToDelete = songRepository.GetSongsOfAlbum(userId, albumId);
 
-            songsToDelete.ForEach(s => songRepository.DeleteSongById(userId, s.Id));
+            songsToDelete.ForEach(async song => await songRepository.DeleteSongById(userId, song.Id));
 
             return await albumRepository.DeleteAlbumById(userId, albumId);
         }

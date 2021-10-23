@@ -94,13 +94,13 @@ namespace MusicTime.Bll.Services
         {
             var albumsToDelete = albumRepository.GetAlbumsOfArtist(userId, artistId);
 
-            albumsToDelete.ForEach(a =>
+            albumsToDelete.ForEach(async album =>
             {
-                var songsToDelete = songRepository.GetSongsOfAlbum(userId, a.Id);
+                var songsToDelete = songRepository.GetSongsOfAlbum(userId, album.Id);
 
-                songsToDelete.ForEach(s => songRepository.DeleteSongById(userId, s.Id));
+                songsToDelete.ForEach(async song => await songRepository.DeleteSongById(userId, song.Id));
 
-                albumRepository.DeleteAlbumById(userId, a.Id); 
+                await albumRepository.DeleteAlbumById(userId, album.Id); 
             });
 
             return await artistRepository.DeleteArtistById(userId, artistId);
