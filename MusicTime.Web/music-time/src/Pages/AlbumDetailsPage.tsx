@@ -144,7 +144,7 @@ function AlbumDetailsPage() {
           </Button>
         </div>
 
-        <div>
+        <div className="overflow-auto">
           <QueryComponent
             isFetching={areSongsFetching}
             error={songsError}

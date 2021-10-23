@@ -89,7 +89,8 @@ function SongsPage() {
         </Button>
       </div>
 
-      <QueryComponent
+      <div className="overflow-auto">
+        <QueryComponent
         isFetching={isFetching}
         error={error}
         data={songs}
@@ -109,6 +110,8 @@ function SongsPage() {
             ></QuickNewSongComponent>
           </ul>
         )}></QueryComponent>
+      </div>
+      
     </div>
   );
 }

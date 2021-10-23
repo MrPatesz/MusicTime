@@ -80,7 +80,8 @@ function PlaylistDetailsPage() {
                 </Button>
               </ButtonGroup>
             </div>
-          )}></QueryComponent>
+          )}
+        ></QueryComponent>
       </div>
       <div>
         <div className="d-flex flex-row mx-4 mb-3">
@@ -114,22 +115,25 @@ function PlaylistDetailsPage() {
           </ButtonGroup>
         </div>
 
-        <QueryComponent
-          isFetching={areSongsFetching}
-          error={songsError}
-          data={songs}
-          ChildJSX={() => (
-            <ul className="no-bullets">
-              {(songs ?? []).map((s, i) => (
-                <li key={s.songId} className={i % 2 !== 0 ? "bg-dark" : ""}>
-                  <PlaylistSongComponent
-                    detailedSongDto={s}
-                    playlistId={id}
-                  ></PlaylistSongComponent>
-                </li>
-              ))}
-            </ul>
-          )}></QueryComponent>
+        <div className="overflow-auto">
+          <QueryComponent
+            isFetching={areSongsFetching}
+            error={songsError}
+            data={songs}
+            ChildJSX={() => (
+              <ul className="no-bullets">
+                {(songs ?? []).map((s, i) => (
+                  <li key={s.songId} className={i % 2 !== 0 ? "bg-dark" : ""}>
+                    <PlaylistSongComponent
+                      detailedSongDto={s}
+                      playlistId={id}
+                    ></PlaylistSongComponent>
+                  </li>
+                ))}
+              </ul>
+            )}
+          ></QueryComponent>
+        </div>
       </div>
 
       {playlist ? (
