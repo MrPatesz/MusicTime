@@ -11,6 +11,7 @@ import LoginPage from "./Pages/LoginPage";
 import SongsPage from "./Pages/SongsPage";
 import HomePage from "./Pages/HomePage";
 import ProfilePage from "./Pages/ProfilePage";
+import WelcomePage from "./Pages/WelcomePage";
 import PlaylistsPage from "./Pages/PlaylistsPage";
 import PlaylistDetailsPage from "./Pages/PlaylistDetailsPage";
 import MusicPlayerComponent from "./Components/MusicPlayer/MusicPlayerComponent";
@@ -106,14 +107,15 @@ const App = () => {
           )}
         </Route>
         <Route exact path="/welcome">
-          {loggedIn ? <Redirect to="/" /> : <div>welcome page TODO</div>}
+          {loggedIn ? <Redirect to="/" /> : <WelcomePage></WelcomePage>}
+        </Route>
+
+        <Route exact path="/">
+          {loggedIn ? <HomePage></HomePage> : <Redirect to="/welcome" />}
         </Route>
 
         {loggedIn ? (
           <div>
-            <Route exact path="/">
-              <HomePage></HomePage>
-            </Route>
             <Route exact path="/artists">
               <ArtistsPage></ArtistsPage>
             </Route>
