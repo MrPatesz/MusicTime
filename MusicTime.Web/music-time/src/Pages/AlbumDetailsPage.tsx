@@ -189,7 +189,9 @@ function AlbumDetailsPage() {
                           albumLength={songs?.length!}
                         ></NewSongComponent>
                       </li>
-                      {provided.placeholder}
+                      <li style={{ listStyleType: "none" }}>
+                        {provided.placeholder}
+                      </li>
                     </ol>
                   )}
                 </Droppable>
