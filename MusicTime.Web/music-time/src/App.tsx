@@ -1,12 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  Redirect,
-  useLocation,
-} from "react-router-dom";
+import { Switch, Route, Link, Redirect, useLocation } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import "./App.css";
@@ -17,6 +10,7 @@ import AlbumDetailsPage from "./Pages/AlbumDetailsPage";
 import LoginPage from "./Pages/LoginPage";
 import SongsPage from "./Pages/SongsPage";
 import HomePage from "./Pages/HomePage";
+import ProfilePage from "./Pages/ProfilePage";
 import PlaylistsPage from "./Pages/PlaylistsPage";
 import PlaylistDetailsPage from "./Pages/PlaylistDetailsPage";
 import MusicPlayerComponent from "./Components/MusicPlayer/MusicPlayerComponent";
@@ -34,7 +28,7 @@ const App = () => {
   const playlists = "/playlists";
   const welcome = "/welcome";
   const login = "/login";
-  const profile = "/profile"
+  const profile = "/profile";
 
   const currentRoute: string = useLocation().pathname;
   const [loggedIn, setLoggedIn] = useState<boolean>(
@@ -98,11 +92,8 @@ const App = () => {
                 Logout
               </Link>
             </Nav>
-
           ) : (
-            <Nav>
-              {getLinkForRoute(login, "Login")}
-            </Nav>
+            <Nav>{getLinkForRoute(login, "Login")}</Nav>
           )}
         </div>
       </Navbar>
@@ -115,11 +106,7 @@ const App = () => {
           )}
         </Route>
         <Route exact path="/welcome">
-          {loggedIn ? (
-            <Redirect to="/" />
-          ) : (
-            <div>welcome page TODO</div>
-          )}
+          {loggedIn ? <Redirect to="/" /> : <div>welcome page TODO</div>}
         </Route>
 
         {loggedIn ? (
@@ -149,10 +136,12 @@ const App = () => {
               <PlaylistDetailsPage></PlaylistDetailsPage>
             </Route>
             <Route exact path={"/profile"}>
-              <div>{localStorage.getItem("userName")}</div>
+              <ProfilePage></ProfilePage>
             </Route>
           </div>
-        ) : (<Redirect to="/login" />)}
+        ) : (
+          <Redirect to="/login" />
+        )}
       </Switch>
       {loggedIn ? <MusicPlayerComponent></MusicPlayerComponent> : <div></div>}
     </div>

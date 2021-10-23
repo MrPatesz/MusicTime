@@ -60,7 +60,7 @@ function LoginPage({ setLoggedIn }: Props) {
           <Form.Control
             type="password"
             placeholder="Password"
-            {...register("Password", { required: true })}
+            {...register("Password", { required: true, maxLength: 150 })}
           />
           {errors.Password?.type === "required" && "Password is required"}
         </Form.Group>
