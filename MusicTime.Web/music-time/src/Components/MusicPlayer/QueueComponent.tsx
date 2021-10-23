@@ -44,6 +44,8 @@ function QueueComponent({
     }
   };
 
+  const width = 400;
+
   if (!show) return <div></div>;
 
   return (
@@ -52,9 +54,9 @@ function QueueComponent({
         className="overflow-auto bg-dark px-2 py-1 border border-info"
         style={{
           height: "calc(100% - 47px)",
-          width: "300px",
+          width: `${width}px`,
           position: "absolute",
-          left: "-299px",
+          left: `-${width - 1}px`,
           top: "0px",
         }}
       >
@@ -122,9 +124,9 @@ function QueueComponent({
         className="bg-dark border border-info d-flex"
         style={{
           position: "absolute",
-          left: "-299px",
+          left: `-${width - 1}px`,
           bottom: "0px",
-          width: "300px",
+          width: `${width}px`,
         }}
       >
         <Button
