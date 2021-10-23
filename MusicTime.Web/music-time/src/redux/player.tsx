@@ -35,7 +35,7 @@ const saveState = (state: PlayerState) => {
   try {
     const serializedState = JSON.stringify(state);
     localStorage.setItem("playerState", serializedState);
-  } catch { }
+  } catch {}
 };
 
 export const playerSlice = createSlice({
@@ -66,32 +66,18 @@ export const playerSlice = createSlice({
         action.payload < state.index
           ? state.index - 1
           : state.index === state.queue.length - 1
-            ? 0
-            : state.index;
+          ? 0
+          : state.index;
       state.queue = state.queue.filter((_, i) => i !== action.payload);
       saveState(state);
     },
-    moveUp: (state, action: PayloadAction<number>) => {
-      let index = action.payload;
-      let song = state.queue[index];
+    moveFromTo: (
+      state,
+      action: PayloadAction<{ from: number; to: number }>
+    ) => {
       let currentSong = state.queue[state.index];
-      state.queue.splice(index, 1);
-      if (index === 0) {
-        index = state.queue.length + 1;
-      }
-      state.queue.splice(index - 1, 0, song);
-      state.index = state.queue.indexOf(currentSong);
-      saveState(state);
-    },
-    moveDown: (state, action: PayloadAction<number>) => {
-      let index = action.payload;
-      let song = state.queue[index];
-      let currentSong = state.queue[state.index];
-      state.queue.splice(index, 1);
-      if (index === state.queue.length) {
-        index = -1;
-      }
-      state.queue.splice(index + 1, 0, song);
+      let song = state.queue.splice(action.payload.from, 1)[0];
+      state.queue.splice(action.payload.to, 0, song);
       state.index = state.queue.indexOf(currentSong);
       saveState(state);
     },
@@ -146,8 +132,7 @@ export const {
   clearQueue,
   setIndex,
   removeAt,
-  moveUp,
-  moveDown,
+  moveFromTo,
   setQueue,
   playPrevious,
   playNext,

@@ -6,7 +6,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/react-fontawesome": "^0.1.15",
-    "@reduxjs/toolkit": "^1.5.1",
+    "@reduxjs/toolkit": "^1.6.2",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.7.3",
@@ -14,11 +14,12 @@
     "@types/node": "^12.20.4",
     "@types/react": "^17.0.2",
     "@types/react-dom": "^17.0.1",
-    "axios": "^0.21.1",
+    "axios": "^0.21.4",
     "bootstrap": "^4.6.0",
     "react": "^17.0.1",
     "react-autosuggest": "^10.1.0",
     "react-axios": "^2.0.4",
+    "react-beautiful-dnd": "^13.1.0",
     "react-bootstrap": "^1.5.1",
     "react-dom": "^17.0.1",
     "react-hook-form": "^7.10.0",
@@ -53,5 +54,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/react-beautiful-dnd": "^13.1.2"
   }
 }

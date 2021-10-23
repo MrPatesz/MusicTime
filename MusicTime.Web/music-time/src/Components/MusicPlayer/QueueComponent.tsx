@@ -1,6 +1,6 @@
 import Button from "react-bootstrap/Button";
 import { useDispatch } from "react-redux";
-import { clearQueue, removeAt, moveDown, moveUp } from "../../redux/player";
+import { clearQueue, removeAt, moveFromTo } from "../../redux/player";
 import { setIndex } from "../../redux/player";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../redux/store";
@@ -8,6 +8,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Dispatch, SetStateAction, useState } from "react";
 import AddQueueToPlaylistComponent from "../MusicPlayer/AddQueueToPlaylistComponent";
 import { ButtonGroup } from "react-bootstrap";
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult,
+} from "react-beautiful-dnd";
 
 interface Props {
   show: boolean;
@@ -30,6 +36,14 @@ function QueueComponent({
 
   const [showAdd, setShowAdd] = useState<boolean>(false);
 
+  const handleOnDragEnd = (result: DropResult) => {
+    if (result.destination) {
+      dispatch(
+        moveFromTo({ from: result.source.index, to: result.destination.index })
+      );
+    }
+  };
+
   if (!show) return <div></div>;
 
   return (
@@ -44,75 +58,65 @@ function QueueComponent({
           top: "0px",
         }}
       >
-        <ul className="no-bullets">
-          {queue.map((s, i) => (
-            <div
-              key={s.songId}
-              className={
-                s.songId === queue[index].songId
-                  ? "d-flex flex-row mb-1 text-info"
-                  : "d-flex flex-row mb-1"
-              }
-            >
-              <div
-                title="Jump to song"
-                className="d-flex flex-row w-100 queue-item"
-                onClick={() => {
-                  if (repeat) setRepeat(false);
-                  dispatch(setIndex(i));
-                }}
+        <DragDropContext onDragEnd={handleOnDragEnd}>
+          <Droppable droppableId="queue">
+            {(provided) => (
+              <ul
+                className="no-bullets"
+                {...provided.droppableProps}
+                ref={provided.innerRef}
               >
-                <div className="align-self-center">{s.songTitle}</div>
-                <div className="ml-auto align-self-center">{s.artistName}</div>
-              </div>
+                {queue.map((s, i) => (
+                  <Draggable
+                    key={s.songId}
+                    draggableId={s.songId.toString()}
+                    index={i}
+                  >
+                    {(provided) => (
+                      <li
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        ref={provided.innerRef}
+                        className={
+                          s.songId === queue[index].songId
+                            ? "d-flex flex-row mb-1 text-info"
+                            : "d-flex flex-row mb-1"
+                        }
+                      >
+                        <div
+                          title="Jump to song"
+                          className="d-flex flex-row w-100 queue-item"
+                          onClick={() => {
+                            if (repeat) setRepeat(false);
+                            dispatch(setIndex(i));
+                          }}
+                        >
+                          <div className="align-self-center">{s.songTitle}</div>
+                          <div className="ml-auto align-self-center">
+                            {s.artistName}
+                          </div>
+                        </div>
 
-              <ButtonGroup
-                vertical={true}
-                className="ml-2"
-                style={{ width:"15px"}}
-              >
-                <Button
-                  style={{ height: "14px" }}
-                  size="sm"
-                  className="px-1 py-0"
-                  variant="outline-info"
-                  onClick={() => {
-                    dispatch(moveUp(i));
-                  }}
-                >
-                  <FontAwesomeIcon
-                    style={{ position: "relative", bottom: "2px", right: "2px" }}
-                    icon="sort-up" />
-                </Button>
-                <Button
-                  style={{ height: "14px" }}
-                  size="sm"
-                  className="px-1 py-0"
-                  variant="outline-info"
-                  onClick={() => {
-                    dispatch(moveDown(i));
-                  }}
-                >
-                  <FontAwesomeIcon
-                    style={{ position: "relative", bottom: "7px", right: "2px" }}
-                    icon="sort-down" />
-                </Button>
-              </ButtonGroup>
-
-              <Button
-                title="Remove song from Queue"
-                className="ml-1 py-0 px-1"
-                variant="outline-warning"
-                size="sm"
-                onClick={() => {
-                  dispatch(removeAt(i));
-                }}
-              >
-                <FontAwesomeIcon icon="trash-alt" />
-              </Button>
-            </div>
-          ))}
-        </ul>
+                        <Button
+                          title="Remove song from Queue"
+                          className="ml-2 py-0 px-1"
+                          variant="outline-warning"
+                          size="sm"
+                          onClick={() => {
+                            dispatch(removeAt(i));
+                          }}
+                        >
+                          <FontAwesomeIcon icon="trash-alt" />
+                        </Button>
+                      </li>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </ul>
+            )}
+          </Droppable>
+        </DragDropContext>
       </div>
       <div
         className="bg-dark border border-info d-flex"
