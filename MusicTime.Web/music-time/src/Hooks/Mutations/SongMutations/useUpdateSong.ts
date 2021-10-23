@@ -8,9 +8,10 @@ interface MutationVariables {
   title: string;
   url: string;
   albumId: number;
+  albumIndex: number;
 }
 
-function useUpdateAlbum() {
+function useUpdateSong() {
   const apiLink = Config.apiUrl + "songs/";
   const authToken = localStorage.getItem("authToken");
 
@@ -25,6 +26,7 @@ function useUpdateAlbum() {
             Id: variables.id,
             Title: variables.title,
             Url: variables.url,
+            AlbumIndex: variables.albumIndex,
           },
           {
             headers: {
@@ -42,4 +44,4 @@ function useUpdateAlbum() {
   );
 }
 
-export default useUpdateAlbum;
+export default useUpdateSong;

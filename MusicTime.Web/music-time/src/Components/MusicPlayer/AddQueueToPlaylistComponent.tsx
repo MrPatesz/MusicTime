@@ -52,7 +52,7 @@ function AddQueueToPlaylistComponent({ showAdd, setShowAdd }: Props) {
     queue.forEach(async (s) => {
       await addSongToPlaylist.mutateAsync({
         playlistId: createdPlaylist.id,
-        songDto: { id: s.songId, title: s.songTitle, url: s.url },
+        songDto: { id: s.songId, title: s.songTitle, url: s.url},
       });
     });
   }

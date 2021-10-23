@@ -14,6 +14,13 @@ import useAlbum from "../Hooks/Queries/AlbumQueries/useAlbum";
 import useAlbumsSongs from "../Hooks/Queries/AlbumQueries/useAlbumsSongs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import QueryComponent from "../Components/QueryComponent";
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult,
+} from "react-beautiful-dnd";
+import useUpdateSong from "../Hooks/Mutations/SongMutations/useUpdateSong";
 
 function AlbumDetailsPage() {
   const dispatch = useDispatch();
@@ -32,6 +39,8 @@ function AlbumDetailsPage() {
     isFetching: areSongsFetching,
   } = useAlbumsSongs(id);
 
+  const updateSong = useUpdateSong();
+
   const [showEditAlbum, setShowEditAlbum] = useState<boolean>(false);
   const [showAddSong, setShowAddSong] = useState<boolean>(false);
 
@@ -49,6 +58,25 @@ function AlbumDetailsPage() {
     dispatch(setQueue(queue));
     dispatch(addToHistory({ id: id, type: "album" }));
   }
+
+  const handleOnDragEnd = (result: DropResult) => {
+    if (songs) {
+      let movedSong = songs[result.source.index];
+
+      if (result.destination) {
+        updateSong.mutate({
+          id: movedSong.id,
+          title: movedSong.title,
+          url: movedSong.url,
+          albumId: album?.id!,
+          albumIndex: result.destination.index + 1,
+        });
+
+        songs.splice(result.source.index, 1);
+        songs.splice(result.destination.index, 0, movedSong);
+      }
+    }
+  };
 
   return (
     <div>
@@ -99,7 +127,8 @@ function AlbumDetailsPage() {
                 </Button>
               </ButtonGroup>
             </div>
-          )}></QueryComponent>
+          )}
+        ></QueryComponent>
       </div>
       <div>
         <div className="d-flex flex-row mx-4 mb-3">
@@ -121,24 +150,52 @@ function AlbumDetailsPage() {
             error={songsError}
             data={songs}
             ChildJSX={() => (
-              <ul className="no-bullets">
-                {(songs ?? []).map((s, i) => (
-                  <li key={s.id} className={i % 2 !== 0 ? "bg-dark" : ""}>
-                    <AlbumSongComponent
-                      songDto={s}
-                      albumId={id}
-                    ></AlbumSongComponent>
-                  </li>
-                ))}
-                <div className="mx-4">
-                  <NewSongComponent
-                    show={showAddSong}
-                    setShow={setShowAddSong}
-                    albumId={id}
-                  ></NewSongComponent>
-                </div>
-              </ul>
-            )}></QueryComponent>
+              <DragDropContext onDragEnd={handleOnDragEnd}>
+                <Droppable droppableId="songs">
+                  {(provided) => (
+                    <ol
+                      className="song-list"
+                      {...provided.droppableProps}
+                      ref={provided.innerRef}
+                    >
+                      {(songs ?? []).map((s, i) => (
+                        <Draggable
+                          key={s.id}
+                          draggableId={s.id.toString()}
+                          index={i}
+                        >
+                          {(provided) => (
+                            <li
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              ref={provided.innerRef}
+                              className={i % 2 !== 0 ? "bg-dark" : ""}
+                            >
+                              <AlbumSongComponent
+                                songDto={s}
+                                albumId={id}
+                                albumIndex={i + 1}
+                              ></AlbumSongComponent>
+                            </li>
+                          )}
+                        </Draggable>
+                      ))}
+
+                      <li className={showAddSong ? "mr-4" : "d-none mr-4"}>
+                        <NewSongComponent
+                          show={showAddSong}
+                          setShow={setShowAddSong}
+                          albumId={id}
+                          albumLength={songs?.length!}
+                        ></NewSongComponent>
+                      </li>
+                      {provided.placeholder}
+                    </ol>
+                  )}
+                </Droppable>
+              </DragDropContext>
+            )}
+          ></QueryComponent>
         </div>
       </div>
 

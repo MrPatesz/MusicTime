@@ -7,6 +7,7 @@ interface MutationVariables {
   albumId: number;
   title: string;
   url: string;
+  albumIndex: number;
 }
 
 function useCreateAlbum() {
@@ -23,6 +24,7 @@ function useCreateAlbum() {
           {
             Title: variables.title,
             Url: variables.url,
+            AlbumIndex: variables.albumIndex,
           },
           {
             headers: {

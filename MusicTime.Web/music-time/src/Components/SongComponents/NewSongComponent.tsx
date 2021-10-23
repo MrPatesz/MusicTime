@@ -10,6 +10,7 @@ interface Props {
   show: boolean;
   setShow: React.Dispatch<React.SetStateAction<any>>;
   albumId: number;
+  albumLength: number;
 }
 
 type FormValues = {
@@ -17,7 +18,7 @@ type FormValues = {
   Url: string;
 };
 
-function NewSongComponent({ show, setShow, albumId }: Props) {
+function NewSongComponent({ show, setShow, albumId, albumLength }: Props) {
   const {
     register,
     handleSubmit,
@@ -31,6 +32,7 @@ function NewSongComponent({ show, setShow, albumId }: Props) {
       albumId: albumId,
       title: data.Title,
       url: data.Url,
+      albumIndex: albumLength + 1,
     });
   }
 
@@ -43,7 +45,7 @@ function NewSongComponent({ show, setShow, albumId }: Props) {
             setShow(false);
           })}
         >
-          <div className="d-flex flex-row">
+          <div className="d-flex flex-row ml-1">
             <Form.Control
               maxLength={50}
               {...register("Title", { required: true })}

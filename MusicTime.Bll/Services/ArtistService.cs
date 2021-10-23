@@ -92,17 +92,6 @@ namespace MusicTime.Bll.Services
 
         public async Task<bool> DeleteArtistById(int userId, int artistId)
         {
-            var albumsToDelete = albumRepository.GetAlbumsOfArtist(userId, artistId);
-
-            albumsToDelete.ForEach(async album =>
-            {
-                var songsToDelete = songRepository.GetSongsOfAlbum(userId, album.Id);
-
-                songsToDelete.ForEach(async song => await songRepository.DeleteSongById(userId, song.Id));
-
-                await albumRepository.DeleteAlbumById(userId, album.Id); 
-            });
-
             return await artistRepository.DeleteArtistById(userId, artistId);
         }
     }

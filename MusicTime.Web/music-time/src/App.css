@@ -34,6 +34,12 @@ ul.no-bullets {
   margin: 0;
 }
 
+ol.song-list {
+  color: #17a2b8;
+  font-weight: bold;
+  font-size: large;
+}
+
 .queue-item:hover {
   background-color: #17a2b8;
   color: white !important;

@@ -18,6 +18,11 @@ namespace MusicTime.Dal.Repositories
             this.dbContext = dbContext;
         }
 
+        public SongDto GetSong(int songId)
+        {
+            return dbContext.Songs.Where(s => s.Id == songId).Select(ToDto).ToList()[0];
+        }
+
         public List<SongDto> GetSongs(int userId)
         {
             return dbContext.Songs.Where(s => s.Album.Artist.UserId == userId).Select(ToDto).ToList();
@@ -86,6 +91,7 @@ namespace MusicTime.Dal.Repositories
             toEdit.Title = song.Title;
             toEdit.Url = song.Url;
             toEdit.AlbumId = song.AlbumId;
+            toEdit.AlbumIndex = song.AlbumIndex;
 
             dbContext.Songs.Update(toEdit);
 
@@ -94,13 +100,95 @@ namespace MusicTime.Dal.Repositories
             return ToDto(toEdit);
         }
 
+        public async Task<bool> SongAddedTo(int albumId, int albumIndex)
+        {
+            var toUpdate = dbContext.Songs.Where(s => s.AlbumId == albumId && s.AlbumIndex >= albumIndex).ToList();
+
+            if(toUpdate.Count > 0)
+            {
+                toUpdate.ForEach(s => s.AlbumIndex++);
+                dbContext.Songs.UpdateRange(toUpdate);
+                await dbContext.SaveChangesAsync();
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> SongMovedFromTo(int albumId, int from, int to)
+        {
+            if (from > to)
+            {
+                var toUpdate = dbContext.Songs.Where(s => s.AlbumId == albumId && s.AlbumIndex >= to && s.AlbumIndex < from).ToList();
+
+                if (toUpdate.Count > 0)
+                {
+                    toUpdate.ForEach(s => s.AlbumIndex++);
+                    dbContext.Songs.UpdateRange(toUpdate);
+                    await dbContext.SaveChangesAsync();
+
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                var toUpdate = dbContext.Songs.Where(s => s.AlbumId == albumId && s.AlbumIndex <= to && s.AlbumIndex > from).ToList();
+
+                if (toUpdate.Count > 0)
+                {
+                    toUpdate.ForEach(s => s.AlbumIndex--);
+                    dbContext.Songs.UpdateRange(toUpdate);
+                    await dbContext.SaveChangesAsync();
+
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }            
+        }
+
+        public async Task<bool> SongRemovedFrom(int albumId, int albumIndex)
+        {
+            var toUpdate = dbContext.Songs.Where(s => s.AlbumId == albumId && s.AlbumIndex > albumIndex).ToList();
+
+            if (toUpdate.Count > 0)
+            {
+                toUpdate.ForEach(s => s.AlbumIndex--);
+                dbContext.Songs.UpdateRange(toUpdate);
+                await dbContext.SaveChangesAsync();
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public int GetAlbumIdOfSong(int songId)
+        {
+            var song = dbContext.Songs.First(s => s.Id == songId);
+
+            return song.AlbumId;
+        }
+
         private SongDto ToDto(Song value)
         {
             return new SongDto
             {
                 Id = value.Id,
                 Title = value.Title,
-                Url = value.Url
+                Url = value.Url,
+                AlbumIndex = value.AlbumIndex
             };
         }
 

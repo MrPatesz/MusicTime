@@ -11,6 +11,7 @@ interface Props {
   setShow: React.Dispatch<React.SetStateAction<any>>;
   albumId: number;
   songDto: SongDto;
+  albumIndex: number;
 }
 
 type FormValues = {
@@ -18,7 +19,7 @@ type FormValues = {
   Url: string;
 };
 
-function EditSongComponent({ setShow, albumId, songDto }: Props) {
+function EditSongComponent({ setShow, albumId, songDto, albumIndex }: Props) {
   const {
     register,
     handleSubmit,
@@ -33,6 +34,7 @@ function EditSongComponent({ setShow, albumId, songDto }: Props) {
       url: data.Url,
       title: data.Title,
       albumId: albumId,
+      albumIndex: albumIndex,
     });
   }
 

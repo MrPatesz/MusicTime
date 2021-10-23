@@ -38,6 +38,10 @@ namespace MusicTime.Bll.Services
 
             await playlistRepository.DeleteSongFromPlaylists(songToDelete.Id);
 
+            var albumId = songRepository.GetAlbumIdOfSong(songToDelete.Id);
+
+            await songRepository.SongRemovedFrom(albumId, songToDelete.AlbumIndex);
+
             return await songRepository.DeleteSongById(userId, songId);
         }
 
@@ -50,8 +54,9 @@ namespace MusicTime.Bll.Services
                     Title = songDto.Title,
                     Url = songDto.Url,
                     AlbumId = albumId,
+                    AlbumIndex = songDto.AlbumIndex
                 };
-
+                await songRepository.SongAddedTo(albumId, songDto.AlbumIndex);
                 return await songRepository.AddSong(song);
             }
             return null;
@@ -67,7 +72,14 @@ namespace MusicTime.Bll.Services
                     Title = songDto.Title,
                     Url = songDto.Url,
                     AlbumId = albumId,
+                    AlbumIndex = songDto.AlbumIndex
                 };
+                var oldSong = songRepository.GetSong(songDto.Id);
+
+                if(song.AlbumIndex != oldSong.AlbumIndex)
+                {
+                    await songRepository.SongMovedFromTo(albumId, oldSong.AlbumIndex, song.AlbumIndex);
+                }
                 return await songRepository.EditSong(song);
             }
             return null;

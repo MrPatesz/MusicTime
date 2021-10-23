@@ -11,9 +11,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 interface Props {
   songDto: SongDto;
   albumId: number;
+  albumIndex: number;
 }
 
-function AlbumSongComponent({ songDto, albumId }: Props) {
+function AlbumSongComponent({ songDto, albumId, albumIndex }: Props) {
   const [confirm, setConfirm] = useState<boolean>(false);
   const [editSong, setEditSong] = useState<boolean>(false);
   const [showAdd, setShowAdd] = useState<boolean>(false);
@@ -26,12 +27,13 @@ function AlbumSongComponent({ songDto, albumId }: Props) {
   }
 
   return (
-    <div className="mb-2 mx-4">
+    <div className="mb-2 ml-2 mr-4">
       {editSong ? (
         <EditSongComponent
           songDto={songDto}
           albumId={albumId}
           setShow={setEditSong}
+          albumIndex={albumIndex}
         ></EditSongComponent>
       ) : (
         <div className="d-flex flex-row">

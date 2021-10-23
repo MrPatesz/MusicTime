@@ -37,6 +37,7 @@ function QuickNewSongComponent({ show, setShow, detailedSongs }: Props) {
         title: songTitle,
         albumId: albumExists.albumId,
         url: url,
+        albumIndex: 1,
       });
     } else if (artistExists) {
       let newAlbum = await createAlbum.mutateAsync({
@@ -50,6 +51,7 @@ function QuickNewSongComponent({ show, setShow, detailedSongs }: Props) {
         title: songTitle,
         albumId: newAlbum.id,
         url: url,
+        albumIndex: 1,
       });
     } else {
       let newArtist = await createArtist.mutateAsync({
@@ -67,6 +69,7 @@ function QuickNewSongComponent({ show, setShow, detailedSongs }: Props) {
         title: songTitle,
         albumId: newAlbum.id,
         url: url,
+        albumIndex: 1,
       });
     }
   }

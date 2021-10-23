@@ -32,7 +32,7 @@ namespace MusicTime.Bll.Services
         public List<SongDto> GetSongsOfAlbum(int userId, int albumId)
         {
             var songs = songRepository.GetSongsOfAlbum(userId, albumId);
-            songs.Sort((s1, s2) => s1.Title.CompareTo(s2.Title));
+            songs.Sort((s1, s2) => s1.AlbumIndex.CompareTo(s2.AlbumIndex));
             return songs;
         }
 
@@ -79,10 +79,6 @@ namespace MusicTime.Bll.Services
 
         public async Task<bool> DeleteAlbumById(int userId, int albumId)
         {
-            var songsToDelete = songRepository.GetSongsOfAlbum(userId, albumId);
-
-            songsToDelete.ForEach(async song => await songRepository.DeleteSongById(userId, song.Id));
-
             return await albumRepository.DeleteAlbumById(userId, albumId);
         }
     }

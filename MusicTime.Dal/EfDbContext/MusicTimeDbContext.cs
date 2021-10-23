@@ -69,7 +69,8 @@ namespace MusicTime.Dal.EfDbContext
             modelBuilder.Entity<Playlist>()
                 .HasMany(p => p.PlaylistToSongs)
                 .WithOne(pts => pts.Playlist)
-                .HasForeignKey(pts => pts.PlaylistId);
+                .HasForeignKey(pts => pts.PlaylistId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Playlist>()
                 .HasData(new[]
@@ -96,7 +97,8 @@ namespace MusicTime.Dal.EfDbContext
                .IsRequired(required: true);
             modelBuilder.Entity<Artist>()
                 .HasMany(a => a.Albums)
-                .WithOne(a => a.Artist);
+                .WithOne(a => a.Artist)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Artist>()
                 .HasData(new[]
@@ -129,7 +131,8 @@ namespace MusicTime.Dal.EfDbContext
                .HasOne(t => t.Artist)
                .WithMany(a => a.Albums)
                .HasForeignKey(t => t.ArtistId)
-               .IsRequired(required: true);
+               .IsRequired(required: true)
+               .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Album>()
                 .HasData(new[]
@@ -155,13 +158,14 @@ namespace MusicTime.Dal.EfDbContext
             modelBuilder.Entity<Song>()
                 .HasMany(s => s.SongToPlaylists)
                 .WithOne(stp => stp.Song)
-                .HasForeignKey(stp => stp.SongId);
+                .HasForeignKey(stp => stp.SongId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Song>()
                 .HasData(new[]
                 {
-                    new Song() { Id = 1, Title = "Orlando", Url = "https://www.youtube.com/watch?v=cnNfYsfyiMc", AlbumId = 1 },
-                    new Song() { Id = 2, Title = "Louder Than the DJ", Url = "https://www.youtube.com/watch?v=NM6PA9dwDRY", AlbumId = 2 },
+                    new Song() { Id = 1, Title = "Orlando", Url = "https://www.youtube.com/watch?v=cnNfYsfyiMc", AlbumId = 1, AlbumIndex = 1 },
+                    new Song() { Id = 2, Title = "Louder Than the DJ", Url = "https://www.youtube.com/watch?v=NM6PA9dwDRY", AlbumId = 2, AlbumIndex = 1 },
                 });
 
             modelBuilder.Entity<SongToPlaylist>()

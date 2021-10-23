@@ -24,5 +24,15 @@ namespace MusicTime.Bll.IRepositories
         List<DetailedSongDto> GetDetailedSongsOfPlaylist(int userId, int playlistId);
 
         Task<SongDto> EditSong(Song song);
+
+        Task<bool> SongAddedTo(int albumId, int albumIndex);
+
+        Task<bool> SongMovedFromTo(int albumId, int from, int to);
+
+        Task<bool> SongRemovedFrom(int albumId, int albumIndex);
+
+        int GetAlbumIdOfSong(int songId);
+
+        SongDto GetSong(int songId);
     }
 }
