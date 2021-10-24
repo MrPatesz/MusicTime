@@ -3,17 +3,18 @@ import { LegacyRef, RefObject, useRef, useState } from "react";
 import { Button, ButtonGroup } from "react-bootstrap";
 import ReactPlayer from "react-player";
 import QueueComponent from "../Components/MusicPlayer/QueueComponent";
-import { useDispatch } from "react-redux";
-import { setQueue } from "../redux/player";
+import { useDispatch, useSelector } from "react-redux";
+import { playNext, playPrevious, playRandom, setQueue } from "../redux/player";
+import { RootState } from "../redux/store";
 
 function WelcomePage() {
-  const queue = [
+  const defaultQueue = [
     {
       songId: 106,
       songTitle: "The Explanation",
       url: "https://www.youtube.com/watch?v=pG-tbrzlMVU",
       artistId: 0,
-      artistName: "",
+      artistName: "xxxtentacion",
       albumId: 1,
       albumTitle: "17",
     },
@@ -22,7 +23,7 @@ function WelcomePage() {
       songTitle: "Jocelyn Flores",
       url: "https://www.youtube.com/watch?v=FAucVNRx_mU",
       artistId: 0,
-      artistName: "",
+      artistName: "xxxtentacion",
       albumId: 1,
       albumTitle: "17",
     },
@@ -31,7 +32,7 @@ function WelcomePage() {
       songTitle: "Depression & Obsession",
       url: "https://www.youtube.com/watch?v=yas2vpTPWWY",
       artistId: 0,
-      artistName: "",
+      artistName: "xxxtentacion",
       albumId: 1,
       albumTitle: "17",
     },
@@ -40,7 +41,7 @@ function WelcomePage() {
       songTitle: "Everybody Dies In Their Nightmares",
       url: "https://www.youtube.com/watch?v=7JGDWKJfgxQ",
       artistId: 0,
-      artistName: "",
+      artistName: "xxxtentacion",
       albumId: 1,
       albumTitle: "17",
     },
@@ -49,7 +50,7 @@ function WelcomePage() {
       songTitle: "Revenge",
       url: "https://www.youtube.com/watch?v=CD_tD26E7k0",
       artistId: 0,
-      artistName: "",
+      artistName: "xxxtentacion",
       albumId: 1,
       albumTitle: "17",
     },
@@ -58,7 +59,7 @@ function WelcomePage() {
       songTitle: "Save Me",
       url: "https://www.youtube.com/watch?v=-8xdDaRFdwc",
       artistId: 0,
-      artistName: "",
+      artistName: "xxxtentacion",
       albumId: 1,
       albumTitle: "17",
     },
@@ -67,7 +68,7 @@ function WelcomePage() {
       songTitle: "Dead Inside (Interlude)",
       url: "https://www.youtube.com/watch?v=UgZyhGU8r04",
       artistId: 0,
-      artistName: "",
+      artistName: "xxxtentacion",
       albumId: 1,
       albumTitle: "17",
     },
@@ -76,7 +77,7 @@ function WelcomePage() {
       songTitle: "Fuck Love (ft. Trippie Redd)",
       url: "https://www.youtube.com/watch?v=JcWOSgImiRw",
       artistId: 0,
-      artistName: "",
+      artistName: "xxxtentacion",
       albumId: 1,
       albumTitle: "17",
     },
@@ -85,7 +86,7 @@ function WelcomePage() {
       songTitle: "Carry On",
       url: "https://www.youtube.com/watch?v=EhTH8OIPoY4",
       artistId: 0,
-      artistName: "",
+      artistName: "xxxtentacion",
       albumId: 1,
       albumTitle: "17",
     },
@@ -94,7 +95,7 @@ function WelcomePage() {
       songTitle: "Orlando",
       url: "https://www.youtube.com/watch?v=cnNfYsfyiMc",
       artistId: 0,
-      artistName: "",
+      artistName: "xxxtentacion",
       albumId: 1,
       albumTitle: "17",
     },
@@ -103,16 +104,17 @@ function WelcomePage() {
       songTitle: "Ayala (Outro)",
       url: "https://www.youtube.com/watch?v=KbxlSQVWbDw",
       artistId: 0,
-      artistName: "",
+      artistName: "xxxtentacion",
       albumId: 1,
       albumTitle: "17",
     },
   ];
 
   const dispatch = useDispatch();
-  dispatch(setQueue(queue));
+  dispatch(setQueue(defaultQueue));
 
-  var index = 0;
+  const queue = useSelector((state: RootState) => state.queue.queue);
+  const index = useSelector((state: RootState) => state.queue.index);
 
   const [volume, setVolume] = useState<number>(0.15);
   const [progress, setProgress] = useState<number>(0);
@@ -131,7 +133,8 @@ function WelcomePage() {
   function playPrevFunction() {
     setProgress(0);
     if (!repeat) {
-      index--;
+      dispatch(playPrevious());
+      // TODO("shuffle esetén a ténylegesen játszottra lépjen vissza")
     } else {
       playerRef?.current?.seekTo(0);
     }
@@ -140,12 +143,13 @@ function WelcomePage() {
   function playNextFunction() {
     setProgress(0);
     if (repeat) {
-      setProgress(0);
+      dispatch(playNext());
+      dispatch(playPrevious());
     } else {
       if (shuffle) {
-        index = 0;
+        dispatch(playRandom());
       } else {
-        index++;
+        dispatch(playNext());
       }
     }
   }

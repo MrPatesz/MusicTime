@@ -1,4 +1,5 @@
-﻿using MusicTime.Bll.Dtos;
+﻿using Microsoft.EntityFrameworkCore;
+using MusicTime.Bll.Dtos;
 using MusicTime.Bll.Entities;
 using MusicTime.Bll.IRepositories;
 using MusicTime.Dal.EfDbContext;
@@ -19,12 +20,12 @@ namespace MusicTime.Dal.Repositories
 
         public List<AlbumDto> GetAlbums(int userId)
         {
-            return dbContext.Albums.Where(a => a.Artist.UserId == userId).Select(ToDto).ToList();
+            return dbContext.Albums.Include(b => b.Artist).Where(a => a.Artist.UserId == userId).Select(ToDto).ToList();
         }
 
         public AlbumDto GetAlbumById(int userId, int id)
         {
-            var album = dbContext.Albums.FirstOrDefault(a => a.Id == id && a.Artist.UserId == userId);
+            var album = dbContext.Albums.Include(b => b.Artist).FirstOrDefault(a => a.Id == id && a.Artist.UserId == userId);
             if (album == null)
                 return null;
             else
@@ -33,7 +34,7 @@ namespace MusicTime.Dal.Repositories
 
         public List<AlbumDto> GetAlbumsOfArtist(int userId, int artistId)
         {
-            return dbContext.Albums.Where(a => a.ArtistId == artistId && a.Artist.UserId == userId).Select(ToDto).ToList();
+            return dbContext.Albums.Include(b => b.Artist).Where(a => a.ArtistId == artistId && a.Artist.UserId == userId).Select(ToDto).ToList();
         }
 
         public bool DoesAlbumAlreadyExist(AlbumDto albumDto, int artistId)
@@ -74,7 +75,7 @@ namespace MusicTime.Dal.Repositories
 
         public async Task<AlbumDto> EditAlbum(Album album)
         {
-            var toEdit = dbContext.Albums.FirstOrDefault(a => a.Id == album.Id);
+            var toEdit = dbContext.Albums.Include(b => b.Artist).FirstOrDefault(a => a.Id == album.Id);
 
             toEdit.Title = album.Title;
             toEdit.Description = album.Description;
@@ -100,7 +101,8 @@ namespace MusicTime.Dal.Repositories
                 Genre = value.Genre,
                 Description = value.Description,
                 ReleaseYear = value.ReleaseYear,
-                CoverGuid = value.CoverGuid
+                CoverGuid = value.CoverGuid,
+                ArtistName = value.Artist.Name
             };
         }
     }

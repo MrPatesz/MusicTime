@@ -51,7 +51,15 @@ function AlbumDetailsPage() {
 
     songs.forEach((s) =>
       queue.push(
-        new DetailedSongDto(s.id, s.title, s.url, 0, "", id, album.title)
+        new DetailedSongDto(
+          s.id,
+          s.title,
+          s.url,
+          0,
+          album.artistName,
+          id,
+          album.title
+        )
       )
     );
 
@@ -101,12 +109,17 @@ function AlbumDetailsPage() {
                 className="mb-2 mr-4"
               />
               <div className="d-flex flex-column">
-                <h1>{album!.title}</h1>
-                <h4>{album!.releaseYear}</h4>
-                <h4>{album!.genre}</h4>
-                <div>
-                  <p>{album!.description}</p>
+                <div className="d-flex flex-row">
+                  <h1 className="mt-auto">{album!.title}</h1>
+                  &nbsp;&nbsp;
+                  <h2 className="text-secondary mt-auto">
+                    {album!.releaseYear}
+                  </h2>
                 </div>
+                <h5>{album!.artistName}</h5>
+                <h5 className="text-secondary">{album!.genre}</h5>
+
+                <p className="text-break">{album!.description}</p>
               </div>
 
               <ButtonGroup vertical className="ml-auto mb-auto">

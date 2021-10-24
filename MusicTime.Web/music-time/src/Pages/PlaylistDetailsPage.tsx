@@ -56,7 +56,7 @@ function PlaylistDetailsPage() {
               />
               <div className="d-flex flex-column">
                 <h1>{playlist!.title}</h1>
-                <p>{playlist!.description}</p>
+                <p className="text-break">{playlist!.description}</p>
               </div>
 
               <ButtonGroup vertical className="ml-auto mb-auto">

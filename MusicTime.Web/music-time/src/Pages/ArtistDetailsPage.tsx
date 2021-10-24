@@ -78,7 +78,7 @@ function ArtistDetailsPage() {
               />
               <div className="d-flex flex-column">
                 <h1>{artist!.name}</h1>
-                <p>{artist!.description}</p>
+                <p className="text-break">{artist!.description}</p>
               </div>
 
               <ButtonGroup vertical className="ml-auto mb-auto">
@@ -143,7 +143,7 @@ function ArtistDetailsPage() {
         setShow={setShowAddAlbum}
         artistId={id}
         isEdited={false}
-        editedAlbum={new AlbumDto(0, "", null, null, null, null)}
+        editedAlbum={new AlbumDto(0, "", "", null, null, null, null)}
       ></NewAlbumComponent>
 
       {artist ? (

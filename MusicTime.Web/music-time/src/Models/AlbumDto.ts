@@ -1,5 +1,6 @@
 class AlbumDto {
   id: number;
+  artistName: string;
   title: string;
   genre: string | null;
   description: string | null;
@@ -8,6 +9,7 @@ class AlbumDto {
 
   constructor(
     id: number,
+    artistName: string,
     title: string,
     genre: string | null,
     description: string | null,
@@ -15,6 +17,7 @@ class AlbumDto {
     coverGuid: string | null
   ) {
     this.id = id;
+    this.artistName = artistName;
     this.title = title;
     this.genre = genre;
     this.description = description;
