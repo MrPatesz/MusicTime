@@ -26,7 +26,7 @@ type FormValues = {
 function QuickNewAlbumComponent({ show, setShow }: Props) {
   const [artistName, setArtistName] = useState<string>("");
 
-  const { data: artists, error, isFetching } = useArtists();
+  const { data: artists } = useArtists();
 
   const {
     register,
