@@ -3,19 +3,17 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import React from "react";
 import { useState } from "react";
-import AlbumDto from "../Models/AlbumDto";
 import { useForm } from "react-hook-form";
 import { ButtonToolbar } from "react-bootstrap";
 import useCreateAlbum from "../Hooks/Mutations/AlbumMutations/useCreateAlbum";
-import useUpdateAlbum from "../Hooks/Mutations/AlbumMutations/useUpdateAlbum";
+import useCreateArtist from "../Hooks/Mutations/ArtistMutations/useCreateArtist";
 import useUploadPicture from "../Hooks/Mutations/PictureMutations/useUploadPicture";
+import useArtists from "../Hooks/Queries/ArtistQueries/useArtists";
+import AutosuggestComponent from "./Autosuggest/AutosuggestComponent";
 
 interface Props {
   show: boolean;
   setShow: React.Dispatch<React.SetStateAction<any>>;
-  artistId: number;
-  isEdited: boolean;
-  editedAlbum: AlbumDto;
 }
 
 type FormValues = {
@@ -25,39 +23,43 @@ type FormValues = {
   ReleaseYear: number;
 };
 
-function NewAlbumComponent({
-  show,
-  setShow,
-  artistId,
-  isEdited,
-  editedAlbum,
-}: Props) {
+function QuickNewAlbumComponent({ show, setShow }: Props) {
+  const [artistName, setArtistName] = useState<string>("");
+
+  const { data: artists, error, isFetching } = useArtists();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormValues>();
 
-  const createAlbum = useCreateAlbum("artistsAlbums");
-  const updateAlbum = useUpdateAlbum();
+  const createArtist = useCreateArtist();
+  const createAlbum = useCreateAlbum("albums");
   const uploadPicture = useUploadPicture({
     relativeLink: "album",
     toInvalidate: undefined,
   });
 
   async function postFunction(data: FormValues) {
-    if (isEdited) {
-      let updatedAlbum = await updateAlbum.mutateAsync({
-        id: editedAlbum.id,
+    let artistExists = artists?.find((a) => a.name === artistName);
+
+    if (artistExists) {
+      let newAlbum = await createAlbum.mutateAsync({
+        artistId: artistExists.id,
         title: data.Title,
         description: data.Description,
         genre: data.Genre,
         releaseYear: data.ReleaseYear,
       });
-      postPicture(updatedAlbum.id);
+      postPicture(newAlbum.id);
     } else {
+      let newArtist = await createArtist.mutateAsync({
+        name: artistName,
+        description: "",
+      });
       let newAlbum = await createAlbum.mutateAsync({
-        artistId: artistId,
+        artistId: newArtist.id,
         title: data.Title,
         description: data.Description,
         genre: data.Genre,
@@ -98,7 +100,7 @@ function NewAlbumComponent({
         animation={false}
       >
         <Modal.Header>
-          <Modal.Title>{isEdited ? "Edit Album" : "New Album"}</Modal.Title>
+          <Modal.Title>New Album</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form
@@ -108,12 +110,24 @@ function NewAlbumComponent({
             })}
           >
             <Form.Group>
+              <Form.Label>Artist</Form.Label>
+              <div className="w-100">
+                <AutosuggestComponent
+                  onValueChanged={(value: string) => setArtistName(value)}
+                  placeholder={""}
+                  data={artists?.map((a) => a.name) ?? []}
+                  maxLength={50}
+                ></AutosuggestComponent>
+              </div>
+            </Form.Group>
+
+            <Form.Group>
               <Form.Label>Title</Form.Label>
               <Form.Control
                 maxLength={50}
                 type="text"
                 {...register("Title", { required: true })}
-                defaultValue={editedAlbum.title ?? ""}
+                defaultValue=""
               />
               {errors.Title?.type === "required" && "Title is required"}
             </Form.Group>
@@ -124,7 +138,7 @@ function NewAlbumComponent({
                 maxLength={50}
                 type="text"
                 {...register("Genre")}
-                defaultValue={editedAlbum.genre ?? ""}
+                defaultValue=""
               />
             </Form.Group>
 
@@ -133,7 +147,7 @@ function NewAlbumComponent({
               <Form.Control
                 type="number"
                 {...register("ReleaseYear", { valueAsNumber: true })}
-                defaultValue={editedAlbum.releaseYear ?? ""}
+                defaultValue=""
               />
             </Form.Group>
 
@@ -145,7 +159,7 @@ function NewAlbumComponent({
                 maxLength={256}
                 type="text"
                 {...register("Description")}
-                defaultValue={editedAlbum.description ?? ""}
+                defaultValue=""
               />
             </Form.Group>
             <Form.Group>
@@ -174,4 +188,4 @@ function NewAlbumComponent({
   );
 }
 
-export default NewAlbumComponent;
+export default QuickNewAlbumComponent;

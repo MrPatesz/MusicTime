@@ -11,7 +11,7 @@ interface MutationVariables {
   releaseYear: number | null;
 }
 
-function useCreateAlbum() {
+function useCreateAlbum(toInvalidate: string | undefined) {
   const apiLink = Config.apiUrl + "albums/";
   const authToken = localStorage.getItem("authToken");
 
@@ -38,7 +38,7 @@ function useCreateAlbum() {
         .then((res) => res.data),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries("artistsAlbums");
+        queryClient.invalidateQueries(toInvalidate);
       },
     }
   );

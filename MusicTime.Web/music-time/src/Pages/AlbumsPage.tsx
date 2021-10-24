@@ -4,8 +4,13 @@ import useAlbums from "../Hooks/Queries/AlbumQueries/useAlbums";
 import { useState, useEffect } from "react";
 import AlbumDto from "../Models/AlbumDto";
 import QueryComponent from "../Components/QueryComponent";
+import Button from "react-bootstrap/Button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import QuickNewAlbumComponent from "../Components/QuickNewAlbumComponent";
 
 function AlbumsPage() {
+  const [showAddAlbum, setShowAddAlbum] = useState<boolean>(false);
+
   const { data: albums, error, isFetching } = useAlbums();
 
   const [filteredAlbums, setFilteredAlbums] = useState<AlbumDto[]>([]);
@@ -18,9 +23,10 @@ function AlbumsPage() {
     } else {
       let filterLowerCase = filter.toLowerCase();
       setFilteredAlbums(
-        (albums ?? []).filter((a) =>
-          a.title.toLowerCase().includes(filterLowerCase)
-          || a.genre?.toLowerCase().includes(filterLowerCase)
+        (albums ?? []).filter(
+          (a) =>
+            a.title.toLowerCase().includes(filterLowerCase) ||
+            a.genre?.toLowerCase().includes(filterLowerCase)
         )
       );
     }
@@ -32,11 +38,20 @@ function AlbumsPage() {
         <h1>Albums</h1>
 
         <input
-          className="form-control my-auto ml-4"
+          className="form-control my-auto mx-4"
           placeholder="Search for an album or genre..."
           type="text"
           onChange={(event) => setFilter(event.currentTarget.value)}
         ></input>
+
+        <Button
+          title="New album"
+          variant="outline-info"
+          className="ml-auto mb-auto mt-auto"
+          onClick={() => setShowAddAlbum(true)}
+        >
+          <FontAwesomeIcon icon="plus" size="lg" />
+        </Button>
       </div>
 
       <div className="mx-2">
@@ -59,8 +74,14 @@ function AlbumsPage() {
                 ))}
               </Row>
             </Container>
-          )}></QueryComponent>
+          )}
+        ></QueryComponent>
       </div>
+
+      <QuickNewAlbumComponent
+        show={showAddAlbum}
+        setShow={setShowAddAlbum}
+      ></QuickNewAlbumComponent>
     </div>
   );
 }

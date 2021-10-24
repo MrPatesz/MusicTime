@@ -58,6 +58,12 @@ function MusicPlayerComponent() {
     }
   }
 
+  function playNextButton() {
+    if (repeat) setRepeat(false);
+    playNextFunction();
+    //playerRef?.current?.seekTo(0.999999);
+  }
+
   function onProgress(state: { played: number }) {
     if (!isSeeking) setProgress(state.played);
   }
@@ -152,10 +158,7 @@ function MusicPlayerComponent() {
               <Button
                 title="Play next"
                 variant="outline-info"
-                onClick={() => {
-                  if (repeat) setRepeat(false);
-                  playerRef?.current?.seekTo(0.999999);
-                }}
+                onClick={playNextButton}
               >
                 <FontAwesomeIcon icon="step-forward" />
               </Button>

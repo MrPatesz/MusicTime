@@ -100,6 +100,7 @@ export const playerSlice = createSlice({
         randomIndex = Math.floor(Math.random() * state.queue.length);
       }
       state.index = randomIndex;
+      saveState(state);
     },
 
     setHidden: (state, action: PayloadAction<boolean>) => {

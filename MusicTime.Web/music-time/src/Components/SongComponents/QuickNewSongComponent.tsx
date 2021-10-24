@@ -23,7 +23,7 @@ function QuickNewSongComponent({ show, setShow, detailedSongs }: Props) {
   const [url, setUrl] = useState<string>("");
 
   const createSong = useCreateSong();
-  const createAlbum = useCreateAlbum();
+  const createAlbum = useCreateAlbum(undefined);
   const createArtist = useCreateArtist();
 
   async function AddFunction() {
