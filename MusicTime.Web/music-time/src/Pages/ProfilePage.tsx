@@ -1,6 +1,7 @@
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useForm } from "react-hook-form";
+import useChangePassword from "../Hooks/Mutations/UserMutations/useChangePassword";
 
 type FormValues = {
   CurrentPassword: string;
@@ -14,8 +15,18 @@ function ProfilePage() {
     formState: { errors },
   } = useForm<FormValues>();
 
-  function changePassword(data: FormValues) {
-    // TODO
+  const changePassword = useChangePassword();
+
+  const username = localStorage.getItem("userName");
+
+  function changePasswordFunction(data: FormValues) {
+    if (username) {
+      changePassword.mutate({
+        username: username,
+        currentPassword: data.CurrentPassword,
+        newPassword: data.NewPassword,
+      });
+    }
   }
 
   return (
@@ -27,11 +38,11 @@ function ProfilePage() {
         transform: "translate(-50%, -50%)",
       }}
     >
-      <h1>{localStorage.getItem("userName")}</h1>
+      <h1>{username}</h1>
       <Form
         style={{ width: "500px" }}
         onSubmit={handleSubmit((data) => {
-          changePassword(data);
+          changePasswordFunction(data);
         })}
       >
         <Form.Group>

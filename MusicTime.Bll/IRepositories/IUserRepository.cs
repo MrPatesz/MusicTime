@@ -11,5 +11,7 @@ namespace MusicTime.Bll.IRepositories
         public Task AddUser(User user);
 
         public User GetUserByUsername(string userName);
+
+        public Task ChangePassword(string UserName, byte[] computedHash);
     }
 }

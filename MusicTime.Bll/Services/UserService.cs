@@ -61,6 +61,29 @@ namespace MusicTime.Bll.Services
             }
         }
 
+        public async Task<bool> ChangePassword(PasswordChangeDto passwordChangeDto)
+        {
+            var dbUser = userRepository.GetUserByUsername(passwordChangeDto.UserName);
+
+            if (dbUser == null)
+                return false;
+
+            using (var hmac = new HMACSHA512(dbUser.PasswordSalt))
+            {
+                var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(passwordChangeDto.CurrentPassword));
+                if (dbUser.PasswordHash.SequenceEqual(computedHash))
+                {
+                    var newHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(passwordChangeDto.NewPassword));
+                    await userRepository.ChangePassword(passwordChangeDto.UserName, newHash);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
         //Katona Tamás KocsmApp
         private string GenerateJWTToken(User user)
         {

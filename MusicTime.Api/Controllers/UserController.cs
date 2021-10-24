@@ -45,6 +45,8 @@ namespace MusicTime.Api.Controllers
         }
 
         [HttpGet("login/valid")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public ActionResult<bool> IsLoginValid()
         {
             try
@@ -57,6 +59,17 @@ namespace MusicTime.Api.Controllers
             }
 
             return Ok(true);
+        }
+
+        [HttpPost("change/password")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<bool>> ChangePassword([FromBody] PasswordChangeDto passwordChangeDto)
+        {
+            if (await userService.ChangePassword(passwordChangeDto))
+                return Ok();
+            else
+                return Unauthorized("Wrong username or password.");
         }
     }
 }

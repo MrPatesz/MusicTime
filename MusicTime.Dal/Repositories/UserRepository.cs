@@ -3,6 +3,7 @@ using MusicTime.Dal.EfDbContext;
 using MusicTime.Bll.Entities;
 using System.Linq;
 using System.Threading.Tasks;
+using MusicTime.Bll.Dtos;
 
 namespace MusicTime.Dal.Repositories
 {
@@ -29,6 +30,17 @@ namespace MusicTime.Dal.Repositories
         public User GetUserByUsername(string userName)
         {
             return dbContext.Users.FirstOrDefault(u => u.UserName == userName);
+        }
+
+        public async Task ChangePassword(string UserName, byte[] computedHash)
+        {
+            var user = dbContext.Users.FirstOrDefault(u => u.UserName == UserName);
+
+            user.PasswordHash = computedHash;
+
+            dbContext.Users.Update(user);
+
+            await dbContext.SaveChangesAsync();
         }
     }
 }
