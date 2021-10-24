@@ -110,8 +110,7 @@ function AlbumDetailsPage() {
               />
               <div className="d-flex flex-column">
                 <div className="d-flex flex-row">
-                  <h1 className="mt-auto">{album!.title}</h1>
-                  &nbsp;&nbsp;
+                  <h1 className="mt-auto">{album!.title}&nbsp;</h1>
                   <h2 className="text-secondary mt-auto">
                     {album!.releaseYear}
                   </h2>
