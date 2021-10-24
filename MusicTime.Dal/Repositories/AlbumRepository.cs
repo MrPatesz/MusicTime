@@ -102,7 +102,7 @@ namespace MusicTime.Dal.Repositories
                 Description = value.Description,
                 ReleaseYear = value.ReleaseYear,
                 CoverGuid = value.CoverGuid,
-                ArtistName = value.Artist.Name
+                ArtistName = value.Artist != null ? value.Artist.Name : ""
             };
         }
     }

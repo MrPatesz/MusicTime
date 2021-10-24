@@ -13,7 +13,7 @@ import DetailedSongDto from "../../Models/DetailedSongDto";
 interface Props {
   show: boolean;
   setShow: React.Dispatch<React.SetStateAction<any>>;
-  detailedSongs: DetailedSongDto[];
+  detailedSongs: DetailedSongDto[]; // ehelyett minden ea és albumot
 }
 
 function QuickNewSongComponent({ show, setShow, detailedSongs }: Props) {
@@ -29,7 +29,7 @@ function QuickNewSongComponent({ show, setShow, detailedSongs }: Props) {
   async function AddFunction() {
     if (!detailedSongs) return;
 
-    var albumExists = detailedSongs.find((s) => s.albumTitle === albumTitle);
+    var albumExists = detailedSongs.find((s) => s.albumTitle === albumTitle); // artistName is
     var artistExists = detailedSongs.find((s) => s.artistName === artistName);
 
     if (albumExists) {
@@ -65,7 +65,7 @@ function QuickNewSongComponent({ show, setShow, detailedSongs }: Props) {
         genre: "",
         releaseYear: null,
       });
-      createSong.mutate({
+      await createSong.mutateAsync({
         title: songTitle,
         albumId: newAlbum.id,
         url: url,
@@ -109,8 +109,8 @@ function QuickNewSongComponent({ show, setShow, detailedSongs }: Props) {
   if (!show) return <div></div>;
 
   return (
-    <div className="ml-auto">
-      <Form className="d-flex flex-row ml-2 mr-4">
+    <div>
+      <Form className="d-flex flex-row mb-2 ml-2 mr-4">
         <Container fluid>
           <Row>
             <Col xs={12} sm={8} lg={6}>
@@ -123,7 +123,7 @@ function QuickNewSongComponent({ show, setShow, detailedSongs }: Props) {
                   onChange={(event) => setSongTitle(event.currentTarget.value)}
                 ></input>
                 <input
-                  className="form-control"
+                  className="form-control ml-2"
                   placeholder="url"
                   type="text"
                   onChange={(event) => setUrl(event.currentTarget.value)}

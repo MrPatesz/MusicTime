@@ -96,6 +96,11 @@ function SongsPage() {
         data={songs}
         ChildJSX={() => (
           <ul className="no-bullets">
+            <QuickNewSongComponent
+              show={showAdd}
+              setShow={setShowAdd}
+              detailedSongs={songs ?? []}
+            ></QuickNewSongComponent>
             {filteredSongs.map((s, i) => (
               <li key={s.songId} className={i % 2 !== 0 ? "bg-dark" : ""}>
                 <SongsPageSongComponent
@@ -103,11 +108,6 @@ function SongsPage() {
                 ></SongsPageSongComponent>
               </li>
             ))}
-            <QuickNewSongComponent
-              show={showAdd}
-              setShow={setShowAdd}
-              detailedSongs={songs ?? []}
-            ></QuickNewSongComponent>
           </ul>
         )}></QueryComponent>
       </div>
