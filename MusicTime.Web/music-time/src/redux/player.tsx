@@ -61,6 +61,18 @@ export const playerSlice = createSlice({
       if (!state.hidden) state.hidden = true;
       saveState(state);
     },
+    shuffleQueue: (state) => {
+      let currentSong = state.queue[state.index];
+
+      // source: https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+      for (let i = state.queue.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [state.queue[i], state.queue[j]] = [state.queue[j], state.queue[i]];
+      }
+
+      state.index = state.queue.indexOf(currentSong);
+      saveState(state);
+    },
     removeAt: (state, action: PayloadAction<number>) => {
       state.index =
         action.payload < state.index
@@ -94,14 +106,6 @@ export const playerSlice = createSlice({
       state.index = state.index < state.queue.length - 1 ? state.index + 1 : 0;
       saveState(state);
     },
-    playRandom: (state) => {
-      let randomIndex = Math.floor(Math.random() * state.queue.length);
-      while (randomIndex === state.index) {
-        randomIndex = Math.floor(Math.random() * state.queue.length);
-      }
-      state.index = randomIndex;
-      saveState(state);
-    },
 
     setHidden: (state, action: PayloadAction<boolean>) => {
       state.hidden = action.payload;
@@ -130,14 +134,14 @@ export const playerSlice = createSlice({
 });
 
 export const {
+  setQueue,
   clearQueue,
+  shuffleQueue,
   setIndex,
   removeAt,
   moveFromTo,
-  setQueue,
   playPrevious,
   playNext,
-  playRandom,
   setHidden,
   addToHistory,
   clearHistory,

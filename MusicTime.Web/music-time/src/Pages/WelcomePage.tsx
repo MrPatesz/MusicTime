@@ -4,7 +4,7 @@ import { Button, ButtonGroup } from "react-bootstrap";
 import ReactPlayer from "react-player";
 import QueueComponent from "../Components/MusicPlayer/QueueComponent";
 import { useDispatch, useSelector } from "react-redux";
-import { playNext, playPrevious, playRandom, setQueue } from "../redux/player";
+import { playNext, playPrevious, setQueue } from "../redux/player";
 import { RootState } from "../redux/store";
 
 function WelcomePage() {
@@ -123,7 +123,6 @@ function WelcomePage() {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [isSeeking, setIsSeeking] = useState<boolean>(false);
   const [showQueue, setShowQueue] = useState<boolean>(true);
-  const [shuffle, setShuffle] = useState<boolean>(false);
   const [repeat, setRepeat] = useState<boolean>(false);
 
   const playerRef = useRef<LegacyRef<ReactPlayer>>(
@@ -134,7 +133,6 @@ function WelcomePage() {
     setProgress(0);
     if (!repeat) {
       dispatch(playPrevious());
-      // TODO("shuffle esetén a ténylegesen játszottra lépjen vissza")
     } else {
       playerRef?.current?.seekTo(0);
     }
@@ -146,11 +144,7 @@ function WelcomePage() {
       dispatch(playNext());
       dispatch(playPrevious());
     } else {
-      if (shuffle) {
-        dispatch(playRandom());
-      } else {
-        dispatch(playNext());
-      }
+      dispatch(playNext());
     }
   }
 
@@ -168,8 +162,6 @@ function WelcomePage() {
       >
         <QueueComponent
           show={showQueue}
-          shuffle={shuffle}
-          setShuffle={setShuffle}
           repeat={repeat}
           setRepeat={setRepeat}
         ></QueueComponent>

@@ -6,12 +6,7 @@ import QueueComponent from "./QueueComponent";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../redux/store";
 import { useDispatch } from "react-redux";
-import {
-  playPrevious,
-  playNext,
-  playRandom,
-  setHidden,
-} from "../../redux/player";
+import { playPrevious, playNext, setHidden } from "../../redux/player";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function MusicPlayerComponent() {
@@ -27,7 +22,6 @@ function MusicPlayerComponent() {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [isSeeking, setIsSeeking] = useState<boolean>(false);
   const [showQueue, setShowQueue] = useState<boolean>(true);
-  const [shuffle, setShuffle] = useState<boolean>(false);
   const [repeat, setRepeat] = useState<boolean>(false);
 
   const playerRef = useRef<LegacyRef<ReactPlayer>>(
@@ -38,7 +32,6 @@ function MusicPlayerComponent() {
     setProgress(0);
     if (!repeat) {
       dispatch(playPrevious());
-      // TODO("shuffle esetén a ténylegesen játszottra lépjen vissza")
     } else {
       playerRef?.current?.seekTo(0);
     }
@@ -50,18 +43,17 @@ function MusicPlayerComponent() {
       dispatch(playNext());
       dispatch(playPrevious());
     } else {
-      if (shuffle) {
-        dispatch(playRandom());
-      } else {
-        dispatch(playNext());
-      }
+      dispatch(playNext());
     }
   }
 
   function playNextButton() {
     if (repeat) setRepeat(false);
-    playNextFunction();
-    //playerRef?.current?.seekTo(0.999999);
+    if (isPlaying) {
+      playerRef?.current?.seekTo(0.999999);
+    } else {
+      playNextFunction();
+    }
   }
 
   function onProgress(state: { played: number }) {
@@ -77,8 +69,6 @@ function MusicPlayerComponent() {
       >
         <QueueComponent
           show={showQueue}
-          shuffle={shuffle}
-          setShuffle={setShuffle}
           repeat={repeat}
           setRepeat={setRepeat}
         ></QueueComponent>

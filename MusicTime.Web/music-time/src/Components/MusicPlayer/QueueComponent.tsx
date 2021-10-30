@@ -1,7 +1,7 @@
 import Button from "react-bootstrap/Button";
 import { useDispatch } from "react-redux";
 import { clearQueue, removeAt, moveFromTo } from "../../redux/player";
-import { setIndex } from "../../redux/player";
+import { setIndex, shuffleQueue } from "../../redux/player";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../redux/store";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -17,16 +17,12 @@ import {
 
 interface Props {
   show: boolean;
-  shuffle: boolean;
-  setShuffle: Dispatch<SetStateAction<boolean>>;
   repeat: boolean;
   setRepeat: Dispatch<SetStateAction<boolean>>;
 }
 
 function QueueComponent({
   show,
-  shuffle,
-  setShuffle,
   repeat,
   setRepeat,
 }: Props) {
@@ -145,11 +141,11 @@ function QueueComponent({
 
         <ButtonGroup className="my-1 mr-2">
           <Button
-            title={shuffle ? "Turn off shuffle" : "Turn on shuffle"}
+            title="Shuffle Queue"
             className="mr-1"
-            variant={shuffle ? "info" : "outline-info"}
+            variant="outline-info"
             onClick={() => {
-              setShuffle(!shuffle);
+              dispatch(shuffleQueue());
             }}
           >
             <FontAwesomeIcon icon="random" />
