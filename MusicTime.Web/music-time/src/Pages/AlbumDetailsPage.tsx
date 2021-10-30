@@ -68,10 +68,14 @@ function AlbumDetailsPage() {
   }
 
   const handleOnDragEnd = (result: DropResult) => {
+    console.log(result);
     if (songs) {
       let movedSong = songs[result.source.index];
 
-      if (result.destination) {
+      if (
+        result.destination &&
+        result.destination.index !== result.source.index
+      ) {
         updateSong.mutate({
           id: movedSong.id,
           title: movedSong.title,

@@ -37,7 +37,10 @@ function QueueComponent({
   const [showAdd, setShowAdd] = useState<boolean>(false);
 
   const handleOnDragEnd = (result: DropResult) => {
-    if (result.destination) {
+    if (
+      result.destination &&
+      result.destination.index !== result.source.index
+    ) {
       dispatch(
         moveFromTo({ from: result.source.index, to: result.destination.index })
       );
