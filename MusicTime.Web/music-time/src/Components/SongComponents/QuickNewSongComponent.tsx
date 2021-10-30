@@ -8,41 +8,46 @@ import useCreateSong from "../../Hooks/Mutations/SongMutations/useCreateSong";
 import useCreateAlbum from "../../Hooks/Mutations/AlbumMutations/useCreateAlbum";
 import useCreateArtist from "../../Hooks/Mutations/ArtistMutations/useCreateArtist";
 import { Container, Row, Col } from "react-bootstrap";
-import DetailedSongDto from "../../Models/DetailedSongDto";
+import useAlbums from "../../Hooks/Queries/AlbumQueries/useAlbums";
+import useArtists from "../../Hooks/Queries/ArtistQueries/useArtists";
 
 interface Props {
   show: boolean;
   setShow: React.Dispatch<React.SetStateAction<any>>;
-  detailedSongs: DetailedSongDto[]; // ehelyett minden ea és albumot
 }
 
-function QuickNewSongComponent({ show, setShow, detailedSongs }: Props) {
+function QuickNewSongComponent({ show, setShow }: Props) {
   const [artistName, setArtistName] = useState<string>("");
   const [albumTitle, setAlbumTitle] = useState<string>("");
   const [songTitle, setSongTitle] = useState<string>("");
   const [url, setUrl] = useState<string>("");
+
+  const { data: albums } = useAlbums();
+  const { data: artists } = useArtists();
 
   const createSong = useCreateSong();
   const createAlbum = useCreateAlbum(undefined);
   const createArtist = useCreateArtist();
 
   async function AddFunction() {
-    if (!detailedSongs) return;
+    if (!(albums && artists)) return;
 
-    var albumExists = detailedSongs.find((s) => s.albumTitle === albumTitle); // artistName is
-    var artistExists = detailedSongs.find((s) => s.artistName === artistName);
+    var albumExists = albums.find(
+      (a) => a.title === albumTitle && a.artistName === artistName
+    );
+    var artistExists = artists.find((a) => a.name === artistName);
 
     if (albumExists) {
       createSong.mutate({
         title: songTitle,
-        albumId: albumExists.albumId,
+        albumId: albumExists.id,
         url: url,
         albumIndex: 1,
       });
     } else if (artistExists) {
       let newAlbum = await createAlbum.mutateAsync({
         title: albumTitle,
-        artistId: artistExists.artistId,
+        artistId: artistExists.id,
         description: "",
         genre: "",
         releaseYear: null,
@@ -78,33 +83,29 @@ function QuickNewSongComponent({ show, setShow, detailedSongs }: Props) {
   const [artistNameArray, setArtistNameArray] = useState<string[]>([]);
 
   useEffect(() => {
-    const removeDuplicates = (array: string[]) =>
-      array.filter((v, i) => array.indexOf(v) === i);
-
     function getArtistArray(): string[] {
-      if (!detailedSongs) return [];
-
-      let array = detailedSongs.map((s) => s.artistName);
-
-      return removeDuplicates(array);
+      if (artists) {
+        return artists.map((a) => a.name);
+      } else {
+        return [];
+      }
     }
 
     function getAlbumArray(): string[] {
-      if (!detailedSongs) return [];
-
-      let array =
-        artistName === ""
-          ? detailedSongs.map((s) => s.albumTitle)
-          : detailedSongs
-              .filter((s) => s.artistName === artistName)
-              .map((s) => s.albumTitle);
-
-      return removeDuplicates(array);
+      if (albums) {
+        return artistName === ""
+          ? albums.map((a) => a.title)
+          : albums
+              .filter((a) => a.artistName === artistName)
+              .map((s) => s.title);
+      } else {
+        return [];
+      }
     }
 
     setArtistNameArray(getArtistArray());
     setAlbumTitleArray(getAlbumArray());
-  }, [albumTitle, artistName, detailedSongs]);
+  }, [albumTitle, artistName, artists, albums]);
 
   if (!show) return <div></div>;
 

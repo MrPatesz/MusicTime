@@ -99,7 +99,6 @@ function SongsPage() {
             <QuickNewSongComponent
               show={showAdd}
               setShow={setShowAdd}
-              detailedSongs={songs ?? []}
             ></QuickNewSongComponent>
             {filteredSongs.map((s, i) => (
               <li key={s.songId} className={i % 2 !== 0 ? "bg-dark" : ""}>
