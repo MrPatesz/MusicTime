@@ -76,8 +76,11 @@ function SongsPage() {
           </Row>
         </Container>
 
-        <Button className="ml-auto invisible mr-1" variant="outline-danger">
+        <Button className="ml-auto invisible mr-1">
           <FontAwesomeIcon icon="trash-alt" size="lg" />
+        </Button>
+        <Button className="mr-1 invisible">
+          <FontAwesomeIcon icon="play" size="lg" />
         </Button>
         <Button
           onClick={() => setShowAdd(true)}
@@ -91,26 +94,26 @@ function SongsPage() {
 
       <div className="overflow-auto">
         <QueryComponent
-        isFetching={isFetching}
-        error={error}
-        data={songs}
-        ChildJSX={() => (
-          <ul className="no-bullets">
-            <QuickNewSongComponent
-              show={showAdd}
-              setShow={setShowAdd}
-            ></QuickNewSongComponent>
-            {filteredSongs.map((s, i) => (
-              <li key={s.songId} className={i % 2 !== 0 ? "bg-dark" : ""}>
-                <SongsPageSongComponent
-                  detailedSongDto={s}
-                ></SongsPageSongComponent>
-              </li>
-            ))}
-          </ul>
-        )}></QueryComponent>
+          isFetching={isFetching}
+          error={error}
+          data={songs}
+          ChildJSX={() => (
+            <ul className="no-bullets">
+              <QuickNewSongComponent
+                show={showAdd}
+                setShow={setShowAdd}
+              ></QuickNewSongComponent>
+              {filteredSongs.map((s, i) => (
+                <li key={s.songId} className={i % 2 !== 0 ? "bg-dark" : ""}>
+                  <SongsPageSongComponent
+                    detailedSongDto={s}
+                  ></SongsPageSongComponent>
+                </li>
+              ))}
+            </ul>
+          )}
+        ></QueryComponent>
       </div>
-      
     </div>
   );
 }

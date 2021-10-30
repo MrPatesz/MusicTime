@@ -8,6 +8,8 @@ import SongDetails from "./SongDetails";
 import AddToPlaylistComponent from "./AddToPlaylistComponent";
 import useDeleteSong from "../../Hooks/Mutations/SongMutations/useDeleteSong";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useDispatch } from "react-redux";
+import { setQueue } from "../../redux/player";
 
 interface Props {
   detailedSongDto: DetailedSongDto;
@@ -16,6 +18,8 @@ interface Props {
 function SongsPageSongComponent({ detailedSongDto }: Props) {
   const [confirm, setConfirm] = useState<boolean>(false);
   const [showAdd, setShowAdd] = useState<boolean>(false);
+
+  const dispatch = useDispatch();
 
   const deleteSong = useDeleteSong("detailedSongs");
 
@@ -30,6 +34,14 @@ function SongsPageSongComponent({ detailedSongDto }: Props) {
         <SongDetails detailedSongDto={detailedSongDto}></SongDetails>
 
         <ButtonGroup className="ml-auto">
+          <Button
+            title="Play song"
+            variant="outline-info"
+            className="mr-1"
+            onClick={() => dispatch(setQueue([detailedSongDto]))}
+          >
+            <FontAwesomeIcon icon="play" size="lg" />
+          </Button>
           <Button
             title="Add to playlist"
             variant="outline-info"

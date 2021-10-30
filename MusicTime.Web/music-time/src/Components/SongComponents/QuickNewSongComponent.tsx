@@ -152,6 +152,9 @@ function QuickNewSongComponent({ show, setShow }: Props) {
           </Row>
         </Container>
 
+        <Button className="invisible mr-1">
+          <FontAwesomeIcon icon="trash-alt" size="lg" />
+        </Button>
         <ButtonGroup style={{ height: "38px" }}>
           <Button
             title="Confirm"
