@@ -1,117 +1,120 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { LegacyRef, RefObject, useRef, useState } from "react";
+import { LegacyRef, RefObject, useEffect, useRef, useState } from "react";
 import { Button, ButtonGroup } from "react-bootstrap";
 import ReactPlayer from "react-player";
 import QueueComponent from "../Components/MusicPlayer/QueueComponent";
 import { useDispatch, useSelector } from "react-redux";
 import { playNext, playPrevious, setQueue } from "../redux/player";
 import { RootState } from "../redux/store";
+import { Link } from "react-router-dom";
 
 function WelcomePage() {
-  const defaultQueue = [
-    {
-      songId: 106,
-      songTitle: "The Explanation",
-      url: "https://www.youtube.com/watch?v=pG-tbrzlMVU",
-      artistId: 0,
-      artistName: "xxxtentacion",
-      albumId: 1,
-      albumTitle: "17",
-    },
-    {
-      songId: 29,
-      songTitle: "Jocelyn Flores",
-      url: "https://www.youtube.com/watch?v=FAucVNRx_mU",
-      artistId: 0,
-      artistName: "xxxtentacion",
-      albumId: 1,
-      albumTitle: "17",
-    },
-    {
-      songId: 107,
-      songTitle: "Depression & Obsession",
-      url: "https://www.youtube.com/watch?v=yas2vpTPWWY",
-      artistId: 0,
-      artistName: "xxxtentacion",
-      albumId: 1,
-      albumTitle: "17",
-    },
-    {
-      songId: 104,
-      songTitle: "Everybody Dies In Their Nightmares",
-      url: "https://www.youtube.com/watch?v=7JGDWKJfgxQ",
-      artistId: 0,
-      artistName: "xxxtentacion",
-      albumId: 1,
-      albumTitle: "17",
-    },
-    {
-      songId: 108,
-      songTitle: "Revenge",
-      url: "https://www.youtube.com/watch?v=CD_tD26E7k0",
-      artistId: 0,
-      artistName: "xxxtentacion",
-      albumId: 1,
-      albumTitle: "17",
-    },
-    {
-      songId: 32,
-      songTitle: "Save Me",
-      url: "https://www.youtube.com/watch?v=-8xdDaRFdwc",
-      artistId: 0,
-      artistName: "xxxtentacion",
-      albumId: 1,
-      albumTitle: "17",
-    },
-    {
-      songId: 109,
-      songTitle: "Dead Inside (Interlude)",
-      url: "https://www.youtube.com/watch?v=UgZyhGU8r04",
-      artistId: 0,
-      artistName: "xxxtentacion",
-      albumId: 1,
-      albumTitle: "17",
-    },
-    {
-      songId: 110,
-      songTitle: "Fuck Love (ft. Trippie Redd)",
-      url: "https://www.youtube.com/watch?v=JcWOSgImiRw",
-      artistId: 0,
-      artistName: "xxxtentacion",
-      albumId: 1,
-      albumTitle: "17",
-    },
-    {
-      songId: 111,
-      songTitle: "Carry On",
-      url: "https://www.youtube.com/watch?v=EhTH8OIPoY4",
-      artistId: 0,
-      artistName: "xxxtentacion",
-      albumId: 1,
-      albumTitle: "17",
-    },
-    {
-      songId: 112,
-      songTitle: "Orlando",
-      url: "https://www.youtube.com/watch?v=cnNfYsfyiMc",
-      artistId: 0,
-      artistName: "xxxtentacion",
-      albumId: 1,
-      albumTitle: "17",
-    },
-    {
-      songId: 113,
-      songTitle: "Ayala (Outro)",
-      url: "https://www.youtube.com/watch?v=KbxlSQVWbDw",
-      artistId: 0,
-      artistName: "xxxtentacion",
-      albumId: 1,
-      albumTitle: "17",
-    },
-  ];
-
   const dispatch = useDispatch();
-  dispatch(setQueue(defaultQueue));
+
+  useEffect(() => {
+    const defaultQueue = [
+      {
+        songId: 106,
+        songTitle: "The Explanation",
+        url: "https://www.youtube.com/watch?v=pG-tbrzlMVU",
+        artistId: 0,
+        artistName: "xxxtentacion",
+        albumId: 1,
+        albumTitle: "17",
+      },
+      {
+        songId: 29,
+        songTitle: "Jocelyn Flores",
+        url: "https://www.youtube.com/watch?v=FAucVNRx_mU",
+        artistId: 0,
+        artistName: "xxxtentacion",
+        albumId: 1,
+        albumTitle: "17",
+      },
+      {
+        songId: 107,
+        songTitle: "Depression & Obsession",
+        url: "https://www.youtube.com/watch?v=yas2vpTPWWY",
+        artistId: 0,
+        artistName: "xxxtentacion",
+        albumId: 1,
+        albumTitle: "17",
+      },
+      {
+        songId: 104,
+        songTitle: "Everybody Dies In Their Nightmares",
+        url: "https://www.youtube.com/watch?v=7JGDWKJfgxQ",
+        artistId: 0,
+        artistName: "xxxtentacion",
+        albumId: 1,
+        albumTitle: "17",
+      },
+      {
+        songId: 108,
+        songTitle: "Revenge",
+        url: "https://www.youtube.com/watch?v=CD_tD26E7k0",
+        artistId: 0,
+        artistName: "xxxtentacion",
+        albumId: 1,
+        albumTitle: "17",
+      },
+      {
+        songId: 32,
+        songTitle: "Save Me",
+        url: "https://www.youtube.com/watch?v=-8xdDaRFdwc",
+        artistId: 0,
+        artistName: "xxxtentacion",
+        albumId: 1,
+        albumTitle: "17",
+      },
+      {
+        songId: 109,
+        songTitle: "Dead Inside (Interlude)",
+        url: "https://www.youtube.com/watch?v=UgZyhGU8r04",
+        artistId: 0,
+        artistName: "xxxtentacion",
+        albumId: 1,
+        albumTitle: "17",
+      },
+      {
+        songId: 110,
+        songTitle: "Fuck Love (ft. Trippie Redd)",
+        url: "https://www.youtube.com/watch?v=JcWOSgImiRw",
+        artistId: 0,
+        artistName: "xxxtentacion",
+        albumId: 1,
+        albumTitle: "17",
+      },
+      {
+        songId: 111,
+        songTitle: "Carry On",
+        url: "https://www.youtube.com/watch?v=EhTH8OIPoY4",
+        artistId: 0,
+        artistName: "xxxtentacion",
+        albumId: 1,
+        albumTitle: "17",
+      },
+      {
+        songId: 112,
+        songTitle: "Orlando",
+        url: "https://www.youtube.com/watch?v=cnNfYsfyiMc",
+        artistId: 0,
+        artistName: "xxxtentacion",
+        albumId: 1,
+        albumTitle: "17",
+      },
+      {
+        songId: 113,
+        songTitle: "Ayala (Outro)",
+        url: "https://www.youtube.com/watch?v=KbxlSQVWbDw",
+        artistId: 0,
+        artistName: "xxxtentacion",
+        albumId: 1,
+        albumTitle: "17",
+      },
+    ];
+    dispatch(setQueue(defaultQueue));
+  }, [dispatch]);
 
   const queue = useSelector((state: RootState) => state.queue.queue);
   const index = useSelector((state: RootState) => state.queue.index);
@@ -154,7 +157,50 @@ function WelcomePage() {
 
   return (
     <div>
-      <h1>Welcome</h1>
+      <h1 className="my-3 mx-4 d-flex flex-row">
+        Welcome to&nbsp;
+        <div className="text-info">Music Time</div>
+      </h1>
+
+      <div className="mx-4">
+        <p>
+          Manage your favourite artists, albums, songs and create playlists.
+        </p>
+        <p>
+          Play music from various sources, including SoundCloud, YouTube, mp3
+          files and many more.
+        </p>
+
+        <h5>
+          Head over to the{" "}
+          <Link class="text-info" to="login">
+            Login page
+          </Link>{" "}
+          to create an account.
+        </h5>
+      </div>
+
+      <div style={{ position: "fixed", top: "100px", right: "50px" }}>
+        <div className="d-flex justify-content-center">
+          <img src="/sample_album.png" alt="Sample album"></img>
+        </div>
+        <div className="d-flex justify-content-center">
+          Using Bootstrap's Cards for a modern look.
+        </div>
+
+        <div className="d-flex justify-content-center mt-4">
+          <img src="/sample_fa.png" alt="Sample album"></img>
+        </div>
+        <div className="d-flex justify-content-center">
+          Using Font Awesome icons, tooltips and color coding for easy use.
+        </div>
+      </div>
+
+      <div style={{ position: "fixed", top: "400px", left: "100px" }}></div>
+
+      <div style={{ position: "fixed", bottom: "270px", right: "10px" }}>
+        <p>Here's a preview of the player.</p>
+      </div>
 
       <div
         style={{ position: "fixed", bottom: "0", right: "0" }}
@@ -249,6 +295,10 @@ function WelcomePage() {
                 <FontAwesomeIcon icon="step-forward" />
               </Button>
             </ButtonGroup>
+
+            <Button disabled title="Hide player" variant="outline-warning">
+              <FontAwesomeIcon icon="eye-slash" />
+            </Button>
           </div>
         </div>
 
