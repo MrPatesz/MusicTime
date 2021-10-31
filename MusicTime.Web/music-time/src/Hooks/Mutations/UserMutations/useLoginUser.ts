@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useMutation } from "react-query";
+import { useDispatch } from "react-redux";
 import { Config } from "../../../config";
+import { clearQueue } from "../../../redux/player";
 
 interface MutationVariables {
   username: string;
@@ -12,6 +14,8 @@ function useRegisterUser(
 ) {
   const apiLink = Config.apiUrl + "users/login";
 
+  const dispatch = useDispatch();
+
   return useMutation(
     (variables: MutationVariables) =>
       axios
@@ -20,13 +24,15 @@ function useRegisterUser(
           Password: variables.password,
         })
         .then((result) => {
-            localStorage.setItem("authToken", String(result.data));
-            localStorage.setItem("userName", variables.username);
-          }
-        ),
+          localStorage.setItem("authToken", String(result.data));
+          localStorage.setItem("userName", variables.username);
+        }),
     {
       onError: () => alert("Wrong username or password"),
-      onSuccess: () => setLoggedIn(true),
+      onSuccess: () => {
+        dispatch(clearQueue());
+        setLoggedIn(true);
+      },
     }
   );
 }
