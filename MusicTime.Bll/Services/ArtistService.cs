@@ -2,6 +2,7 @@
 using MusicTime.Bll.Entities;
 using MusicTime.Bll.IRepositories;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MusicTime.Bll.Services
@@ -12,13 +13,15 @@ namespace MusicTime.Bll.Services
         private readonly IAlbumRepository albumRepository;
         private readonly ISongRepository songRepository;
         private readonly IPictureRepository pictureRepository;
+        private readonly IPlaylistRepository playlistRepository;
 
-        public ArtistService(IArtistRepository artistRepository, IAlbumRepository albumRepository, ISongRepository songRepository, IPictureRepository pictureRepository)
+        public ArtistService(IArtistRepository artistRepository, IAlbumRepository albumRepository, ISongRepository songRepository, IPictureRepository pictureRepository, IPlaylistRepository playlistRepository)
         {
             this.artistRepository = artistRepository;
             this.albumRepository = albumRepository;
             this.songRepository = songRepository;
             this.pictureRepository = pictureRepository;
+            this.playlistRepository = playlistRepository;
         }
 
         public List<ArtistDto> GetArtists(int userId)
@@ -94,6 +97,12 @@ namespace MusicTime.Bll.Services
 
         public async Task<bool> DeleteArtistById(int userId, int artistId)
         {
+            var songs = GetSongsOfArtist(userId, artistId);
+
+            var removingSongsFromPlaylists = songs.Select(s => playlistRepository.DeleteSongFromPlaylists(s.Id));
+
+            await Task.WhenAll(removingSongsFromPlaylists);
+
             var albums = albumRepository.GetAlbumsOfArtist(userId, artistId);
 
             albums.ForEach(a =>

@@ -182,12 +182,14 @@ namespace MusicTime.Dal.EfDbContext
             modelBuilder.Entity<SongToPlaylist>()
                 .HasOne(sp => sp.Playlist)
                 .WithMany(p => p.PlaylistToSongs)
-                .HasForeignKey(sp => sp.PlaylistId);
+                .HasForeignKey(sp => sp.PlaylistId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<SongToPlaylist>()
                 .HasOne(sp => sp.Song)
                 .WithMany(s => s.SongToPlaylists)
-                .HasForeignKey(sp => sp.SongId);
+                .HasForeignKey(sp => sp.SongId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<SongToPlaylist>()
                 .HasData(new[]
