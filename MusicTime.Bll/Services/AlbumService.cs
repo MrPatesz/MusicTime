@@ -10,11 +10,13 @@ namespace MusicTime.Bll.Services
     {
         private readonly IAlbumRepository albumRepository;
         private readonly ISongRepository songRepository;
+        private readonly IPictureRepository pictureRepository;
 
-        public AlbumService(IAlbumRepository albumRepository, ISongRepository songRepository)
+        public AlbumService(IAlbumRepository albumRepository, ISongRepository songRepository, IPictureRepository pictureRepository)
         {
             this.albumRepository = albumRepository;
             this.songRepository = songRepository;
+            this.pictureRepository = pictureRepository;
         }
 
         public List<AlbumDto> GetAlbums(int userId)
@@ -79,6 +81,13 @@ namespace MusicTime.Bll.Services
 
         public async Task<bool> DeleteAlbumById(int userId, int albumId)
         {
+            var album = albumRepository.GetAlbumById(userId, albumId);
+
+            if (album.CoverGuid != null)
+            {
+                pictureRepository.DeletePicture(album.CoverGuid.ToString());
+            }
+
             return await albumRepository.DeleteAlbumById(userId, albumId);
         }
     }

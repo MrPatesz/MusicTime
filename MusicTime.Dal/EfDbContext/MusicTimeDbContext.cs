@@ -35,10 +35,12 @@ namespace MusicTime.Dal.EfDbContext
                 .IsRequired(required: true);
             modelBuilder.Entity<User>()
                 .HasMany(a => a.Artists)
-                .WithOne(a => a.User);
+                .WithOne(a => a.User)
+                .OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<User>()
                 .HasMany(u => u.Playlists)
-                .WithOne(p => p.User);
+                .WithOne(p => p.User)
+                .OnDelete(DeleteBehavior.Cascade);
 
             using (var hmac = new HMACSHA512())
             {
@@ -91,13 +93,14 @@ namespace MusicTime.Dal.EfDbContext
                 .Property(s => s.Description).HasMaxLength(256)
                 .IsRequired(required: false).IsUnicode(unicode: true);
             modelBuilder.Entity<Artist>()
-               .HasOne(t => t.User)
-               .WithMany(a => a.Artists)
-               .HasForeignKey(t => t.UserId)
+               .HasOne(artist => artist.User)
+               .WithMany(user => user.Artists)
+               .HasForeignKey(artist => artist.UserId)
                .IsRequired(required: true);
             modelBuilder.Entity<Artist>()
-                .HasMany(a => a.Albums)
-                .WithOne(a => a.Artist)
+                .HasMany(artist => artist.Albums)
+                .WithOne(album => album.Artist)
+                .HasForeignKey(album => album.ArtistId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Artist>()
@@ -131,8 +134,12 @@ namespace MusicTime.Dal.EfDbContext
                .HasOne(t => t.Artist)
                .WithMany(a => a.Albums)
                .HasForeignKey(t => t.ArtistId)
-               .IsRequired(required: true)
-               .OnDelete(DeleteBehavior.Cascade);
+               .IsRequired(required: true);
+            modelBuilder.Entity<Album>()
+                .HasMany(a => a.Songs)
+                .WithOne(a => a.Album)
+                .HasForeignKey(a => a.AlbumId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Album>()
                 .HasData(new[]
@@ -175,14 +182,12 @@ namespace MusicTime.Dal.EfDbContext
             modelBuilder.Entity<SongToPlaylist>()
                 .HasOne(sp => sp.Playlist)
                 .WithMany(p => p.PlaylistToSongs)
-                .HasForeignKey(sp => sp.PlaylistId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .HasForeignKey(sp => sp.PlaylistId);
 
             modelBuilder.Entity<SongToPlaylist>()
                 .HasOne(sp => sp.Song)
                 .WithMany(s => s.SongToPlaylists)
-                .HasForeignKey(sp => sp.SongId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .HasForeignKey(sp => sp.SongId);
 
             modelBuilder.Entity<SongToPlaylist>()
                 .HasData(new[]

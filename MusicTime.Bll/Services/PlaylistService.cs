@@ -10,11 +10,13 @@ namespace MusicTime.Bll.Services
     {
         private readonly IPlaylistRepository playlistRepository;
         private readonly ISongRepository songRepository;
+        private readonly IPictureRepository pictureRepository;
 
-        public PlaylistService(IPlaylistRepository playlistRepository, ISongRepository songRepository)
+        public PlaylistService(IPlaylistRepository playlistRepository, ISongRepository songRepository, IPictureRepository pictureRepository)
         {
             this.playlistRepository = playlistRepository;
             this.songRepository = songRepository;
+            this.pictureRepository = pictureRepository;
         }
 
         public List<PlaylistDto> GetPlaylists(int userId)
@@ -72,6 +74,13 @@ namespace MusicTime.Bll.Services
 
         public async Task<bool> DeletePlaylistById(int userId, int id)
         {
+            var playlist = playlistRepository.GetPlaylistById(userId, id);
+
+            if (playlist.CoverGuid != null)
+            {
+                pictureRepository.DeletePicture(playlist.CoverGuid.ToString());
+            }
+
             await playlistRepository.RemoveAllSongsFromPlaylist(id);
             return await playlistRepository.DeletePlaylistById(userId, id);
         }
