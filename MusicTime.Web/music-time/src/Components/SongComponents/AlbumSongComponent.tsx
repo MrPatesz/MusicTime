@@ -77,9 +77,11 @@ function AlbumSongComponent({ songDto, albumId, albumIndex }: Props) {
             animation={false}
           >
             <Modal.Header>
-              <Modal.Title>Deleting item</Modal.Title>
+              <Modal.Title>Deleting "{songDto.title}"</Modal.Title>
             </Modal.Header>
-            <Modal.Body>Are you sure you want to delete this item?</Modal.Body>
+            <Modal.Body>
+              Are you sure you want to delete "{songDto.title}?
+            </Modal.Body>
             <Modal.Footer>
               <Button
                 variant="outline-secondary"

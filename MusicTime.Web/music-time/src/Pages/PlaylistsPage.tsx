@@ -67,6 +67,7 @@ function PlaylistsPage() {
                       pictureGuid={a.coverGuid}
                       relativeLink={"playlists/" + a.id}
                       toInvalidate="playlists"
+                      deletionWarning=""
                     ></CardComponent>
                   </Col>
                 ))}

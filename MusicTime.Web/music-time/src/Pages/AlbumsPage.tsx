@@ -69,6 +69,7 @@ function AlbumsPage() {
                       pictureGuid={a.coverGuid}
                       relativeLink={"albums/" + a.id}
                       toInvalidate="albums"
+                      deletionWarning="This will also delete the songs of this album!"
                     ></CardComponent>
                   </Col>
                 ))}

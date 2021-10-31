@@ -99,7 +99,8 @@ function ArtistDetailsPage() {
                 </Button>
               </ButtonGroup>
             </div>
-          )}></QueryComponent>
+          )}
+        ></QueryComponent>
       </div>
       <div>
         <div className="d-flex flex-row mx-4 mb-3">
@@ -129,12 +130,14 @@ function ArtistDetailsPage() {
                         pictureGuid={a.coverGuid}
                         relativeLink={"/albums/" + a.id}
                         toInvalidate="artistsAlbums"
+                        deletionWarning="This will also delete the songs of this album!"
                       ></CardComponent>
                     </Col>
                   ))}
                 </Row>
               </Container>
-            )}></QueryComponent>
+            )}
+          ></QueryComponent>
         </div>
       </div>
 

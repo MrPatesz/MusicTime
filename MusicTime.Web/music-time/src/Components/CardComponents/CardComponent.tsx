@@ -14,6 +14,7 @@ interface Props {
   pictureGuid: string | null;
   relativeLink: string;
   toInvalidate: string;
+  deletionWarning: string;
 }
 
 function CardComponent({
@@ -21,6 +22,7 @@ function CardComponent({
   pictureGuid,
   relativeLink,
   toInvalidate,
+  deletionWarning,
 }: Props) {
   if (pictureGuid === null) pictureGuid = "/placeholder.png";
   else {
@@ -82,9 +84,12 @@ function CardComponent({
         animation={false}
       >
         <Modal.Header>
-          <Modal.Title>Deleting item</Modal.Title>
+          <Modal.Title>Deleting "{title}"</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Are you sure you want to delete this item?</Modal.Body>
+        <Modal.Body>
+          <div>{deletionWarning}</div>
+          <div>Are you sure you want to delete "{title}"?</div>
+        </Modal.Body>
         <Modal.Footer>
           <Button variant="outline-secondary" onClick={() => setConfirm(false)}>
             Cancel
