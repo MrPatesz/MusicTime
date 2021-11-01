@@ -13,7 +13,13 @@ import { fas } from "@fortawesome/free-solid-svg-icons";
 
 library.add(fas);
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 ReactDOM.render(
   <React.StrictMode>
