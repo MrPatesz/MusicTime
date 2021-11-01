@@ -33,7 +33,7 @@ function AddQueueToPlaylistComponent({ showAdd, setShowAdd }: Props) {
   }
 
   function addFunction() {
-    if (selectedPlaylist) {
+    if (selectedPlaylist && selectedPlaylist.title) {
       if (selectedPlaylist.id === -1) {
         saveQueueToNewPlaylist();
       } else {
