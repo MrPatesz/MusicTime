@@ -49,7 +49,13 @@ const App = () => {
     return (
       <Link
         className={
-          route === currentRoute ? "nav-link text-light" : "nav-link text-info"
+          (
+            route === "/"
+              ? currentRoute === route
+              : currentRoute.includes(route)
+          )
+            ? "nav-link text-light"
+            : "nav-link text-info"
         }
         to={route}
       >
