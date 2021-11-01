@@ -10,6 +10,7 @@ interface PlayerState {
   queue: DetailedSongDto[];
   index: number;
   hidden: boolean;
+  volume: number;
   history: HistoryElement[];
 }
 
@@ -18,6 +19,7 @@ const initialState: PlayerState = {
   index: 0,
   hidden: true,
   history: [],
+  volume: 0.15,
 };
 
 const loadState = (): PlayerState => {
@@ -39,7 +41,7 @@ const saveState = (state: PlayerState) => {
 };
 
 export const playerSlice = createSlice({
-  name: "queue",
+  name: "player",
   initialState: loadState(),
   reducers: {
     setQueue: (state, action: PayloadAction<DetailedSongDto[]>) => {
@@ -111,6 +113,10 @@ export const playerSlice = createSlice({
       state.hidden = action.payload;
       saveState(state);
     },
+    setVolume: (state, action: PayloadAction<number>) => {
+      state.volume = action.payload;
+      saveState(state);
+    },
 
     addToHistory: (state, action: PayloadAction<HistoryElement>) => {
       if (state.history.length > 11) {
@@ -143,6 +149,7 @@ export const {
   playPrevious,
   playNext,
   setHidden,
+  setVolume,
   addToHistory,
   clearHistory,
 } = playerSlice.actions;

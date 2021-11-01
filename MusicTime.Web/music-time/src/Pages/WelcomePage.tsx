@@ -116,8 +116,8 @@ function WelcomePage() {
     dispatch(setQueue(defaultQueue));
   }, [dispatch]);
 
-  const queue = useSelector((state: RootState) => state.queue.queue);
-  const index = useSelector((state: RootState) => state.queue.index);
+  const queue = useSelector((state: RootState) => state.player.queue);
+  const index = useSelector((state: RootState) => state.player.index);
 
   const [volume, setVolume] = useState<number>(0.15);
   const [progress, setProgress] = useState<number>(0);

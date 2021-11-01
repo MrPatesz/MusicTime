@@ -6,16 +6,16 @@ import QueueComponent from "./QueueComponent";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../redux/store";
 import { useDispatch } from "react-redux";
-import { playPrevious, playNext, setHidden } from "../../redux/player";
+import { playPrevious, playNext, setHidden, setVolume } from "../../redux/player";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function MusicPlayerComponent() {
-  const queue = useSelector((state: RootState) => state.queue.queue);
-  const index = useSelector((state: RootState) => state.queue.index);
-  const hidden = useSelector((state: RootState) => state.queue.hidden);
+  const queue = useSelector((state: RootState) => state.player.queue);
+  const index = useSelector((state: RootState) => state.player.index);
+  const hidden = useSelector((state: RootState) => state.player.hidden);
+  const volume = useSelector((state: RootState) => state.player.volume);
   const dispatch = useDispatch();
 
-  const [volume, setVolume] = useState<number>(0.15);
   const [progress, setProgress] = useState<number>(0);
   const [scale, setScale] = useState<number>(1.1);
 
@@ -177,7 +177,7 @@ function MusicPlayerComponent() {
               step="any"
               value={volume}
               onChange={(e: React.FormEvent<HTMLInputElement>) => {
-                setVolume(parseFloat(e.currentTarget.value));
+                dispatch(setVolume(parseFloat(e.currentTarget.value)));
               }}
             />
             <FontAwesomeIcon icon="volume-down" />

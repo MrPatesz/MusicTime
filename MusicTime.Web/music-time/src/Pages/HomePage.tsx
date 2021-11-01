@@ -14,7 +14,7 @@ function HomePage() {
   const [showAddArtist, setShowAddArtist] = useState<boolean>(false);
 
   const dispatch = useDispatch();
-  const history = useSelector((state: RootState) => state.queue.history);
+  const history = useSelector((state: RootState) => state.player.history);
 
   return (
     <div>

@@ -21,7 +21,7 @@ function AddQueueToPlaylistComponent({ showAdd, setShowAdd }: Props) {
   const { data: playlists, error, isFetching } = usePlaylists();
   const addSongToPlaylist = useAddSong(setShowAdd);
   const createPlaylist = useCreatePlaylist();
-  const queue = useSelector((state: RootState) => state.queue.queue);
+  const queue = useSelector((state: RootState) => state.player.queue);
 
   function onPlaylistChange(selected: string) {
     let playlist = playlists?.find((p) => p.title === selected);

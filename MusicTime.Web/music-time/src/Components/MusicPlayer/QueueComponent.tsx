@@ -27,8 +27,8 @@ function QueueComponent({
   setRepeat,
 }: Props) {
   const dispatch = useDispatch();
-  const queue = useSelector((state: RootState) => state.queue.queue);
-  const index = useSelector((state: RootState) => state.queue.index);
+  const queue = useSelector((state: RootState) => state.player.queue);
+  const index = useSelector((state: RootState) => state.player.index);
 
   const [showAdd, setShowAdd] = useState<boolean>(false);
 
