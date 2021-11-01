@@ -27,8 +27,8 @@ namespace MusicTime.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<MusicTimeDbContext>(opt =>
-                opt.UseSqlServer(@"Data Source=(localdb)\mssqllocaldb;Initial Catalog=MusicTimeDataBase;Integrated Security=True"));
+            var connectionString = Configuration.GetSection("AppSettings:ConnectionString").Value;
+            services.AddDbContext<MusicTimeDbContext>(opt => opt.UseSqlServer(connectionString));
 
             services.AddScoped<SongService, SongService>();
             services.AddScoped<AlbumService, AlbumService>();
@@ -46,12 +46,13 @@ namespace MusicTime.Api
 
             services.AddControllers();
 
+            var frontendURL = Configuration.GetSection("AppSettings:FrontendURL").Value;
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy",
                     builder => builder.AllowAnyMethod()
                         .AllowAnyHeader()
-                        .WithOrigins("http://localhost:3000")
+                        .WithOrigins(frontendURL)
                         .AllowCredentials());
             });
 
