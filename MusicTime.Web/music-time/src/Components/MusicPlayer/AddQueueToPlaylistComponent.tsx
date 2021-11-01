@@ -1,4 +1,4 @@
-import { Button, Modal, Spinner } from "react-bootstrap";
+import { Button, Modal, Spinner, Toast } from "react-bootstrap";
 import AutosuggestComponent from "../Autosuggest/AutosuggestComponent";
 import PlaylistDto from "../../Models/PlaylistDto";
 import { useState } from "react";
@@ -23,6 +23,8 @@ function AddQueueToPlaylistComponent({ showAdd, setShowAdd }: Props) {
   const createPlaylist = useCreatePlaylist();
   const queue = useSelector((state: RootState) => state.player.queue);
 
+  const [showSuccessfulAdd, setShowSuccessfulAdd] = useState(false);
+
   function onPlaylistChange(selected: string) {
     let playlist = playlists?.find((p) => p.title === selected);
     if (playlist) {
@@ -39,6 +41,7 @@ function AddQueueToPlaylistComponent({ showAdd, setShowAdd }: Props) {
       } else {
         saveQueueToExistingPlaylist();
       }
+      setShowSuccessfulAdd(true);
     } else {
       alert("Please provide a title for the playlist!");
     }
@@ -52,7 +55,7 @@ function AddQueueToPlaylistComponent({ showAdd, setShowAdd }: Props) {
     queue.forEach(async (s) => {
       await addSongToPlaylist.mutateAsync({
         playlistId: createdPlaylist.id,
-        songDto: { id: s.songId, title: s.songTitle, url: s.url},
+        songDto: { id: s.songId, title: s.songTitle, url: s.url },
       });
     });
   }
@@ -67,41 +70,63 @@ function AddQueueToPlaylistComponent({ showAdd, setShowAdd }: Props) {
   }
 
   return (
-    <Modal
-      show={showAdd}
-      onHide={() => setShowAdd(false)}
-      backdrop="static"
-      keyboard={false}
-      animation={false}
-    >
-      <Modal.Header>
-        <Modal.Title>{"Add Queue to"}</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        {error ? (
-          <Alert variant="danger">An error occurred while fetching data!</Alert>
-        ) : playlists ? (
-          <AutosuggestComponent
-            placeholder="new or existing playlist"
-            data={playlists.map((p) => p.title)}
-            onValueChanged={onPlaylistChange}
-            maxLength={50}
-          ></AutosuggestComponent>
-        ) : isFetching ? (
-          <Spinner animation="grow" variant="info" />
-        ) : (
-          <div></div>
-        )}
-      </Modal.Body>
-      <Modal.Footer>
-        <Button variant="outline-secondary" onClick={() => setShowAdd(false)}>
-          Cancel
-        </Button>
-        <Button variant="outline-info" onClick={() => addFunction()}>
-          Confirm
-        </Button>
-      </Modal.Footer>
-    </Modal>
+    <div>
+      <Modal
+        show={showAdd}
+        onHide={() => setShowAdd(false)}
+        backdrop="static"
+        keyboard={false}
+        animation={false}
+      >
+        <Modal.Header>
+          <Modal.Title>{"Add Queue to"}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {error ? (
+            <Alert variant="danger">
+              An error occurred while fetching data!
+            </Alert>
+          ) : playlists ? (
+            <AutosuggestComponent
+              placeholder="new or existing playlist"
+              data={playlists.map((p) => p.title)}
+              onValueChanged={onPlaylistChange}
+              maxLength={50}
+            ></AutosuggestComponent>
+          ) : isFetching ? (
+            <Spinner animation="grow" variant="info" />
+          ) : (
+            <div></div>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="outline-secondary" onClick={() => setShowAdd(false)}>
+            Cancel
+          </Button>
+          <Button variant="outline-info" onClick={() => addFunction()}>
+            Confirm
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <div style={{ position: "fixed", top: "10px", right: "10px" }}>
+        <Toast
+          className="bg-info"
+          show={showSuccessfulAdd}
+          onClose={() => setShowSuccessfulAdd(false)}
+          delay={5000}
+          autohide
+        >
+          <Toast.Header>
+            <strong className="me-auto">Successful add</strong>
+            <small className="ml-auto"></small>
+          </Toast.Header>
+          <Toast.Body>
+            Successfully added songs to "{selectedPlaylist?.title}"
+          </Toast.Body>
+        </Toast>
+      </div>
+    </div>
   );
 }
 
