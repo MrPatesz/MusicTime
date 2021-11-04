@@ -74,7 +74,3 @@ ol.song-list {
   height: 10px;
   box-shadow: 0 0 0 5px #43e5f7;
 }
-
-.react-autosuggest__input {
-  width: inherit;
-}
