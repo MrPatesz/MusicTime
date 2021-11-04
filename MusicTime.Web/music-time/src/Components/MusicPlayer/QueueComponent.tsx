@@ -105,9 +105,7 @@ function QueueComponent({
                           className="ml-2 py-0 px-1"
                           variant="outline-warning"
                           size="sm"
-                          onClick={() => {
-                            dispatch(removeAt(i));
-                          }}
+                          onClick={() => dispatch(removeAt(i))}
                         >
                           <FontAwesomeIcon icon="trash-alt" />
                         </Button>
@@ -135,9 +133,7 @@ function QueueComponent({
             title="Shuffle Queue"
             className="mr-1"
             variant="outline-info"
-            onClick={() => {
-              dispatch(shuffleQueue());
-            }}
+            onClick={() => dispatch(shuffleQueue())}
           >
             <FontAwesomeIcon icon="random" />
           </Button>
@@ -163,9 +159,7 @@ function QueueComponent({
           <Button
             title="Clear Queue"
             variant="outline-warning"
-            onClick={() => {
-              dispatch(clearQueue());
-            }}
+            onClick={() => dispatch(clearQueue())}
           >
             <FontAwesomeIcon icon="trash-alt" />
           </Button>
