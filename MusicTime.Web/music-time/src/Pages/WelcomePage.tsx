@@ -180,28 +180,6 @@ function WelcomePage() {
         </h5>
       </div>
 
-      <div style={{ position: "fixed", top: "100px", right: "50px" }}>
-        <div className="d-flex justify-content-center">
-          <img src="/sample_album.png" alt="Sample album"></img>
-        </div>
-        <div className="d-flex justify-content-center">
-          Using Bootstrap's Cards for a modern look.
-        </div>
-
-        <div className="d-flex justify-content-center mt-4">
-          <img src="/sample_fa.png" alt="Sample album"></img>
-        </div>
-        <div className="d-flex justify-content-center">
-          Using Font Awesome icons, tooltips and color coding for easy use.
-        </div>
-      </div>
-
-      <div style={{ position: "fixed", top: "400px", left: "100px" }}></div>
-
-      <div style={{ position: "fixed", bottom: "270px", right: "10px" }}>
-        <p>Here's a preview of the player.</p>
-      </div>
-
       <div
         style={{ position: "fixed", bottom: "0", right: "0" }}
         className="d-flex flex-row bg-dark border border-info"
