@@ -19,12 +19,14 @@ interface Props {
   show: boolean;
   repeat: boolean;
   setRepeat: Dispatch<SetStateAction<boolean>>;
+  disableQueuetoPlaylist: boolean;
 }
 
 function QueueComponent({
   show,
   repeat,
   setRepeat,
+  disableQueuetoPlaylist,
 }: Props) {
   const dispatch = useDispatch();
   const queue = useSelector((state: RootState) => state.player.queue);
@@ -128,18 +130,7 @@ function QueueComponent({
           width: `${width}px`,
         }}
       >
-        <Button
-          title="Save Queue to playlist"
-          className="my-1 mx-2"
-          variant="outline-info"
-          onClick={() => {
-            if (queue.length > 0) setShowAdd(true);
-          }}
-        >
-          <FontAwesomeIcon icon="folder-plus" />
-        </Button>
-
-        <ButtonGroup className="my-1 mr-2">
+        <ButtonGroup className="my-1 ml-2">
           <Button
             title="Shuffle Queue"
             className="mr-1"
@@ -159,16 +150,26 @@ function QueueComponent({
           </Button>
         </ButtonGroup>
 
-        <Button
-          title="Clear Queue"
-          className="ml-auto mr-2 my-1"
-          variant="outline-warning"
-          onClick={() => {
-            dispatch(clearQueue());
-          }}
-        >
-          <FontAwesomeIcon icon="trash-alt" />
-        </Button>
+        <ButtonGroup className="my-1 ml-auto mr-2">
+          <Button
+            disabled={disableQueuetoPlaylist || queue.length < 1}
+            title="Save Queue to playlist"
+            className="mr-1"
+            variant="outline-info"
+            onClick={() => setShowAdd(true)}
+          >
+            <FontAwesomeIcon icon="folder-plus" />
+          </Button>
+          <Button
+            title="Clear Queue"
+            variant="outline-warning"
+            onClick={() => {
+              dispatch(clearQueue());
+            }}
+          >
+            <FontAwesomeIcon icon="trash-alt" />
+          </Button>
+        </ButtonGroup>
       </div>
       <AddQueueToPlaylistComponent
         showAdd={showAdd}

@@ -9,7 +9,11 @@ import { useDispatch } from "react-redux";
 import { playPrevious, playNext, setHidden, setVolume } from "../../redux/player";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-function MusicPlayerComponent() {
+interface Props {
+  disableQueuetoPlaylist: boolean;
+}
+
+function MusicPlayerComponent({ disableQueuetoPlaylist }: Props) {
   const queue = useSelector((state: RootState) => state.player.queue);
   const index = useSelector((state: RootState) => state.player.index);
   const hidden = useSelector((state: RootState) => state.player.hidden);
@@ -68,6 +72,7 @@ function MusicPlayerComponent() {
         }
       >
         <QueueComponent
+          disableQueuetoPlaylist={disableQueuetoPlaylist}
           show={showQueue}
           repeat={repeat}
           setRepeat={setRepeat}
