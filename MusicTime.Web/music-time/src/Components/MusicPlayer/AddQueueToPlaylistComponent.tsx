@@ -24,6 +24,7 @@ function AddQueueToPlaylistComponent({ showAdd, setShowAdd }: Props) {
   const queue = useSelector((state: RootState) => state.player.queue);
 
   const [showSuccessfulAdd, setShowSuccessfulAdd] = useState(false);
+  const [playlistRequired, setPlaylistRequired] = useState<boolean>(false);
 
   function onPlaylistChange(selected: string) {
     let playlist = playlists?.find((p) => p.title === selected);
@@ -32,6 +33,7 @@ function AddQueueToPlaylistComponent({ showAdd, setShowAdd }: Props) {
     } else {
       setSelectedPlaylist(new PlaylistDto(-1, selected, "", ""));
     }
+    if (selected) setPlaylistRequired(false);
   }
 
   function addFunction() {
@@ -43,7 +45,7 @@ function AddQueueToPlaylistComponent({ showAdd, setShowAdd }: Props) {
       }
       setShowSuccessfulAdd(true);
     } else {
-      alert("Please provide a title for the playlist!");
+      setPlaylistRequired(true);
     }
   }
 
@@ -87,12 +89,17 @@ function AddQueueToPlaylistComponent({ showAdd, setShowAdd }: Props) {
               An error occurred while fetching data!
             </Alert>
           ) : playlists ? (
-            <AutosuggestComponent
-              placeholder="new or existing playlist"
-              data={playlists.map((p) => p.title)}
-              onValueChanged={onPlaylistChange}
-              maxLength={50}
-            ></AutosuggestComponent>
+            <div>
+              <div className="w-100">
+                <AutosuggestComponent
+                  placeholder="new or existing playlist"
+                  data={playlists.map((p) => p.title)}
+                  onValueChanged={onPlaylistChange}
+                  maxLength={50}
+                ></AutosuggestComponent>
+              </div>
+              {playlistRequired && "Playlist is required"}
+            </div>
           ) : isFetching ? (
             <Spinner animation="grow" variant="info" />
           ) : (

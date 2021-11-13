@@ -18,16 +18,25 @@ function AddSongToPlaylistComponent({ playlistId }: Props) {
   const [albumTitle, setAlbumTitle] = useState<string>("");
   const [songTitle, setSongTitle] = useState<string>("");
 
+  const [titleRequired, setTitleRequired] = useState<boolean>(false);
+  const [songDoesntExist, setSongDoesntExist] = useState<boolean>(false);
+
   const { data: detailedSongs, error, isFetching } = useDetailedSongs();
-  const addSong = useAddSong(() => { });
+  const addSong = useAddSong(() => {});
 
   function AddFunction() {
+    if (!songTitle) {
+      setTitleRequired(true);
+      return;
+    }
+
     if (!detailedSongs) return;
 
     var detailedSongDto = detailedSongs.find(
-      (s) => s.songTitle === songTitle
-        && (s.albumTitle === albumTitle || albumTitle === "")
-        && (s.artistName === artistName || artistName === "")
+      (s) =>
+        s.songTitle === songTitle &&
+        (s.albumTitle === albumTitle || albumTitle === "") &&
+        (s.artistName === artistName || artistName === "")
     );
 
     if (detailedSongDto) {
@@ -39,6 +48,8 @@ function AddSongToPlaylistComponent({ playlistId }: Props) {
         },
         playlistId: playlistId,
       });
+    } else {
+      setSongDoesntExist(true);
     }
   }
 
@@ -65,8 +76,8 @@ function AddSongToPlaylistComponent({ playlistId }: Props) {
         artistName === ""
           ? detailedSongs.map((s) => s.albumTitle)
           : detailedSongs
-            .filter((s) => s.artistName === artistName)
-            .map((s) => s.albumTitle);
+              .filter((s) => s.artistName === artistName)
+              .map((s) => s.albumTitle);
 
       return removeDuplicates(array);
     }
@@ -77,13 +88,13 @@ function AddSongToPlaylistComponent({ playlistId }: Props) {
       let array =
         albumTitle !== ""
           ? detailedSongs
-            .filter((s) => s.albumTitle === albumTitle)
-            .map((s) => s.songTitle)
+              .filter((s) => s.albumTitle === albumTitle)
+              .map((s) => s.songTitle)
           : artistName !== ""
-            ? detailedSongs
+          ? detailedSongs
               .filter((s) => s.artistName === artistName)
               .map((s) => s.songTitle)
-            : detailedSongs.map((s) => s.songTitle);
+          : detailedSongs.map((s) => s.songTitle);
 
       return removeDuplicates(array);
     }
@@ -116,12 +127,20 @@ function AddSongToPlaylistComponent({ playlistId }: Props) {
             ></AutosuggestComponent>
           </div>
           <div className="mr-3">
-            <AutosuggestComponent
-              onValueChanged={(value: string) => setSongTitle(value)}
-              placeholder={"song"}
-              data={songTitleArray}
-              maxLength={50}
-            ></AutosuggestComponent>
+            <div className="w-100">
+              <AutosuggestComponent
+                onValueChanged={(value: string) => {
+                  setSongTitle(value);
+                  setSongDoesntExist(false);
+                  if (value) setTitleRequired(false);
+                }}
+                placeholder={"song"}
+                data={songTitleArray}
+                maxLength={50}
+              ></AutosuggestComponent>
+              {titleRequired && "Song is required"}
+              {songDoesntExist && "Song doesn't exist"}
+            </div>
           </div>
           <ButtonGroup style={{ height: "38px" }}>
             <Button

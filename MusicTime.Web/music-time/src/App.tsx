@@ -17,7 +17,7 @@ import PlaylistDetailsPage from "./Pages/PlaylistDetailsPage";
 import MusicPlayerComponent from "./Components/MusicPlayer/MusicPlayerComponent";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { clearQueue } from "./redux/player";
+import { clearHistory, clearQueue } from "./redux/player";
 import axios from "axios";
 import { Config } from "./config";
 
@@ -40,6 +40,7 @@ const App = () => {
 
   function logout() {
     dispatch(clearQueue());
+    dispatch(clearHistory());
     localStorage.removeItem("authToken");
     localStorage.removeItem("userName");
     setLoggedIn(false);

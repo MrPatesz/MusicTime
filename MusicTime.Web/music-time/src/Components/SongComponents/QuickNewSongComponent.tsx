@@ -22,6 +22,11 @@ function QuickNewSongComponent({ show, setShow }: Props) {
   const [songTitle, setSongTitle] = useState<string>("");
   const [url, setUrl] = useState<string>("");
 
+  const [artistRequired, setArtistRequired] = useState<boolean>(false);
+  const [albumRequired, setAlbumRequired] = useState<boolean>(false);
+  const [songRequired, setSongRequired] = useState<boolean>(false);
+  const [urlRequired, setUrlRequired] = useState<boolean>(false);
+
   const { data: albums } = useAlbums();
   const { data: artists } = useArtists();
 
@@ -30,6 +35,16 @@ function QuickNewSongComponent({ show, setShow }: Props) {
   const createArtist = useCreateArtist();
 
   async function AddFunction() {
+    if (!(songTitle && url && albumTitle && artistName)) {
+      if (!songTitle) setSongRequired(true);
+      if (!url) setUrlRequired(true);
+      if (!albumTitle) setAlbumRequired(true);
+      if (!artistName) setArtistRequired(true);
+      return;
+    }
+
+    setShow(false);
+
     if (!(albums && artists)) return;
 
     var albumExists = albums.find(
@@ -116,38 +131,63 @@ function QuickNewSongComponent({ show, setShow }: Props) {
           <Row>
             <Col xs={12} sm={8} lg={6}>
               <div className="d-flex flex-row">
-                <input
-                  maxLength={50}
-                  className="form-control"
-                  placeholder="title"
-                  type="text"
-                  onChange={(event) => setSongTitle(event.currentTarget.value)}
-                ></input>
-                <input
-                  className="form-control ml-2"
-                  placeholder="url"
-                  type="text"
-                  onChange={(event) => setUrl(event.currentTarget.value)}
-                ></input>
+                <div className="w-100">
+                  <Form.Control
+                    maxLength={50}
+                    placeholder="title"
+                    type="text"
+                    onChange={(event) => {
+                      let value = event.currentTarget.value;
+                      setSongTitle(value);
+                      if (value) setSongRequired(false);
+                    }}
+                  />
+                  {songRequired && "Title is required"}
+                </div>
+
+                <div className="w-100 ml-2">
+                  <Form.Control
+                    placeholder="url"
+                    type="text"
+                    onChange={(event) => {
+                      let value = event.currentTarget.value;
+                      setUrl(value);
+                      if (value) setUrlRequired(false);
+                    }}
+                  />
+                  {urlRequired && "Url is required"}
+                </div>
               </div>
             </Col>
 
             <Col className="d-none d-sm-block" sm={4} md={3}>
-              <AutosuggestComponent
-                onValueChanged={(value: string) => setArtistName(value)}
-                placeholder={"artist"}
-                data={artistNameArray}
-                maxLength={50}
-              ></AutosuggestComponent>
+              <div>
+                <AutosuggestComponent
+                  onValueChanged={(value: string) => {
+                    setArtistName(value);
+                    if (value) setArtistRequired(false);
+                  }}
+                  placeholder={"artist"}
+                  data={artistNameArray}
+                  maxLength={50}
+                ></AutosuggestComponent>
+                {artistRequired && "Artist is required"}
+              </div>
             </Col>
 
             <Col className="d-none d-lg-block" lg={3}>
-              <AutosuggestComponent
-                onValueChanged={(value: string) => setAlbumTitle(value)}
-                placeholder={"album"}
-                data={albumTitleArray}
-                maxLength={50}
-              ></AutosuggestComponent>
+              <div>
+                <AutosuggestComponent
+                  onValueChanged={(value: string) => {
+                    setAlbumTitle(value);
+                    if (value) setAlbumRequired(false);
+                  }}
+                  placeholder={"album"}
+                  data={albumTitleArray}
+                  maxLength={50}
+                ></AutosuggestComponent>
+                {albumRequired && "Album is required"}
+              </div>
             </Col>
           </Row>
         </Container>
@@ -159,10 +199,7 @@ function QuickNewSongComponent({ show, setShow }: Props) {
           <Button
             title="Confirm"
             variant="outline-info"
-            onClick={() => {
-              AddFunction();
-              setShow(false);
-            }}
+            onClick={() => AddFunction()}
           >
             <FontAwesomeIcon icon="check" size="lg" />
           </Button>

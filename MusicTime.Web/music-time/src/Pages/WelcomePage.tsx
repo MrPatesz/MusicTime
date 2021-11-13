@@ -113,28 +113,37 @@ function WelcomePage() {
   }, [dispatch]);
 
   return (
-    <div>
+    <div className="welcome-page">
       <h1 className="my-3 mx-4 d-flex flex-row">
         Welcome to&nbsp;
         <div className="text-info">Music Time</div>
       </h1>
 
-      <div className="mx-4">
-        <p>
-          Manage your favourite artists, albums, songs and create playlists.
-        </p>
-        <p>
-          Play music from various sources, including SoundCloud, YouTube, mp3
-          files and many more.
-        </p>
+      <div style={{ position: "absolute", right: "0px" }}>
+        <div className="mr-4">
+          <div className="d-flex flex-row">
+            <p className="ml-auto mr-0">
+              Manage your favourite artists, albums, songs and create playlists.
+            </p>
+          </div>
 
-        <h5>
-          Head over to the
-          <Link class="text-info" to="login">
-            {" "}Login page{" "}
-          </Link>
-          to create an account.
-        </h5>
+          <div className="d-flex flex-row">
+            <p className="ml-auto mr-0">
+              Play music from various sources, including SoundCloud, YouTube,
+              mp3 files and many more.
+            </p>
+          </div>
+
+          <div className="d-flex flex-row">
+            <h5 className="ml-auto mr-0">
+              Head over to the{" "}
+              <Link class="text-info" to="login">
+                Login page
+              </Link>{" "}
+              to create an account.
+            </h5>
+          </div>
+        </div>
       </div>
 
       <MusicPlayerComponent disableQueuetoPlaylist={true} />

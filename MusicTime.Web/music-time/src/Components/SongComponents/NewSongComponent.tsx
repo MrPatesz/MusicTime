@@ -46,20 +46,23 @@ function NewSongComponent({ show, setShow, albumId, albumLength }: Props) {
           })}
         >
           <div className="d-flex flex-row ml-1">
-            <Form.Control
-              maxLength={50}
-              {...register("Title", { required: true })}
-              placeholder={"title"}
-            ></Form.Control>
-            {errors.Title?.type === "required" && "Title is required"}
+            <div className="w-100">
+              <Form.Control
+                maxLength={50}
+                {...register("Title", { required: true })}
+                placeholder={"title"}
+              ></Form.Control>
+              {errors.Title?.type === "required" && "Title is required"}
+            </div>
 
-            <Form.Control
-              maxLength={150}
-              className="ml-2"
-              {...register("Url", { required: true })}
-              placeholder={"url"}
-            ></Form.Control>
-            {errors.Url?.type === "required" && "Url is required"}
+            <div className="w-100 ml-2">
+              <Form.Control
+                maxLength={150}
+                {...register("Url", { required: true })}
+                placeholder={"url"}
+              ></Form.Control>
+              {errors.Url?.type === "required" && "Url is required"}
+            </div>
 
             <ButtonGroup className="ml-4">
               <Button title="Confirm" variant="outline-info" type="submit">

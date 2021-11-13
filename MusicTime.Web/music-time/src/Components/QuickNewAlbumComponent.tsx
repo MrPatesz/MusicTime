@@ -25,6 +25,7 @@ type FormValues = {
 
 function QuickNewAlbumComponent({ show, setShow }: Props) {
   const [artistName, setArtistName] = useState<string>("");
+  const [artistRequired, setArtistRequired] = useState<boolean>(false);
 
   const { data: artists } = useArtists();
 
@@ -42,6 +43,11 @@ function QuickNewAlbumComponent({ show, setShow }: Props) {
   });
 
   async function postFunction(data: FormValues) {
+    if (artistName === "") {
+      setArtistRequired(true);
+      return;
+    }
+
     let artistExists = artists?.find((a) => a.name === artistName);
 
     if (artistExists) {
@@ -67,6 +73,8 @@ function QuickNewAlbumComponent({ show, setShow }: Props) {
       });
       postPicture(newAlbum.id);
     }
+
+    setShow(false);
   }
 
   function postPicture(albumId: number) {
@@ -103,22 +111,21 @@ function QuickNewAlbumComponent({ show, setShow }: Props) {
           <Modal.Title>New Album</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form
-            onSubmit={handleSubmit((data) => {
-              postFunction(data);
-              setShow(false);
-            })}
-          >
+          <Form onSubmit={handleSubmit((data) => postFunction(data))}>
             <Form.Group>
               <Form.Label>Artist</Form.Label>
               <div className="w-100">
                 <AutosuggestComponent
-                  onValueChanged={(value: string) => setArtistName(value)}
                   placeholder={""}
+                  onValueChanged={(value: string) => {
+                    setArtistName(value);
+                    if (value) setArtistRequired(false);
+                  }}
                   data={artists?.map((a) => a.name) ?? []}
                   maxLength={50}
                 ></AutosuggestComponent>
               </div>
+              {artistRequired && "Artist is required"}
             </Form.Group>
 
             <Form.Group>
