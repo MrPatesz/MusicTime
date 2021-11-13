@@ -114,28 +114,28 @@ function WelcomePage() {
 
   return (
     <div className="welcome-page">
-      <h1 className="my-3 mx-4 d-flex flex-row">
+      <h1 className="my-3 d-flex flex-row justify-content-center my-4">
         Welcome to&nbsp;
         <div className="text-info">Music Time</div>
       </h1>
 
-      <div style={{ position: "absolute", right: "0px" }}>
+      <div className="my-3 d-flex flex-row justify-content-center">
         <div className="mr-4">
-          <div className="d-flex flex-row">
-            <p className="ml-auto mr-0">
+          <div className="d-flex flex-row justify-content-center">
+            <p>
               Manage your favourite artists, albums, songs and create playlists.
             </p>
           </div>
 
-          <div className="d-flex flex-row">
-            <p className="ml-auto mr-0">
+          <div className="d-flex flex-row justify-content-center">
+            <p>
               Play music from various sources, including SoundCloud, YouTube,
               mp3 files and many more.
             </p>
           </div>
 
-          <div className="d-flex flex-row">
-            <h5 className="ml-auto mr-0">
+          <div className="d-flex flex-row justify-content-center">
+            <h5>
               Head over to the{" "}
               <Link class="text-info" to="login">
                 Login page

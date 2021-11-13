@@ -76,7 +76,7 @@ ol.song-list {
 }
 
 .welcome-page {
-  height: calc(100vh - 72px);
-  background: linear-gradient(rgba(40, 44, 52, 0.6), rgba(40, 44, 52, 0.6)),
+  height: calc(100vh - 80px);
+  background: linear-gradient(rgba(40, 44, 52, 0.7), rgba(40, 44, 52, 0.7)),
     url(./Pages/welcome_bg.png);
 }
