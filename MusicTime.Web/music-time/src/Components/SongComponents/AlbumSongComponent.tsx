@@ -80,7 +80,8 @@ function AlbumSongComponent({ songDto, albumId, albumIndex }: Props) {
               <Modal.Title>Deleting "{songDto.title}"</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              Are you sure you want to delete "{songDto.title}?
+              <div>This will also remove this song from all playlists!</div>
+              <div>Are you sure you want to delete "{songDto.title}"?</div>
             </Modal.Body>
             <Modal.Footer>
               <Button
