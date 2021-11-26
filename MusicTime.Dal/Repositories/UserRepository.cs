@@ -3,7 +3,6 @@ using MusicTime.Dal.EfDbContext;
 using MusicTime.Bll.Entities;
 using System.Linq;
 using System.Threading.Tasks;
-using MusicTime.Bll.Dtos;
 
 namespace MusicTime.Dal.Repositories
 {

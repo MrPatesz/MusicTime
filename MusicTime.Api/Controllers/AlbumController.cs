@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MusicTime.Bll.Dtos;
 using MusicTime.Bll.Services;
-using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -25,7 +24,7 @@ namespace MusicTime.Api.Controllers
         [Authorize]
         public List<AlbumDto> GetAlbums()
         {
-            var userId = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
             return albumService.GetAlbums(userId);
         }
 
@@ -35,7 +34,7 @@ namespace MusicTime.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<AlbumDto> GetAlbumById(int id)
         {
-            var userId = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
             var album = albumService.GetAlbumById(userId, id);
             if (album == null)
@@ -48,7 +47,7 @@ namespace MusicTime.Api.Controllers
         [Authorize]
         public List<SongDto> GetSongsOfAlbum(int albumId)
         {
-            var userId = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
             return albumService.GetSongsOfAlbum(userId, albumId);
         }
 
@@ -58,7 +57,7 @@ namespace MusicTime.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<AlbumDto>> AddAlbum([FromBody] AlbumDto albumDto, [FromHeader] int artistId)
         {
-            var userId = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
             var album = await albumService.AddAlbum(userId, albumDto, artistId);
             if (album == null)
@@ -73,7 +72,7 @@ namespace MusicTime.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<AlbumDto>> EditAlbum([FromBody] AlbumDto albumDto)
         {
-            var userId = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
             var album = await albumService.EditAlbum(userId, albumDto);
             if (album == null)
@@ -88,7 +87,7 @@ namespace MusicTime.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> DeleteAlbumById(int albumId)
         {
-            var userId = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
             if (await albumService.DeleteAlbumById(userId, albumId))
                 return Ok();

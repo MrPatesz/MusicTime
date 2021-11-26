@@ -43,7 +43,6 @@ namespace MusicTime.Bll.Services
 
         public async Task<AlbumDto> AddAlbum(int userId, AlbumDto albumDto, int artistId)
         {
-            // useré-e ez az artist??
             if (!albumRepository.DoesAlbumAlreadyExist(albumDto, artistId))
             {
                 var album = new Album

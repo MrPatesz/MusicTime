@@ -40,7 +40,6 @@ namespace MusicTime.Bll.Services
 
         public async Task<PlaylistDto> AddPlaylist(int userId, PlaylistDto playlistDto)
         {
-            // useré-e ez az artist??
             if (!playlistRepository.DoesPlaylistAlreadyExist(userId, playlistDto))
             {
                 var playlist = new Playlist

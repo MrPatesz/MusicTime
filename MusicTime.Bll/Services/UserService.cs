@@ -17,11 +17,13 @@ namespace MusicTime.Bll.Services
     {
         private readonly IUserRepository userRepository;
         private readonly IConfiguration configuration;
+        private readonly JwtSecurityTokenHandler tokenHandler;
 
         public UserService(IUserRepository userRepository, IConfiguration configuration)
         {
             this.userRepository = userRepository;
             this.configuration = configuration;
+            this.tokenHandler = new JwtSecurityTokenHandler();
         }
 
         public async Task<bool> Register(UserDto userDto)
@@ -103,7 +105,6 @@ namespace MusicTime.Bll.Services
                     SecurityAlgorithms.HmacSha512Signature),
             };
 
-            var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
