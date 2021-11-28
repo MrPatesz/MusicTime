@@ -55,9 +55,9 @@ namespace MusicTime.Api
                         .AllowCredentials());
             });
 
-            //Katona Tamás KocsmApp
-            var secretKey = Configuration.GetSection("AppSettings:Token").Value;
+            var secretKey = Configuration.GetSection("AppSettings:SecretKey").Value;
             var keyBytes = Encoding.ASCII.GetBytes(secretKey);
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(
                 options =>
                 {
@@ -69,7 +69,6 @@ namespace MusicTime.Api
                         ValidateAudience = false
                     };
                 });
-            //Katona Tamás KocsmApp
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

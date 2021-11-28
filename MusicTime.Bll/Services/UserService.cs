@@ -57,7 +57,7 @@ namespace MusicTime.Bll.Services
             {
                 var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(userDto.Password));
                 if (dbUser.PasswordHash.SequenceEqual(computedHash))
-                    return GenerateJWTToken(dbUser);
+                    return GenerateJWT(dbUser);
                 else
                     return null;
             }
@@ -86,10 +86,9 @@ namespace MusicTime.Bll.Services
             }
         }
 
-        //Katona Tamás KocsmApp
-        private string GenerateJWTToken(User user)
+        private string GenerateJWT(User user)
         {
-            var secretKey = configuration.GetSection("AppSettings:Token").Value;
+            var secretKey = configuration.GetSection("AppSettings:SecretKey").Value;
             var keyBytes = Encoding.ASCII.GetBytes(secretKey);
 
             var tokenDescriptor = new SecurityTokenDescriptor
@@ -99,15 +98,15 @@ namespace MusicTime.Bll.Services
                     new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                     new Claim(ClaimTypes.Name, user.UserName),
                 }),
-                Expires = DateTime.Now.AddHours(12),
+                Expires = DateTime.Now.AddHours(16),
                 SigningCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(keyBytes),
-                    SecurityAlgorithms.HmacSha512Signature),
+                    SecurityAlgorithms.HmacSha512Signature
+                ),
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
-        //Katona Tamás KocsmApp
     }
 }
