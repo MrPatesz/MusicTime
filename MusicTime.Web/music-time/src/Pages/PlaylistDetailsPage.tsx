@@ -1,4 +1,4 @@
-import PlaylistSongComponent from "../Components/SongComponents/PlaylistSongComponent";
+import PlaylistSongComponent from "../Components/PlaylistComponents/PlaylistSongComponent";
 import { useState } from "react";
 import { useRouteMatch } from "react-router-dom";
 import Button from "react-bootstrap/Button";

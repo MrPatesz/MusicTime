@@ -3,8 +3,8 @@ import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Modal from "react-bootstrap/Modal";
 import { useState } from "react";
 import SongDto from "../../Models/SongDto";
-import EditSongComponent from "./EditSongComponent";
-import AddToPlaylistComponent from "./AddToPlaylistComponent";
+import EditSongComponent from "../SongComponents/EditSongComponent";
+import AddToPlaylistComponent from "../SongComponents/AddToPlaylistComponent";
 import useDeleteSong from "../../Hooks/Mutations/SongMutations/useDeleteSong";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 

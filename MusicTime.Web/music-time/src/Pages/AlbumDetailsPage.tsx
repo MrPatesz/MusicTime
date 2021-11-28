@@ -3,7 +3,7 @@ import { useRouteMatch } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Image from "react-bootstrap/Image";
-import AlbumSongComponent from "../Components/SongComponents/AlbumSongComponent";
+import AlbumSongComponent from "../Components/AlbumComponents/AlbumSongComponent";
 import NewAlbumComponent from "../Components/AlbumComponents/NewAlbumComponent";
 import NewSongComponent from "../Components/SongComponents/NewSongComponent";
 import DetailedSongDto from "../Models/DetailedSongDto";
