@@ -81,64 +81,59 @@ function NewArtistComponent({ show, setShow, isEdited, editedArtist }: Props) {
   }
 
   return (
-    <div>
-      <Modal
-        show={show}
-        onHide={() => setShow(false)}
-        backdrop="static"
-        keyboard={false}
-        animation={false}
-      >
-        <Modal.Header>
-          <Modal.Title>{isEdited ? "Edit Artist" : "New Artist"}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form onSubmit={handleSubmit((data) => confirmButton(data))}>
-            <Form.Group>
-              <Form.Label>Name</Form.Label>
-              <Form.Control
-                maxLength={50}
-                type="text"
-                {...register("Name", { required: true })}
-                defaultValue={editedArtist.name ?? ""}
-              />
-              {errors.Name?.type === "required" && "Name is required"}
-            </Form.Group>
+    <Modal
+      show={show}
+      onHide={() => setShow(false)}
+      backdrop="static"
+      keyboard={false}
+      animation={false}
+    >
+      <Modal.Header>
+        <Modal.Title>{isEdited ? "Edit Artist" : "New Artist"}</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form onSubmit={handleSubmit((data) => confirmButton(data))}>
+          <Form.Group>
+            <Form.Label>Name</Form.Label>
+            <Form.Control
+              maxLength={50}
+              type="text"
+              {...register("Name", { required: true })}
+              defaultValue={editedArtist.name ?? ""}
+            />
+            {errors.Name?.type === "required" && "Name is required"}
+          </Form.Group>
 
-            <Form.Group>
-              <Form.Label>Description</Form.Label>
-              <Form.Control
-                style={{ resize: "vertical" }}
-                as="textarea"
-                maxLength={256}
-                type="text"
-                {...register("Description", { maxLength: 256 })}
-                defaultValue={editedArtist.description ?? ""}
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.File
-                accept="image/*"
-                label="Picture"
-                onChange={fileSelected}
-              />
-            </Form.Group>
+          <Form.Group>
+            <Form.Label>Description</Form.Label>
+            <Form.Control
+              style={{ resize: "vertical" }}
+              as="textarea"
+              maxLength={256}
+              type="text"
+              {...register("Description", { maxLength: 256 })}
+              defaultValue={editedArtist.description ?? ""}
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.File
+              accept="image/*"
+              label="Picture"
+              onChange={fileSelected}
+            />
+          </Form.Group>
 
-            <ButtonToolbar className="justify-content-between">
-              <Button
-                variant="outline-secondary"
-                onClick={() => setShow(false)}
-              >
-                Cancel
-              </Button>
-              <Button variant="outline-info" type="submit">
-                Confirm
-              </Button>
-            </ButtonToolbar>
-          </Form>
-        </Modal.Body>
-      </Modal>
-    </div>
+          <ButtonToolbar className="justify-content-between">
+            <Button variant="outline-secondary" onClick={() => setShow(false)}>
+              Cancel
+            </Button>
+            <Button variant="outline-info" type="submit">
+              Confirm
+            </Button>
+          </ButtonToolbar>
+        </Form>
+      </Modal.Body>
+    </Modal>
   );
 }
 

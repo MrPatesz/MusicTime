@@ -7,7 +7,7 @@ import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Image from "react-bootstrap/Image";
 import CardComponent from "../Components/CardComponents/CardComponent";
-import NewAlbumComponent from "../Components/NewAlbumComponent";
+import NewAlbumComponent from "../Components/AlbumComponents/NewAlbumComponent";
 import NewArtistComponent from "../Components/NewArtistComponent";
 import { Config } from "../config";
 import { useDispatch } from "react-redux";

@@ -6,7 +6,7 @@ import AlbumDto from "../Models/AlbumDto";
 import QueryComponent from "../Components/QueryComponent";
 import Button from "react-bootstrap/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import QuickNewAlbumComponent from "../Components/QuickNewAlbumComponent";
+import QuickNewAlbumComponent from "../Components/AlbumComponents/QuickNewAlbumComponent";
 
 function AlbumsPage() {
   const [showAddAlbum, setShowAddAlbum] = useState<boolean>(false);
