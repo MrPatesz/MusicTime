@@ -38,65 +38,63 @@ function RegisterComponent({ show, setShow }: Props) {
   }
 
   return (
-    <div>
-      <Modal
-        show={show}
-        onHide={() => setShow(false)}
-        backdrop="static"
-        keyboard={false}
-        animation={false}
-      >
-        <Modal.Header>
-          <Modal.Title>Registration</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form onSubmit={handleSubmit((data) => registerFunction(data))}>
-            <Form.Group>
-              <Form.Label>Username</Form.Label>
-              <Form.Control
-                maxLength={50}
-                type="text"
-                {...register("UserName", { required: true, maxLength: 50 })}
-              />
-              {errors.UserName?.type === "required" && "Username is required"}
-            </Form.Group>
+    <Modal
+      show={show}
+      onHide={() => setShow(false)}
+      backdrop="static"
+      keyboard={false}
+      animation={false}
+    >
+      <Modal.Header>
+        <Modal.Title>Registration</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form onSubmit={handleSubmit((data) => registerFunction(data))}>
+          <Form.Group>
+            <Form.Label>Username</Form.Label>
+            <Form.Control
+              maxLength={50}
+              type="text"
+              {...register("UserName", { required: true, maxLength: 50 })}
+            />
+            {errors.UserName?.type === "required" && "Username is required"}
+          </Form.Group>
 
-            <Form.Group>
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                maxLength={256}
-                type="password"
-                {...register("Password", { required: true })}
-              />
-              {errors.Password?.type === "required" && "Password is required"}
-            </Form.Group>
+          <Form.Group>
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              maxLength={256}
+              type="password"
+              {...register("Password", { required: true, maxLength: 256 })}
+            />
+            {errors.Password?.type === "required" && "Password is required"}
+          </Form.Group>
 
-            <Form.Group>
-              <Form.Label>Confirm Password</Form.Label>
-              <Form.Control
-                maxLength={256}
-                type="password"
-                {...register("ConfirmPassword", { required: true })}
-              />
-              {errors.ConfirmPassword?.type === "required" &&
-                "Password confirmation is required"}
-            </Form.Group>
+          <Form.Group>
+            <Form.Label>Confirm Password</Form.Label>
+            <Form.Control
+              maxLength={256}
+              type="password"
+              {...register("ConfirmPassword", {
+                required: true,
+                maxLength: 256,
+              })}
+            />
+            {errors.ConfirmPassword?.type === "required" &&
+              "Password confirmation is required"}
+          </Form.Group>
 
-            <ButtonToolbar className="justify-content-between">
-              <Button
-                variant="outline-secondary"
-                onClick={() => setShow(false)}
-              >
-                Cancel
-              </Button>
-              <Button variant="outline-info" type="submit">
-                Confirm
-              </Button>
-            </ButtonToolbar>
-          </Form>
-        </Modal.Body>
-      </Modal>
-    </div>
+          <ButtonToolbar className="justify-content-between">
+            <Button variant="outline-secondary" onClick={() => setShow(false)}>
+              Cancel
+            </Button>
+            <Button variant="outline-info" type="submit">
+              Confirm
+            </Button>
+          </ButtonToolbar>
+        </Form>
+      </Modal.Body>
+    </Modal>
   );
 }
 

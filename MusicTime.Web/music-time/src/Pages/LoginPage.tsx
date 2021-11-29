@@ -37,17 +37,14 @@ function LoginPage({ setLoggedIn }: Props) {
         left: "50%",
         top: "35%",
         transform: "translate(-50%, -50%)",
+        width: "500px",
       }}
     >
-      <Form
-        style={{ width: "500px" }}
-        onSubmit={handleSubmit((data) => {
-          loginFunction(data);
-        })}
-      >
+      <Form onSubmit={handleSubmit((data) => loginFunction(data))}>
         <Form.Group>
           <Form.Label>Username</Form.Label>
           <Form.Control
+            maxLength={50}
             type="text"
             placeholder="Username"
             {...register("UserName", { required: true, maxLength: 50 })}
@@ -58,6 +55,7 @@ function LoginPage({ setLoggedIn }: Props) {
         <Form.Group controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
           <Form.Control
+            maxLength={150}
             type="password"
             placeholder="Password"
             {...register("Password", { required: true, maxLength: 150 })}
