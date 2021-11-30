@@ -68,13 +68,13 @@ function ArtistsPage() {
                       relativeLink={"artists/" + a.id}
                       toInvalidate="artists"
                       deletionWarning="This will also delete the albums and songs of this artist!"
-                    ></CardComponent>
+                    />
                   </Col>
                 ))}
               </Row>
             </Container>
           )}
-        ></QueryComponent>
+        />
       </div>
 
       <NewArtistComponent
