@@ -124,7 +124,9 @@ function QuickNewAlbumComponent({ show, setShow }: Props) {
                 maxLength={50}
               ></AutosuggestComponent>
             </div>
-            {artistRequired && "Artist is required"}
+            {artistRequired && (
+              <div className="text-danger">Artist is required</div>
+            )}
           </Form.Group>
 
           <Form.Group>
@@ -135,7 +137,9 @@ function QuickNewAlbumComponent({ show, setShow }: Props) {
               {...register("Title", { required: true })}
               defaultValue=""
             />
-            {errors.Title?.type === "required" && "Title is required"}
+            {errors.Title?.type === "required" && (
+              <div className="text-danger">Title is required</div>
+            )}
           </Form.Group>
 
           <Form.Group>

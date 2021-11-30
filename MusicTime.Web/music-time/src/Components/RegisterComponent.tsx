@@ -57,7 +57,9 @@ function RegisterComponent({ show, setShow }: Props) {
               type="text"
               {...register("UserName", { required: true, maxLength: 50 })}
             />
-            {errors.UserName?.type === "required" && "Username is required"}
+            {errors.UserName?.type === "required" && (
+              <div className="text-danger">Username is required</div>
+            )}
           </Form.Group>
 
           <Form.Group>
@@ -67,7 +69,9 @@ function RegisterComponent({ show, setShow }: Props) {
               type="password"
               {...register("Password", { required: true, maxLength: 256 })}
             />
-            {errors.Password?.type === "required" && "Password is required"}
+            {errors.Password?.type === "required" && (
+              <div className="text-danger">Password is required</div>
+            )}
           </Form.Group>
 
           <Form.Group>
@@ -80,8 +84,11 @@ function RegisterComponent({ show, setShow }: Props) {
                 maxLength: 256,
               })}
             />
-            {errors.ConfirmPassword?.type === "required" &&
-              "Password confirmation is required"}
+            {errors.ConfirmPassword?.type === "required" && (
+              <div className="text-danger">
+                Password confirmation is required
+              </div>
+            )}
           </Form.Group>
 
           <ButtonToolbar className="justify-content-between">

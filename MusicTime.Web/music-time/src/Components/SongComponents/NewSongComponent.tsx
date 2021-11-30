@@ -52,7 +52,9 @@ function NewSongComponent({ show, setShow, albumId, albumLength }: Props) {
                 {...register("Title", { required: true })}
                 placeholder={"title"}
               ></Form.Control>
-              {errors.Title?.type === "required" && "Title is required"}
+              {errors.Title?.type === "required" && (
+                <div className="text-danger">Title is required</div>
+              )}
             </div>
 
             <div className="w-100 ml-2">
@@ -61,7 +63,9 @@ function NewSongComponent({ show, setShow, albumId, albumLength }: Props) {
                 {...register("Url", { required: true })}
                 placeholder={"url"}
               ></Form.Control>
-              {errors.Url?.type === "required" && "Url is required"}
+              {errors.Url?.type === "required" && (
+                <div className="text-danger">Url is required</div>
+              )}
             </div>
 
             <ButtonGroup className="ml-4">

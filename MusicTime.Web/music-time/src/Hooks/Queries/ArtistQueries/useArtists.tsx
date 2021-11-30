@@ -5,10 +5,11 @@ import ArtistDto from "../../../Models/ArtistDto";
 
 function useArtists() {
   const apiLink = Config.apiUrl + "artists/";
+  const authToken = localStorage.getItem("authToken");
 
   const config = {
     headers: {
-      Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+      Authorization: `Bearer ${authToken}`,
     },
   };
 

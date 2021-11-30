@@ -101,7 +101,9 @@ function NewArtistComponent({ show, setShow, isEdited, editedArtist }: Props) {
               {...register("Name", { required: true })}
               defaultValue={editedArtist.name ?? ""}
             />
-            {errors.Name?.type === "required" && "Name is required"}
+            {errors.Name?.type === "required" && (
+              <div className="text-danger">Name is required</div>
+            )}
           </Form.Group>
 
           <Form.Group>

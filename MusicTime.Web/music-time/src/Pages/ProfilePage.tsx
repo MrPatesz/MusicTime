@@ -52,8 +52,9 @@ function ProfilePage() {
             placeholder="Current password"
             {...register("CurrentPassword", { required: true, maxLength: 256 })}
           />
-          {errors.CurrentPassword?.type === "required" &&
-            "Current password is required"}
+          {errors.CurrentPassword?.type === "required" && (
+            <div className="text-danger">Current password is required</div>
+          )}
         </Form.Group>
 
         <Form.Group controlId="formBasicPassword">
@@ -63,8 +64,9 @@ function ProfilePage() {
             placeholder="New password"
             {...register("NewPassword", { required: true, maxLength: 256 })}
           />
-          {errors.NewPassword?.type === "required" &&
-            "New password is required"}
+          {errors.NewPassword?.type === "required" && (
+            <div className="text-danger">New password is required</div>
+          )}
         </Form.Group>
 
         <Button type="submit" variant="outline-info">

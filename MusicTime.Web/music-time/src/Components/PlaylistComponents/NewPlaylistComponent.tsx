@@ -108,7 +108,9 @@ function NewPlaylistComponent({
                 {...register("Title", { required: true })}
                 defaultValue={editedPlaylist.title}
               />
-              {errors.Title?.type === "required" && "Title is required"}
+              {errors.Title?.type === "required" && (
+                <div className="text-danger">Title is required</div>
+              )}
             </Form.Group>
 
             <Form.Group>

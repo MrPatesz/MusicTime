@@ -49,7 +49,9 @@ function LoginPage({ setLoggedIn }: Props) {
             placeholder="Username"
             {...register("UserName", { required: true, maxLength: 50 })}
           />
-          {errors.UserName?.type === "required" && "Username is required"}
+          {errors.UserName?.type === "required" && (
+            <div className="text-danger">Username is required</div>
+          )}
         </Form.Group>
 
         <Form.Group controlId="formBasicPassword">
@@ -60,7 +62,9 @@ function LoginPage({ setLoggedIn }: Props) {
             placeholder="Password"
             {...register("Password", { required: true, maxLength: 150 })}
           />
-          {errors.Password?.type === "required" && "Password is required"}
+          {errors.Password?.type === "required" && (
+            <div className="text-danger">Password is required</div>
+          )}
         </Form.Group>
 
         <ButtonToolbar className="justify-content-between">
