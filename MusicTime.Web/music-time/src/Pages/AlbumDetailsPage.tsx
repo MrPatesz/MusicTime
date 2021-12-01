@@ -69,22 +69,20 @@ function AlbumDetailsPage() {
 
   const handleOnDragEnd = (result: DropResult) => {
     if (songs) {
-      let movedSong = songs[result.source.index];
-
       if (
         result.destination &&
         result.destination.index !== result.source.index
       ) {
-        updateSong.mutate({
-          id: movedSong.id,
-          title: movedSong.title,
-          url: movedSong.url,
-          albumId: album?.id!,
-          albumIndex: result.destination.index + 1,
-        });
+        let movedSong = songs[result.source.index];
 
         songs.splice(result.source.index, 1);
         songs.splice(result.destination.index, 0, movedSong);
+
+        updateSong.mutate({
+          ...movedSong,
+          albumId: album?.id!,
+          albumIndex: result.destination.index + 1,
+        });
       }
     }
   };
