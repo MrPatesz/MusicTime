@@ -68,7 +68,6 @@ function AlbumDetailsPage() {
   }
 
   const handleOnDragEnd = (result: DropResult) => {
-    console.log(result);
     if (songs) {
       let movedSong = songs[result.source.index];
 
@@ -92,60 +91,56 @@ function AlbumDetailsPage() {
 
   return (
     <div>
-      <div>
-        <QueryComponent
-          isFetching={isAlbumFetching}
-          error={albumError}
-          data={album}
-          ChildJSX={() => (
-            <div className="d-flex flex-row m-4">
-              <Image
-                src={
-                  album!.coverGuid === null
-                    ? "/placeholder.png"
-                    : Config.picturePath + album!.coverGuid + ".png"
-                }
-                rounded
-                style={{
-                  width: "15rem",
-                  height: "15rem",
-                }}
-                className="mb-2 mr-4"
-              />
-              <div className="d-flex flex-column">
-                <div className="d-flex flex-row">
-                  <h1 className="mt-auto">{album!.title}&nbsp;</h1>
-                  <h2 className="text-secondary mt-auto">
-                    {album!.releaseYear}
-                  </h2>
-                </div>
-                <h5>{album!.artistName}</h5>
-                <h5 className="text-secondary">{album!.genre}</h5>
-
-                <p className="text-break">{album!.description}</p>
+      <QueryComponent
+        isFetching={isAlbumFetching}
+        error={albumError}
+        data={album}
+        ChildJSX={() => (
+          <div className="d-flex flex-row m-4">
+            <Image
+              src={
+                album!.coverGuid === null
+                  ? "/placeholder.png"
+                  : Config.picturePath + album!.coverGuid + ".png"
+              }
+              rounded
+              style={{
+                width: "15rem",
+                height: "15rem",
+              }}
+              className="mb-2 mr-4"
+            />
+            <div className="d-flex flex-column">
+              <div className="d-flex flex-row">
+                <h1 className="mt-auto">{album!.title}&nbsp;</h1>
+                <h2 className="text-secondary mt-auto">{album!.releaseYear}</h2>
               </div>
+              <h5>{album!.artistName}</h5>
+              <h5 className="text-secondary">{album!.genre}</h5>
 
-              <ButtonGroup vertical className="ml-auto mb-auto">
-                <Button
-                  title="Edit"
-                  variant="outline-info"
-                  onClick={() => setShowEditAlbum(true)}
-                  className="mb-2"
-                >
-                  <FontAwesomeIcon icon="edit" size="lg" />
-                </Button>
-                <Button
-                  title="Add to Queue"
-                  variant="outline-info"
-                  onClick={playFunction}
-                >
-                  <FontAwesomeIcon icon="play" size="lg" />
-                </Button>
-              </ButtonGroup>
+              <p className="text-break">{album!.description}</p>
             </div>
-          )}
-        ></QueryComponent>
-      </div>
+
+            <ButtonGroup vertical className="ml-auto mb-auto">
+              <Button
+                title="Edit"
+                variant="outline-info"
+                onClick={() => setShowEditAlbum(true)}
+                className="mb-2"
+              >
+                <FontAwesomeIcon icon="edit" size="lg" />
+              </Button>
+              <Button
+                title="Add to Queue"
+                variant="outline-info"
+                onClick={playFunction}
+              >
+                <FontAwesomeIcon icon="play" size="lg" />
+              </Button>
+            </ButtonGroup>
+          </div>
+        )}
+      />
       <div>
         <div className="d-flex flex-row mx-4 mb-3">
           <h2>Songs</h2>
@@ -191,7 +186,7 @@ function AlbumDetailsPage() {
                                 songDto={s}
                                 albumId={id}
                                 albumIndex={i + 1}
-                              ></AlbumSongComponent>
+                              />
                             </li>
                           )}
                         </Draggable>
@@ -203,7 +198,7 @@ function AlbumDetailsPage() {
                           setShow={setShowAddSong}
                           albumId={id}
                           albumLength={songs?.length!}
-                        ></NewSongComponent>
+                        />
                       </li>
                       <li style={{ listStyleType: "none" }}>
                         {provided.placeholder}
@@ -213,7 +208,7 @@ function AlbumDetailsPage() {
                 </Droppable>
               </DragDropContext>
             )}
-          ></QueryComponent>
+          />
         </div>
       </div>
 

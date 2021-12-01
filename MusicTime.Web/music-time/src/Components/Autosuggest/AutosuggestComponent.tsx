@@ -38,13 +38,11 @@ export default function AutosuggestComponent({
   }
 
   function onChange(_: React.MouseEvent, { newValue }: { newValue: string }) {
-    console.log(newValue);
-    if(newValue.length > maxLength) {
+    if (newValue.length > maxLength) {
       newValue = newValue.slice(0, maxLength);
     }
     setValue(newValue);
     onValueChanged(newValue);
-    console.log(newValue);
   }
 
   function onSuggestionsFetchRequested({ value }: { value: string }) {
