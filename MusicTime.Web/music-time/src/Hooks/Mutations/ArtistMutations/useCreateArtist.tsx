@@ -12,6 +12,12 @@ function useCreateArtist() {
   const apiLink = Config.apiUrl + "artists/";
   const authToken = localStorage.getItem("authToken");
 
+  const config = {
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+    },
+  };
+
   const queryClient = useQueryClient();
 
   return useMutation(
@@ -23,11 +29,7 @@ function useCreateArtist() {
             Name: variables.name,
             Description: variables.description,
           },
-          {
-            headers: {
-              Authorization: `Bearer ${authToken}`,
-            },
-          }
+          config
         )
         .then((res) => res.data),
     {
