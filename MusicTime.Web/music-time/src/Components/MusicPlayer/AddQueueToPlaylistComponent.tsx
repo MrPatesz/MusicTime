@@ -98,7 +98,9 @@ function AddQueueToPlaylistComponent({ showAdd, setShowAdd }: Props) {
                   maxLength={50}
                 />
               </div>
-              {playlistRequired && "Playlist is required"}
+              {playlistRequired && (
+                <div className="text-danger">Playlist is required</div>
+              )}
             </div>
           ) : isFetching ? (
             <Spinner animation="grow" variant="info" />

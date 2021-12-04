@@ -15,7 +15,9 @@ interface Props {
 
 function AddSongToPlaylistComponent({ showAdd, setShowAdd, songDto }: Props) {
   const [selectedPlaylist, setSelectedPlaylist] = useState<PlaylistDto>();
-  const [showSuccessfulAdd, setShowSuccessfulAdd] = useState(false);
+  const [playlistTitle, setPlaylistTitle] = useState<string>("");
+  const [showSuccessfulAdd, setShowSuccessfulAdd] = useState<boolean>(false);
+  const [playlistError, setPlaylistError] = useState<boolean>(false);
 
   const { data: playlists, error, isFetching } = usePlaylists();
   const addSongToPlaylist = useAddSong(setShowAdd);
@@ -27,6 +29,10 @@ function AddSongToPlaylistComponent({ showAdd, setShowAdd, songDto }: Props) {
     } else {
       setSelectedPlaylist(undefined);
     }
+    setPlaylistTitle(selected);
+    if (playlistError) {
+      setPlaylistError(false);
+    }
   }
 
   function addFunction() {
@@ -36,8 +42,10 @@ function AddSongToPlaylistComponent({ showAdd, setShowAdd, songDto }: Props) {
         playlistId: selectedPlaylist.id,
       });
       setShowSuccessfulAdd(true);
-    } else {
+    } else if (playlistTitle !== "") {
       alert("Playlist does not exist!");
+    } else {
+      setPlaylistError(true);
     }
   }
 
@@ -59,12 +67,17 @@ function AddSongToPlaylistComponent({ showAdd, setShowAdd, songDto }: Props) {
               An error occurred while fetching data!
             </Alert>
           ) : playlists ? (
-            <AutosuggestComponent
-              placeholder="a playlist..."
-              data={playlists.map((p) => p.title)}
-              onValueChanged={onPlaylistChange}
-              maxLength={50}
-            />
+            <div>
+              <AutosuggestComponent
+                placeholder="a playlist..."
+                data={playlists.map((p) => p.title)}
+                onValueChanged={onPlaylistChange}
+                maxLength={50}
+              />
+              {playlistError && (
+                <div className="text-danger">Playlist is required</div>
+              )}
+            </div>
           ) : isFetching ? (
             <Spinner animation="grow" variant="info" />
           ) : (

@@ -142,7 +142,9 @@ function QuickNewSongComponent({ show, setShow }: Props) {
                       if (value) setSongRequired(false);
                     }}
                   />
-                  {songRequired && "Title is required"}
+                  {songRequired && (
+                    <div className="text-danger">Title is required</div>
+                  )}
                 </div>
 
                 <div className="w-100 ml-2">
@@ -155,7 +157,9 @@ function QuickNewSongComponent({ show, setShow }: Props) {
                       if (value) setUrlRequired(false);
                     }}
                   />
-                  {urlRequired && "Url is required"}
+                  {urlRequired && (
+                    <div className="text-danger">Url is required</div>
+                  )}
                 </div>
               </div>
             </Col>
@@ -171,7 +175,9 @@ function QuickNewSongComponent({ show, setShow }: Props) {
                   data={artistNameArray}
                   maxLength={50}
                 />
-                {artistRequired && "Artist is required"}
+                {artistRequired && (
+                  <div className="text-danger">Artist is required</div>
+                )}
               </div>
             </Col>
 
@@ -186,7 +192,9 @@ function QuickNewSongComponent({ show, setShow }: Props) {
                   data={albumTitleArray}
                   maxLength={50}
                 />
-                {albumRequired && "Album is required"}
+                {albumRequired && (
+                  <div className="text-danger">Album is required</div>
+                )}
               </div>
             </Col>
           </Row>

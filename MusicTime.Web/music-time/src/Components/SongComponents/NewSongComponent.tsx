@@ -53,7 +53,12 @@ function NewSongComponent({ show, setShow, albumId, albumLength }: Props) {
                 placeholder={"title"}
               />
               {errors.Title?.type === "required" && (
-                <div className="text-danger">Title is required</div>
+                <div
+                  style={{ fontSize: "medium" }}
+                  className="text-danger font-weight-normal"
+                >
+                  Title is required
+                </div>
               )}
             </div>
 
@@ -64,7 +69,12 @@ function NewSongComponent({ show, setShow, albumId, albumLength }: Props) {
                 placeholder={"url"}
               />
               {errors.Url?.type === "required" && (
-                <div className="text-danger">Url is required</div>
+                <div
+                  style={{ fontSize: "medium" }}
+                  className="text-danger font-weight-normal"
+                >
+                  Url is required
+                </div>
               )}
             </div>
 
