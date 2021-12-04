@@ -35,7 +35,7 @@ function PlaylistHistoryCardComponent({ id }: Props) {
       relativeLink={relativeLink}
       picturePath={picturePath}
       playFunction={playFunction}
-    ></HistoryCardComponent>
+    />
   );
 }
 

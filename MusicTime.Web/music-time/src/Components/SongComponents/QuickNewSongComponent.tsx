@@ -122,7 +122,7 @@ function QuickNewSongComponent({ show, setShow }: Props) {
     setAlbumTitleArray(getAlbumArray());
   }, [albumTitle, artistName, artists, albums]);
 
-  if (!show) return <div></div>;
+  if (!show) return <div />;
 
   return (
     <div>
@@ -170,7 +170,7 @@ function QuickNewSongComponent({ show, setShow }: Props) {
                   placeholder={"artist"}
                   data={artistNameArray}
                   maxLength={50}
-                ></AutosuggestComponent>
+                />
                 {artistRequired && "Artist is required"}
               </div>
             </Col>
@@ -185,7 +185,7 @@ function QuickNewSongComponent({ show, setShow }: Props) {
                   placeholder={"album"}
                   data={albumTitleArray}
                   maxLength={50}
-                ></AutosuggestComponent>
+                />
                 {albumRequired && "Album is required"}
               </div>
             </Col>

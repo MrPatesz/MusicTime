@@ -100,7 +100,7 @@ function ArtistDetailsPage() {
               </ButtonGroup>
             </div>
           )}
-        ></QueryComponent>
+        />
       </div>
       <div>
         <div className="d-flex flex-row mx-4 mb-3">
@@ -131,13 +131,13 @@ function ArtistDetailsPage() {
                         relativeLink={"/albums/" + a.id}
                         toInvalidate="artistsAlbums"
                         deletionWarning="This will also delete the songs of this album!"
-                      ></CardComponent>
+                      />
                     </Col>
                   ))}
                 </Row>
               </Container>
             )}
-          ></QueryComponent>
+          />
         </div>
       </div>
 
@@ -147,17 +147,15 @@ function ArtistDetailsPage() {
         artistId={id}
         isEdited={false}
         editedAlbum={new AlbumDto(0, "", "", null, null, null, null)}
-      ></NewAlbumComponent>
+      />
 
-      {artist ? (
+      {artist && (
         <NewArtistComponent
           show={showEditArtist}
           setShow={setShowEditArtist}
           isEdited={true}
           editedArtist={artist}
-        ></NewArtistComponent>
-      ) : (
-        <div></div>
+        />
       )}
     </div>
   );

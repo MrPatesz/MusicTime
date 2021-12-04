@@ -42,7 +42,7 @@ function AlbumHistoryCardComponent({ id }: Props) {
       relativeLink={relativeLink}
       picturePath={picturePath}
       playFunction={playFunction}
-    ></HistoryCardComponent>
+    />
   );
 }
 

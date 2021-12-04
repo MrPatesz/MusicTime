@@ -64,11 +64,11 @@ function AddSongToPlaylistComponent({ showAdd, setShowAdd, songDto }: Props) {
               data={playlists.map((p) => p.title)}
               onValueChanged={onPlaylistChange}
               maxLength={50}
-            ></AutosuggestComponent>
+            />
           ) : isFetching ? (
             <Spinner animation="grow" variant="info" />
           ) : (
-            <div></div>
+            <div />
           )}
         </Modal.Body>
         <Modal.Footer>
@@ -94,7 +94,7 @@ function AddSongToPlaylistComponent({ showAdd, setShowAdd, songDto }: Props) {
         >
           <Toast.Header>
             <strong className="me-auto">Successful add</strong>
-            <small className="ml-auto"></small>
+            <small className="ml-auto" />
           </Toast.Header>
           <Toast.Body className="text-white">
             Successfully added "{songDto.title}" to "{selectedPlaylist?.title}"

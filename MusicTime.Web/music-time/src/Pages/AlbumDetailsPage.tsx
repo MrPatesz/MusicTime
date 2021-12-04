@@ -210,16 +210,14 @@ function AlbumDetailsPage() {
         </div>
       </div>
 
-      {album ? (
+      {album && (
         <NewAlbumComponent
           show={showEditAlbum}
           setShow={setShowEditAlbum}
           artistId={-1}
           isEdited={true}
           editedAlbum={album}
-        ></NewAlbumComponent>
-      ) : (
-        <div></div>
+        />
       )}
     </div>
   );

@@ -38,7 +38,7 @@ function NewSongComponent({ show, setShow, albumId, albumLength }: Props) {
 
   return (
     <div>
-      {show ? (
+      {show && (
         <Form
           onSubmit={handleSubmit((data) => {
             postFunction(data);
@@ -51,7 +51,7 @@ function NewSongComponent({ show, setShow, albumId, albumLength }: Props) {
                 maxLength={50}
                 {...register("Title", { required: true })}
                 placeholder={"title"}
-              ></Form.Control>
+              />
               {errors.Title?.type === "required" && (
                 <div className="text-danger">Title is required</div>
               )}
@@ -62,7 +62,7 @@ function NewSongComponent({ show, setShow, albumId, albumLength }: Props) {
                 maxLength={150}
                 {...register("Url", { required: true })}
                 placeholder={"url"}
-              ></Form.Control>
+              />
               {errors.Url?.type === "required" && (
                 <div className="text-danger">Url is required</div>
               )}
@@ -84,8 +84,6 @@ function NewSongComponent({ show, setShow, albumId, albumLength }: Props) {
             </ButtonGroup>
           </div>
         </Form>
-      ) : (
-        <div></div>
       )}
     </div>
   );

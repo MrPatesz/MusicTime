@@ -27,7 +27,7 @@ function PlaylistSongComponent({ detailedSongDto, playlistId }: Props) {
 
   return (
     <div className="d-flex flex-row mb-2 ml-2 mr-4">
-      <SongDetails detailedSongDto={detailedSongDto}></SongDetails>
+      <SongDetails detailedSongDto={detailedSongDto} />
 
       <ButtonGroup className="ml-auto">
         <Button

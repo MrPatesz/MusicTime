@@ -116,7 +116,7 @@ function AddSongToPlaylistComponent({ playlistId }: Props) {
               placeholder={"artist"}
               data={artistNameArray}
               maxLength={50}
-            ></AutosuggestComponent>
+            />
           </div>
           <div className="d-none d-lg-block mr-3">
             <AutosuggestComponent
@@ -124,7 +124,7 @@ function AddSongToPlaylistComponent({ playlistId }: Props) {
               placeholder={"album"}
               data={albumTitleArray}
               maxLength={50}
-            ></AutosuggestComponent>
+            />
           </div>
           <div className="mr-3">
             <div className="w-100">
@@ -137,7 +137,7 @@ function AddSongToPlaylistComponent({ playlistId }: Props) {
                 placeholder={"song"}
                 data={songTitleArray}
                 maxLength={50}
-              ></AutosuggestComponent>
+              />
               {titleRequired && "Song is required"}
               {songDoesntExist && "Song doesn't exist"}
             </div>
@@ -155,7 +155,7 @@ function AddSongToPlaylistComponent({ playlistId }: Props) {
       ) : isFetching ? (
         <Spinner animation="grow" variant="info" />
       ) : (
-        <div></div>
+        <div />
       )}
     </div>
   );

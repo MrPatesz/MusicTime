@@ -47,7 +47,7 @@ function QueueComponent({
 
   const width = 400;
 
-  if (!show) return <div></div>;
+  if (!show) return <div />;
 
   return (
     <div>
@@ -168,7 +168,7 @@ function QueueComponent({
       <AddQueueToPlaylistComponent
         showAdd={showAdd}
         setShowAdd={setShowAdd}
-      ></AddQueueToPlaylistComponent>
+      />
     </div>
   );
 }

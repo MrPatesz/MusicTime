@@ -40,7 +40,7 @@ function PlaylistsPage() {
           placeholder="Search for a playlist..."
           type="text"
           onChange={(event) => setFilter(event.currentTarget.value)}
-        ></input>
+        />
 
         <Button
           title="New Playlist"
@@ -68,12 +68,13 @@ function PlaylistsPage() {
                       relativeLink={"playlists/" + a.id}
                       toInvalidate="playlists"
                       deletionWarning=""
-                    ></CardComponent>
+                    />
                   </Col>
                 ))}
               </Row>
             </Container>
-          )}></QueryComponent>
+          )}
+        />
       </div>
 
       <NewPlaylistComponent
@@ -81,7 +82,7 @@ function PlaylistsPage() {
         setShow={setShowAddPlaylist}
         isEdited={false}
         editedPlaylist={new PlaylistDto(0, "", null, null)}
-      ></NewPlaylistComponent>
+      />
     </div>
   );
 }

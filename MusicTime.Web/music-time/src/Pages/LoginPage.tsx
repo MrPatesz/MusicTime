@@ -80,7 +80,7 @@ function LoginPage({ setLoggedIn }: Props) {
       <RegisterComponent
         show={showRegister}
         setShow={setShowRegister}
-      ></RegisterComponent>
+      />
     </div>
   );
 }

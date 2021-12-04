@@ -122,7 +122,7 @@ function QuickNewAlbumComponent({ show, setShow }: Props) {
                 }}
                 data={artists?.map((a) => a.name) ?? []}
                 maxLength={50}
-              ></AutosuggestComponent>
+              />
             </div>
             {artistRequired && (
               <div className="text-danger">Artist is required</div>

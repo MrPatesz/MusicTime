@@ -96,14 +96,14 @@ function AddQueueToPlaylistComponent({ showAdd, setShowAdd }: Props) {
                   data={playlists.map((p) => p.title)}
                   onValueChanged={onPlaylistChange}
                   maxLength={50}
-                ></AutosuggestComponent>
+                />
               </div>
               {playlistRequired && "Playlist is required"}
             </div>
           ) : isFetching ? (
             <Spinner animation="grow" variant="info" />
           ) : (
-            <div></div>
+            <div />
           )}
         </Modal.Body>
         <Modal.Footer>
@@ -126,7 +126,7 @@ function AddQueueToPlaylistComponent({ showAdd, setShowAdd }: Props) {
         >
           <Toast.Header>
             <strong className="me-auto">Successful add</strong>
-            <small className="ml-auto"></small>
+            <small className="ml-auto" />
           </Toast.Header>
           <Toast.Body>
             Successfully added songs to "{selectedPlaylist?.title}"

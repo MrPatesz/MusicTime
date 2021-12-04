@@ -38,17 +38,17 @@ function HomePage() {
                 {h.type === "artist" ? (
                   <ArtistHistoryCardComponent
                     id={h.id}
-                  ></ArtistHistoryCardComponent>
+                  />
                 ) : h.type === "album" ? (
                   <AlbumHistoryCardComponent
                     id={h.id}
-                  ></AlbumHistoryCardComponent>
+                  />
                 ) : h.type === "playlist" ? (
                   <PlaylistHistoryCardComponent
                     id={h.id}
-                  ></PlaylistHistoryCardComponent>
+                  />
                 ) : (
-                  <div></div>
+                  <div />
                 )}
               </Col>
             ))}
@@ -61,7 +61,7 @@ function HomePage() {
         setShow={setShowAddArtist}
         isEdited={false}
         editedArtist={new ArtistDto(0, "", null, null)}
-      ></NewArtistComponent>
+      />
     </div>
   );
 }

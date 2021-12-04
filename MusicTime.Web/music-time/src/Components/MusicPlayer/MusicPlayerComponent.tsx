@@ -76,7 +76,7 @@ function MusicPlayerComponent({ disableQueuetoPlaylist }: Props) {
           show={showQueue}
           repeat={repeat}
           setRepeat={setRepeat}
-        ></QueueComponent>
+        />
 
         <div className="d-flex flex-column">
           <div className="d-flex flex-row m-2">

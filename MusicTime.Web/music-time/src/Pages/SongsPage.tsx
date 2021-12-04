@@ -47,7 +47,7 @@ function SongsPage() {
           placeholder="Search for a song, album or artist..."
           type="text"
           onChange={(event) => setFilter(event.currentTarget.value)}
-        ></input>
+        />
 
         <Button
           title="Add to Queue"
@@ -102,17 +102,17 @@ function SongsPage() {
               <QuickNewSongComponent
                 show={showAdd}
                 setShow={setShowAdd}
-              ></QuickNewSongComponent>
+              />
               {filteredSongs.map((s, i) => (
                 <li key={s.songId} className={i % 2 !== 0 ? "bg-dark" : ""}>
                   <SongsPageSongComponent
                     detailedSongDto={s}
-                  ></SongsPageSongComponent>
+                  />
                 </li>
               ))}
             </ul>
           )}
-        ></QueryComponent>
+        />
       </div>
     </div>
   );

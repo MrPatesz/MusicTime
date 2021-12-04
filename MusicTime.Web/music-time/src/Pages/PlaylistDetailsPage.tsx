@@ -34,61 +34,57 @@ function PlaylistDetailsPage() {
 
   return (
     <div>
-      <div>
-        <QueryComponent
-          isFetching={isPlaylistFetching}
-          error={playlistError}
-          data={playlist}
-          ChildJSX={() => (
-            <div className="d-flex flex-row m-4">
-              <Image
-                src={
-                  playlist!.coverGuid === null
-                    ? "/placeholder.png"
-                    : Config.picturePath + playlist!.coverGuid + ".png"
-                }
-                rounded
-                style={{
-                  width: "15rem",
-                  height: "15rem",
-                }}
-                className="mb-2 mr-4"
-              />
-              <div className="d-flex flex-column">
-                <h1>{playlist!.title}</h1>
-                <p className="text-break">{playlist!.description}</p>
-              </div>
-
-              <ButtonGroup vertical className="ml-auto mb-auto">
-                <Button
-                  title="Edit"
-                  variant="outline-info"
-                  onClick={() => setShowEditPlaylist(true)}
-                  className="mb-2"
-                >
-                  <FontAwesomeIcon icon="edit" size="lg" />
-                </Button>
-                <Button
-                  title="Add to Queue"
-                  variant="outline-info"
-                  onClick={() => {
-                    dispatch(setQueue(songs ?? []));
-                    dispatch(addToHistory({ id: id, type: "playlist" }));
-                  }}
-                >
-                  <FontAwesomeIcon icon="play" size="lg" />
-                </Button>
-              </ButtonGroup>
+      <QueryComponent
+        isFetching={isPlaylistFetching}
+        error={playlistError}
+        data={playlist}
+        ChildJSX={() => (
+          <div className="d-flex flex-row m-4">
+            <Image
+              src={
+                playlist!.coverGuid === null
+                  ? "/placeholder.png"
+                  : Config.picturePath + playlist!.coverGuid + ".png"
+              }
+              rounded
+              style={{
+                width: "15rem",
+                height: "15rem",
+              }}
+              className="mb-2 mr-4"
+            />
+            <div className="d-flex flex-column">
+              <h1>{playlist!.title}</h1>
+              <p className="text-break">{playlist!.description}</p>
             </div>
-          )}
-        ></QueryComponent>
-      </div>
+
+            <ButtonGroup vertical className="ml-auto mb-auto">
+              <Button
+                title="Edit"
+                variant="outline-info"
+                onClick={() => setShowEditPlaylist(true)}
+                className="mb-2"
+              >
+                <FontAwesomeIcon icon="edit" size="lg" />
+              </Button>
+              <Button
+                title="Add to Queue"
+                variant="outline-info"
+                onClick={() => {
+                  dispatch(setQueue(songs ?? []));
+                  dispatch(addToHistory({ id: id, type: "playlist" }));
+                }}
+              >
+                <FontAwesomeIcon icon="play" size="lg" />
+              </Button>
+            </ButtonGroup>
+          </div>
+        )}
+      />
       <div>
         <div className="d-flex flex-row mx-4 mb-3">
           <h2>Songs</h2>
-          <AddSongToPlaylistComponent
-            playlistId={id}
-          ></AddSongToPlaylistComponent>
+          <AddSongToPlaylistComponent playlistId={id} />
         </div>
 
         <div className="d-flex flex-row ml-2 mr-4">
@@ -127,24 +123,22 @@ function PlaylistDetailsPage() {
                     <PlaylistSongComponent
                       detailedSongDto={s}
                       playlistId={id}
-                    ></PlaylistSongComponent>
+                    />
                   </li>
                 ))}
               </ul>
             )}
-          ></QueryComponent>
+          />
         </div>
       </div>
 
-      {playlist ? (
+      {playlist && (
         <NewPlaylistComponent
           show={showEditPlaylist}
           setShow={setShowEditPlaylist}
           isEdited={true}
           editedPlaylist={playlist}
-        ></NewPlaylistComponent>
-      ) : (
-        <div></div>
+        />
       )}
     </div>
   );

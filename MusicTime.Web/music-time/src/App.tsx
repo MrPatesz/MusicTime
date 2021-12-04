@@ -110,49 +110,53 @@ const App = () => {
           {loggedIn ? (
             <Redirect to="/" />
           ) : (
-            <LoginPage setLoggedIn={setLoggedIn}></LoginPage>
+            <LoginPage setLoggedIn={setLoggedIn} />
           )}
         </Route>
         <Route exact path="/welcome">
-          {loggedIn ? <Redirect to="/" /> : <WelcomePage></WelcomePage>}
+          {loggedIn ? <Redirect to="/" /> : <WelcomePage />}
         </Route>
 
         <Route exact path="/">
-          {loggedIn ? <HomePage></HomePage> : <Redirect to="/welcome" />}
+          {loggedIn ? <HomePage /> : <Redirect to="/welcome" />}
         </Route>
 
         {loggedIn ? (
           <div>
             <Route exact path="/artists">
-              <ArtistsPage></ArtistsPage>
+              <ArtistsPage />
             </Route>
             <Route exact path={"/artists/:id"}>
-              <ArtistDetailsPage></ArtistDetailsPage>
+              <ArtistDetailsPage />
             </Route>
             <Route exact path="/albums">
-              <AlbumsPage></AlbumsPage>
+              <AlbumsPage />
             </Route>
             <Route exact path={"/albums/:id"}>
-              <AlbumDetailsPage></AlbumDetailsPage>
+              <AlbumDetailsPage />
             </Route>
             <Route exact path="/songs">
-              <SongsPage></SongsPage>
+              <SongsPage />
             </Route>
             <Route exact path="/playlists">
-              <PlaylistsPage></PlaylistsPage>
+              <PlaylistsPage />
             </Route>
             <Route exact path={"/playlists/:id"}>
-              <PlaylistDetailsPage></PlaylistDetailsPage>
+              <PlaylistDetailsPage />
             </Route>
             <Route exact path={"/profile"}>
-              <ProfilePage></ProfilePage>
+              <ProfilePage />
             </Route>
           </div>
         ) : (
           <Redirect to="/login" />
         )}
       </Switch>
-      {loggedIn ? <MusicPlayerComponent disableQueuetoPlaylist={false} /> : <div />}
+      {loggedIn ? (
+        <MusicPlayerComponent disableQueuetoPlaylist={false} />
+      ) : (
+        <div />
+      )}
     </div>
   );
 };

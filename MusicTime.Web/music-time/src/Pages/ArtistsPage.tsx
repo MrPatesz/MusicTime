@@ -40,7 +40,7 @@ function ArtistsPage() {
           placeholder="Search for an artist..."
           type="text"
           onChange={(event) => setFilter(event.currentTarget.value)}
-        ></input>
+        />
 
         <Button
           title="New artist"
@@ -82,7 +82,7 @@ function ArtistsPage() {
         setShow={setShowAddArtist}
         isEdited={false}
         editedArtist={new ArtistDto(0, "", null, null)}
-      ></NewArtistComponent>
+      />
     </div>
   );
 }

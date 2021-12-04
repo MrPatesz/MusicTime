@@ -43,7 +43,7 @@ function AlbumsPage() {
           placeholder="Search for an album, artist or genre..."
           type="text"
           onChange={(event) => setFilter(event.currentTarget.value)}
-        ></input>
+        />
 
         <Button
           title="New album"
@@ -71,19 +71,19 @@ function AlbumsPage() {
                       relativeLink={"albums/" + a.id}
                       toInvalidate="albums"
                       deletionWarning="This will also delete the songs of this album!"
-                    ></CardComponent>
+                    />
                   </Col>
                 ))}
               </Row>
             </Container>
           )}
-        ></QueryComponent>
+        />
       </div>
 
       <QuickNewAlbumComponent
         show={showAddAlbum}
         setShow={setShowAddAlbum}
-      ></QuickNewAlbumComponent>
+      />
     </div>
   );
 }

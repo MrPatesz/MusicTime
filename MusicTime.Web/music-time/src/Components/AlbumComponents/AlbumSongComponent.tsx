@@ -34,7 +34,7 @@ function AlbumSongComponent({ songDto, albumId, albumIndex }: Props) {
           albumId={albumId}
           setShow={setEditSong}
           albumIndex={albumIndex}
-        ></EditSongComponent>
+        />
       ) : (
         <div className="d-flex flex-row">
           <h5 className="mb-auto mt-auto">
@@ -102,7 +102,7 @@ function AlbumSongComponent({ songDto, albumId, albumIndex }: Props) {
         showAdd={showAdd}
         setShowAdd={setShowAdd}
         songDto={songDto}
-      ></AddToPlaylistComponent>
+      />
     </div>
   );
 }

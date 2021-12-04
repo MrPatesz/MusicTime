@@ -52,7 +52,7 @@ function EditSongComponent({ setShow, albumId, songDto, albumIndex }: Props) {
             defaultValue={songDto.title}
             {...register("Title", { required: true })}
             placeholder={"title"}
-          ></Form.Control>
+          />
           {errors.Title?.type === "required" && (
             <div className="text-danger">Title is required</div>
           )}
@@ -64,7 +64,7 @@ function EditSongComponent({ setShow, albumId, songDto, albumIndex }: Props) {
             defaultValue={songDto.url}
             {...register("Url", { required: true })}
             placeholder={"url"}
-          ></Form.Control>
+          />
           {errors.Url?.type === "required" && (
             <div className="text-danger">Url is required</div>
           )}
