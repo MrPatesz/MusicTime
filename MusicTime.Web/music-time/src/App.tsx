@@ -152,11 +152,7 @@ const App = () => {
           <Redirect to="/login" />
         )}
       </Switch>
-      {loggedIn ? (
-        <MusicPlayerComponent disableQueuetoPlaylist={false} />
-      ) : (
-        <div />
-      )}
+      {loggedIn && <MusicPlayerComponent disableQueuetoPlaylist={false} />}
     </div>
   );
 };
