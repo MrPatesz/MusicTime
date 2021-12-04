@@ -162,7 +162,7 @@ function MusicPlayerComponent({ disableQueuetoPlaylist }: Props) {
             <ButtonGroup>
               <Button
                 title="Hide player"
-                variant="outline-warning"
+                variant="outline-info"
                 onClick={() => dispatch(setHidden(true))}
               >
                 <FontAwesomeIcon icon="eye-slash" />

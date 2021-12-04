@@ -90,7 +90,7 @@ const App = () => {
             {getLinkForRoute(playlists, "Playlists")}
           </Nav>
         ) : (
-          getLinkForRoute(welcome, "Welcome")
+          <Nav>{getLinkForRoute(welcome, "Welcome")}</Nav>
         )}
         <div className="ml-auto">
           {loggedIn ? (
