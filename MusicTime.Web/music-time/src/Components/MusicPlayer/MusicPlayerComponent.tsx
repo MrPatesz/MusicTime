@@ -39,7 +39,12 @@ function MusicPlayerComponent({ disableQueuetoPlaylist }: Props) {
     if (!repeat) {
       dispatch(playPrevious());
     } else {
-      playerRef?.current?.seekTo(0);
+      if(progress < 0.02) {
+        setRepeat(false);
+        dispatch(playPrevious());
+      } else {
+        playerRef?.current?.seekTo(0);
+      }
     }
   }
 
