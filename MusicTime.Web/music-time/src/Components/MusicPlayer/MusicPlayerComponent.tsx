@@ -32,6 +32,8 @@ function MusicPlayerComponent({ disableQueuetoPlaylist }: Props) {
     null
   ) as RefObject<ReactPlayer>;
 
+  const isQueueEmpty = () => !(queue.length > 0);
+
   function playPrevFunction() {
     setProgress(0);
     if (!repeat) {
@@ -73,7 +75,7 @@ function MusicPlayerComponent({ disableQueuetoPlaylist }: Props) {
       >
         <QueueComponent
           disableQueuetoPlaylist={disableQueuetoPlaylist}
-          show={showQueue}
+          show={isQueueEmpty() ? false : showQueue}
           repeat={repeat}
           setRepeat={setRepeat}
         />
@@ -83,13 +85,12 @@ function MusicPlayerComponent({ disableQueuetoPlaylist }: Props) {
             <ReactPlayer
               ref={playerRef}
               url={
-                queue.length > 0 ? (queue[index] ? queue[index].url : "") : ""
+                !isQueueEmpty() ? (queue[index] ? queue[index].url : "") : ""
               }
               playing={isPlaying}
               width={scale * 320}
               height={scale * 180}
               volume={volume}
-              loop={false}
               onEnded={playNextFunction}
               onError={playNextFunction}
               onPause={() => setIsPlaying(false)}
@@ -122,6 +123,7 @@ function MusicPlayerComponent({ disableQueuetoPlaylist }: Props) {
                 title={showQueue ? "Hide Queue" : "Show Queue"}
                 variant={showQueue ? "info" : "outline-info"}
                 onClick={() => setShowQueue(!showQueue)}
+                disabled={isQueueEmpty()}
               >
                 <FontAwesomeIcon icon="list" />
               </Button>
@@ -133,6 +135,7 @@ function MusicPlayerComponent({ disableQueuetoPlaylist }: Props) {
                 variant="outline-info"
                 onClick={playPrevFunction}
                 className="mr-2"
+                disabled={isQueueEmpty()}
               >
                 <FontAwesomeIcon icon="step-backward" />
               </Button>
@@ -142,6 +145,7 @@ function MusicPlayerComponent({ disableQueuetoPlaylist }: Props) {
                 className="mr-2"
                 variant="outline-info"
                 onClick={() => setIsPlaying(!isPlaying)}
+                disabled={isQueueEmpty()}
               >
                 {isPlaying ? (
                   <FontAwesomeIcon icon="pause" />
@@ -154,6 +158,7 @@ function MusicPlayerComponent({ disableQueuetoPlaylist }: Props) {
                 title="Play next"
                 variant="outline-info"
                 onClick={playNextButton}
+                disabled={isQueueEmpty()}
               >
                 <FontAwesomeIcon icon="step-forward" />
               </Button>
