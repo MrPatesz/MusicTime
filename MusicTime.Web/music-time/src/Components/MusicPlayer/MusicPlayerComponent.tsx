@@ -39,7 +39,7 @@ function MusicPlayerComponent({ disableQueuetoPlaylist }: Props) {
     if (!repeat) {
       dispatch(playPrevious());
     } else {
-      if(progress < 0.02) {
+      if (progress < 0.02) {
         setRepeat(false);
         dispatch(playPrevious());
       } else {
@@ -220,6 +220,7 @@ function MusicPlayerComponent({ disableQueuetoPlaylist }: Props) {
         variant="outline-info"
         onClick={() => dispatch(setHidden(false))}
         className={hidden ? "m-2" : "d-none"}
+        style={{background: "#343a40"}}
       >
         <FontAwesomeIcon icon="eye" />
       </Button>
