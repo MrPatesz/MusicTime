@@ -67,19 +67,19 @@ export default function AutosuggestComponent({
   return (
     <Autosuggest
       suggestions={suggestions}
-      onSuggestionsFetchRequested={onSuggestionsFetchRequested}
-      onSuggestionsClearRequested={() => setSuggestions([])}
-      getSuggestionValue={(value: string) => value}
-      renderSuggestion={(value: string) => <div>{value}</div>}
       inputProps={inputProps}
       highlightFirstSuggestion={true}
       selectFirstSuggestion={true}
+      alwaysRenderSuggestions={false}
+      shouldRenderSuggestions={() => true}
+      getSuggestionValue={(value: string) => value}
+      renderSuggestion={(value: string) => <div>{value}</div>}
+      onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+      onSuggestionsClearRequested={() => setSuggestions([])}
       onSuggestionSelected={(
         _: React.MouseEvent,
         { suggestionValue }: { suggestionValue: string }
       ) => onValueChanged(suggestionValue)}
-      alwaysRenderSuggestions={false}
-      shouldRenderSuggestions={() => true}
     />
   );
 }
