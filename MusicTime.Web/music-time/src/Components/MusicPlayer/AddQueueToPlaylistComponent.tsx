@@ -36,12 +36,16 @@ function AddQueueToPlaylistComponent({ showAdd, setShowAdd }: Props) {
     if (selected) setPlaylistRequired(false);
   }
 
-  function addFunction() {
+  async function addFunction() {
     if (selectedPlaylist && selectedPlaylist.title) {
       if (selectedPlaylist.id === -1) {
-        saveQueueToNewPlaylist();
+        let createdPlaylist = await createPlaylist.mutateAsync({
+          title: selectedPlaylist!.title,
+          description: "",
+        });
+        saveQueueToPlaylist(createdPlaylist.id);
       } else {
-        saveQueueToExistingPlaylist();
+        saveQueueToPlaylist(selectedPlaylist!.id);
       }
       setShowSuccessfulAdd(true);
     } else {
@@ -49,23 +53,10 @@ function AddQueueToPlaylistComponent({ showAdd, setShowAdd }: Props) {
     }
   }
 
-  async function saveQueueToNewPlaylist() {
-    let createdPlaylist = await createPlaylist.mutateAsync({
-      title: selectedPlaylist!.title,
-      description: "",
-    });
+  async function saveQueueToPlaylist(playlistId: number) {
     queue.forEach(async (s) => {
       await addSongToPlaylist.mutateAsync({
-        playlistId: createdPlaylist.id,
-        songDto: { id: s.songId, title: s.songTitle, url: s.url },
-      });
-    });
-  }
-
-  async function saveQueueToExistingPlaylist() {
-    queue.forEach(async (s) => {
-      await addSongToPlaylist.mutateAsync({
-        playlistId: selectedPlaylist!.id,
+        playlistId: playlistId,
         songDto: { id: s.songId, title: s.songTitle, url: s.url },
       });
     });
