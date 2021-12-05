@@ -15,29 +15,38 @@ interface Props {
 }
 
 function AddQueueToPlaylistComponent({ showAdd, setShowAdd }: Props) {
-  const [selectedPlaylist, setSelectedPlaylist] = useState<PlaylistDto | null>(
-    null
-  );
+  const [selectedPlaylist, setSelectedPlaylist] = useState<PlaylistDto>({
+    id: -1,
+    title: "",
+    description: "",
+    coverGuid: "",
+  });
+  const [showSuccessfulAdd, setShowSuccessfulAdd] = useState(false);
+  const [playlistRequired, setPlaylistRequired] = useState<boolean>(false);
+
   const { data: playlists, error, isFetching } = usePlaylists();
   const addSongToPlaylist = useAddSong(setShowAdd);
   const createPlaylist = useCreatePlaylist();
-  const queue = useSelector((state: RootState) => state.player.queue);
 
-  const [showSuccessfulAdd, setShowSuccessfulAdd] = useState(false);
-  const [playlistRequired, setPlaylistRequired] = useState<boolean>(false);
+  const queue = useSelector((state: RootState) => state.player.queue);
 
   function onPlaylistChange(selected: string) {
     let playlist = playlists?.find((p) => p.title === selected);
     if (playlist) {
       setSelectedPlaylist(playlist);
     } else {
-      setSelectedPlaylist(new PlaylistDto(-1, selected, "", ""));
+      setSelectedPlaylist({
+        id: -1,
+        title: selected,
+        description: "",
+        coverGuid: "",
+      });
     }
     if (selected) setPlaylistRequired(false);
   }
 
   async function addFunction() {
-    if (selectedPlaylist && selectedPlaylist.title) {
+    if (selectedPlaylist.title) {
       if (selectedPlaylist.id === -1) {
         let createdPlaylist = await createPlaylist.mutateAsync({
           title: selectedPlaylist!.title,
