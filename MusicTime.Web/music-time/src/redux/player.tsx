@@ -49,9 +49,6 @@ export const playerSlice = createSlice({
         let inQueueSong = state.queue.find((qs) => qs.songId === s.songId);
         if (inQueueSong === undefined) {
           state.queue.push(s);
-        } else if (inQueueSong.artistName === "") {
-          let index = state.queue.indexOf(inQueueSong);
-          state.queue[index].artistName = s.artistName;
         }
       });
       if (state.hidden) state.hidden = false;
