@@ -20,7 +20,11 @@ namespace MusicTime.Dal.Repositories
 
         public SongDto GetSong(int songId)
         {
-            return dbContext.Songs.Where(s => s.Id == songId).Select(ToDto).ToList()[0];
+            var song = dbContext.Songs.FirstOrDefault(s => s.Id == songId);
+            if(song == null)
+                return null;
+            else
+                return ToDto(song);
         }
 
         public List<SongDto> GetSongs(int userId)

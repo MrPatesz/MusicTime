@@ -33,8 +33,7 @@ namespace MusicTime.Bll.Services
 
         public async Task<bool> DeleteSongById(int userId, int songId)
         {
-            var songs = songRepository.GetSongs(userId);
-            var songToDelete = songs.Find(s => s.Id == songId);
+            var songToDelete = songRepository.GetSong(songId);
 
             await playlistRepository.DeleteSongFromPlaylists(songToDelete.Id);
 
