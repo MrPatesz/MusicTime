@@ -38,7 +38,7 @@ function AlbumSongComponent({ songDto, albumId, albumIndex }: Props) {
       ) : (
         <div className="d-flex flex-row">
           <h5 className="mb-auto mt-auto">
-            <a href={songDto.url} className="text-info">
+            <a href={songDto.url} rel="noopener noreferrer" target="_blank" className="text-info">
               {songDto.title}
             </a>
           </h5>

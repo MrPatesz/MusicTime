@@ -12,7 +12,7 @@ function SongDetails({ detailedSongDto }: Props) {
       <Row>
         <Col xs={12} sm={8} lg={6}>
           <h5>
-            <a href={detailedSongDto.url} className="text-info">
+            <a href={detailedSongDto.url} rel="noopener noreferrer" target="_blank" className="text-info">
               {detailedSongDto.songTitle}
             </a>
           </h5>
